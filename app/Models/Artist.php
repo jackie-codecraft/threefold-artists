@@ -14,6 +14,7 @@ class Artist extends Model implements HasMedia
 
     protected $fillable = [
         'name',
+        'slug',
         'bio',
         'photo',
         'discipline',
@@ -23,6 +24,11 @@ class Artist extends Model implements HasMedia
     protected $casts = [
         'is_featured' => 'boolean',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     public function scopeFeatured($query)
     {

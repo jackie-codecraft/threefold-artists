@@ -18,6 +18,7 @@ Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 Route::get('/impact', [PageController::class, 'impact'])->name('impact');
 Route::get('/blog', [PageController::class, 'blog'])->name('blog');
 Route::get('/blog/{slug}', [PageController::class, 'blogPost'])->name('blog.post');
+Route::get('/artists/{artist:slug}', [PageController::class, 'artistShow'])->name('artists.show');
 Route::get('/artists', [PageController::class, 'artists'])->name('artists');
 
 // Performance Request

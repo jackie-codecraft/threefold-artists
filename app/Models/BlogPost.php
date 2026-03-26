@@ -19,6 +19,7 @@ class BlogPost extends Model implements HasMedia
         'excerpt',
         'featured_image',
         'author',
+        'category',
         'published_at',
         'is_published',
     ];
@@ -33,6 +34,11 @@ class BlogPost extends Model implements HasMedia
         return $query->where('is_published', true)
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now());
+    }
+
+    public function scopeInCategory($query, string $category)
+    {
+        return $query->where('category', $category);
     }
 
     public function registerMediaCollections(): void

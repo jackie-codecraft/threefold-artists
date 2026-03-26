@@ -27,6 +27,14 @@ class GalleryItemResource extends Resource
             Forms\Components\Select::make('type')
                 ->options(['photo' => 'Photo', 'video' => 'Video'])
                 ->default('photo'),
+            Forms\Components\Select::make('art_form')
+                ->options([
+                    'theatre' => 'Theatre',
+                    'music' => 'Music',
+                    'dance' => 'Dance',
+                    'fine_arts' => 'Fine Arts',
+                ]),
+            Forms\Components\TextInput::make('event_name'),
             Forms\Components\SpatieMediaLibraryFileUpload::make('media')
                 ->collection('media')
                 ->image(),

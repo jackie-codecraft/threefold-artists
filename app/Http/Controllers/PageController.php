@@ -41,7 +41,7 @@ class PageController extends Controller
 
     public function gallery()
     {
-        $items = GalleryItem::latest()->paginate(12);
+        $items = GalleryItem::latest()->get();
 
         return view('pages.gallery', compact('items'));
     }
@@ -65,7 +65,19 @@ class PageController extends Controller
     {
         $post = BlogPost::published()->where('slug', $slug)->firstOrFail();
 
-        return view('pages.blog-post', compact('post'));
+        $relatedPosts = BlogPost::published()
+            ->where('id', '!=', $post->id)
+            ->when($post->category, fn($q) => $q->where('category', $post->category))
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+
+        return view('pages.blog-post', compact('post', 'relatedPosts'));
+    }
+
+    public function artistShow(Artist $artist)
+    {
+        return view('pages.artist-show', compact('artist'));
     }
 
     public function artists()
