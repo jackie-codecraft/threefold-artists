@@ -26,9 +26,17 @@ class DonationResource extends Resource
             Forms\Components\TextInput::make('donor_email')->email(),
             Forms\Components\TextInput::make('amount')->numeric()->prefix('$')->required(),
             Forms\Components\Toggle::make('is_recurring'),
+            Forms\Components\Select::make('recurring_interval')
+                ->options([
+                    'monthly' => 'Monthly',
+                    'yearly' => 'Yearly',
+                ])
+                ->nullable(),
             Forms\Components\Toggle::make('is_anonymous'),
             Forms\Components\TextInput::make('stripe_payment_id')->disabled(),
+            Forms\Components\TextInput::make('stripe_subscription_id')->disabled(),
             Forms\Components\DateTimePicker::make('receipt_sent_at')->disabled(),
+            Forms\Components\DateTimePicker::make('cancelled_at')->disabled(),
         ]);
     }
 
@@ -39,7 +47,23 @@ class DonationResource extends Resource
                 Tables\Columns\TextColumn::make('donor_name')->searchable()->default('Anonymous'),
                 Tables\Columns\TextColumn::make('donor_email')->searchable(),
                 Tables\Columns\TextColumn::make('amount')->money('USD')->sortable(),
-                Tables\Columns\IconColumn::make('is_recurring')->boolean(),
+                Tables\Columns\IconColumn::make('is_recurring')->boolean()
+                    ->label('Recurring'),
+                Tables\Columns\TextColumn::make('recurring_interval')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'monthly' => 'info',
+                        'yearly' => 'success',
+                        default => 'gray',
+                    })
+                    ->placeholder('—'),
+                Tables\Columns\IconColumn::make('is_anonymous')->boolean()
+                    ->label('Anonymous'),
+                Tables\Columns\TextColumn::make('cancelled_at')
+                    ->dateTime()
+                    ->placeholder('Active')
+                    ->badge()
+                    ->color(fn (?string $state): string => $state ? 'danger' : 'success'),
                 Tables\Columns\TextColumn::make('receipt_sent_at')->dateTime()->placeholder('Not sent'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
             ])

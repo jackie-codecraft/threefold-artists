@@ -31,7 +31,7 @@
     <!-- Structured Data: Organization -->
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "NonprofitOrganization",
         "name": "Threefold Artists",
         "description": "Threefold Artists brings live performing arts to communities that cannot easily access them.",
