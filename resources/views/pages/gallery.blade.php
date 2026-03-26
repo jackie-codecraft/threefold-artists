@@ -69,6 +69,7 @@
 
                     {{-- Lightbox overlay --}}
                     <div x-show="lightbox" x-cloak
+                         role="dialog" aria-modal="true" aria-label="Image viewer"
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0"
                          x-transition:enter-end="opacity-100"
@@ -77,7 +78,7 @@
                          x-transition:leave-end="opacity-0"
                          class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
                          @click.self="lightbox = false">
-                        <button @click="lightbox = false" class="absolute top-6 right-6 text-white/70 hover:text-white">
+                        <button @click="lightbox = false" class="absolute top-6 right-6 text-white/70 hover:text-white" aria-label="Close image viewer">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
                         </button>
                         <div class="max-w-5xl w-full">

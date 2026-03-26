@@ -48,16 +48,18 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div>
                                 <label for="name" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Name *</label>
-                                <input type="text" name="name" id="name" value="{{ old('name') }}" required
+                                <input type="text" name="name" id="name" value="{{ old('name') }}" required aria-required="true"
+                                    @error('name') aria-describedby="name-error" @enderror
                                     class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
-                                @error('name') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                @error('name') <p id="name-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label for="email" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Email *</label>
-                                <input type="email" name="email" id="email" value="{{ old('email') }}" required
+                                <input type="email" name="email" id="email" value="{{ old('email') }}" required aria-required="true"
+                                    @error('email') aria-describedby="email-error" @enderror
                                     class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
-                                @error('email') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                @error('email') <p id="email-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                             </div>
                         </div>
 
@@ -69,9 +71,10 @@
 
                         <div>
                             <label for="message" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Message *</label>
-                            <textarea name="message" id="message" rows="5" required
+                            <textarea name="message" id="message" rows="5" required aria-required="true"
+                                @error('message') aria-describedby="message-error" @enderror
                                 class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">{{ old('message') }}</textarea>
-                            @error('message') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                            @error('message') <p id="message-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <button type="submit" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
