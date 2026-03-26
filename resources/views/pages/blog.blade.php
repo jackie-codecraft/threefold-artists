@@ -27,6 +27,9 @@
                         </div>
                         @endif
                         <div>
+                            @if($post->category)
+                                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-2">{{ ucfirst(str_replace('-', ' ', $post->category)) }}</p>
+                            @endif
                             <div class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-3">
                                 {{ $post->published_at->format('F j, Y') }}
                                 @if($post->author) &middot; {{ $post->author }} @endif

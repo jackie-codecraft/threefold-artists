@@ -34,6 +34,14 @@ class BlogPostResource extends Resource
                 ->collection('featured_image')
                 ->image(),
             Forms\Components\TextInput::make('author'),
+            Forms\Components\Select::make('category')
+                ->options([
+                    'news' => 'News',
+                    'stories' => 'Stories',
+                    'community' => 'Community',
+                    'events' => 'Events',
+                    'artist-spotlight' => 'Artist Spotlight',
+                ]),
             Forms\Components\DateTimePicker::make('published_at'),
             Forms\Components\Toggle::make('is_published'),
         ]);
@@ -45,6 +53,7 @@ class BlogPostResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')->searchable()->sortable()->limit(40),
                 Tables\Columns\TextColumn::make('author'),
+                Tables\Columns\TextColumn::make('category')->badge(),
                 Tables\Columns\IconColumn::make('is_published')->boolean(),
                 Tables\Columns\TextColumn::make('published_at')->dateTime()->sortable(),
             ])

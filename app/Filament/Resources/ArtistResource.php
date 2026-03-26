@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class ArtistResource extends Resource
 {
@@ -22,7 +23,11 @@ class ArtistResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('name')->required(),
+            Forms\Components\TextInput::make('name')
+                ->required()
+                ->live(onBlur: true)
+                ->afterStateUpdated(fn ($state, $set) => $set('slug', Str::slug($state))),
+            Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
             Forms\Components\Select::make('discipline')
                 ->options([
                     'theatre' => 'Theatre',

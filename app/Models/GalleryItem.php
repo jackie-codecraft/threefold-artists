@@ -16,6 +16,8 @@ class GalleryItem extends Model implements HasMedia
         'title',
         'caption',
         'type',
+        'art_form',
+        'event_name',
         'is_featured',
     ];
 
