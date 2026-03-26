@@ -1,0 +1,67 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+@theme {
+    /* Brand Colors */
+    --color-curtain-red: #8B1A2B;
+    --color-curtain-red-light: #A62E42;
+    --color-curtain-red-dark: #6D1422;
+    --color-stage-gold: #C9A84C;
+    --color-stage-gold-light: #D4B96A;
+    --color-stage-gold-dark: #B0923A;
+    --color-theatre-black: #1A1A1A;
+    --color-linen: #F5F0E8;
+    --color-linen-dark: #E8E0D2;
+    --color-spotlight-amber: #D4943A;
+    --color-spotlight-amber-light: #E0A94F;
+
+    /* Fonts */
+    --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-sans: 'Source Sans 3', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* Base styles */
+@layer base {
+    body {
+        font-family: var(--font-sans);
+        color: var(--color-theatre-black);
+        background-color: var(--color-linen);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-display);
+    }
+}
+
+/* Custom utilities */
+@utility text-shadow-theatrical {
+    text-shadow: 0 2px 4px rgba(26, 26, 26, 0.3);
+}
+
+@utility bg-curtain-gradient {
+    background: linear-gradient(135deg, #8B1A2B 0%, #6D1422 50%, #4A0E17 100%);
+}
+
+@utility bg-warm-gradient {
+    background: linear-gradient(135deg, #8B1A2B 0%, #D4943A 100%);
+}
+
+@utility bg-gold-shimmer {
+    background: linear-gradient(135deg, #C9A84C 0%, #D4B96A 50%, #C9A84C 100%);
+}
+
+/* Decorative curtain curve */
+@utility curtain-curve-top {
+    clip-path: ellipse(75% 100% at 50% 0%);
+}
+
+@utility curtain-curve-bottom {
+    clip-path: ellipse(80% 100% at 50% 100%);
+}
