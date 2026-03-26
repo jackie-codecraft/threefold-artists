@@ -46,11 +46,11 @@
                     <a href="{{ route('gallery') }}" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-stage-gold {{ request()->routeIs('gallery') ? 'text-stage-gold' : 'text-gray-300' }}">Gallery</a>
                     <a href="{{ route('impact') }}" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-stage-gold {{ request()->routeIs('impact') ? 'text-stage-gold' : 'text-gray-300' }}">Impact</a>
                     <a href="{{ route('blog') }}" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-stage-gold {{ request()->routeIs('blog*') ? 'text-stage-gold' : 'text-gray-300' }}">Blog</a>
-                    <a href="{{ route('donate') }}" class="ml-2 inline-flex items-center px-4 py-2 rounded-full bg-curtain-red text-white text-sm font-semibold hover:bg-curtain-red-light transition-colors shadow-md">
+                    <a href="{{ route('donate') }}" class="ml-2 inline-flex items-center px-4 py-2 rounded-md bg-curtain-red text-white text-sm font-semibold hover:bg-curtain-red-light transition-colors shadow-md">
                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                         Donate
                     </a>
-                    <a href="{{ route('contact') }}" class="ml-1 inline-flex items-center px-4 py-2 rounded-full border border-stage-gold text-stage-gold text-sm font-semibold hover:bg-stage-gold hover:text-theatre-black transition-colors">
+                    <a href="{{ route('contact') }}" class="ml-1 inline-flex items-center px-4 py-2 rounded-md border border-stage-gold text-stage-gold text-sm font-semibold hover:bg-stage-gold hover:text-theatre-black transition-colors">
                         Contact
                     </a>
                 </div>
@@ -84,7 +84,7 @@
                     <a href="{{ route('blog') }}" class="px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-stage-gold {{ request()->routeIs('blog*') ? 'text-stage-gold bg-gray-800' : 'text-gray-300' }}">Blog</a>
                     <a href="{{ route('contact') }}" class="px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-stage-gold {{ request()->routeIs('contact*') ? 'text-stage-gold bg-gray-800' : 'text-gray-300' }}">Contact</a>
                     <div class="flex gap-2 mt-3 px-3">
-                        <a href="{{ route('donate') }}" class="flex-1 text-center px-4 py-2.5 rounded-full bg-curtain-red text-white font-semibold hover:bg-curtain-red-light transition-colors">Donate</a>
+                        <a href="{{ route('donate') }}" class="flex-1 text-center px-4 py-2.5 rounded-md bg-curtain-red text-white font-semibold hover:bg-curtain-red-light transition-colors">Donate</a>
                     </div>
                 </div>
             </div>

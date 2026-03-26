@@ -20,7 +20,7 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($events as $event)
-                    <div class="bg-white rounded-2xl shadow-sm border border-linen-dark overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="bg-white rounded-lg shadow-sm border border-linen-dark overflow-hidden hover:shadow-lg transition-shadow">
                         <div class="bg-theatre-black p-4 text-white text-center">
                             <div class="font-display text-3xl font-bold">{{ $event->date->format('d') }}</div>
                             <div class="text-sm uppercase tracking-wider">{{ $event->date->format('M Y') }}</div>

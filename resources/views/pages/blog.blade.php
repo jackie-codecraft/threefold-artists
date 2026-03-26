@@ -20,7 +20,7 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($posts as $post)
-                    <article class="bg-white rounded-2xl shadow-sm border border-linen-dark overflow-hidden group hover:shadow-lg transition-shadow">
+                    <article class="bg-white rounded-lg shadow-sm border border-linen-dark overflow-hidden group hover:shadow-lg transition-shadow">
                         @if($post->featured_image)
                         <div class="aspect-[16/9] overflow-hidden">
                             <img src="{{ $post->featured_image }}" alt="{{ $post->title }}"

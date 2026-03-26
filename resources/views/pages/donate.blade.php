@@ -31,7 +31,7 @@
             </div>
 
             {{-- Donation Form --}}
-            <div class="bg-white rounded-2xl shadow-sm border border-linen-dark p-8 sm:p-12 max-w-xl mx-auto">
+            <div class="bg-white rounded-lg shadow-sm border border-linen-dark p-8 sm:p-12 max-w-xl mx-auto">
                 <h2 class="font-display text-2xl font-bold text-theatre-black mb-6 text-center">Choose Your Donation</h2>
 
                 <form action="{{ route('donate.checkout') }}" method="POST" class="space-y-6">
@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="text-center pt-4">
-                        <button type="submit" class="inline-flex items-center justify-center w-full px-8 py-4 rounded-full bg-curtain-red text-white text-lg font-bold hover:bg-curtain-red-light transition-colors shadow-lg">
+                        <button type="submit" class="inline-flex items-center justify-center w-full px-8 py-4 rounded-md bg-curtain-red text-white text-lg font-bold hover:bg-curtain-red-light transition-colors shadow-lg">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                             Donate <span x-text="customAmount !== '' ? '$' + customAmount : '$' + selectedAmount" class="ml-1"></span>
                         </button>

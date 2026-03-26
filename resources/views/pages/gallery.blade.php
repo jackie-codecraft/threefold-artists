@@ -20,7 +20,7 @@
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($items as $item)
-                    <div class="bg-white rounded-2xl shadow-sm border border-linen-dark overflow-hidden group">
+                    <div class="bg-white rounded-lg shadow-sm border border-linen-dark overflow-hidden group">
                         @if($item->getFirstMediaUrl('media'))
                             <div class="aspect-[4/3] overflow-hidden">
                                 <img src="{{ $item->getFirstMediaUrl('media') }}" alt="{{ $item->title ?? 'Gallery image' }}"

@@ -13,14 +13,14 @@
                 <div class="text-center py-12">
                     <h2 class="font-display text-2xl font-bold text-theatre-black mb-2">Artist Profiles Coming Soon</h2>
                     <p class="text-gray-600 mb-6">We are building our artist directory.</p>
-                    <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-stage-gold text-theatre-black font-semibold hover:bg-stage-gold-light transition-colors">
+                    <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-md bg-stage-gold text-theatre-black font-semibold hover:bg-stage-gold-light transition-colors">
                         Become an Artist
                     </a>
                 </div>
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($artists as $artist)
-                    <div class="bg-white rounded-2xl shadow-sm border border-linen-dark overflow-hidden text-center p-8">
+                    <div class="bg-white rounded-lg shadow-sm border border-linen-dark overflow-hidden text-center p-8">
                         <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-linen flex items-center justify-center overflow-hidden">
                             @if($artist->getFirstMediaUrl('photo'))
                                 <img src="{{ $artist->getFirstMediaUrl('photo') }}" alt="{{ $artist->name }}" class="w-full h-full object-cover">

@@ -11,7 +11,7 @@
     {{-- Form --}}
     <section class="py-16">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-2xl shadow-sm border border-linen-dark p-8 sm:p-12">
+            <div class="bg-white rounded-lg shadow-sm border border-linen-dark p-8 sm:p-12">
                 <p class="text-gray-600 mb-8 leading-relaxed">
                     Tell us about your organization and what kind of performance you are looking for. We will get back to you within 5 business days to discuss options and availability.
                 </p>
@@ -135,7 +135,7 @@
                     </div>
 
                     <div class="text-center">
-                        <button type="submit" class="inline-flex items-center justify-center px-10 py-4 rounded-full bg-stage-gold text-theatre-black text-lg font-bold hover:bg-stage-gold-light transition-colors shadow-lg">
+                        <button type="submit" class="inline-flex items-center justify-center px-10 py-4 rounded-md bg-stage-gold text-theatre-black text-lg font-bold hover:bg-stage-gold-light transition-colors shadow-lg">
                             Submit Request
                         </button>
                     </div>

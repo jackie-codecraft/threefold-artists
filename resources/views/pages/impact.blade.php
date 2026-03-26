@@ -13,7 +13,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
                 @foreach($metrics as $metric)
-                <div class="text-center p-6 bg-linen rounded-2xl">
+                <div class="text-center p-6 bg-linen rounded-lg">
                     @if($metric->icon)
                         <div class="text-4xl mb-3">{{ $metric->icon }}</div>
                     @endif
@@ -39,7 +39,7 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     @foreach($testimonials as $testimonial)
-                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-linen-dark relative">
+                    <div class="bg-white rounded-lg p-8 shadow-sm border border-linen-dark relative">
                         <div class="text-stage-gold text-6xl font-display absolute -top-2 left-6 leading-none">"</div>
                         <blockquote class="relative pt-6">
                             <p class="text-gray-700 leading-relaxed italic mb-4">{{ $testimonial->quote }}</p>
@@ -66,7 +66,7 @@
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="font-display text-3xl font-bold mb-4">Be Part of the Impact</h2>
             <p class="text-gray-300 mb-8">Your support helps us reach more communities with the power of live performance.</p>
-            <a href="{{ route('donate') }}" class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-stage-gold text-theatre-black text-lg font-bold hover:bg-stage-gold-light transition-colors shadow-lg">
+            <a href="{{ route('donate') }}" class="inline-flex items-center justify-center px-8 py-4 rounded-md bg-stage-gold text-theatre-black text-lg font-bold hover:bg-stage-gold-light transition-colors shadow-lg">
                 Make a Donation
             </a>
         </div>

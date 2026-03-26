@@ -95,7 +95,7 @@
             <p class="text-gray-600 text-lg mb-8">
                 Threefold Artists is powered by a dedicated team of arts professionals and volunteers who share a passion for making live performance accessible to everyone.
             </p>
-            <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-stage-gold text-theatre-black font-semibold hover:bg-stage-gold-light transition-colors">
+            <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-md bg-stage-gold text-theatre-black font-semibold hover:bg-stage-gold-light transition-colors">
                 Join Our Team
             </a>
         </div>

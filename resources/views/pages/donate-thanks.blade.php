@@ -8,7 +8,7 @@
             <p class="text-xl text-gray-600 mb-4">Your generous donation helps us bring live performing arts to communities that need them most.</p>
             <p class="text-lg text-stage-gold-dark italic font-display mb-8">"As you give, you return threefold."</p>
             <p class="text-gray-500 mb-8">If you provided an email address, a receipt will be sent to you shortly.</p>
-            <a href="{{ route('home') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-curtain-red text-white font-semibold hover:bg-curtain-red-light transition-colors">
+            <a href="{{ route('home') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-md bg-curtain-red text-white font-semibold hover:bg-curtain-red-light transition-colors">
                 Return to Home
             </a>
         </div>

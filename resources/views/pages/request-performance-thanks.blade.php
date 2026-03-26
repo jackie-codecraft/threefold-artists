@@ -6,7 +6,7 @@
             </div>
             <h1 class="font-display text-4xl font-bold text-theatre-black mb-4">Thank You!</h1>
             <p class="text-xl text-gray-600 mb-8">Your performance request has been submitted successfully. We will review your request and get back to you within 5 business days.</p>
-            <a href="{{ route('home') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-stage-gold text-theatre-black font-semibold hover:bg-stage-gold-light transition-colors">
+            <a href="{{ route('home') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-md bg-stage-gold text-theatre-black font-semibold hover:bg-stage-gold-light transition-colors">
                 Return to Home
             </a>
         </div>

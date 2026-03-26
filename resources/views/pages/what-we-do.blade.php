@@ -21,7 +21,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {{-- Theatre --}}
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-linen-dark">
+                <div class="bg-white rounded-lg p-8 shadow-sm border border-linen-dark">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-14 h-14 rounded-full bg-stage-gold/10 flex items-center justify-center shrink-0">
                             <svg class="w-7 h-7 text-stage-gold-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
@@ -32,7 +32,7 @@
                 </div>
 
                 {{-- Music --}}
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-linen-dark">
+                <div class="bg-white rounded-lg p-8 shadow-sm border border-linen-dark">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-14 h-14 rounded-full bg-stage-gold/10 flex items-center justify-center shrink-0">
                             <svg class="w-7 h-7 text-stage-gold-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
@@ -43,7 +43,7 @@
                 </div>
 
                 {{-- Dance --}}
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-linen-dark">
+                <div class="bg-white rounded-lg p-8 shadow-sm border border-linen-dark">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-14 h-14 rounded-full bg-spotlight-amber/10 flex items-center justify-center shrink-0">
                             <svg class="w-7 h-7 text-spotlight-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -54,7 +54,7 @@
                 </div>
 
                 {{-- Fine Arts --}}
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-linen-dark">
+                <div class="bg-white rounded-lg p-8 shadow-sm border border-linen-dark">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-14 h-14 rounded-full bg-stage-gold/10 flex items-center justify-center shrink-0">
                             <svg class="w-7 h-7 text-stage-gold-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -122,7 +122,7 @@
             </div>
 
             <div class="text-center mt-12">
-                <a href="{{ route('request-performance') }}" class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-stage-gold text-theatre-black text-lg font-bold hover:bg-stage-gold-light transition-colors shadow-lg">
+                <a href="{{ route('request-performance') }}" class="inline-flex items-center justify-center px-8 py-4 rounded-md bg-stage-gold text-theatre-black text-lg font-bold hover:bg-stage-gold-light transition-colors shadow-lg">
                     Request a Performance
                 </a>
             </div>

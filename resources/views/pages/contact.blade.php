@@ -44,7 +44,7 @@
 
                 {{-- Contact Form --}}
                 <div class="lg:col-span-2">
-                    <div class="bg-white rounded-2xl shadow-sm border border-linen-dark p-8">
+                    <div class="bg-white rounded-lg shadow-sm border border-linen-dark p-8">
                         <h2 class="font-display text-2xl font-bold text-theatre-black mb-6">Send a Message</h2>
 
                         <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
@@ -79,7 +79,7 @@
                                 @error('message') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                             </div>
 
-                            <button type="submit" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-stage-gold text-theatre-black font-bold hover:bg-stage-gold-light transition-colors shadow-lg">
+                            <button type="submit" class="inline-flex items-center justify-center px-8 py-3 rounded-md bg-stage-gold text-theatre-black font-bold hover:bg-stage-gold-light transition-colors shadow-lg">
                                 Send Message
                             </button>
                         </form>
