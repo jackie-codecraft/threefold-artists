@@ -121,6 +121,34 @@
     </section>
     @endif
 
+    {{-- Newsletter --}}
+    <section class="py-24 sm:py-32">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Stay Connected</p>
+            <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black mb-6">Newsletter</h2>
+            <p class="text-gray-500 leading-relaxed mb-12">Performance schedules, artist stories, and impact updates. No spam, ever.</p>
+
+            @if(session('newsletter_success'))
+                <p class="text-stage-gold font-display text-xl">{{ session('newsletter_success') }}</p>
+            @else
+                <form action="{{ route('newsletter.subscribe') }}" method="POST" class="max-w-md mx-auto">
+                    @csrf
+                    <input type="hidden" name="source" value="homepage">
+                    <div class="flex gap-3">
+                        <input type="email" name="email" required placeholder="Your email address"
+                            class="flex-1 border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0 text-center">
+                        <button type="submit" class="px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                            Subscribe
+                        </button>
+                    </div>
+                    @error('email')
+                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                    @enderror
+                </form>
+            @endif
+        </div>
+    </section>
+
     {{-- CTA Section --}}
     <section class="py-24 sm:py-32 bg-theatre-black text-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
