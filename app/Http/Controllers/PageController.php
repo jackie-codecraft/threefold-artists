@@ -37,8 +37,12 @@ class PageController extends Controller
     public function events()
     {
         $events = Event::upcoming()->public()->paginate(12);
+        $allEvents = Event::public()
+            ->whereDate('date', '>=', now()->startOfMonth()->subMonths(1))
+            ->whereDate('date', '<=', now()->endOfMonth()->addMonths(2))
+            ->get();
 
-        return view('pages.events', compact('events'));
+        return view('pages.events', compact('events', 'allEvents'));
     }
 
     public function gallery()
