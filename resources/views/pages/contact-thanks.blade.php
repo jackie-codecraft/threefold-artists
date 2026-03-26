@@ -6,7 +6,7 @@
             </div>
             <h1 class="font-display text-4xl font-bold text-theatre-black mb-4">Message Sent!</h1>
             <p class="text-xl text-gray-600 mb-8">Thank you for reaching out. We will get back to you as soon as possible.</p>
-            <a href="{{ route('home') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-curtain-red text-white font-semibold hover:bg-curtain-red-light transition-colors">
+            <a href="{{ route('home') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-stage-gold text-theatre-black font-semibold hover:bg-stage-gold-light transition-colors">
                 Return to Home
             </a>
         </div>

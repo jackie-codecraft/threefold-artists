@@ -13,7 +13,7 @@
                 <div class="text-center py-12">
                     <h2 class="font-display text-2xl font-bold text-theatre-black mb-2">Artist Profiles Coming Soon</h2>
                     <p class="text-gray-600 mb-6">We are building our artist directory.</p>
-                    <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-curtain-red text-white font-semibold hover:bg-curtain-red-light transition-colors">
+                    <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-stage-gold text-theatre-black font-semibold hover:bg-stage-gold-light transition-colors">
                         Become an Artist
                     </a>
                 </div>

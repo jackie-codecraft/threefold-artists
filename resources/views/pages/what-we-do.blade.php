@@ -23,8 +23,8 @@
                 {{-- Theatre --}}
                 <div class="bg-white rounded-2xl p-8 shadow-sm border border-linen-dark">
                     <div class="flex items-center gap-4 mb-4">
-                        <div class="w-14 h-14 rounded-full bg-curtain-red/10 flex items-center justify-center shrink-0">
-                            <svg class="w-7 h-7 text-curtain-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                        <div class="w-14 h-14 rounded-full bg-stage-gold/10 flex items-center justify-center shrink-0">
+                            <svg class="w-7 h-7 text-stage-gold-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
                         </div>
                         <h3 class="font-display text-2xl font-bold text-theatre-black">Theatre</h3>
                     </div>
@@ -56,8 +56,8 @@
                 {{-- Fine Arts --}}
                 <div class="bg-white rounded-2xl p-8 shadow-sm border border-linen-dark">
                     <div class="flex items-center gap-4 mb-4">
-                        <div class="w-14 h-14 rounded-full bg-curtain-red/10 flex items-center justify-center shrink-0">
-                            <svg class="w-7 h-7 text-curtain-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <div class="w-14 h-14 rounded-full bg-stage-gold/10 flex items-center justify-center shrink-0">
+                            <svg class="w-7 h-7 text-stage-gold-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                         </div>
                         <h3 class="font-display text-2xl font-bold text-theatre-black">Fine Arts</h3>
                     </div>
@@ -87,7 +87,7 @@
                 ] as [$label, $path])
                 <div class="text-center p-4">
                     <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-linen flex items-center justify-center">
-                        <svg class="w-7 h-7 text-curtain-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="{{ $path }}"/></svg>
+                        <svg class="w-7 h-7 text-stage-gold-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="{{ $path }}"/></svg>
                     </div>
                     <span class="text-sm font-medium text-grey-700">{{ $label }}</span>
                 </div>
@@ -107,7 +107,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 @foreach([
-                    ['1', 'Request', 'Tell us about your venue, your audience, and what kind of performance you would like. We will match you with the right artists.', 'bg-curtain-red'],
+                    ['1', 'Request', 'Tell us about your venue, your audience, and what kind of performance you would like. We will match you with the right artists.', 'bg-theatre-black'],
                     ['2', 'Prepare', 'We coordinate with our volunteer artists to design a performance tailored to your space and audience. We handle all the logistics.', 'bg-stage-gold'],
                     ['3', 'Perform', 'Our artists arrive, set up, and deliver a professional-quality live performance. Your community experiences the magic of live arts.', 'bg-spotlight-amber'],
                 ] as [$number, $title, $description, $bg])
@@ -122,7 +122,7 @@
             </div>
 
             <div class="text-center mt-12">
-                <a href="{{ route('request-performance') }}" class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-curtain-red text-white text-lg font-bold hover:bg-curtain-red-light transition-colors shadow-lg">
+                <a href="{{ route('request-performance') }}" class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-stage-gold text-theatre-black text-lg font-bold hover:bg-stage-gold-light transition-colors shadow-lg">
                     Request a Performance
                 </a>
             </div>

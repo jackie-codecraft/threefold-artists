@@ -32,13 +32,13 @@
                                 {{ $post->published_at->format('F j, Y') }}
                                 @if($post->author) &middot; {{ $post->author }} @endif
                             </div>
-                            <h3 class="font-display text-xl font-bold text-theatre-black mb-2 group-hover:text-curtain-red transition-colors">
+                            <h3 class="font-display text-xl font-bold text-theatre-black mb-2 group-hover:text-stage-gold-dark transition-colors">
                                 <a href="{{ route('blog.post', $post->slug) }}">{{ $post->title }}</a>
                             </h3>
                             @if($post->excerpt)
                                 <p class="text-gray-600 text-sm">{{ Str::limit($post->excerpt, 150) }}</p>
                             @endif
-                            <a href="{{ route('blog.post', $post->slug) }}" class="inline-block mt-4 text-sm font-semibold text-curtain-red hover:underline">
+                            <a href="{{ route('blog.post', $post->slug) }}" class="inline-block mt-4 text-sm font-semibold text-stage-gold hover:underline">
                                 Read More &rarr;
                             </a>
                         </div>

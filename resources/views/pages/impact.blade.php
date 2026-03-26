@@ -17,7 +17,7 @@
                     @if($metric->icon)
                         <div class="text-4xl mb-3">{{ $metric->icon }}</div>
                     @endif
-                    <div class="font-display text-4xl sm:text-5xl font-bold text-curtain-red mb-2">{{ $metric->value }}</div>
+                    <div class="font-display text-4xl sm:text-5xl font-bold text-stage-gold-dark mb-2">{{ $metric->value }}</div>
                     <div class="text-gray-600 font-medium">{{ $metric->label }}</div>
                 </div>
                 @endforeach

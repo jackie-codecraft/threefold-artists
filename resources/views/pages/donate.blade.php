@@ -58,7 +58,7 @@
                                     x-model="customAmount"
                                     @input="selectedAmount = 0"
                                     placeholder="Other amount"
-                                    class="w-full pl-8 rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">
+                                    class="w-full pl-8 rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">
                             </div>
                         </div>
                         <input type="hidden" name="amount" :value="customAmount !== '' ? customAmount : selectedAmount">
@@ -69,12 +69,12 @@
                         <div>
                             <label for="donor_name" class="block text-sm font-semibold text-grey-700 mb-1">Name (optional)</label>
                             <input type="text" name="donor_name" id="donor_name" x-model="donorName"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">
                         </div>
                         <div>
                             <label for="donor_email" class="block text-sm font-semibold text-grey-700 mb-1">Email (for receipt)</label>
                             <input type="email" name="donor_email" id="donor_email" x-model="donorEmail"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">
                         </div>
                     </div>
 

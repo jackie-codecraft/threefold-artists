@@ -15,13 +15,13 @@
                         <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     </div>
                     <h2 class="font-display text-2xl font-bold text-theatre-black mb-2">No Upcoming Events</h2>
-                    <p class="text-gray-600">Check back soon for new performances, or <a href="{{ route('request-performance') }}" class="text-curtain-red hover:underline">request a performance</a> for your community.</p>
+                    <p class="text-gray-600">Check back soon for new performances, or <a href="{{ route('request-performance') }}" class="text-stage-gold hover:underline">request a performance</a> for your community.</p>
                 </div>
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($events as $event)
                     <div class="bg-white rounded-2xl shadow-sm border border-linen-dark overflow-hidden hover:shadow-lg transition-shadow">
-                        <div class="bg-curtain-red p-4 text-white text-center">
+                        <div class="bg-theatre-black p-4 text-white text-center">
                             <div class="font-display text-3xl font-bold">{{ $event->date->format('d') }}</div>
                             <div class="text-sm uppercase tracking-wider">{{ $event->date->format('M Y') }}</div>
                         </div>

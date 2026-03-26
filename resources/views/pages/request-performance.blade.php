@@ -27,14 +27,14 @@
                             <div>
                                 <label for="organization_name" class="block text-sm font-semibold text-grey-700 mb-1">Organization Name *</label>
                                 <input type="text" name="organization_name" id="organization_name" value="{{ old('organization_name') }}" required
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">
                                 @error('organization_name') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label for="venue_type" class="block text-sm font-semibold text-grey-700 mb-1">Venue Type *</label>
                                 <select name="venue_type" id="venue_type" required
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">
                                     <option value="">Select venue type...</option>
                                     <option value="care_home" {{ old('venue_type') === 'care_home' ? 'selected' : '' }}>Care Home / Nursing Home</option>
                                     <option value="hospital" {{ old('venue_type') === 'hospital' ? 'selected' : '' }}>Hospital</option>
@@ -51,7 +51,7 @@
                         <div class="mt-4">
                             <label for="address" class="block text-sm font-semibold text-grey-700 mb-1">Venue Address</label>
                             <textarea name="address" id="address" rows="2"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">{{ old('address') }}</textarea>
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">{{ old('address') }}</textarea>
                         </div>
                     </div>
 
@@ -63,21 +63,21 @@
                             <div>
                                 <label for="contact_name" class="block text-sm font-semibold text-grey-700 mb-1">Contact Name *</label>
                                 <input type="text" name="contact_name" id="contact_name" value="{{ old('contact_name') }}" required
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">
                                 @error('contact_name') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label for="contact_email" class="block text-sm font-semibold text-grey-700 mb-1">Email Address *</label>
                                 <input type="email" name="contact_email" id="contact_email" value="{{ old('contact_email') }}" required
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">
                                 @error('contact_email') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label for="contact_phone" class="block text-sm font-semibold text-grey-700 mb-1">Phone Number</label>
                                 <input type="tel" name="contact_phone" id="contact_phone" value="{{ old('contact_phone') }}"
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">
                             </div>
                         </div>
                     </div>
@@ -90,20 +90,20 @@
                             <div>
                                 <label for="audience_size" class="block text-sm font-semibold text-grey-700 mb-1">Expected Audience Size</label>
                                 <input type="number" name="audience_size" id="audience_size" value="{{ old('audience_size') }}" min="1"
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">
                             </div>
 
                             <div>
                                 <label for="audience_demographics" class="block text-sm font-semibold text-grey-700 mb-1">Audience Demographics</label>
                                 <input type="text" name="audience_demographics" id="audience_demographics" value="{{ old('audience_demographics') }}"
                                     placeholder="e.g., Elderly residents, ages 70-90"
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">
                             </div>
 
                             <div>
                                 <label for="preferred_art_form" class="block text-sm font-semibold text-grey-700 mb-1">Preferred Art Form</label>
                                 <select name="preferred_art_form" id="preferred_art_form"
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">
                                     <option value="">No preference</option>
                                     <option value="theatre" {{ old('preferred_art_form') === 'theatre' ? 'selected' : '' }}>Theatre</option>
                                     <option value="music" {{ old('preferred_art_form') === 'music' ? 'selected' : '' }}>Music</option>
@@ -117,25 +117,25 @@
                             <label for="preferred_dates" class="block text-sm font-semibold text-grey-700 mb-1">Preferred Dates / Availability</label>
                             <textarea name="preferred_dates" id="preferred_dates" rows="2"
                                 placeholder="e.g., Any Friday afternoon in April, or specific dates..."
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">{{ old('preferred_dates') }}</textarea>
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">{{ old('preferred_dates') }}</textarea>
                         </div>
 
                         <div class="mt-4">
                             <label for="accessibility_requirements" class="block text-sm font-semibold text-grey-700 mb-1">Accessibility Requirements</label>
                             <textarea name="accessibility_requirements" id="accessibility_requirements" rows="2"
                                 placeholder="Any special requirements we should know about..."
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">{{ old('accessibility_requirements') }}</textarea>
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">{{ old('accessibility_requirements') }}</textarea>
                         </div>
 
                         <div class="mt-4">
                             <label for="notes" class="block text-sm font-semibold text-grey-700 mb-1">Additional Notes</label>
                             <textarea name="notes" id="notes" rows="3"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-curtain-red focus:ring-curtain-red">{{ old('notes') }}</textarea>
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-stage-gold focus:ring-stage-gold">{{ old('notes') }}</textarea>
                         </div>
                     </div>
 
                     <div class="text-center">
-                        <button type="submit" class="inline-flex items-center justify-center px-10 py-4 rounded-full bg-curtain-red text-white text-lg font-bold hover:bg-curtain-red-light transition-colors shadow-lg">
+                        <button type="submit" class="inline-flex items-center justify-center px-10 py-4 rounded-full bg-stage-gold text-theatre-black text-lg font-bold hover:bg-stage-gold-light transition-colors shadow-lg">
                             Submit Request
                         </button>
                     </div>

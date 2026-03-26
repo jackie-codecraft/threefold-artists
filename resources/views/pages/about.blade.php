@@ -24,7 +24,7 @@
                 </div>
                 <div>
                     <h2 class="font-display text-3xl font-bold text-theatre-black mb-4">Our Vision</h2>
-                    <div class="w-16 h-1 bg-curtain-red mb-6"></div>
+                    <div class="w-16 h-1 bg-stage-gold mb-6"></div>
                     <p class="text-gray-600 leading-relaxed text-lg">
                         A world where live performing arts are accessible to every person, in every community. Where the curtain rises in care homes as often as concert halls. Where music fills hospital corridors and dance brings light to shelters.
                     </p>
@@ -95,7 +95,7 @@
             <p class="text-gray-600 text-lg mb-8">
                 Threefold Artists is powered by a dedicated team of arts professionals and volunteers who share a passion for making live performance accessible to everyone.
             </p>
-            <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-curtain-red text-white font-semibold hover:bg-curtain-red-light transition-colors">
+            <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-stage-gold text-theatre-black font-semibold hover:bg-stage-gold-light transition-colors">
                 Join Our Team
             </a>
         </div>
