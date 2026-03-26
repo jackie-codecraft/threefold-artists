@@ -52,16 +52,18 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                         <label for="name" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Full Name *</label>
-                        <input type="text" name="name" id="name" value="{{ old('name') }}" required
+                        <input type="text" name="name" id="name" value="{{ old('name') }}" required aria-required="true"
+                            @error('name') aria-describedby="name-error" @enderror
                             class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
-                        @error('name') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                        @error('name') <p id="name-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
                         <label for="email" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Email *</label>
-                        <input type="email" name="email" id="email" value="{{ old('email') }}" required
+                        <input type="email" name="email" id="email" value="{{ old('email') }}" required aria-required="true"
+                            @error('email') aria-describedby="email-error" @enderror
                             class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
-                        @error('email') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                        @error('email') <p id="email-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
@@ -72,7 +74,8 @@
 
                     <div>
                         <label for="discipline" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Art Form *</label>
-                        <select name="discipline" id="discipline" required
+                        <select name="discipline" id="discipline" required aria-required="true"
+                            @error('discipline') aria-describedby="discipline-error" @enderror
                             class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black focus:border-theatre-black focus:ring-0">
                             <option value="">Select...</option>
                             <option value="theatre" {{ old('discipline') === 'theatre' ? 'selected' : '' }}>Theatre</option>
@@ -80,7 +83,7 @@
                             <option value="dance" {{ old('discipline') === 'dance' ? 'selected' : '' }}>Dance</option>
                             <option value="fine_arts" {{ old('discipline') === 'fine_arts' ? 'selected' : '' }}>Fine Arts</option>
                         </select>
-                        @error('discipline') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                        @error('discipline') <p id="discipline-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 

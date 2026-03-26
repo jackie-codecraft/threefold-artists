@@ -26,14 +26,16 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <label for="organization_name" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Organization Name *</label>
-                            <input type="text" name="organization_name" id="organization_name" value="{{ old('organization_name') }}" required
+                            <input type="text" name="organization_name" id="organization_name" value="{{ old('organization_name') }}" required aria-required="true"
+                                @error('organization_name') aria-describedby="organization_name-error" @enderror
                                 class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
-                            @error('organization_name') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                            @error('organization_name') <p id="organization_name-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
                             <label for="venue_type" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Venue Type *</label>
-                            <select name="venue_type" id="venue_type" required
+                            <select name="venue_type" id="venue_type" required aria-required="true"
+                                @error('venue_type') aria-describedby="venue_type-error" @enderror
                                 class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black focus:border-theatre-black focus:ring-0">
                                 <option value="">Select venue type...</option>
                                 <option value="care_home" {{ old('venue_type') === 'care_home' ? 'selected' : '' }}>Care Home / Nursing Home</option>
@@ -44,7 +46,7 @@
                                 <option value="community" {{ old('venue_type') === 'community' ? 'selected' : '' }}>Community Center</option>
                                 <option value="other" {{ old('venue_type') === 'other' ? 'selected' : '' }}>Other</option>
                             </select>
-                            @error('venue_type') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                            @error('venue_type') <p id="venue_type-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
@@ -62,16 +64,18 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <label for="contact_name" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Contact Name *</label>
-                            <input type="text" name="contact_name" id="contact_name" value="{{ old('contact_name') }}" required
+                            <input type="text" name="contact_name" id="contact_name" value="{{ old('contact_name') }}" required aria-required="true"
+                                @error('contact_name') aria-describedby="contact_name-error" @enderror
                                 class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
-                            @error('contact_name') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                            @error('contact_name') <p id="contact_name-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
                             <label for="contact_email" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Email Address *</label>
-                            <input type="email" name="contact_email" id="contact_email" value="{{ old('contact_email') }}" required
+                            <input type="email" name="contact_email" id="contact_email" value="{{ old('contact_email') }}" required aria-required="true"
+                                @error('contact_email') aria-describedby="contact_email-error" @enderror
                                 class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
-                            @error('contact_email') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                            @error('contact_email') <p id="contact_email-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>

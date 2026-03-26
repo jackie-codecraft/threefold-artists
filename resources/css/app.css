@@ -38,6 +38,16 @@
     h1, h2, h3, h4, h5, h6 {
         font-family: var(--font-display);
     }
+
+    /* Focus styles for accessibility */
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+        outline: 2px solid var(--color-stage-gold);
+        outline-offset: 2px;
+    }
 }
 
 /* Custom utilities */
