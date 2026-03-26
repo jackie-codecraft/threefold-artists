@@ -162,6 +162,7 @@
                         <li><a href="{{ route('blog') }}" class="text-gray-300 hover:text-white transition-colors">Blog</a></li>
                         <li><a href="{{ route('gallery') }}" class="text-gray-300 hover:text-white transition-colors">Gallery</a></li>
                         <li><a href="{{ route('impact') }}" class="text-gray-300 hover:text-white transition-colors">Our Impact</a></li>
+                        <li><a href="{{ route('press-kit') }}" class="text-gray-300 hover:text-white transition-colors">Press Kit</a></li>
                     </ul>
                 </div>
 
@@ -172,6 +173,7 @@
                         <li><a href="{{ route('request-performance') }}" class="text-gray-300 hover:text-white transition-colors">Request a Performance</a></li>
                         <li><a href="{{ route('get-involved') }}" class="text-gray-300 hover:text-white transition-colors">Volunteer</a></li>
                         <li><a href="{{ route('donate') }}" class="text-gray-300 hover:text-white transition-colors">Donate</a></li>
+                        <li><a href="{{ route('donor-wall') }}" class="text-gray-300 hover:text-white transition-colors">Donor Wall</a></li>
                         <li><a href="{{ route('contact') }}" class="text-gray-300 hover:text-white transition-colors">Contact</a></li>
                     </ul>
                 </div>
@@ -195,6 +197,24 @@
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                             </a>
                         </div>
+                    </div>
+
+                    {{-- Newsletter --}}
+                    <div class="mt-8">
+                        <h4 class="text-xs font-semibold text-gray-400 tracking-[0.15em] uppercase mb-4">Newsletter</h4>
+                        @if(session('newsletter_success'))
+                            <p class="text-sm text-stage-gold">{{ session('newsletter_success') }}</p>
+                        @else
+                            <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex gap-2">
+                                @csrf
+                                <input type="hidden" name="source" value="footer">
+                                <input type="email" name="email" required placeholder="Your email"
+                                    class="flex-1 bg-transparent border-0 border-b border-gray-600 text-white text-sm py-2 placeholder-gray-500 focus:border-stage-gold focus:ring-0">
+                                <button type="submit" class="text-xs font-semibold tracking-wide uppercase text-stage-gold hover:text-white transition-colors">
+                                    Subscribe
+                                </button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>

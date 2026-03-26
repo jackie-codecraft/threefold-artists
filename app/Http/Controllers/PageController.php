@@ -6,10 +6,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Artist;
 use App\Models\BlogPost;
+use App\Models\Donation;
 use App\Models\Event;
 use App\Models\GalleryItem;
 use App\Models\ImpactMetric;
 use App\Models\Testimonial;
+use Illuminate\View\View;
 
 class PageController extends Controller
 {
@@ -80,10 +82,32 @@ class PageController extends Controller
         return view('pages.artist-show', compact('artist'));
     }
 
-    public function artists()
+    public function artists(): View
     {
         $artists = Artist::orderBy('name')->get();
 
         return view('pages.artists', compact('artists'));
+    }
+
+    public function pressKit(): View
+    {
+        return view('pages.press-kit');
+    }
+
+    public function donorWall(): View
+    {
+        $donors = Donation::query()
+            ->where('is_anonymous', false)
+            ->whereNotNull('donor_name')
+            ->where('donor_name', '!=', '')
+            ->selectRaw('donor_name, SUM(amount) as total_amount, MAX(created_at) as latest_donation')
+            ->groupBy('donor_name')
+            ->orderByDesc('total_amount')
+            ->get();
+
+        $totalRaised = Donation::sum('amount');
+        $totalDonors = Donation::whereNotNull('donor_name')->distinct('donor_name')->count();
+
+        return view('pages.donor-wall', compact('donors', 'totalRaised', 'totalDonors'));
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DonateController;
 use App\Http\Controllers\GetInvolvedController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PerformanceRequestController;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +26,9 @@ Route::get('/sitemap.xml', function () {
         ->add(Url::create('/request-a-performance')->setPriority(0.9))
         ->add(Url::create('/get-involved')->setPriority(0.8))
         ->add(Url::create('/donate')->setPriority(0.9))
-        ->add(Url::create('/contact')->setPriority(0.7));
+        ->add(Url::create('/donor-wall')->setPriority(0.5))
+        ->add(Url::create('/contact')->setPriority(0.7))
+        ->add(Url::create('/press-kit')->setPriority(0.5));
 
     // Add blog posts
     \App\Models\BlogPost::published()->each(function (\App\Models\BlogPost $post) use ($sitemap): void {
@@ -75,6 +78,15 @@ Route::get('/get-involved/thank-you', [GetInvolvedController::class, 'thanks'])-
 Route::get('/contact', [ContactController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/contact/thank-you', [ContactController::class, 'thanks'])->name('contact.thanks');
+
+// Donor Wall
+Route::get('/donor-wall', [PageController::class, 'donorWall'])->name('donor-wall');
+
+// Newsletter
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.subscribe');
+
+// Press Kit
+Route::get('/press-kit', [PageController::class, 'pressKit'])->name('press-kit');
 
 // Donate
 Route::get('/donate', [DonateController::class, 'show'])->name('donate');
