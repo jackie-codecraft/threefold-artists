@@ -15,6 +15,8 @@ class Event extends Model
         'time',
         'venue_name',
         'venue_address',
+        'latitude',
+        'longitude',
         'art_form',
         'is_public',
     ];
@@ -22,6 +24,8 @@ class Event extends Model
     protected $casts = [
         'date' => 'date',
         'is_public' => 'boolean',
+        'latitude' => 'decimal:7',
+        'longitude' => 'decimal:7',
     ];
 
     public function scopeUpcoming($query)

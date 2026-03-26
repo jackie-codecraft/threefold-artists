@@ -28,6 +28,8 @@ class EventResource extends Resource
             Forms\Components\TimePicker::make('time'),
             Forms\Components\TextInput::make('venue_name')->required(),
             Forms\Components\Textarea::make('venue_address'),
+            Forms\Components\TextInput::make('latitude')->numeric()->step(0.0000001),
+            Forms\Components\TextInput::make('longitude')->numeric()->step(0.0000001),
             Forms\Components\Select::make('art_form')
                 ->options([
                     'theatre' => 'Theatre',
