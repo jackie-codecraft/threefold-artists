@@ -1,7 +1,7 @@
 <x-layouts.app title="Get Involved" metaDescription="Volunteer as a performing artist with Threefold Artists. Share your talent with communities that need it most.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 border-b border-gray-200">
+    <section class="pt-12 pb-12 border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Join Us</p>
             <h1 class="font-display text-5xl sm:text-6xl font-light text-theatre-black">Get Involved</h1>
@@ -10,7 +10,7 @@
     </section>
 
     {{-- Why Volunteer --}}
-    <section class="py-24 sm:py-32">
+    <section class="py-16 sm:py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">
                 <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Why Volunteer</p>
@@ -38,7 +38,7 @@
     </section>
 
     {{-- Application Form --}}
-    <section class="py-24 sm:py-32 border-t border-gray-200">
+    <section class="py-16 sm:py-20 border-t border-gray-200">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-12">
                 <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Apply</p>

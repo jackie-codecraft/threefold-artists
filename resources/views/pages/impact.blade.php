@@ -16,9 +16,6 @@
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-12">
                 @foreach($metrics as $metric)
                 <div>
-                    @if($metric->icon)
-                        <div class="text-3xl mb-3">{{ $metric->icon }}</div>
-                    @endif
                     <div class="font-display text-5xl sm:text-6xl font-light text-theatre-black mb-2">{{ $metric->value }}</div>
                     <div class="w-8 h-px bg-stage-gold my-3"></div>
                     <div class="text-sm text-gray-500 font-medium">{{ $metric->label }}</div>

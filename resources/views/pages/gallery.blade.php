@@ -12,9 +12,13 @@
     <section class="py-24 sm:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @if($items->isEmpty())
-                <div class="text-center py-12">
+                <div class="max-w-lg mx-auto text-center">
+                    <div class="w-12 h-px bg-stage-gold mx-auto mb-8"></div>
                     <h2 class="font-display text-3xl font-light text-theatre-black mb-4">Gallery Coming Soon</h2>
-                    <p class="text-gray-500">We are building our collection of performance photos and videos. Check back soon!</p>
+                    <p class="text-gray-500 leading-relaxed mb-10">We are documenting our performances. Beautiful moments from the stage are on their way.</p>
+                    <a href="{{ route('events') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-theatre-black text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-theatre-black hover:text-white transition-colors">
+                        View Upcoming Events
+                    </a>
                 </div>
             @else
                 <div x-data="{

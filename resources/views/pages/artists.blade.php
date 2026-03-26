@@ -12,9 +12,10 @@
     <section class="py-24 sm:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @if($artists->isEmpty())
-                <div class="text-center py-12">
+                <div class="max-w-lg mx-auto text-center">
+                    <div class="w-12 h-px bg-stage-gold mx-auto mb-8"></div>
                     <h2 class="font-display text-3xl font-light text-theatre-black mb-4">Artist Profiles Coming Soon</h2>
-                    <p class="text-gray-500 mb-10">We are building our artist directory.</p>
+                    <p class="text-gray-500 leading-relaxed mb-10">We are building our directory of talented volunteer performing artists. Want to be among the first?</p>
                     <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
                         Become an Artist
                     </a>
