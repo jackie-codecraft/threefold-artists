@@ -19,6 +19,24 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
                     @foreach($events as $event)
+                    <script type="application/ld+json">
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "Event",
+                        "name": "{{ $event->title }}",
+                        "startDate": "{{ $event->date->toIso8601String() }}",
+                        "location": {
+                            "@type": "Place",
+                            "name": "{{ $event->venue_name }}",
+                            "address": "{{ $event->venue_address }}"
+                        },
+                        "organizer": {
+                            "@type": "Organization",
+                            "name": "Threefold Artists"
+                        },
+                        "description": "{{ Str::limit(strip_tags($event->description), 200) }}"
+                    }
+                    </script>
                     <div>
                         <div class="mb-4">
                             <span class="font-display text-4xl font-light text-theatre-black">{{ $event->date->format('d') }}</span>

@@ -1,4 +1,4 @@
-@props(['title' => null, 'metaDescription' => null])
+@props(['title' => null, 'metaDescription' => null, 'ogImage' => null, 'canonical' => null])
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -9,15 +9,45 @@
     <title>{{ $title ?? 'Threefold Artists' }} — Keeping Theatre Alive</title>
     <meta name="description" content="{{ $metaDescription ?? 'Threefold Artists brings live performing arts to communities that cannot easily access them. Theatre, music, dance — when people cannot come to the arts, we will come to them.' }}">
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ $canonical ?? url()->current() }}">
+
     <!-- Open Graph -->
     <meta property="og:title" content="{{ $title ?? 'Threefold Artists' }} — Keeping Theatre Alive">
     <meta property="og:description" content="{{ $metaDescription ?? 'Bringing live performing arts to underserved communities.' }}">
-    <meta property="og:image" content="{{ asset('images/logo.png') }}">
+    <meta property="og:image" content="{{ $ogImage ?? asset('images/logo.png') }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $title ?? 'Threefold Artists' }} — Keeping Theatre Alive">
+    <meta name="twitter:description" content="{{ $metaDescription ?? 'Bringing live performing arts to underserved communities.' }}">
+    <meta name="twitter:image" content="{{ $ogImage ?? asset('images/logo.png') }}">
+
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "NonprofitOrganization",
+        "name": "Threefold Artists",
+        "description": "Threefold Artists brings live performing arts to communities that cannot easily access them.",
+        "url": "{{ config('app.url') }}",
+        "logo": "{{ asset('images/logo.png') }}",
+        "sameAs": [],
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Los Angeles",
+            "addressRegion": "CA",
+            "addressCountry": "US"
+        }
+    }
+    </script>
+
+    @stack('head')
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

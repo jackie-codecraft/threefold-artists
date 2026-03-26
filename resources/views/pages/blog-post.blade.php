@@ -1,5 +1,28 @@
 <x-layouts.app :title="$post->title" :metaDescription="$post->excerpt ?? Str::limit(strip_tags($post->content), 160)">
 
+    @push('head')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "{{ $post->title }}",
+        "datePublished": "{{ $post->published_at->toIso8601String() }}",
+        "author": {
+            "@type": "Organization",
+            "name": "Threefold Artists"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Threefold Artists",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ asset('images/logo.png') }}"
+            }
+        }
+    }
+    </script>
+    @endpush
+
     <article>
         {{-- Hero --}}
         <section class="pt-16 pb-20 border-b border-gray-200">
