@@ -71,15 +71,15 @@
 
                 {{-- Desktop Navigation --}}
                 <div class="hidden lg:flex items-center gap-6">
-                    <a href="{{ route('home') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-theatre-black border-b-2 border-theatre-black pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Home</a>
-                    <a href="{{ route('about') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-theatre-black border-b-2 border-theatre-black pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">About</a>
-                    <a href="{{ route('what-we-do') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('what-we-do') ? 'text-theatre-black border-b-2 border-theatre-black pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">What We Do</a>
-                    <a href="{{ route('artists') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('artists') ? 'text-theatre-black border-b-2 border-theatre-black pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Artists</a>
-                    <a href="{{ route('events') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('events') ? 'text-theatre-black border-b-2 border-theatre-black pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Events</a>
-                    <a href="{{ route('gallery') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('gallery') ? 'text-theatre-black border-b-2 border-theatre-black pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Gallery</a>
-                    <a href="{{ route('impact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('impact') ? 'text-theatre-black border-b-2 border-theatre-black pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Impact</a>
-                    <a href="{{ route('blog') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('blog*') ? 'text-theatre-black border-b-2 border-theatre-black pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Blog</a>
-                    <a href="{{ route('contact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('contact*') ? 'text-theatre-black border-b-2 border-theatre-black pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Contact</a>
+                    <a href="{{ route('home') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Home</a>
+                    <a href="{{ route('about') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">About</a>
+                    <a href="{{ route('what-we-do') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('what-we-do') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">What We Do</a>
+                    <a href="{{ route('artists') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('artists') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Artists</a>
+                    <a href="{{ route('events') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('events') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Events</a>
+                    <a href="{{ route('gallery') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('gallery') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Gallery</a>
+                    <a href="{{ route('impact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('impact') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Impact</a>
+                    <a href="{{ route('blog') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('blog*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Blog</a>
+                    <a href="{{ route('contact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('contact*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Contact</a>
                     <div class="flex items-center gap-2 ml-4">
                         <a href="{{ route('request-performance') }}" class="px-5 py-2 text-sm font-medium border border-theatre-black text-theatre-black hover:bg-theatre-black hover:text-white transition-colors">
                             Request Performance

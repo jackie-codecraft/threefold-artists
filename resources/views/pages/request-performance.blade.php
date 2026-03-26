@@ -1,7 +1,7 @@
 <x-layouts.app title="Request a Performance" metaDescription="Request a free live performance of theatre, music, or dance for your care home, hospital, school, or community center.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 border-b border-gray-200">
+    <section class="pt-12 pb-12 border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Book Us</p>
             <h1 class="font-display text-5xl sm:text-6xl font-light text-theatre-black">Request a Performance</h1>
@@ -10,7 +10,7 @@
     </section>
 
     {{-- Form --}}
-    <section class="py-24 sm:py-32">
+    <section class="py-16 sm:py-20">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <p class="text-gray-500 mb-12 leading-relaxed">
                 Tell us about your organization and what kind of performance you are looking for. We will get back to you within 5 business days to discuss options and availability.

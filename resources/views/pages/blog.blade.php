@@ -12,9 +12,21 @@
     <section class="py-24 sm:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @if($posts->isEmpty())
-                <div class="text-center py-12">
-                    <h2 class="font-display text-3xl font-light text-theatre-black mb-4">Blog Coming Soon</h2>
-                    <p class="text-gray-500">We are preparing our first stories. Check back soon!</p>
+                <div class="max-w-lg mx-auto text-center">
+                    <div class="w-12 h-px bg-stage-gold mx-auto mb-8"></div>
+                    <h2 class="font-display text-3xl font-light text-theatre-black mb-4">Stories Coming Soon</h2>
+                    <p class="text-gray-500 leading-relaxed mb-10">Performance recaps, artist spotlights, and community stories. Subscribe to be the first to read them.</p>
+                    <form action="{{ route('newsletter.subscribe') }}" method="POST" class="max-w-sm mx-auto">
+                        @csrf
+                        <input type="hidden" name="source" value="blog-empty">
+                        <div class="flex gap-3">
+                            <input type="email" name="email" required placeholder="Your email" aria-label="Email for newsletter"
+                                class="flex-1 border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0 text-center">
+                            <button type="submit" class="px-6 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                                Notify Me
+                            </button>
+                        </div>
+                    </form>
                 </div>
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">

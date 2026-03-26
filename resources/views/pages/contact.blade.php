@@ -1,7 +1,7 @@
 <x-layouts.app title="Contact Us" metaDescription="Get in touch with Threefold Artists. We would love to hear from you.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 border-b border-gray-200">
+    <section class="pt-12 pb-12 border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Reach Out</p>
             <h1 class="font-display text-5xl sm:text-6xl font-light text-theatre-black">Contact Us</h1>
@@ -9,7 +9,7 @@
         </div>
     </section>
 
-    <section class="py-24 sm:py-32">
+    <section class="py-16 sm:py-20">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-20">
                 {{-- Contact Info --}}
