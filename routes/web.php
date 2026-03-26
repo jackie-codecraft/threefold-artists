@@ -8,6 +8,46 @@ use App\Http\Controllers\GetInvolvedController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PerformanceRequestController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
+
+// Sitemap
+Route::get('/sitemap.xml', function () {
+    $sitemap = Sitemap::create()
+        ->add(Url::create('/')->setPriority(1.0)->setChangeFrequency('weekly'))
+        ->add(Url::create('/about')->setPriority(0.8))
+        ->add(Url::create('/what-we-do')->setPriority(0.8))
+        ->add(Url::create('/artists')->setPriority(0.7))
+        ->add(Url::create('/events')->setPriority(0.7)->setChangeFrequency('weekly'))
+        ->add(Url::create('/gallery')->setPriority(0.6))
+        ->add(Url::create('/impact')->setPriority(0.6))
+        ->add(Url::create('/blog')->setPriority(0.7)->setChangeFrequency('weekly'))
+        ->add(Url::create('/request-a-performance')->setPriority(0.9))
+        ->add(Url::create('/get-involved')->setPriority(0.8))
+        ->add(Url::create('/donate')->setPriority(0.9))
+        ->add(Url::create('/contact')->setPriority(0.7));
+
+    // Add blog posts
+    \App\Models\BlogPost::published()->each(function (\App\Models\BlogPost $post) use ($sitemap): void {
+        $sitemap->add(
+            Url::create("/blog/{$post->slug}")
+                ->setLastModificationDate($post->updated_at)
+                ->setPriority(0.6)
+        );
+    });
+
+    // Add artists with slugs
+    \App\Models\Artist::all()->each(function (\App\Models\Artist $artist) use ($sitemap): void {
+        if ($artist->slug) {
+            $sitemap->add(
+                Url::create("/artists/{$artist->slug}")
+                    ->setPriority(0.5)
+            );
+        }
+    });
+
+    return $sitemap->toResponse(request());
+})->name('sitemap');
 
 // Main pages
 Route::get('/', [PageController::class, 'home'])->name('home');
