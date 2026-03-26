@@ -32,7 +32,7 @@
     body {
         font-family: var(--font-sans);
         color: var(--color-theatre-black);
-        background-color: var(--color-linen);
+        background-color: #FFFFFF;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -46,22 +46,13 @@
 }
 
 @utility bg-curtain-gradient {
-    background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%);
+    background: #1A1A1A;
 }
 
 @utility bg-warm-gradient {
-    background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+    background: #1A1A1A;
 }
 
 @utility bg-gold-shimmer {
-    background: linear-gradient(135deg, #C9A84C 0%, #D4B96A 50%, #C9A84C 100%);
-}
-
-/* Decorative curtain curve */
-@utility curtain-curve-top {
-    clip-path: ellipse(75% 100% at 50% 0%);
-}
-
-@utility curtain-curve-bottom {
-    clip-path: ellipse(80% 100% at 50% 100%);
+    background: linear-gradient(90deg, #C9A84C 0%, #D4B96A 50%, #C9A84C 100%);
 }
