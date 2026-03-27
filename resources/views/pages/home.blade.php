@@ -81,7 +81,7 @@
 
                 {{-- Dance --}}
                 <div>
-                    <img src="{{ asset('images/icon-dance.jpg') }}" alt="Dance" class="w-16 h-16 object-contain mb-6">
+                    <img src="{{ asset('images/icon-dance.png') }}" alt="Dance" class="w-20 h-20 object-contain mb-6">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Dance</h3>
                     <p class="text-gray-500 leading-relaxed">Movement and dance performances that inspire, uplift, and connect audiences of all ages and abilities through the language of the body.</p>
