@@ -57,12 +57,18 @@
     </a>
 
     {{-- Navigation --}}
-    <header x-data="{ open: false }" class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <header x-data="{ open: false, scrolled: false }"
+            x-init="scrolled = window.scrollY > 60; window.addEventListener('scroll', () => { scrolled = window.scrollY > 60 })"
+            :class="scrolled ? 'bg-white border-b border-gray-200 shadow-sm' : 'bg-white border-b border-gray-200'"
+            class="sticky top-0 z-50 transition-all duration-300">
         <nav aria-label="Main navigation" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                {{-- Logo --}}
-                <a href="{{ route('home') }}" class="shrink-0">
-                    <img src="{{ asset('images/logo.png') }}" alt="Threefold Artists Inc." class="h-12 w-auto">
+            <div class="flex items-center justify-between transition-all duration-300"
+                 :class="scrolled ? 'h-20' : 'h-28'">
+                {{-- Logo — large on load, shrinks on scroll --}}
+                <a href="{{ route('home') }}" class="shrink-0 relative">
+                    <img src="{{ asset('images/logo.png') }}" alt="Threefold Artists Inc."
+                         class="w-auto transition-all duration-300"
+                         :class="scrolled ? 'h-12' : 'h-24'">
                 </a>
 
                 {{-- Desktop Navigation --}}
