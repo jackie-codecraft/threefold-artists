@@ -1,13 +1,18 @@
 <x-layouts.app :title="$artist->name" :metaDescription="Str::limit($artist->bio, 160)">
 
-    <section class="pt-16 pb-20 border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <a href="{{ route('artists') }}" class="inline-flex items-center text-sm text-gray-400 hover:text-theatre-black transition-colors mb-8">
+    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    <div class="absolute inset-0">
+        <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
+        <div class="absolute inset-0 bg-black/30"></div>
+    </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-16 h-px bg-stage-gold mb-6"></div>
+            <a href="{{ route('artists') }}" class="inline-flex items-center text-sm text-gray-400 hover:text-white transition-colors mb-8">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 All Artists
             </a>
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">{{ ucfirst(str_replace('_', ' ', $artist->discipline)) }}</p>
-            <h1 class="font-display text-5xl sm:text-6xl font-light text-theatre-black">{{ $artist->name }}</h1>
+            <h1 class="font-display text-5xl sm:text-6xl font-light text-white">{{ $artist->name }}</h1>
         </div>
     </section>
 

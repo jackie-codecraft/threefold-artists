@@ -1,11 +1,16 @@
 <x-layouts.app title="Contact Us" metaDescription="Get in touch with Threefold Artists. We would love to hear from you.">
 
     {{-- Page Hero --}}
-    <section class="pt-12 pb-12 border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="pt-12 pb-12 bg-theatre-black relative overflow-hidden">
+    <div class="absolute inset-0">
+        <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
+        <div class="absolute inset-0 bg-black/30"></div>
+    </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-16 h-px bg-stage-gold mb-6"></div>
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Reach Out</p>
-            <h1 class="font-display text-5xl sm:text-6xl font-light text-theatre-black">Contact Us</h1>
-            <p class="text-lg text-gray-500 mt-4 max-w-2xl">We would love to hear from you.</p>
+            <h1 class="font-display text-5xl sm:text-6xl font-light text-white">Contact Us</h1>
+            <p class="text-lg text-gray-300 mt-4 max-w-2xl">We would love to hear from you.</p>
         </div>
     </section>
 
