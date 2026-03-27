@@ -1,13 +1,15 @@
 <x-layouts.app title="Gallery" metaDescription="Photos and videos from Threefold Artists performances.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 border-b border-gray-200">
+    <section class="pt-16 pb-20 bg-theatre-black">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-16 h-px bg-stage-gold mb-6"></div>
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Archive</p>
-            <h1 class="font-display text-5xl sm:text-6xl font-light text-theatre-black">Gallery</h1>
-            <p class="text-lg text-gray-500 mt-4 max-w-2xl">Moments from our performances.</p>
+            <h1 class="font-display text-5xl sm:text-6xl font-light text-white">Gallery</h1>
+            <p class="text-lg text-gray-300 mt-4 max-w-2xl">Moments from our performances.</p>
         </div>
     </section>
+    <div class="h-12 bg-gradient-to-b from-theatre-black to-white"></div>
 
     <section class="py-24 sm:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

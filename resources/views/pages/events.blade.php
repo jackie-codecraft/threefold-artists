@@ -1,13 +1,15 @@
 <x-layouts.app title="Events" metaDescription="Upcoming live performances by Threefold Artists. Theatre, music, and dance events in your community.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 border-b border-gray-200">
+    <section class="pt-16 pb-20 bg-theatre-black">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-16 h-px bg-stage-gold mb-6"></div>
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Calendar</p>
-            <h1 class="font-display text-5xl sm:text-6xl font-light text-theatre-black">Upcoming Events</h1>
-            <p class="text-lg text-gray-500 mt-4 max-w-2xl">Find a performance near you.</p>
+            <h1 class="font-display text-5xl sm:text-6xl font-light text-white">Upcoming Events</h1>
+            <p class="text-lg text-gray-300 mt-4 max-w-2xl">Find a performance near you.</p>
         </div>
     </section>
+    <div class="h-12 bg-gradient-to-b from-theatre-black to-white"></div>
 
     <section class="py-24 sm:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ view: 'list' }">

@@ -25,25 +25,27 @@
 
     <article>
         {{-- Hero --}}
-        <section class="pt-16 pb-12 border-b border-gray-200">
+        <section class="pt-16 pb-12 bg-theatre-black">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="w-16 h-px bg-stage-gold mb-6"></div>
                 <div class="flex items-center gap-3 text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-6">
                     {{ $post->published_at->format('F j, Y') }}
                     @if($post->author)
-                        <span class="text-gray-300">·</span>
+                        <span class="text-gray-500">·</span>
                         <span>{{ $post->author }}</span>
                     @endif
                     @if($post->category)
-                        <span class="text-gray-300">·</span>
+                        <span class="text-gray-500">·</span>
                         <span class="text-stage-gold">{{ ucfirst(str_replace('-', ' ', $post->category)) }}</span>
                     @endif
                 </div>
-                <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-theatre-black leading-tight">{{ $post->title }}</h1>
+                <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-white leading-tight">{{ $post->title }}</h1>
                 @if($post->excerpt)
-                    <p class="text-lg text-gray-500 mt-6 leading-relaxed max-w-2xl">{{ $post->excerpt }}</p>
+                    <p class="text-lg text-gray-300 mt-6 leading-relaxed max-w-2xl">{{ $post->excerpt }}</p>
                 @endif
             </div>
         </section>
+        <div class="h-12 bg-gradient-to-b from-theatre-black to-white"></div>
 
         {{-- Featured Image --}}
         @if($post->getFirstMediaUrl('featured_image') || $post->featured_image)

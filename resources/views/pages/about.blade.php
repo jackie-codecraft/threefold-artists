@@ -1,13 +1,15 @@
 <x-layouts.app title="About Us" metaDescription="Learn about Threefold Artists, a nonprofit bringing live performing arts to communities that cannot easily access them.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 border-b border-gray-200">
+    <section class="pt-16 pb-20 bg-theatre-black">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-16 h-px bg-stage-gold mb-6"></div>
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Who We Are</p>
-            <h1 class="font-display text-5xl sm:text-6xl font-light text-theatre-black">About Threefold Artists</h1>
-            <p class="text-lg text-gray-500 mt-4 max-w-2xl">Our story, our mission, our promise.</p>
+            <h1 class="font-display text-5xl sm:text-6xl font-light text-white">About Threefold Artists</h1>
+            <p class="text-lg text-gray-300 mt-4 max-w-2xl">Our story, our mission, our promise.</p>
         </div>
     </section>
+    <div class="h-12 bg-gradient-to-b from-theatre-black to-white"></div>
 
     {{-- Mission & Vision --}}
     <section class="py-24 sm:py-32">

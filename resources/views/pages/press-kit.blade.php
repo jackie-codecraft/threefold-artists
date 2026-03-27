@@ -1,12 +1,14 @@
 <x-layouts.app title="Press Kit" metaDescription="Download logos, photos, and fact sheets about Threefold Artists for media and press use.">
 
-    <section class="pt-16 pb-20 border-b border-gray-200">
+    <section class="pt-16 pb-20 bg-theatre-black">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-16 h-px bg-stage-gold mb-6"></div>
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Media</p>
-            <h1 class="font-display text-5xl sm:text-6xl font-light text-theatre-black">Press Kit</h1>
-            <p class="text-lg text-gray-500 mt-4 max-w-2xl">Everything you need to write about Threefold Artists.</p>
+            <h1 class="font-display text-5xl sm:text-6xl font-light text-white">Press Kit</h1>
+            <p class="text-lg text-gray-300 mt-4 max-w-2xl">Everything you need to write about Threefold Artists.</p>
         </div>
     </section>
+    <div class="h-12 bg-gradient-to-b from-theatre-black to-white"></div>
 
     {{-- About Section --}}
     <section class="py-24 sm:py-32 border-b border-gray-100">

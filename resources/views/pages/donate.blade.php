@@ -1,13 +1,15 @@
 <x-layouts.app title="Donate" metaDescription="Support Threefold Artists with a tax-deductible donation. Help us bring live performing arts to communities in need.">
 
     {{-- Page Hero --}}
-    <section class="pt-12 pb-12 border-b border-gray-200">
+    <section class="pt-12 pb-12 bg-theatre-black">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-16 h-px bg-stage-gold mb-6"></div>
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Give</p>
-            <h1 class="font-display text-5xl sm:text-6xl font-light text-theatre-black">Support Our Mission</h1>
-            <p class="text-lg text-gray-500 mt-4 max-w-2xl">Every donation helps bring live performing arts to those who need it most.</p>
+            <h1 class="font-display text-5xl sm:text-6xl font-light text-white">Support Our Mission</h1>
+            <p class="text-lg text-gray-300 mt-4 max-w-2xl">Every donation helps bring live performing arts to those who need it most.</p>
         </div>
     </section>
+    <div class="h-12 bg-gradient-to-b from-theatre-black to-white"></div>
 
     {{-- Donation Tiers --}}
     <section class="py-16 sm:py-20" x-data="{ selectedAmount: 50, customAmount: '', donorName: '', donorEmail: '', donationType: 'one-time' }">
