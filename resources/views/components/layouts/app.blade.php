@@ -61,12 +61,9 @@
         <nav aria-label="Main navigation" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 {{-- Logo --}}
-                <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
-                    <img src="{{ asset('images/logo.png') }}" alt="Threefold Artists" class="h-8 w-auto">
-                    <div class="hidden sm:block">
-                        <span class="font-display text-xl font-semibold text-theatre-black">Threefold Artists</span>
-                        <span class="block text-[10px] text-gray-400 tracking-[0.2em] uppercase">Keeping Theatre Alive</span>
-                    </div>
+                <a href="{{ route('home') }}" class="shrink-0">
+                    <span class="font-display text-xl font-semibold text-theatre-black">Threefold Artists</span>
+                    <span class="block text-[10px] text-gray-400 tracking-[0.2em] uppercase">Keeping Theatre Alive</span>
                 </a>
 
                 {{-- Desktop Navigation --}}
