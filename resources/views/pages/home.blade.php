@@ -65,20 +65,17 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
                 {{-- Theatre --}}
                 <div>
-                    {{-- Comedy/Tragedy masks icon --}}
-                    <svg class="w-10 h-10 text-stage-gold mb-6" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        {{-- Tragedy mask (left) --}}
-                        <ellipse cx="15" cy="20" rx="9" ry="11"/>
-                        <path d="M10 23 Q11 27 15 27 Q19 27 20 23"/>
-                        <circle cx="12" cy="18" r="1.2" fill="currentColor" stroke="none"/>
-                        <circle cx="18" cy="18" r="1.2" fill="currentColor" stroke="none"/>
-                        <path d="M11 15 Q15 12 19 15"/>
-                        {{-- Comedy mask (right, overlapping) --}}
-                        <ellipse cx="33" cy="22" rx="9" ry="11"/>
-                        <path d="M28 26 Q29 30 33 30 Q37 30 38 26"/>
-                        <circle cx="30" cy="20" r="1.2" fill="currentColor" stroke="none"/>
-                        <circle cx="36" cy="20" r="1.2" fill="currentColor" stroke="none"/>
-                        <path d="M29 17 Q33 14 37 17"/>
+                    {{-- Lucide "theater" — comedy/tragedy masks --}}
+                    <svg class="w-10 h-10 text-theatre-black mb-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 10s3-3 3-8"/>
+                        <path d="M22 10s-3-3-3-8"/>
+                        <path d="M10 2c0 4.4-3.6 8-8 8"/>
+                        <path d="M14 2c0 4.4 3.6 8 8 8"/>
+                        <path d="M2 10s2 2 2 5"/>
+                        <path d="M22 10s-2 2-2 5"/>
+                        <path d="M8 15h8"/>
+                        <path d="M2 22v-1a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/>
+                        <path d="M14 22v-1a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/>
                     </svg>
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Theatre</h3>
@@ -87,12 +84,11 @@
 
                 {{-- Music --}}
                 <div>
-                    {{-- Musical notes icon --}}
-                    <svg class="w-10 h-10 text-stage-gold mb-6" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 34 L18 14 L40 10 L40 30"/>
-                        <circle cx="14" cy="34" r="4"/>
-                        <circle cx="36" cy="30" r="4"/>
-                        <path d="M18 20 L40 16"/>
+                    {{-- Lucide "music" — two-note musical score --}}
+                    <svg class="w-10 h-10 text-theatre-black mb-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18V5l12-2v13"/>
+                        <circle cx="6" cy="18" r="3"/>
+                        <circle cx="18" cy="16" r="3"/>
                     </svg>
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Music</h3>
@@ -100,19 +96,13 @@
                 </div>
 
                 {{-- Dance --}}
+                {{-- Lucide "person-standing" — elegant figure in motion --}}
                 <div>
-                    {{-- Dancer figure icon --}}
-                    <svg class="w-10 h-10 text-stage-gold mb-6" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        {{-- Head --}}
-                        <circle cx="30" cy="8" r="4"/>
-                        {{-- Body --}}
-                        <path d="M30 12 Q28 20 24 24"/>
-                        {{-- Arms --}}
-                        <path d="M28 16 Q20 12 14 16"/>
-                        <path d="M30 18 Q36 14 40 18"/>
-                        {{-- Legs --}}
-                        <path d="M24 24 Q18 30 16 38"/>
-                        <path d="M24 24 Q30 30 34 36"/>
+                    <svg class="w-10 h-10 text-theatre-black mb-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="5" r="1"/>
+                        <path d="m9 20 3-6 3 6"/>
+                        <path d="m6 8 6 2 6-2"/>
+                        <path d="M12 10v4"/>
                     </svg>
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Dance</h3>
