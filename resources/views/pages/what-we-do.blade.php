@@ -20,6 +20,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
                 {{-- Theatre --}}
                 <div>
+                    <img src="{{ asset('images/icon-theatre.jpg') }}" alt="Theatre" class="w-16 h-16 object-contain mb-6">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Theatre</h3>
                     <p class="text-gray-500 leading-relaxed">From dramatic readings and monologues to full ensemble productions, our theatre performances are adapted to suit any space and any audience. We bring stories to life in intimate settings that create powerful connections between performers and audiences.</p>
@@ -27,6 +28,7 @@
 
                 {{-- Music --}}
                 <div>
+                    <img src="{{ asset('images/icon-music.jpg') }}" alt="Music" class="w-16 h-16 object-contain mb-6">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Music</h3>
                     <p class="text-gray-500 leading-relaxed">Solo vocalists, chamber groups, pianists, guitarists, and ensembles performing classical, jazz, folk, and popular music. Our musical performances are designed to engage, soothe, and inspire audiences of all ages and abilities.</p>
@@ -34,6 +36,7 @@
 
                 {{-- Dance --}}
                 <div>
+                    <img src="{{ asset('images/icon-dance.png') }}" alt="Dance" class="w-16 h-16 object-contain mb-6">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Dance</h3>
                     <p class="text-gray-500 leading-relaxed">Contemporary, classical, and cultural dance performances that bring movement and expression into spaces where they are rarely seen. Our dancers adapt their performances to engage audiences, sometimes inviting gentle participation.</p>
@@ -41,6 +44,7 @@
 
                 {{-- Fine Arts --}}
                 <div>
+                    <img src="{{ asset('images/icon-fine-arts.jpg') }}" alt="Fine Arts" class="w-16 h-16 object-contain mb-6">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Fine Arts</h3>
                     <p class="text-gray-500 leading-relaxed">Live painting demonstrations, collaborative art sessions, and visual art experiences that bring creativity and color into community spaces. Fine arts performances can be interactive, inviting audiences to participate in the creative process.</p>
