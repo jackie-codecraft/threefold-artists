@@ -67,5 +67,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(ArtistSeeder::class);
         $this->call(EventSeeder::class);
+        $this->call(GallerySeeder::class);
     }
 }
