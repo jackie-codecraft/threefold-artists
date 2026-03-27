@@ -30,7 +30,7 @@
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
         <div class="absolute inset-0 bg-black/30"></div>
     </div>
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="w-16 h-px bg-stage-gold mb-6"></div>
                 <div class="flex items-center gap-3 text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-6">
                     {{ $post->published_at->format('F j, Y') }}
