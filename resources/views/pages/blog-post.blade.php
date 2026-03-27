@@ -25,20 +25,49 @@
 
     <article>
         {{-- Hero --}}
-        <section class="pt-16 pb-20 border-b border-gray-200">
+        <section class="pt-16 pb-12 border-b border-gray-200">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-4">
+                <div class="flex items-center gap-3 text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-6">
                     {{ $post->published_at->format('F j, Y') }}
-                    @if($post->author) &middot; {{ $post->author }} @endif
+                    @if($post->author)
+                        <span class="text-gray-300">·</span>
+                        <span>{{ $post->author }}</span>
+                    @endif
+                    @if($post->category)
+                        <span class="text-gray-300">·</span>
+                        <span class="text-stage-gold">{{ ucfirst(str_replace('-', ' ', $post->category)) }}</span>
+                    @endif
                 </div>
-                <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-theatre-black">{{ $post->title }}</h1>
+                <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-light text-theatre-black leading-tight">{{ $post->title }}</h1>
+                @if($post->excerpt)
+                    <p class="text-lg text-gray-500 mt-6 leading-relaxed max-w-2xl">{{ $post->excerpt }}</p>
+                @endif
             </div>
         </section>
 
+        {{-- Featured Image --}}
+        @if($post->getFirstMediaUrl('featured_image') || $post->featured_image)
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+            <div class="aspect-[21/9] overflow-hidden">
+                <img src="{{ $post->getFirstMediaUrl('featured_image') ?: $post->featured_image }}"
+                     alt="{{ $post->title }}"
+                     class="w-full h-full object-cover">
+            </div>
+        </div>
+        @endif
+
         {{-- Content --}}
-        <section class="py-24 sm:py-32">
+        <section class="py-16 sm:py-24">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-theatre-black prose-a:text-stage-gold">
+                <div class="prose prose-lg prose-slate max-w-none
+                    prose-headings:font-display prose-headings:font-light prose-headings:text-theatre-black
+                    prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4
+                    prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3
+                    prose-p:text-gray-600 prose-p:leading-relaxed prose-p:mb-6
+                    prose-a:text-stage-gold prose-a:no-underline hover:prose-a:underline
+                    prose-strong:text-theatre-black prose-strong:font-semibold
+                    prose-em:text-theater-black prose-em:italic
+                    prose-blockquote:border-l-4 prose-blockquote:border-stage-gold prose-blockquote:pl-6 prose-blockquote:text-gray-500 prose-blockquote:italic">
                     {!! $post->content !!}
                 </div>
             </div>
