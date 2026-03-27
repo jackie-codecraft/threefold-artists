@@ -167,7 +167,7 @@ function calendarView(events) {
         selectedDayLabel: '',
         events: eventsList.map(e => ({
             ...e,
-            dateObj: new Date(e.date + 'T00:00:00')
+            dateObj: new Date(String(e.date).substring(0, 10) + 'T00:00:00')
         })),
         get monthLabel() {
             return this.currentDate.toLocaleString('en-US', { month: 'long', year: 'numeric' });

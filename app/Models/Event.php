@@ -22,7 +22,7 @@ class Event extends Model
     ];
 
     protected $casts = [
-        'date' => 'date',
+        'date' => 'date:Y-m-d',
         'is_public' => 'boolean',
         'latitude' => 'decimal:7',
         'longitude' => 'decimal:7',
