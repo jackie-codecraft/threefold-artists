@@ -42,7 +42,7 @@ class GallerySeeder extends Seeder
                 'type'       => 'photo',
                 'art_form'   => 'theatre',
                 'is_featured'=> true,
-                'photo_url'  => 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&q=80',
+                'photo_url'  => 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80',
                 'photo_name' => 'gallery-theatre-03.jpg',
             ],
             [
