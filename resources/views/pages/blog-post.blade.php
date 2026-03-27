@@ -28,7 +28,7 @@
         <section class="pt-16 pb-12 bg-theatre-black relative overflow-hidden">
     <div class="absolute inset-0">
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
-        <div class="absolute inset-0 bg-black/55"></div>
+        <div class="absolute inset-0 bg-black/30"></div>
     </div>
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="w-16 h-px bg-stage-gold mb-6"></div>
@@ -49,7 +49,7 @@
                 @endif
             </div>
         </section>
-        <div class="h-12 bg-gradient-to-b from-theatre-black to-white"></div>
+        
 
         {{-- Featured Image --}}
         @if($post->getFirstMediaUrl('featured_image') || $post->featured_image)
