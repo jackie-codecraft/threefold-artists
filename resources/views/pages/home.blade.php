@@ -65,17 +65,26 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
                 {{-- Theatre --}}
                 <div>
-                    {{-- Lucide "theater" — comedy/tragedy masks --}}
-                    <svg class="w-10 h-10 text-theatre-black mb-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M2 10s3-3 3-8"/>
-                        <path d="M22 10s-3-3-3-8"/>
-                        <path d="M10 2c0 4.4-3.6 8-8 8"/>
-                        <path d="M14 2c0 4.4 3.6 8 8 8"/>
-                        <path d="M2 10s2 2 2 5"/>
-                        <path d="M22 10s-2 2-2 5"/>
-                        <path d="M8 15h8"/>
-                        <path d="M2 22v-1a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/>
-                        <path d="M14 22v-1a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/>
+                    {{-- Comedy/Tragedy masks — bold filled silhouette --}}
+                    <svg class="w-14 h-14 mb-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 70" fill="#1A1A1A">
+                        {{-- Tragedy mask (left, frown, tilted back) --}}
+                        <ellipse cx="32" cy="30" rx="22" ry="26" fill="#1A1A1A"/>
+                        <ellipse cx="32" cy="30" rx="18" ry="22" fill="white"/>
+                        {{-- Eyes --}}
+                        <ellipse cx="25" cy="25" rx="4" ry="5" fill="#1A1A1A"/>
+                        <ellipse cx="39" cy="25" rx="4" ry="5" fill="#1A1A1A"/>
+                        {{-- Frown --}}
+                        <path d="M24 40 Q32 34 40 40" stroke="#1A1A1A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        {{-- Comedy mask (right, smile, in front) --}}
+                        <ellipse cx="68" cy="35" rx="22" ry="26" fill="#1A1A1A"/>
+                        <ellipse cx="68" cy="35" rx="18" ry="22" fill="white"/>
+                        {{-- Eyes --}}
+                        <ellipse cx="61" cy="30" rx="4" ry="5" fill="#1A1A1A"/>
+                        <ellipse cx="75" cy="30" rx="4" ry="5" fill="#1A1A1A"/>
+                        {{-- Smile --}}
+                        <path d="M60 44 Q68 52 76 44" stroke="#1A1A1A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        {{-- Ribbon --}}
+                        <path d="M10 12 Q20 5 32 8 Q44 5 52 15 Q40 20 32 30 Q20 18 10 12Z" fill="#1A1A1A"/>
                     </svg>
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Theatre</h3>
@@ -84,11 +93,14 @@
 
                 {{-- Music --}}
                 <div>
-                    {{-- Lucide "music" — two-note musical score --}}
-                    <svg class="w-10 h-10 text-theatre-black mb-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 18V5l12-2v13"/>
-                        <circle cx="6" cy="18" r="3"/>
-                        <circle cx="18" cy="16" r="3"/>
+                    {{-- Bold treble clef silhouette --}}
+                    <svg class="w-14 h-14 mb-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 80" fill="#1A1A1A">
+                        <path d="M30 4 C20 4 14 10 14 18 C14 26 19 32 26 35 L24 55 C22 58 19 60 16 61 C12 62 9 66 10 70 C11 74 15 76 19 76 C25 76 30 71 31 65 L34 38 C40 35 46 28 46 20 C46 11 39 4 30 4 Z M30 10 C36 10 40 14 40 20 C40 26 36 31 30 34 L28 34 L30 14 L30 10 Z M28 40 L26 60 C25 64 22 68 19 70 C17 70 15 69 15 67 C15 65 17 64 19 63 C23 62 27 58 28 54 L29 40 Z"/>
+                        {{-- Two eighth notes below --}}
+                        <rect x="8" y="52" width="6" height="18" rx="3"/>
+                        <rect x="20" y="48" width="6" height="22" rx="3"/>
+                        <rect x="8" y="52" width="18" height="4"/>
+                        <rect x="8" y="58" width="18" height="4"/>
                     </svg>
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Music</h3>
@@ -96,13 +108,22 @@
                 </div>
 
                 {{-- Dance --}}
-                {{-- Lucide "person-standing" — elegant figure in motion --}}
                 <div>
-                    <svg class="w-10 h-10 text-theatre-black mb-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="5" r="1"/>
-                        <path d="m9 20 3-6 3 6"/>
-                        <path d="m6 8 6 2 6-2"/>
-                        <path d="M12 10v4"/>
+                    {{-- Bold dancer silhouette --}}
+                    <svg class="w-14 h-14 mb-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 80" fill="#1A1A1A">
+                        {{-- Head --}}
+                        <circle cx="38" cy="8" r="7"/>
+                        {{-- Body --}}
+                        <path d="M38 15 C36 22 32 28 28 34 C25 38 22 42 20 48"/>
+                        {{-- Torso fill --}}
+                        <path d="M35 16 C33 22 30 28 27 34 C26 36 25 38 24 40 L20 38 C22 35 25 30 28 24 C30 19 32 17 35 16Z"/>
+                        {{-- Left arm raised --}}
+                        <path d="M36 20 C30 14 22 10 14 12 C12 12 10 14 12 16 C14 18 20 16 26 18 L32 22Z"/>
+                        {{-- Right arm out --}}
+                        <path d="M38 24 C44 22 50 24 54 28 C56 30 54 33 52 32 C48 30 44 28 40 28Z"/>
+                        {{-- Skirt/legs --}}
+                        <path d="M20 48 C18 54 14 62 12 70 C11 72 13 74 15 73 C17 72 19 66 22 60 L26 52Z"/>
+                        <path d="M22 48 C24 54 28 62 32 68 C34 70 36 69 36 67 C36 65 32 60 30 54 L24 46Z"/>
                     </svg>
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Dance</h3>
