@@ -62,8 +62,7 @@
             <div class="flex items-center justify-between h-20">
                 {{-- Logo --}}
                 <a href="{{ route('home') }}" class="shrink-0">
-                    <span class="font-display text-xl font-semibold text-theatre-black">Threefold Artists</span>
-                    <span class="block text-[10px] text-gray-400 tracking-[0.2em] uppercase">Keeping Theatre Alive</span>
+                    <img src="{{ asset('images/logo.png') }}" alt="Threefold Artists Inc." class="h-12 w-auto">
                 </a>
 
                 {{-- Desktop Navigation --}}
@@ -144,8 +143,7 @@
                 {{-- Brand --}}
                 <div class="lg:col-span-1">
                     <div class="mb-6">
-                        <span class="font-display text-2xl font-light text-white">Threefold Artists</span>
-                        <span class="block text-[10px] text-gray-500 tracking-[0.2em] uppercase mt-1">Keeping Theatre Alive</span>
+                        <img src="{{ asset('images/logo.png') }}" alt="Threefold Artists Inc." class="h-14 w-auto brightness-0 invert">
                     </div>
                     <p class="text-sm text-gray-400 leading-relaxed mb-6">
                         When people cannot come to the arts, we will come to them.
