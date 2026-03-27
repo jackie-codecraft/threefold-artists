@@ -64,5 +64,7 @@ class DatabaseSeeder extends Seeder
                 $testimonial
             );
         }
+
+        $this->call(ArtistSeeder::class);
     }
 }
