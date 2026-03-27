@@ -12,7 +12,6 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -33,11 +32,19 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('2.5rem')
             ->favicon(asset('images/logo.png'))
+            ->darkMode(false)
+            ->sidebarCollapsibleOnDesktop()
+            ->sidebarFullyCollapsibleOnDesktop()
             ->colors([
-                'primary' => Color::hex('#8B1A2B'),
-                'warning' => Color::hex('#C9A84C'),
-                'danger' => Color::Red,
+                'primary' => Color::hex('#C9A84C'),   // Stage Gold — primary actions
+                'gray'    => Color::hex('#1A1A1A'),   // Theatre Black — sidebar/base
+                'info'    => Color::Blue,
+                'success' => Color::Emerald,
+                'warning' => Color::Amber,
+                'danger'  => Color::Rose,
             ])
+            ->font('Source Sans 3', provider: \Filament\FontProviders\GoogleFontProvider::class)
+            ->theme(asset('css/filament/admin/theme.css'))
             ->navigationGroups([
                 'Content',
                 'People',
