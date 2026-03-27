@@ -97,14 +97,14 @@
             </div>
 
             {{-- Calendar View --}}
-            <div x-data="calendarView({{ $allEvents->toJson() }})" x-show="view === 'calendar'" x-cloak>
+            <div x-data="calendarView({{ $allEvents->toJson() }})" x-show="view === 'calendar'" x-cloak @keydown.escape.window="closeModal()">
                 {{-- Month Nav --}}
                 <div class="flex items-center justify-between mb-8">
-                    <button @click="prevMonth()" class="text-gray-400 hover:text-theatre-black transition-colors">
+                    <button @click="prevMonth()" class="text-gray-400 hover:text-theatre-black transition-colors p-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
                     <h3 class="font-display text-2xl font-light text-theatre-black" x-text="monthLabel"></h3>
-                    <button @click="nextMonth()" class="text-gray-400 hover:text-theatre-black transition-colors">
+                    <button @click="nextMonth()" class="text-gray-400 hover:text-theatre-black transition-colors p-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
@@ -119,37 +119,97 @@
                 {{-- Calendar Grid --}}
                 <div class="grid grid-cols-7 gap-px">
                     <template x-for="cell in calendarCells" :key="cell.key">
-                        <div @click="cell.events.length ? selectDay(cell) : null"
+                        <div @click="cell.events.length ? openModal(cell) : null"
                              :class="{
                                  'bg-linen': cell.isToday,
                                  'cursor-pointer hover:bg-gray-50': cell.events.length > 0,
                              }"
-                             class="min-h-[80px] p-2 border border-gray-100">
-                            <span class="text-sm" :class="cell.isCurrentMonth ? 'text-theatre-black' : 'text-gray-300'" x-text="cell.day"></span>
+                             class="min-h-[70px] sm:min-h-[80px] p-1 sm:p-2 border border-gray-100">
+                            <span class="text-xs sm:text-sm" :class="cell.isCurrentMonth ? 'text-theatre-black' : 'text-gray-300'" x-text="cell.day"></span>
                             <template x-if="cell.events.length > 0">
-                                <div class="mt-1">
-                                    <template x-for="ev in cell.events.slice(0, 2)">
-                                        <div class="text-xs text-stage-gold-dark truncate" x-text="ev.title"></div>
-                                    </template>
-                                    <template x-if="cell.events.length > 2">
-                                        <div class="text-xs text-gray-400" x-text="'+' + (cell.events.length - 2) + ' more'"></div>
-                                    </template>
+                                <div class="mt-0.5 sm:mt-1">
+                                    {{-- On mobile: show dot indicator. On desktop: show title --}}
+                                    <div class="flex flex-wrap gap-0.5 sm:hidden">
+                                        <template x-for="ev in cell.events">
+                                            <div class="w-1.5 h-1.5 bg-stage-gold rounded-full"></div>
+                                        </template>
+                                    </div>
+                                    <div class="hidden sm:block">
+                                        <template x-for="ev in cell.events.slice(0, 2)">
+                                            <div class="text-xs text-stage-gold-dark truncate leading-tight" x-text="ev.title"></div>
+                                        </template>
+                                        <template x-if="cell.events.length > 2">
+                                            <div class="text-xs text-gray-400" x-text="'+' + (cell.events.length - 2) + ' more'"></div>
+                                        </template>
+                                    </div>
                                 </div>
                             </template>
                         </div>
                     </template>
                 </div>
 
-                {{-- Selected Day Detail --}}
-                <div x-show="selectedDay" x-cloak class="mt-8 pt-8 border-t border-gray-200">
-                    <h4 class="font-display text-xl font-light text-theatre-black mb-6" x-text="selectedDayLabel"></h4>
-                    <template x-for="ev in selectedDayEvents">
-                        <div class="mb-6 pb-6 border-b border-gray-100 last:border-0">
-                            <h5 class="font-display text-lg font-normal text-theatre-black" x-text="ev.title"></h5>
-                            <div class="text-sm text-gray-400 mt-1" x-text="ev.venue_name"></div>
-                            <div x-show="ev.time" class="text-sm text-gray-400" x-text="ev.time"></div>
+                {{-- Event Modal --}}
+                <div x-show="modalOpen" x-cloak
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6"
+                     @click.self="closeModal()">
+
+                    {{-- Backdrop --}}
+                    <div class="absolute inset-0 bg-theatre-black/70"></div>
+
+                    {{-- Modal panel — bottom sheet on mobile, centered on desktop --}}
+                    <div class="relative w-full sm:max-w-lg bg-white z-10 sm:mx-auto"
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="translate-y-full sm:translate-y-4 sm:opacity-0"
+                         x-transition:enter-end="translate-y-0 sm:opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="translate-y-0 sm:opacity-100"
+                         x-transition:leave-end="translate-y-full sm:translate-y-4 sm:opacity-0">
+
+                        {{-- Modal header --}}
+                        <div class="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">
+                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400" x-text="selectedDayLabel"></p>
+                            <button @click="closeModal()" class="text-gray-400 hover:text-theatre-black transition-colors" aria-label="Close">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
                         </div>
-                    </template>
+
+                        {{-- Event list --}}
+                        <div class="px-6 py-6 max-h-[70vh] overflow-y-auto">
+                            <template x-for="(ev, index) in selectedDayEvents" :key="index">
+                                <div :class="index > 0 ? 'mt-6 pt-6 border-t border-gray-100' : ''">
+                                    <h4 class="font-display text-xl font-normal text-theatre-black mb-3" x-text="ev.title"></h4>
+                                    <div class="space-y-1.5 text-sm text-gray-500">
+                                        <div x-show="ev.time" class="flex items-center gap-2">
+                                            <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                            <span x-text="formatTime(ev.time)"></span>
+                                        </div>
+                                        <div class="flex items-start gap-2">
+                                            <svg class="w-4 h-4 text-gray-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                            <span>
+                                                <span class="block font-medium text-theatre-black" x-text="ev.venue_name"></span>
+                                                <span x-show="ev.venue_address" class="text-gray-400 text-xs" x-text="ev.venue_address"></span>
+                                            </span>
+                                        </div>
+                                        <div x-show="ev.art_form" class="flex items-center gap-2 pt-1">
+                                            <span class="text-xs font-semibold tracking-[0.15em] uppercase text-stage-gold" x-text="ev.art_form ? ev.art_form.replace('_', ' ') : ''"></span>
+                                        </div>
+                                    </div>
+                                    <p x-show="ev.description" class="text-gray-500 text-sm leading-relaxed mt-3" x-text="ev.description"></p>
+                                </div>
+                            </template>
+                        </div>
+
+                        {{-- Mobile drag handle hint --}}
+                        <div class="sm:hidden h-5 flex items-center justify-center">
+                            <div class="w-10 h-1 bg-gray-200 rounded-full"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -162,6 +222,7 @@ function calendarView(events) {
     const eventsList = Array.isArray(events) ? events : (events.data || []);
     return {
         currentDate: new Date(),
+        modalOpen: false,
         selectedDay: null,
         selectedDayEvents: [],
         selectedDayLabel: '',
@@ -212,11 +273,25 @@ function calendarView(events) {
             this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
             this.selectedDay = null;
         },
-        selectDay(cell) {
+        openModal(cell) {
             this.selectedDay = cell;
             this.selectedDayEvents = cell.events;
             const d = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), cell.day);
             this.selectedDayLabel = d.toLocaleString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+            this.modalOpen = true;
+            document.body.style.overflow = 'hidden';
+        },
+        closeModal() {
+            this.modalOpen = false;
+            document.body.style.overflow = '';
+        },
+        formatTime(time) {
+            if (!time) return '';
+            const [h, m] = time.split(':');
+            const hour = parseInt(h);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const hour12 = hour % 12 || 12;
+            return `${hour12}:${m} ${ampm}`;
         }
     };
 }
