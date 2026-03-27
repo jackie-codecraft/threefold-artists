@@ -1,14 +1,34 @@
 <x-layouts.app title="Home" metaDescription="Threefold Artists brings live performing arts to communities that cannot easily access them. Theatre, music, dance — keeping theatre alive.">
 
-    {{-- Hero Section — Full-width, minimal, dramatic --}}
-    <section class="bg-theatre-black text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 sm:py-40 lg:py-48">
-            <div class="max-w-3xl">
-                <h1 class="font-display text-5xl sm:text-6xl lg:text-8xl font-light leading-[0.95] mb-8">
-                    Keeping<br>Theatre<br><span class="text-stage-gold font-normal italic">Alive</span>
+    {{-- Hero Section — Full-viewport, background image with overlay --}}
+    <section class="relative min-h-screen flex items-end bg-theatre-black overflow-hidden">
+        {{-- Background Image --}}
+        <div class="absolute inset-0">
+            <img
+                src="https://images.unsplash.com/photo-1507924538820-ede94a04019d?w=1920&q=85"
+                alt=""
+                role="presentation"
+                class="w-full h-full object-cover object-center opacity-40"
+            >
+            {{-- Gradient overlay — stronger at bottom for text legibility, lighter at top --}}
+            <div class="absolute inset-0 bg-gradient-to-t from-theatre-black via-theatre-black/70 to-theatre-black/30"></div>
+            {{-- Subtle left-side darkening for text area --}}
+            <div class="absolute inset-0 bg-gradient-to-r from-theatre-black/80 via-theatre-black/20 to-transparent"></div>
+        </div>
+
+        {{-- Content --}}
+        <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 sm:pb-32 pt-32">
+            <div class="max-w-2xl">
+                {{-- Gold accent line --}}
+                <div class="w-16 h-px bg-stage-gold mb-10"></div>
+
+                <h1 class="font-display text-6xl sm:text-7xl lg:text-8xl font-light leading-[0.9] text-white mb-8">
+                    Keeping<br>
+                    Theatre<br>
+                    <em class="text-stage-gold not-italic">Alive</em>
                 </h1>
 
-                <p class="text-lg sm:text-xl text-gray-300 max-w-xl mb-4 leading-relaxed">
+                <p class="text-lg sm:text-xl text-gray-300 max-w-lg mb-4 leading-relaxed tracking-wide">
                     When people cannot come to the arts, we will come to them.
                 </p>
 
@@ -25,6 +45,12 @@
                     </a>
                 </div>
             </div>
+        </div>
+
+        {{-- Scroll indicator --}}
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/40">
+            <span class="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
+            <div class="w-px h-8 bg-white/20"></div>
         </div>
     </section>
 
