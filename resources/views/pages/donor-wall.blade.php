@@ -1,6 +1,10 @@
 <x-layouts.app title="Donor Wall" metaDescription="Thank you to everyone who supports Threefold Artists.">
 
-    <section class="pt-16 pb-20 bg-theatre-black">
+    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    <div class="absolute inset-0">
+        <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center opacity-20">
+        <div class="absolute inset-0 bg-theatre-black/60"></div>
+    </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="w-16 h-px bg-stage-gold mb-6"></div>
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Our Supporters</p>

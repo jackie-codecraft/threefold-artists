@@ -25,7 +25,11 @@
 
     <article>
         {{-- Hero --}}
-        <section class="pt-16 pb-12 bg-theatre-black">
+        <section class="pt-16 pb-12 bg-theatre-black relative overflow-hidden">
+    <div class="absolute inset-0">
+        <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center opacity-20">
+        <div class="absolute inset-0 bg-theatre-black/60"></div>
+    </div>
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="w-16 h-px bg-stage-gold mb-6"></div>
                 <div class="flex items-center gap-3 text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-6">
