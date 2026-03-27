@@ -141,9 +141,13 @@ class GallerySeeder extends Seeder
                 $data
             );
 
-            // Download image if not cached
-            $photoPath = $tempDir . '/' . $photoName;
-            if (! File::exists($photoPath)) {
+            // Use bundled image if available, otherwise download from URL
+            $bundledPath = database_path('seeders/images/gallery/' . $photoName);
+            $photoPath   = $tempDir . '/' . $photoName;
+
+            if (File::exists($bundledPath)) {
+                File::copy($bundledPath, $photoPath);
+            } elseif (! File::exists($photoPath)) {
                 $this->command->line("  Downloading {$photoName}...");
                 $response = Http::withOptions(['allow_redirects' => true])->get($photoUrl);
                 if ($response->successful()) {
