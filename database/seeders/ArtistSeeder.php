@@ -63,6 +63,15 @@ class ArtistSeeder extends Seeder
                 'photo_url'   => 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',
                 'photo_name'  => 'amara-osei.jpg',
             ],
+            [
+                'name'        => 'Gabriel Santos',
+                'slug'        => 'gabriel-santos',
+                'discipline'  => 'music',
+                'bio'         => 'Gabriel is a classically trained baritone and gospel vocalist from East Los Angeles. He studied voice at UCLA\'s Herb Alpert School of Music and has performed with choral ensembles and opera companies throughout Southern California. His warm, resonant voice moves effortlessly between operatic arias, jazz standards, and traditional gospel, making him one of Threefold Artists\' most versatile and beloved performers. Gabriel has a particular gift for connecting with audiences through story — weaving the background of each song into the performance itself, creating an experience that is both concert and conversation.',
+                'is_featured' => true,
+                'photo_url'   => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',
+                'photo_name'  => 'gabriel-santos.jpg',
+            ],
         ];
 
         $tempDir = storage_path('app/public/artists');
