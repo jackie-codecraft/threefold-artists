@@ -63,19 +63,57 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+                {{-- Theatre --}}
                 <div>
+                    {{-- Comedy/Tragedy masks icon --}}
+                    <svg class="w-10 h-10 text-stage-gold mb-6" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        {{-- Tragedy mask (left) --}}
+                        <ellipse cx="15" cy="20" rx="9" ry="11"/>
+                        <path d="M10 23 Q11 27 15 27 Q19 27 20 23"/>
+                        <circle cx="12" cy="18" r="1.2" fill="currentColor" stroke="none"/>
+                        <circle cx="18" cy="18" r="1.2" fill="currentColor" stroke="none"/>
+                        <path d="M11 15 Q15 12 19 15"/>
+                        {{-- Comedy mask (right, overlapping) --}}
+                        <ellipse cx="33" cy="22" rx="9" ry="11"/>
+                        <path d="M28 26 Q29 30 33 30 Q37 30 38 26"/>
+                        <circle cx="30" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+                        <circle cx="36" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+                        <path d="M29 17 Q33 14 37 17"/>
+                    </svg>
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Theatre</h3>
                     <p class="text-gray-500 leading-relaxed">From Shakespeare to contemporary plays, we bring the magic of live theatre to care homes, hospitals, shelters, and community centers.</p>
                 </div>
 
+                {{-- Music --}}
                 <div>
+                    {{-- Musical notes icon --}}
+                    <svg class="w-10 h-10 text-stage-gold mb-6" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 34 L18 14 L40 10 L40 30"/>
+                        <circle cx="14" cy="34" r="4"/>
+                        <circle cx="36" cy="30" r="4"/>
+                        <path d="M18 20 L40 16"/>
+                    </svg>
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Music</h3>
                     <p class="text-gray-500 leading-relaxed">Classical ensembles, solo performers, and musical groups that bring the healing power of live music to those who need it most.</p>
                 </div>
 
+                {{-- Dance --}}
                 <div>
+                    {{-- Dancer figure icon --}}
+                    <svg class="w-10 h-10 text-stage-gold mb-6" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        {{-- Head --}}
+                        <circle cx="30" cy="8" r="4"/>
+                        {{-- Body --}}
+                        <path d="M30 12 Q28 20 24 24"/>
+                        {{-- Arms --}}
+                        <path d="M28 16 Q20 12 14 16"/>
+                        <path d="M30 18 Q36 14 40 18"/>
+                        {{-- Legs --}}
+                        <path d="M24 24 Q18 30 16 38"/>
+                        <path d="M24 24 Q30 30 34 36"/>
+                    </svg>
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Dance</h3>
                     <p class="text-gray-500 leading-relaxed">Movement and dance performances that inspire, uplift, and connect audiences of all ages and abilities through the language of the body.</p>
