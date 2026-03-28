@@ -23,6 +23,16 @@
         </div>
         @endif
 
-        <p style="margin-top: 20px; color: #666; font-size: 14px;">Manage this application in the <a href="{{ url('/admin') }}" style="color: #8B1A2B;">admin panel</a>.</p>
+        <!-- Reply button -->
+        <div style="margin-top: 24px; text-align: center;">
+            <a href="{{ $replyUrl }}"
+               style="display: inline-block; background-color: #1A1A1A; color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; padding: 14px 32px; letter-spacing: 1px; text-transform: uppercase;">
+                Reply to {{ $application->name }}
+            </a>
+        </div>
+
+        <p style="margin-top: 16px; color: #999; font-size: 11px; text-align: center; word-break: break-all;">{{ $replyUrl }}</p>
+
+        <p style="margin-top: 20px; color: #666; font-size: 14px;">Or manage this application in the <a href="{{ url('/admin') }}" style="color: #8B1A2B;">admin panel</a>.</p>
     </div>
 </div>

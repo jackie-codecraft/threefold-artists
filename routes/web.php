@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ArtistApplicationReplyController;
 use App\Http\Controllers\ContactMessageReplyController;
+use App\Http\Controllers\PerformanceRequestReplyController;
 use App\Http\Controllers\DonateController;
 use App\Http\Controllers\GetInvolvedController;
 use App\Http\Controllers\NewsletterController;
@@ -106,6 +108,22 @@ Route::get('/admin/contact-reply/{contactMessage}', [ContactMessageReplyControll
     ->middleware('signed');
 Route::post('/admin/contact-reply/{contactMessage}', [ContactMessageReplyController::class, 'send'])
     ->name('contact-message.reply.send')
+    ->middleware('signed');
+
+// Artist Application Reply (signed URL, no auth required)
+Route::get('/admin/application-reply/{artistApplication}', [ArtistApplicationReplyController::class, 'show'])
+    ->name('artist-application.reply')
+    ->middleware('signed');
+Route::post('/admin/application-reply/{artistApplication}', [ArtistApplicationReplyController::class, 'send'])
+    ->name('artist-application.reply.send')
+    ->middleware('signed');
+
+// Performance Request Reply (signed URL, no auth required)
+Route::get('/admin/performance-reply/{performanceRequest}', [PerformanceRequestReplyController::class, 'show'])
+    ->name('performance-request.reply')
+    ->middleware('signed');
+Route::post('/admin/performance-reply/{performanceRequest}', [PerformanceRequestReplyController::class, 'send'])
+    ->name('performance-request.reply.send')
     ->middleware('signed');
 
 // Donate

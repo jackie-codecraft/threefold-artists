@@ -22,9 +22,18 @@ class PerformanceRequest extends Model
         'accessibility_requirements',
         'notes',
         'status',
+        'reply',
+        'replied_at',
+        'internal_notes',
     ];
 
     protected $casts = [
         'audience_size' => 'integer',
+        'replied_at' => 'datetime',
     ];
+
+    public function isReplied(): bool
+    {
+        return $this->status === 'replied';
+    }
 }

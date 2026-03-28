@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re: Your artist application to Threefold Artists</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #ffffff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    <!-- Header -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #1A1A1A;">
+        <tr>
+            <td align="center" style="padding: 24px 20px;">
+                <table width="600" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td align="center">
+                            <img src="{{ asset('images/logomark.png') }}" alt="Threefold Artists" width="50" style="display: block; max-width: 50px; height: auto; margin-bottom: 10px;">
+                            <span style="color: #C9A84C; font-size: 16px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;">Threefold Artists</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Gold accent line -->
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="height: 3px; background-color: #C9A84C;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Body -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #ffffff;">
+        <tr>
+            <td align="center" style="padding: 40px 20px;">
+                <table width="600" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="color: #1A1A1A; font-size: 16px; line-height: 1.7;">
+                            <p style="margin: 0 0 16px;">Dear {{ $application->name }},</p>
+                            <p style="margin: 0 0 24px;">Thank you for applying to join Threefold Artists as a volunteer {{ strtolower(str_replace('_', ' ', $application->discipline)) }} artist. Here is our response:</p>
+
+                            <!-- Reply content -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 24px;">
+                                <tr>
+                                    <td style="border-left: 4px solid #C9A84C; padding: 16px 20px; background-color: #F9F7F2; color: #1A1A1A; font-size: 16px; line-height: 1.7;">
+                                        {!! nl2br(e($replyMessage)) !!}
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Divider -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 24px;">
+                                <tr>
+                                    <td style="height: 1px; background-color: #E5E5E5;"></td>
+                                </tr>
+                            </table>
+
+                            <!-- Original application reference -->
+                            <p style="margin: 0 0 8px; color: #999999; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Your Application</p>
+                            <p style="margin: 0 0 8px; color: #666666; font-size: 14px;"><strong>Name:</strong> {{ $application->name }}</p>
+                            <p style="margin: 0 0 8px; color: #666666; font-size: 14px;"><strong>Discipline:</strong> {{ ucfirst(str_replace('_', ' ', $application->discipline)) }}</p>
+                            <p style="margin: 0; color: #666666; font-size: 14px;"><strong>Submitted:</strong> {{ $application->created_at->format('M j, Y') }}</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Footer -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #1A1A1A;">
+        <tr>
+            <td align="center" style="padding: 24px 20px;">
+                <table width="600" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td align="center" style="color: #888888; font-size: 12px; line-height: 1.6;">
+                            Threefold Artists Inc. &middot; Greater Los Angeles, California<br>
+                            <a href="{{ url('/') }}" style="color: #C9A84C; text-decoration: underline;">threefoldartists.org</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

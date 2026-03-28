@@ -17,5 +17,17 @@ class ArtistApplication extends Model
         'bio',
         'availability',
         'status',
+        'reply',
+        'replied_at',
+        'internal_notes',
     ];
+
+    protected $casts = [
+        'replied_at' => 'datetime',
+    ];
+
+    public function isReplied(): bool
+    {
+        return $this->status === 'replied';
+    }
 }
