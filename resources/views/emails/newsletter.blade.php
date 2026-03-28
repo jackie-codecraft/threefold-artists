@@ -13,9 +13,10 @@
                 <table width="600" cellpadding="0" cellspacing="0">
                     <tr>
                         <td align="center">
-                            <span style="color: #C9A84C; font-size: 20px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;">Threefold Artists</span>
+                            <img src="{{ asset('images/logomark.png') }}" alt="Threefold Artists" width="60" style="display: block; max-width: 60px; height: auto; margin-bottom: 12px;">
+                            <span style="color: #C9A84C; font-size: 18px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;">Threefold Artists</span>
                             <br>
-                            <span style="color: #888888; font-size: 10px; letter-spacing: 3px; text-transform: uppercase;">Keeping Theatre Alive</span>
+                            <span style="color: #888888; font-size: 9px; letter-spacing: 4px; text-transform: uppercase;">Keeping Theatre Alive</span>
                         </td>
                     </tr>
                 </table>
