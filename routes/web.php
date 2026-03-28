@@ -6,7 +6,9 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DonateController;
 use App\Http\Controllers\GetInvolvedController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\NewsletterPreviewController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\UnsubscribeController;
 use App\Http\Controllers\PerformanceRequestController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Sitemap\Sitemap;
@@ -84,6 +86,15 @@ Route::get('/donor-wall', [PageController::class, 'donorWall'])->name('donor-wal
 
 // Newsletter
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.subscribe');
+
+// Unsubscribe
+Route::get('/unsubscribe', [UnsubscribeController::class, 'confirm'])->name('unsubscribe.confirm');
+Route::post('/unsubscribe', [UnsubscribeController::class, 'process'])->name('unsubscribe.process');
+
+// Newsletter Preview (admin only)
+Route::get('/admin/newsletters/{newsletter}/preview', [NewsletterPreviewController::class, 'show'])
+    ->name('newsletters.preview')
+    ->middleware('auth');
 
 // Press Kit
 Route::get('/press-kit', [PageController::class, 'pressKit'])->name('press-kit');
