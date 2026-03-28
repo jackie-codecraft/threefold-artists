@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactMessageReplyController;
 use App\Http\Controllers\DonateController;
 use App\Http\Controllers\GetInvolvedController;
 use App\Http\Controllers\NewsletterController;
@@ -98,6 +99,14 @@ Route::get('/admin/newsletters/{newsletter}/preview', [NewsletterPreviewControll
 
 // Press Kit
 Route::get('/press-kit', [PageController::class, 'pressKit'])->name('press-kit');
+
+// Contact Message Reply (signed URL, no auth required)
+Route::get('/admin/contact-reply/{contactMessage}', [ContactMessageReplyController::class, 'show'])
+    ->name('contact-message.reply')
+    ->middleware('signed');
+Route::post('/admin/contact-reply/{contactMessage}', [ContactMessageReplyController::class, 'send'])
+    ->name('contact-message.reply.send')
+    ->middleware('signed');
 
 // Donate
 Route::get('/donate', [DonateController::class, 'show'])->name('donate');
