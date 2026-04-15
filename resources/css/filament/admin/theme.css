@@ -6,9 +6,39 @@
 @tailwind variants;
 @import '../../../../vendor/filament/filament/resources/css/base.css';
 
-@config 'tailwind.config.js';
 
 :root, .light, .dark {
     --font-family: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
     --font-family-heading: 'Cormorant Garamond', Georgia, serif;
+    --threefold-sidebar-tint: 124 113 106;
+    --threefold-sidebar-tint-strong: 92 79 72;
+}
+
+.fi-sidebar {
+    background-color: color-mix(in srgb, rgb(var(--threefold-sidebar-tint)) 7%, white);
+    border-inline-end: 1px solid color-mix(in srgb, rgb(var(--threefold-sidebar-tint-strong)) 10%, rgb(15 23 42 / 10%));
+}
+
+.fi-sidebar-header {
+    background-color: transparent;
+    border-bottom: 1px solid color-mix(in srgb, rgb(var(--threefold-sidebar-tint-strong)) 8%, rgb(15 23 42 / 8%));
+    box-shadow: none;
+}
+
+.fi-sidebar .fi-sidebar-item-button {
+    border: 1px solid transparent;
+}
+
+.fi-sidebar .fi-sidebar-item-button:hover,
+.fi-sidebar .fi-sidebar-item-button:focus-visible {
+    background-color: color-mix(in srgb, rgb(var(--threefold-sidebar-tint)) 11%, white);
+}
+
+.fi-sidebar .fi-sidebar-item.fi-active > .fi-sidebar-item-button {
+    background-color: color-mix(in srgb, rgb(var(--threefold-sidebar-tint)) 18%, white);
+    border-color: color-mix(in srgb, rgb(var(--threefold-sidebar-tint-strong)) 14%, transparent);
+}
+
+.fi-sidebar .fi-sidebar-item.fi-active .fi-sidebar-item-label {
+    font-weight: 600;
 }
