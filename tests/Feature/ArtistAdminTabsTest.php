@@ -46,7 +46,9 @@ class ArtistAdminTabsTest extends TestCase
         $this->actingAs($user);
 
         Livewire::test(ListArtists::class)
-            ->assertSet('activeTab', 'active')
+            ->assertSet('activeTab', 'all')
+            ->assertCanSeeTableRecords([$activeArtist, $featuredArtist, $inactiveArtist])
+            ->set('activeTab', 'active')
             ->assertCanSeeTableRecords([$activeArtist, $featuredArtist])
             ->assertCanNotSeeTableRecords([$inactiveArtist])
             ->set('activeTab', 'featured')

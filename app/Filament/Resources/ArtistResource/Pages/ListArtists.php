@@ -38,7 +38,7 @@ class ListArtists extends ListRecords
 
     public function getDefaultActiveTab(): string | int | null
     {
-        return 'active';
+        return 'all';
     }
 
     protected function getHeaderActions(): array
