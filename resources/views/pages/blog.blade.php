@@ -37,9 +37,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
                     @foreach($posts as $post)
                     <article class="group">
-                        @if($post->featured_image)
+                        @if($post->featuredImageUrl())
                         <div class="aspect-[16/9] overflow-hidden mb-6">
-                            <img src="{{ $post->featured_image }}" alt="{{ $post->title }}"
+                            <img src="{{ $post->featuredImageUrl() }}" alt="{{ $post->title }}"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         </div>
                         @endif

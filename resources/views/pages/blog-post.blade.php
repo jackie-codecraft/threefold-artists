@@ -52,10 +52,10 @@
         
 
         {{-- Featured Image --}}
-        @if($post->getFirstMediaUrl('featured_image') || $post->featured_image)
+        @if($post->featuredImageUrl())
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
             <div class="aspect-[21/9] overflow-hidden">
-                <img src="{{ $post->getFirstMediaUrl('featured_image') ?: $post->featured_image }}"
+                <img src="{{ $post->featuredImageUrl() }}"
                      alt="{{ $post->title }}"
                      class="w-full h-full object-cover">
             </div>
@@ -89,9 +89,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                     @foreach($relatedPosts as $related)
                     <a href="{{ route('blog.post', $related->slug) }}" class="group">
-                        @if($related->getFirstMediaUrl('featured_image'))
+                        @if($related->featuredImageUrl())
                         <div class="aspect-[16/9] overflow-hidden mb-4">
-                            <img src="{{ $related->getFirstMediaUrl('featured_image') }}" alt="{{ $related->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="{{ $related->featuredImageUrl() }}" alt="{{ $related->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         </div>
                         @endif
                         <p class="text-sm text-gray-400 mb-2">{{ $related->published_at->format('F j, Y') }}</p>
