@@ -28,12 +28,9 @@ class ArtistApplicationReplyController extends Controller
             'reply_message' => ['required', 'string', 'max:5000'],
         ]);
 
-        Mail::to($artistApplication->email)->send(
-            new ArtistApplicationReply($artistApplication, $validated['reply_message'])
-        );
+        Mail::to($artistApplication->email)->send(new ArtistApplicationReply($artistApplication, $validated['reply_message']));
 
         $artistApplication->update([
-            'status' => 'replied',
             'reply' => $validated['reply_message'],
             'replied_at' => now(),
         ]);

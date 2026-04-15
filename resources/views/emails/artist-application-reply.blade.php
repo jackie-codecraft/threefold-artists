@@ -43,7 +43,7 @@
                     <tr>
                         <td style="color: #1A1A1A; font-size: 16px; line-height: 1.7;">
                             <p style="margin: 0 0 16px;">Dear {{ $application->name }},</p>
-                            <p style="margin: 0 0 24px;">Thank you for applying to join Threefold Artists as a volunteer {{ strtolower(str_replace('_', ' ', $application->discipline)) }} artist. Here is our response:</p>
+                            <p style="margin: 0 0 24px;">Thank you for applying to join Threefold Artists as a volunteer {{ strtolower($application->disciplineLabel()) }} artist. Here is our response:</p>
 
                             <!-- Reply content -->
                             <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 24px;">
@@ -64,7 +64,7 @@
                             <!-- Original application reference -->
                             <p style="margin: 0 0 8px; color: #999999; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Your Application</p>
                             <p style="margin: 0 0 8px; color: #666666; font-size: 14px;"><strong>Name:</strong> {{ $application->name }}</p>
-                            <p style="margin: 0 0 8px; color: #666666; font-size: 14px;"><strong>Discipline:</strong> {{ ucfirst(str_replace('_', ' ', $application->discipline)) }}</p>
+                            <p style="margin: 0 0 8px; color: #666666; font-size: 14px;"><strong>Discipline:</strong> {{ $application->disciplineLabel() }}</p>
                             <p style="margin: 0; color: #666666; font-size: 14px;"><strong>Submitted:</strong> {{ $application->created_at->format('M j, Y') }}</p>
                         </td>
                     </tr>

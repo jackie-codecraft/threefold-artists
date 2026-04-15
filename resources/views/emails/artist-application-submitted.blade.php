@@ -8,7 +8,7 @@
         <table style="width: 100%; border-collapse: collapse;">
             <tr><td style="padding: 8px 0; color: #666; width: 40%;">Email:</td><td style="padding: 8px 0;"><a href="mailto:{{ $application->email }}">{{ $application->email }}</a></td></tr>
             @if($application->phone)<tr><td style="padding: 8px 0; color: #666;">Phone:</td><td style="padding: 8px 0;">{{ $application->phone }}</td></tr>@endif
-            <tr><td style="padding: 8px 0; color: #666;">Discipline:</td><td style="padding: 8px 0;">{{ ucfirst(str_replace('_', ' ', $application->discipline)) }}</td></tr>
+            <tr><td style="padding: 8px 0; color: #666;">Discipline:</td><td style="padding: 8px 0;">{{ $application->disciplineLabel() }}</td></tr>
         </table>
 
         @if($application->experience)

@@ -73,7 +73,7 @@ class PageController extends Controller
 
         $relatedPosts = BlogPost::published()
             ->where('id', '!=', $post->id)
-            ->when($post->category, fn($q) => $q->where('category', $post->category))
+            ->when($post->category, fn ($q) => $q->where('category', $post->category))
             ->latest('published_at')
             ->take(3)
             ->get();
@@ -83,12 +83,14 @@ class PageController extends Controller
 
     public function artistShow(Artist $artist)
     {
+        $artist->load('disciplines');
+
         return view('pages.artist-show', compact('artist'));
     }
 
     public function artists(): View
     {
-        $artists = Artist::orderBy('name')->get();
+        $artists = Artist::query()->with('disciplines')->active()->orderBy('name')->get();
 
         return view('pages.artists', compact('artists'));
     }

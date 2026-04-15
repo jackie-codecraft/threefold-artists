@@ -44,8 +44,8 @@ Route::get('/sitemap.xml', function () {
         );
     });
 
-    // Add artists with slugs
-    \App\Models\Artist::all()->each(function (\App\Models\Artist $artist) use ($sitemap): void {
+    // Add active artists with slugs
+    \App\Models\Artist::active()->each(function (\App\Models\Artist $artist) use ($sitemap): void {
         if ($artist->slug) {
             $sitemap->add(
                 Url::create("/artists/{$artist->slug}")

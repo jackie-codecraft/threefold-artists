@@ -83,10 +83,9 @@
                             @error('discipline') aria-describedby="discipline-error" @enderror
                             class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black focus:border-theatre-black focus:ring-0">
                             <option value="">Select...</option>
-                            <option value="theatre" {{ old('discipline') === 'theatre' ? 'selected' : '' }}>Theatre</option>
-                            <option value="music" {{ old('discipline') === 'music' ? 'selected' : '' }}>Music</option>
-                            <option value="dance" {{ old('discipline') === 'dance' ? 'selected' : '' }}>Dance</option>
-                            <option value="fine_arts" {{ old('discipline') === 'fine_arts' ? 'selected' : '' }}>Fine Arts</option>
+                            @foreach(\App\Support\DisciplineOptions::labels() as $value => $label)
+                            <option value="{{ $value }}" {{ old('discipline') === $value ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
                         </select>
                         @error('discipline') <p id="discipline-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>

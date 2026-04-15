@@ -11,7 +11,7 @@
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 All Artists
             </a>
-            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">{{ ucfirst(str_replace('_', ' ', $artist->discipline)) }}</p>
+            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">{{ $artist->discipline_names->join(' • ') }}</p>
             <h1 class="font-display text-5xl sm:text-6xl font-light text-white">{{ $artist->name }}</h1>
         </div>
     </section>
@@ -19,7 +19,6 @@
     <section class="py-24 sm:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
-                {{-- Photo --}}
                 <div>
                     @if($artist->getFirstMediaUrl('photo'))
                         <img src="{{ $artist->getFirstMediaUrl('photo') }}" alt="{{ $artist->name }}" class="w-full aspect-[3/4] object-cover">
@@ -30,10 +29,10 @@
                     @endif
                 </div>
 
-                {{-- Bio --}}
                 <div class="lg:col-span-2">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
-                    <h2 class="font-display text-3xl font-light text-theatre-black mb-6">About</h2>
+                    <h2 class="font-display text-3xl font-light text-theatre-black mb-3">About</h2>
+                    <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-6">{{ $artist->discipline_names->join(' • ') }}</p>
                     @if($artist->bio)
                         <div class="prose prose-lg max-w-none text-gray-500 leading-relaxed prose-headings:font-display prose-headings:text-theatre-black">
                             {!! nl2br(e($artist->bio)) !!}

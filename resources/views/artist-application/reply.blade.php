@@ -16,7 +16,7 @@
                 {{-- Application details --}}
                 <div class="mb-8 p-5 bg-gray-50 border-l-4 border-gray-200">
                     <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Discipline</p>
-                    <p class="text-theatre-black font-medium mb-3">{{ ucfirst(str_replace('_', ' ', $application->discipline)) }}</p>
+                    <p class="text-theatre-black font-medium mb-3">{{ $application->disciplineLabel() }}</p>
 
                     @if($application->experience)
                         <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Experience</p>
