@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('artists', function (Blueprint $table) {
+            $table->unsignedInteger('sort_order')->default(0)->after('is_active');
+        });
+
+        DB::table('artists')
+            ->orderBy('name')
+            ->orderBy('id')
+            ->get(['id'])
+            ->each(function (object $artist, int $index): void {
+                DB::table('artists')
+                    ->where('id', $artist->id)
+                    ->update(['sort_order' => $index + 1]);
+            });
+    }
+
+    public function down(): void
+    {
+        Schema::table('artists', function (Blueprint $table) {
+            $table->dropColumn('sort_order');
+        });
+    }
+};

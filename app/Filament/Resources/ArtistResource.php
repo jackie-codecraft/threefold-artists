@@ -56,6 +56,7 @@ class ArtistResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('sort_order')->label('#')->sortable(),
                 Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
                 Tables\Columns\IconColumn::make('is_active')->label('Active')->boolean(),
                 Tables\Columns\TextColumn::make('disciplines.name')
@@ -70,7 +71,12 @@ class ArtistResource extends Resource
                     ->relationship('disciplines', 'name'),
             ])
             ->actions([Tables\Actions\EditAction::make()])
-            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
+            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])])
+            ->defaultSort('sort_order')
+            ->reorderable('sort_order')
+            ->reorderRecordsTriggerAction(fn (Tables\Actions\Action $action) => $action
+                ->button()
+                ->label('Reorder artists'));
     }
 
     public static function getPages(): array
