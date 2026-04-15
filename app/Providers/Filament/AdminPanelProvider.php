@@ -44,7 +44,7 @@ class AdminPanelProvider extends PanelProvider
                 'danger'  => Color::Rose,
             ])
             ->font('Source Sans 3', provider: \Filament\FontProviders\GoogleFontProvider::class)
-            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->theme(asset('css/filament/admin/theme.css'))
             ->navigationGroups([
                 'Content',
                 'People',
