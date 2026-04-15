@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Support\DisciplineOptions;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ArtistApplicationRequest extends FormRequest
@@ -19,7 +20,7 @@ class ArtistApplicationRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:50'],
-            'discipline' => ['required', 'string', 'in:theatre,music,dance,fine_arts'],
+            'discipline' => ['required', 'string', 'in:' . implode(',', DisciplineOptions::values())],
             'experience' => ['nullable', 'string', 'max:2000'],
             'bio' => ['nullable', 'string', 'max:2000'],
             'availability' => ['nullable', 'string', 'max:1000'],

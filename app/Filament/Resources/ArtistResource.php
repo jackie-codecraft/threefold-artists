@@ -6,11 +6,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ArtistResource\Pages;
 use App\Models\Artist;
+use App\Models\Discipline;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class ArtistResource extends Resource
@@ -26,20 +28,27 @@ class ArtistResource extends Resource
             Forms\Components\TextInput::make('name')
                 ->required()
                 ->live(onBlur: true)
-                ->afterStateUpdated(fn ($state, $set) => $set('slug', Str::slug($state))),
+                ->afterStateUpdated(fn ($state, $set) => $set('slug', Str::slug((string) $state))),
             Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
-            Forms\Components\Select::make('discipline')
-                ->options([
-                    'theatre' => 'Theatre',
-                    'music' => 'Music',
-                    'dance' => 'Dance',
-                    'fine_arts' => 'Fine Arts',
-                ])->required(),
+            Forms\Components\Select::make('disciplines')
+                ->relationship('disciplines', 'name', fn (Builder $query) => $query->orderBy('name'))
+                ->multiple()
+                ->preload()
+                ->searchable()
+                ->required(),
             Forms\Components\Textarea::make('bio')->columnSpanFull(),
             Forms\Components\SpatieMediaLibraryFileUpload::make('photo')
                 ->collection('photo')
                 ->image(),
-            Forms\Components\Toggle::make('is_featured'),
+            Forms\Components\Toggle::make('is_active')
+                ->label('Active')
+                ->default(false)
+                ->live()
+                ->afterStateUpdated(fn (bool $state, callable $set) => $state ?: $set('is_featured', false))
+                ->helperText('Only active artists appear on the public site and sitemap.'),
+            Forms\Components\Toggle::make('is_featured')
+                ->disabled(fn (callable $get): bool => ! (bool) $get('is_active'))
+                ->helperText('Featured artists must also be active.'),
         ]);
     }
 
@@ -48,9 +57,17 @@ class ArtistResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('discipline')->badge(),
-                Tables\Columns\IconColumn::make('is_featured')->boolean(),
+                Tables\Columns\IconColumn::make('is_active')->label('Active')->boolean(),
+                Tables\Columns\TextColumn::make('disciplines.name')
+                    ->label('Disciplines')
+                    ->badge()
+                    ->separator(', '),
+                Tables\Columns\IconColumn::make('is_featured')->label('Featured')->boolean(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('discipline')
+                    ->relationship('disciplines', 'name'),
             ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
