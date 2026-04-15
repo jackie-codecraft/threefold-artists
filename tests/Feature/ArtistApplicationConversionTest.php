@@ -25,6 +25,12 @@ class ArtistApplicationConversionTest extends TestCase
         $music = Discipline::query()->where('slug', 'music')->firstOrFail();
         $dance = Discipline::query()->where('slug', 'dance')->firstOrFail();
 
+        $existingArtist = Artist::query()->create([
+            'name' => 'Existing Artist',
+            'slug' => 'existing-artist',
+            'is_active' => true,
+        ]);
+
         $application = ArtistApplication::create([
             'name' => 'Taylor Artist',
             'email' => 'taylor@example.com',
@@ -59,6 +65,7 @@ class ArtistApplicationConversionTest extends TestCase
 
         $this->assertNotNull($artist);
         $this->assertFalse($artist->is_active);
+        $this->assertSame($existingArtist->sort_order + 1, $artist->sort_order);
         $this->assertSame(['Dance', 'Music'], $artist->disciplines()->orderBy('name')->pluck('name')->all());
         $this->assertSame('converted', $application->status);
         $this->assertNotNull($application->converted_at);

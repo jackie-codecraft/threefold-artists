@@ -90,7 +90,7 @@ class PageController extends Controller
 
     public function artists(): View
     {
-        $artists = Artist::query()->with('disciplines')->active()->orderBy('name')->get();
+        $artists = Artist::query()->with('disciplines')->active()->ordered()->get();
 
         return view('pages.artists', compact('artists'));
     }

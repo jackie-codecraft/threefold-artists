@@ -22,12 +22,25 @@ class Artist extends Model implements HasMedia
         'photo',
         'is_featured',
         'is_active',
+        'sort_order',
     ];
 
     protected $casts = [
         'is_featured' => 'boolean',
         'is_active' => 'boolean',
+        'sort_order' => 'integer',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $artist): void {
+            if ($artist->sort_order !== null) {
+                return;
+            }
+
+            $artist->sort_order = ((int) static::query()->max('sort_order')) + 1;
+        });
+    }
 
     public function getRouteKeyName(): string
     {
@@ -42,6 +55,11 @@ class Artist extends Model implements HasMedia
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
+    }
+
+    public function scopeOrdered(Builder $query): Builder
+    {
+        return $query->orderBy('sort_order')->orderBy('name');
     }
 
     public function resolveRouteBinding($value, $field = null): ?Model
