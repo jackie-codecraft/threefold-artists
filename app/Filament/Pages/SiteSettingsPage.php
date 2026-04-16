@@ -61,6 +61,18 @@ class SiteSettingsPage extends Page implements HasForms
                                     ->default(true)
                                     ->inline(false)
                                     ->required(),
+                                Toggle::make('show_gallery')
+                                    ->label('Show gallery')
+                                    ->helperText('Hide gallery links and return 404 for the gallery page when disabled.')
+                                    ->default(true)
+                                    ->inline(false)
+                                    ->required(),
+                                Toggle::make('show_events')
+                                    ->label('Show events')
+                                    ->helperText('Hide event links and return 404 for the events page when disabled.')
+                                    ->default(true)
+                                    ->inline(false)
+                                    ->required(),
                             ]),
                     ]),
                 Section::make('Future-ready contact details')

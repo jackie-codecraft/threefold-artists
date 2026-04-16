@@ -37,6 +37,8 @@ class PageController extends Controller
 
     public function events()
     {
+        abort_unless(SiteSettings::current()->eventsEnabled(), 404);
+
         $events = Event::upcoming()->public()->paginate(12);
         $allEvents = Event::public()
             ->whereDate('date', '>=', now()->startOfMonth()->subMonths(1))
@@ -48,6 +50,8 @@ class PageController extends Controller
 
     public function gallery()
     {
+        abort_unless(SiteSettings::current()->galleryEnabled(), 404);
+
         $items = GalleryItem::query()->active()->latest()->get();
 
         return view('pages.gallery', compact('items'));

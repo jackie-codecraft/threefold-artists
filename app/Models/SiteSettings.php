@@ -14,6 +14,8 @@ class SiteSettings extends Model
     protected $fillable = [
         'show_blog',
         'show_impact',
+        'show_gallery',
+        'show_events',
         'contact_email',
         'donations_email',
     ];
@@ -21,6 +23,8 @@ class SiteSettings extends Model
     protected $casts = [
         'show_blog' => 'boolean',
         'show_impact' => 'boolean',
+        'show_gallery' => 'boolean',
+        'show_events' => 'boolean',
     ];
 
     public static function current(): self
@@ -48,6 +52,8 @@ class SiteSettings extends Model
         return [
             'show_blog' => true,
             'show_impact' => true,
+            'show_gallery' => true,
+            'show_events' => true,
             'contact_email' => 'hello@threefoldartists.org',
             'donations_email' => null,
         ];
@@ -61,5 +67,15 @@ class SiteSettings extends Model
     public function impactEnabled(): bool
     {
         return $this->show_impact;
+    }
+
+    public function galleryEnabled(): bool
+    {
+        return $this->show_gallery;
+    }
+
+    public function eventsEnabled(): bool
+    {
+        return $this->show_events;
     }
 }
