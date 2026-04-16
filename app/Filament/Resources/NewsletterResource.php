@@ -8,7 +8,7 @@ use App\Filament\Resources\NewsletterResource\Pages;
 use App\Models\Newsletter;
 use App\Models\NewsletterSubscriber;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,15 +17,15 @@ class NewsletterResource extends Resource
 {
     protected static ?string $model = Newsletter::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-paper-airplane';
 
-    protected static ?string $navigationGroup = 'Content';
+    protected static string|\UnitEnum|null $navigationGroup = 'Content';
 
     protected static ?int $navigationSort = 5;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Forms\Components\TextInput::make('subject')
                 ->required()
                 ->maxLength(255)
@@ -71,15 +71,15 @@ class NewsletterResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
-            ->actions([
-                Tables\Actions\EditAction::make()
+            ->recordActions([
+                \Filament\Actions\EditAction::make()
                     ->visible(fn (Newsletter $record): bool => $record->isDraft()),
-                Tables\Actions\ViewAction::make()
+                \Filament\Actions\ViewAction::make()
                     ->visible(fn (Newsletter $record): bool => ! $record->isDraft()),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

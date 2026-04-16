@@ -7,7 +7,7 @@ namespace App\Filament\Resources\GalleryItemResource\Pages;
 use App\Filament\Resources\GalleryItemResource;
 use App\Models\GalleryItem;
 use Filament\Actions;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 

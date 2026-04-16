@@ -7,7 +7,7 @@ namespace App\Filament\Resources\TestimonialResource\Pages;
 use App\Filament\Resources\TestimonialResource;
 use App\Models\Testimonial;
 use Filament\Actions;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 

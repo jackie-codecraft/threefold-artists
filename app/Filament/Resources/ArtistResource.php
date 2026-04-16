@@ -8,7 +8,7 @@ use App\Filament\Resources\ArtistResource\Pages;
 use App\Models\Artist;
 use App\Models\Discipline;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,13 +18,13 @@ use Illuminate\Support\Str;
 class ArtistResource extends Resource
 {
     protected static ?string $model = Artist::class;
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $navigationGroup = 'People';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-user-group';
+    protected static string|\UnitEnum|null $navigationGroup = 'People';
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Forms\Components\TextInput::make('name')
                 ->required()
                 ->live(onBlur: true)
@@ -70,11 +70,11 @@ class ArtistResource extends Resource
                 Tables\Filters\SelectFilter::make('discipline')
                     ->relationship('disciplines', 'name'),
             ])
-            ->actions([Tables\Actions\EditAction::make()])
-            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])])
+            ->recordActions([\Filament\Actions\EditAction::make()])
+            ->toolbarActions([\Filament\Actions\BulkActionGroup::make([\Filament\Actions\DeleteBulkAction::make()])])
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
-            ->reorderRecordsTriggerAction(fn (Tables\Actions\Action $action) => $action
+            ->reorderRecordsTriggerAction(fn (\Filament\Actions\Action $action) => $action
                 ->button()
                 ->label('Reorder artists'));
     }

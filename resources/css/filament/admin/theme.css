@@ -1,13 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:wght@0,300;0,400;0,500;0,600&display=swap');
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind variants;
-@import '../../../../vendor/filament/filament/resources/css/base.css';
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
 
-
-:root, .light, .dark {
+:root {
     --font-family: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
     --font-family-heading: 'Cormorant Garamond', Georgia, serif;
     --threefold-sidebar-tint: 148 163 184;
@@ -25,8 +21,19 @@
     box-shadow: none;
 }
 
+.fi-topbar,
+.fi-ta-ctn,
+.fi-section,
+.fi-wi-widget,
+.fi-fo-field-wrp,
+.fi-fo-tabs,
+.fi-modal-window {
+    border-radius: 1rem;
+}
+
 .fi-sidebar .fi-sidebar-item-button {
     border: 1px solid transparent;
+    border-radius: 0.875rem;
 }
 
 .fi-sidebar .fi-sidebar-item-button:hover,
@@ -41,4 +48,11 @@
 
 .fi-sidebar .fi-sidebar-item.fi-active .fi-sidebar-item-label {
     font-weight: 600;
+}
+
+.fi-header-heading,
+.fi-page h1,
+.fi-section-header-heading {
+    font-family: var(--font-family-heading);
+    letter-spacing: 0.01em;
 }

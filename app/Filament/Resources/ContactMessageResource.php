@@ -7,10 +7,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ContactMessageResource\Pages;
 use App\Mail\ContactMessageReply;
 use App\Models\ContactMessage;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Forms;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Mail;
@@ -19,21 +20,21 @@ use Illuminate\Support\HtmlString;
 class ContactMessageResource extends Resource
 {
     protected static ?string $model = ContactMessage::class;
-    protected static ?string $navigationIcon = 'heroicon-o-envelope';
-    protected static ?string $navigationGroup = 'Operations';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-envelope';
+    protected static string|\UnitEnum|null $navigationGroup = 'Operations';
     protected static ?int $navigationSort = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
-            Forms\Components\Section::make('Message Details')
+        return $schema->components([
+            Section::make('Message Details')
                 ->schema([
                     Forms\Components\TextInput::make('name')->disabled(),
                     Forms\Components\TextInput::make('email')->disabled(),
                     Forms\Components\TextInput::make('subject')->disabled(),
                     Forms\Components\Textarea::make('message')->disabled()->columnSpanFull()->rows(4),
                 ]),
-            Forms\Components\Section::make('Admin')
+            Section::make('Admin')
                 ->schema([
                     Forms\Components\Select::make('status')
                         ->options([
@@ -49,7 +50,7 @@ class ContactMessageResource extends Resource
                         ->columnSpanFull()
                         ->helperText('Internal notes — not visible to the sender.'),
                 ]),
-            Forms\Components\Section::make('Reply')
+            Section::make('Reply')
                 ->schema([
                     Forms\Components\Textarea::make('reply')
                         ->disabled()
@@ -93,8 +94,8 @@ class ContactMessageResource extends Resource
                         'replied' => 'Replied',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\Action::make('reply')
+            ->recordActions([
+                \Filament\Actions\Action::make('reply')
                     ->label('Reply')
                     ->icon('heroicon-o-paper-airplane')
                     ->color('success')
@@ -136,9 +137,9 @@ class ContactMessageResource extends Resource
                     })
                     ->modalHeading('Reply to Contact Message')
                     ->modalSubmitActionLabel('Send Reply'),
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
-            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
+            ->toolbarActions([\Filament\Actions\BulkActionGroup::make([\Filament\Actions\DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array

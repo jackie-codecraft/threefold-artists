@@ -7,10 +7,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PerformanceRequestResource\Pages;
 use App\Mail\PerformanceRequestReply;
 use App\Models\PerformanceRequest;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Forms;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Mail;
@@ -19,24 +20,24 @@ use Illuminate\Support\HtmlString;
 class PerformanceRequestResource extends Resource
 {
     protected static ?string $model = PerformanceRequest::class;
-    protected static ?string $navigationIcon = 'heroicon-o-ticket';
-    protected static ?string $navigationGroup = 'Operations';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-ticket';
+    protected static string|\UnitEnum|null $navigationGroup = 'Operations';
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
-            Forms\Components\Section::make('Organization')->schema([
+        return $schema->components([
+            Section::make('Organization')->schema([
                 Forms\Components\TextInput::make('organization_name')->required(),
                 Forms\Components\TextInput::make('venue_type')->required(),
                 Forms\Components\Textarea::make('address'),
             ])->columns(2),
-            Forms\Components\Section::make('Contact')->schema([
+            Section::make('Contact')->schema([
                 Forms\Components\TextInput::make('contact_name')->required(),
                 Forms\Components\TextInput::make('contact_email')->email()->required(),
                 Forms\Components\TextInput::make('contact_phone'),
             ])->columns(3),
-            Forms\Components\Section::make('Performance Details')->schema([
+            Section::make('Performance Details')->schema([
                 Forms\Components\TextInput::make('audience_size')->numeric(),
                 Forms\Components\TextInput::make('audience_demographics'),
                 Forms\Components\TextInput::make('preferred_art_form'),
@@ -52,14 +53,14 @@ class PerformanceRequestResource extends Resource
                     'completed' => 'Completed',
                     'replied' => 'Replied',
                 ])->required(),
-            Forms\Components\Section::make('Admin')
+            Section::make('Admin')
                 ->schema([
                     Forms\Components\Textarea::make('internal_notes')
                         ->rows(3)
                         ->columnSpanFull()
                         ->helperText('Internal notes — not visible to the requester.'),
                 ]),
-            Forms\Components\Section::make('Reply')
+            Section::make('Reply')
                 ->schema([
                     Forms\Components\Textarea::make('reply')
                         ->disabled()
@@ -105,8 +106,8 @@ class PerformanceRequestResource extends Resource
                         'replied' => 'Replied',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\Action::make('reply')
+            ->recordActions([
+                \Filament\Actions\Action::make('reply')
                     ->label('Reply')
                     ->icon('heroicon-o-paper-airplane')
                     ->color('success')
@@ -150,9 +151,9 @@ class PerformanceRequestResource extends Resource
                     })
                     ->modalHeading('Reply to Performance Request')
                     ->modalSubmitActionLabel('Send Reply'),
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
-            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
+            ->toolbarActions([\Filament\Actions\BulkActionGroup::make([\Filament\Actions\DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array

@@ -10,27 +10,29 @@ use App\Models\Artist;
 use App\Models\ArtistApplication;
 use App\Models\Discipline;
 use App\Support\DisciplineOptions;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Forms;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class ArtistApplicationResource extends Resource
 {
     protected static ?string $model = ArtistApplication::class;
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-    protected static ?string $navigationGroup = 'People';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static string|\UnitEnum|null $navigationGroup = 'People';
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
-            Forms\Components\Section::make('Application Details')
+        return $schema->components([
+            Section::make('Application Details')
                 ->schema([
                     Forms\Components\TextInput::make('name')->required(),
                     Forms\Components\TextInput::make('email')->email()->required(),
@@ -48,7 +50,7 @@ class ArtistApplicationResource extends Resource
                             'declined' => 'Declined',
                         ])->required(),
                 ]),
-            Forms\Components\Section::make('Conversion')
+            Section::make('Conversion')
                 ->schema([
                     Forms\Components\Placeholder::make('approved_at_display')
                         ->label('Approved at')
@@ -61,14 +63,14 @@ class ArtistApplicationResource extends Resource
                         ->content(fn (ArtistApplication $record): string => $record->convertedArtist?->name ?? '—'),
                 ])
                 ->visible(fn (?ArtistApplication $record): bool => $record?->approved_at !== null || $record?->converted_at !== null || $record?->converted_artist_id !== null),
-            Forms\Components\Section::make('Admin')
+            Section::make('Admin')
                 ->schema([
                     Forms\Components\Textarea::make('internal_notes')
                         ->rows(3)
                         ->columnSpanFull()
                         ->helperText('Internal notes, not visible to the applicant.'),
                 ]),
-            Forms\Components\Section::make('Reply')
+            Section::make('Reply')
                 ->schema([
                     Forms\Components\Textarea::make('reply')
                         ->disabled()
@@ -117,8 +119,8 @@ class ArtistApplicationResource extends Resource
                         'declined' => 'Declined',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\Action::make('approve')
+            ->recordActions([
+                \Filament\Actions\Action::make('approve')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
@@ -131,7 +133,7 @@ class ArtistApplicationResource extends Resource
 
                         Notification::make()->title('Application approved')->success()->send();
                     }),
-                Tables\Actions\Action::make('convert_to_artist')
+                \Filament\Actions\Action::make('convert_to_artist')
                     ->label('Convert to artist')
                     ->icon('heroicon-o-arrow-path-rounded-square')
                     ->color('primary')
@@ -141,7 +143,7 @@ class ArtistApplicationResource extends Resource
                         Forms\Components\TextInput::make('slug')
                             ->default(fn (ArtistApplication $record) => Str::slug($record->name))
                             ->required()
-                            ->unique(Artist::class, 'slug'),
+                            ->rule(Rule::unique(Artist::class, 'slug')),
                         Forms\Components\Select::make('discipline_ids')
                             ->label('Disciplines')
                             ->options(fn (): array => Discipline::query()->orderBy('name')->pluck('name', 'id')->all())
@@ -183,7 +185,7 @@ class ArtistApplicationResource extends Resource
                             ->success()
                             ->send();
                     }),
-                Tables\Actions\Action::make('reply')
+                \Filament\Actions\Action::make('reply')
                     ->label('Reply')
                     ->icon('heroicon-o-paper-airplane')
                     ->color('success')
@@ -218,9 +220,9 @@ class ArtistApplicationResource extends Resource
                     })
                     ->modalHeading('Reply to Artist Application')
                     ->modalSubmitActionLabel('Send Reply'),
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
-            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
+            ->toolbarActions([\Filament\Actions\BulkActionGroup::make([\Filament\Actions\DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array
