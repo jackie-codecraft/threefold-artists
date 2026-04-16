@@ -47,7 +47,7 @@ class PageController extends Controller
 
     public function gallery()
     {
-        $items = GalleryItem::latest()->get();
+        $items = GalleryItem::query()->active()->latest()->get();
 
         return view('pages.gallery', compact('items'));
     }
