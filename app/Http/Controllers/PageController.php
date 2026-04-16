@@ -10,6 +10,7 @@ use App\Models\Donation;
 use App\Models\Event;
 use App\Models\GalleryItem;
 use App\Models\ImpactMetric;
+use App\Models\SiteSettings;
 use App\Models\Testimonial;
 use Illuminate\View\View;
 
@@ -54,6 +55,8 @@ class PageController extends Controller
 
     public function impact()
     {
+        abort_unless(SiteSettings::current()->impactEnabled(), 404);
+
         $metrics = ImpactMetric::orderBy('sort_order')->get();
         $testimonials = Testimonial::query()->active()->latest()->paginate(6);
 
@@ -62,6 +65,8 @@ class PageController extends Controller
 
     public function blog()
     {
+        abort_unless(SiteSettings::current()->blogEnabled(), 404);
+
         $posts = BlogPost::published()->latest('published_at')->paginate(9);
 
         return view('pages.blog', compact('posts'));
@@ -69,6 +74,8 @@ class PageController extends Controller
 
     public function blogPost(string $slug)
     {
+        abort_unless(SiteSettings::current()->blogEnabled(), 404);
+
         $post = BlogPost::published()->where('slug', $slug)->firstOrFail();
 
         $relatedPosts = BlogPost::published()
