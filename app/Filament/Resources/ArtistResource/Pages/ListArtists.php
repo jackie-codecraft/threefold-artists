@@ -7,7 +7,7 @@ namespace App\Filament\Resources\ArtistResource\Pages;
 use App\Filament\Resources\ArtistResource;
 use App\Models\Artist;
 use Filament\Actions;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 

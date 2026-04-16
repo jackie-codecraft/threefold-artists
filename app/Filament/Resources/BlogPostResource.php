@@ -7,7 +7,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BlogPostResource\Pages;
 use App\Models\BlogPost;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,13 +16,13 @@ use Illuminate\Support\Str;
 class BlogPostResource extends Resource
 {
     protected static ?string $model = BlogPost::class;
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
-    protected static ?string $navigationGroup = 'Content';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-newspaper';
+    protected static string|\UnitEnum|null $navigationGroup = 'Content';
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Forms\Components\TextInput::make('title')
                 ->required()
                 ->live(onBlur: true)
@@ -58,8 +58,8 @@ class BlogPostResource extends Resource
                 Tables\Columns\TextColumn::make('published_at')->dateTime()->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
-            ->actions([Tables\Actions\EditAction::make()])
-            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
+            ->recordActions([\Filament\Actions\EditAction::make()])
+            ->toolbarActions([\Filament\Actions\BulkActionGroup::make([\Filament\Actions\DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array

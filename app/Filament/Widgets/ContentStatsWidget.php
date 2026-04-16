@@ -13,6 +13,8 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class ContentStatsWidget extends BaseWidget
 {
+    protected static bool $isLazy = false;
+
     protected static ?int $sort = 3;
 
     protected function getStats(): array
