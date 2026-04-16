@@ -2,32 +2,33 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ArtistApplicationReplyController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContactMessageReplyController;
-use App\Http\Controllers\PerformanceRequestReplyController;
 use App\Http\Controllers\DonateController;
 use App\Http\Controllers\GetInvolvedController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\NewsletterPreviewController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\UnsubscribeController;
 use App\Http\Controllers\PerformanceRequestController;
+use App\Http\Controllers\PerformanceRequestReplyController;
+use App\Http\Controllers\UnsubscribeController;
+use App\Models\Artist;
+use App\Models\BlogPost;
+use App\Models\SiteSettings;
 use Illuminate\Support\Facades\Route;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 
 // Sitemap
 Route::get('/sitemap.xml', function () {
+    $settings = SiteSettings::current();
+
     $sitemap = Sitemap::create()
         ->add(Url::create('/')->setPriority(1.0)->setChangeFrequency('weekly'))
         ->add(Url::create('/about')->setPriority(0.8))
         ->add(Url::create('/what-we-do')->setPriority(0.8))
         ->add(Url::create('/artists')->setPriority(0.7))
-        ->add(Url::create('/events')->setPriority(0.7)->setChangeFrequency('weekly'))
-        ->add(Url::create('/gallery')->setPriority(0.6))
-        ->add(Url::create('/impact')->setPriority(0.6))
-        ->add(Url::create('/blog')->setPriority(0.7)->setChangeFrequency('weekly'))
         ->add(Url::create('/request-a-performance')->setPriority(0.9))
         ->add(Url::create('/get-involved')->setPriority(0.8))
         ->add(Url::create('/donate')->setPriority(0.9))
@@ -35,17 +36,32 @@ Route::get('/sitemap.xml', function () {
         ->add(Url::create('/contact')->setPriority(0.7))
         ->add(Url::create('/press-kit')->setPriority(0.5));
 
-    // Add blog posts
-    \App\Models\BlogPost::published()->each(function (\App\Models\BlogPost $post) use ($sitemap): void {
-        $sitemap->add(
-            Url::create("/blog/{$post->slug}")
-                ->setLastModificationDate($post->updated_at)
-                ->setPriority(0.6)
-        );
-    });
+    if ($settings->eventsEnabled()) {
+        $sitemap->add(Url::create('/events')->setPriority(0.7)->setChangeFrequency('weekly'));
+    }
+
+    if ($settings->galleryEnabled()) {
+        $sitemap->add(Url::create('/gallery')->setPriority(0.6));
+    }
+
+    if ($settings->impactEnabled()) {
+        $sitemap->add(Url::create('/impact')->setPriority(0.6));
+    }
+
+    if ($settings->blogEnabled()) {
+        $sitemap->add(Url::create('/blog')->setPriority(0.7)->setChangeFrequency('weekly'));
+
+        BlogPost::published()->each(function (BlogPost $post) use ($sitemap): void {
+            $sitemap->add(
+                Url::create("/blog/{$post->slug}")
+                    ->setLastModificationDate($post->updated_at)
+                    ->setPriority(0.6)
+            );
+        });
+    }
 
     // Add active artists with slugs
-    \App\Models\Artist::active()->each(function (\App\Models\Artist $artist) use ($sitemap): void {
+    Artist::active()->each(function (Artist $artist) use ($sitemap): void {
         if ($artist->slug) {
             $sitemap->add(
                 Url::create("/artists/{$artist->slug}")

@@ -21,9 +21,11 @@
                     <div class="w-12 h-px bg-stage-gold mx-auto mb-8"></div>
                     <h2 class="font-display text-3xl font-light text-theatre-black mb-4">Gallery Coming Soon</h2>
                     <p class="text-gray-500 leading-relaxed mb-10">We are documenting our performances. Beautiful moments from the stage are on their way.</p>
-                    <a href="{{ route('events') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-theatre-black text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-theatre-black hover:text-white transition-colors">
-                        View Upcoming Events
-                    </a>
+                    @if($siteSettings->eventsEnabled())
+                        <a href="{{ route('events') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-theatre-black text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-theatre-black hover:text-white transition-colors">
+                            View Upcoming Events
+                        </a>
+                    @endif
                 </div>
             @else
                 <div x-data="{

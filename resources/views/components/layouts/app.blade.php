@@ -1,4 +1,5 @@
 @props(['title' => null, 'metaDescription' => null, 'ogImage' => null, 'canonical' => null])
+@php($siteSettings = \App\Models\SiteSettings::current())
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -81,10 +82,18 @@
                     <a href="{{ route('about') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">About</a>
                     <a href="{{ route('what-we-do') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('what-we-do') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">What We Do</a>
                     <a href="{{ route('artists') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('artists') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Artists</a>
-                    <a href="{{ route('events') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('events') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Events</a>
-                    <a href="{{ route('gallery') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('gallery') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Gallery</a>
-                    <a href="{{ route('impact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('impact') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Impact</a>
-                    <a href="{{ route('blog') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('blog*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Blog</a>
+                    @if($siteSettings->eventsEnabled())
+                        <a href="{{ route('events') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('events') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Events</a>
+                    @endif
+                    @if($siteSettings->galleryEnabled())
+                        <a href="{{ route('gallery') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('gallery') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Gallery</a>
+                    @endif
+                    @if($siteSettings->impactEnabled())
+                        <a href="{{ route('impact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('impact') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Impact</a>
+                    @endif
+                    @if($siteSettings->blogEnabled())
+                        <a href="{{ route('blog') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('blog*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Blog</a>
+                    @endif
                     <a href="{{ route('contact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('contact*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Contact</a>
                     <div class="flex items-center gap-2 ml-4">
                         <a href="{{ route('request-performance') }}" class="px-5 py-2 text-sm font-medium border border-theatre-black text-theatre-black hover:bg-theatre-black hover:text-white transition-colors">
@@ -118,10 +127,18 @@
                     <a href="{{ route('about') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('about') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">About</a>
                     <a href="{{ route('what-we-do') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('what-we-do') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">What We Do</a>
                     <a href="{{ route('artists') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('artists') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Artists</a>
-                    <a href="{{ route('events') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('events') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Events</a>
-                    <a href="{{ route('gallery') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('gallery') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Gallery</a>
-                    <a href="{{ route('impact') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('impact') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Impact</a>
-                    <a href="{{ route('blog') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('blog*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Blog</a>
+                    @if($siteSettings->eventsEnabled())
+                        <a href="{{ route('events') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('events') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Events</a>
+                    @endif
+                    @if($siteSettings->galleryEnabled())
+                        <a href="{{ route('gallery') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('gallery') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Gallery</a>
+                    @endif
+                    @if($siteSettings->impactEnabled())
+                        <a href="{{ route('impact') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('impact') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Impact</a>
+                    @endif
+                    @if($siteSettings->blogEnabled())
+                        <a href="{{ route('blog') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('blog*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Blog</a>
+                    @endif
                     <a href="{{ route('contact') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('contact*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Contact</a>
                     <div class="flex flex-col gap-2 mt-4 px-3">
                         <a href="{{ route('request-performance') }}" class="text-center px-5 py-3 text-sm font-medium border border-theatre-black text-theatre-black">Request Performance</a>
@@ -167,10 +184,18 @@
                     <ul class="space-y-3 text-sm">
                         <li><a href="{{ route('about') }}" class="text-gray-300 hover:text-white transition-colors">About Us</a></li>
                         <li><a href="{{ route('what-we-do') }}" class="text-gray-300 hover:text-white transition-colors">What We Do</a></li>
-                        <li><a href="{{ route('events') }}" class="text-gray-300 hover:text-white transition-colors">Events</a></li>
-                        <li><a href="{{ route('blog') }}" class="text-gray-300 hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="{{ route('gallery') }}" class="text-gray-300 hover:text-white transition-colors">Gallery</a></li>
-                        <li><a href="{{ route('impact') }}" class="text-gray-300 hover:text-white transition-colors">Our Impact</a></li>
+                        @if($siteSettings->eventsEnabled())
+                            <li><a href="{{ route('events') }}" class="text-gray-300 hover:text-white transition-colors">Events</a></li>
+                        @endif
+                        @if($siteSettings->blogEnabled())
+                            <li><a href="{{ route('blog') }}" class="text-gray-300 hover:text-white transition-colors">Blog</a></li>
+                        @endif
+                        @if($siteSettings->galleryEnabled())
+                            <li><a href="{{ route('gallery') }}" class="text-gray-300 hover:text-white transition-colors">Gallery</a></li>
+                        @endif
+                        @if($siteSettings->impactEnabled())
+                            <li><a href="{{ route('impact') }}" class="text-gray-300 hover:text-white transition-colors">Our Impact</a></li>
+                        @endif
                         <li><a href="{{ route('press-kit') }}" class="text-gray-300 hover:text-white transition-colors">Press Kit</a></li>
                     </ul>
                 </div>
