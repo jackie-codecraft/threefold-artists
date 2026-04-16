@@ -38,7 +38,16 @@ class GalleryItemResource extends Resource
             Forms\Components\SpatieMediaLibraryFileUpload::make('media')
                 ->collection('media')
                 ->image(),
-            Forms\Components\Toggle::make('is_featured'),
+            Forms\Components\Toggle::make('is_active')
+                ->label('Active')
+                ->default(false)
+                ->live()
+                ->afterStateUpdated(fn (bool $state, callable $set) => $state ?: $set('is_featured', false))
+                ->helperText('Only active gallery items appear on the public site.'),
+            Forms\Components\Toggle::make('is_featured')
+                ->label('Featured')
+                ->disabled(fn (callable $get): bool => ! (bool) $get('is_active'))
+                ->helperText('Featured gallery items must also be active.'),
         ]);
     }
 
@@ -49,7 +58,8 @@ class GalleryItemResource extends Resource
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('media')->collection('media'),
                 Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('type')->badge(),
-                Tables\Columns\IconColumn::make('is_featured')->boolean(),
+                Tables\Columns\IconColumn::make('is_active')->label('Active')->boolean(),
+                Tables\Columns\IconColumn::make('is_featured')->label('Featured')->boolean(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
