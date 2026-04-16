@@ -43,8 +43,7 @@ class GalleryAdminTabsTest extends TestCase
         $this->actingAs($user);
 
         Livewire::test(ListGalleryItems::class)
-            ->assertCanSeeTableRecords([$activeItem, $featuredItem, $inactiveItem])
-            ->set('activeTab', 'active')
+            ->assertSet('activeTab', 'active')
             ->assertCanSeeTableRecords([$activeItem, $featuredItem])
             ->assertCanNotSeeTableRecords([$inactiveItem])
             ->set('activeTab', 'featured')

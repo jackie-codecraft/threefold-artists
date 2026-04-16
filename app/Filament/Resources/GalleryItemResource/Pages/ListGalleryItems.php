@@ -38,7 +38,7 @@ class ListGalleryItems extends ListRecords
 
     public function getDefaultActiveTab(): string | int | null
     {
-        return 'all';
+        return 'active';
     }
 
     protected function getHeaderActions(): array
