@@ -25,7 +25,16 @@ class TestimonialResource extends Resource
             Forms\Components\Textarea::make('quote')->required()->rows(3)->columnSpanFull(),
             Forms\Components\TextInput::make('attribution')->required(),
             Forms\Components\TextInput::make('venue_name'),
-            Forms\Components\Toggle::make('is_featured'),
+            Forms\Components\Toggle::make('is_active')
+                ->label('Active')
+                ->default(false)
+                ->live()
+                ->afterStateUpdated(fn (bool $state, callable $set) => $state ?: $set('is_featured', false))
+                ->helperText('Only active testimonials appear on the public site.'),
+            Forms\Components\Toggle::make('is_featured')
+                ->label('Featured')
+                ->disabled(fn (callable $get): bool => ! (bool) $get('is_active'))
+                ->helperText('Featured testimonials must also be active.'),
         ]);
     }
 
@@ -36,7 +45,8 @@ class TestimonialResource extends Resource
                 Tables\Columns\TextColumn::make('quote')->limit(60)->searchable(),
                 Tables\Columns\TextColumn::make('attribution')->searchable(),
                 Tables\Columns\TextColumn::make('venue_name'),
-                Tables\Columns\IconColumn::make('is_featured')->boolean(),
+                Tables\Columns\IconColumn::make('is_active')->label('Active')->boolean(),
+                Tables\Columns\IconColumn::make('is_featured')->label('Featured')->boolean(),
             ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);

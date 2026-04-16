@@ -43,18 +43,21 @@ class DatabaseSeeder extends Seeder
                 'attribution' => 'Margaret Collins',
                 'venue_name' => 'Sunrise Care Home',
                 'is_featured' => true,
+                'is_active' => true,
             ],
             [
                 'quote' => 'Our students were completely captivated. The musicians engaged them in ways that no recording ever could. This is what arts education should look like.',
                 'attribution' => 'David Park',
                 'venue_name' => 'Lincoln Elementary School',
                 'is_featured' => true,
+                'is_active' => true,
             ],
             [
                 'quote' => 'For many of our guests, this was the first time they felt like valued audience members rather than charity cases. The dignity of the performance meant everything.',
                 'attribution' => 'Sarah Mitchell',
                 'venue_name' => 'Harbor House Shelter',
                 'is_featured' => true,
+                'is_active' => true,
             ],
         ];
 
