@@ -12,6 +12,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -45,6 +46,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->font('Source Sans 3', provider: \Filament\FontProviders\GoogleFontProvider::class)
             ->theme(asset('css/filament/admin/theme.css'))
+            ->renderHook(
+                PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
+                fn (): \Illuminate\Contracts\View\View => view('filament.components.view-site-link'),
+            )
             ->navigationGroups([
                 'Content',
                 'People',
