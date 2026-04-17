@@ -40,9 +40,11 @@
                     <a href="{{ route('request-performance') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-gray-100 transition-colors">
                         Request a Performance
                     </a>
-                    <a href="{{ route('donate') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-white text-white text-sm font-semibold tracking-wide uppercase hover:bg-white hover:text-theatre-black transition-colors">
-                        Make a Donation
-                    </a>
+                    @if($siteSettings->donationsEnabled())
+                        <a href="{{ route('donate') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-white text-white text-sm font-semibold tracking-wide uppercase hover:bg-white hover:text-theatre-black transition-colors">
+                            Make a Donation
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>

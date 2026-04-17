@@ -31,13 +31,16 @@ Route::get('/sitemap.xml', function () {
         ->add(Url::create('/artists')->setPriority(0.7))
         ->add(Url::create('/request-a-performance')->setPriority(0.9))
         ->add(Url::create('/get-involved')->setPriority(0.8))
-        ->add(Url::create('/donate')->setPriority(0.9))
-        ->add(Url::create('/donor-wall')->setPriority(0.5))
         ->add(Url::create('/contact')->setPriority(0.7))
         ->add(Url::create('/press-kit')->setPriority(0.5));
 
     if ($settings->eventsEnabled()) {
         $sitemap->add(Url::create('/events')->setPriority(0.7)->setChangeFrequency('weekly'));
+    }
+
+    if ($settings->donationsEnabled()) {
+        $sitemap->add(Url::create('/donate')->setPriority(0.9));
+        $sitemap->add(Url::create('/donor-wall')->setPriority(0.5));
     }
 
     if ($settings->galleryEnabled()) {
