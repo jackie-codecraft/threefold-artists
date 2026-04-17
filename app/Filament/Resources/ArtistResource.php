@@ -39,6 +39,7 @@ class ArtistResource extends Resource
             Forms\Components\Textarea::make('bio')->columnSpanFull(),
             Forms\Components\SpatieMediaLibraryFileUpload::make('photo')
                 ->collection('photo')
+                ->disk('public')
                 ->image(),
             Forms\Components\Toggle::make('is_active')
                 ->label('Active')
