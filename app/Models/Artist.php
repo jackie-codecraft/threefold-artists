@@ -81,6 +81,8 @@ class Artist extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('photo')->singleFile();
+        $this->addMediaCollection('photo')
+            ->useDisk('public')
+            ->singleFile();
     }
 }

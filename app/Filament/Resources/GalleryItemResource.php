@@ -37,6 +37,7 @@ class GalleryItemResource extends Resource
             Forms\Components\TextInput::make('event_name'),
             Forms\Components\SpatieMediaLibraryFileUpload::make('media')
                 ->collection('media')
+                ->disk('public')
                 ->image(),
             Forms\Components\Toggle::make('is_active')
                 ->label('Active')

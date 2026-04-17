@@ -44,7 +44,9 @@ class BlogPost extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('featured_image')->singleFile();
+        $this->addMediaCollection('featured_image')
+            ->useDisk('public')
+            ->singleFile();
     }
 
     public function featuredImageUrl(): ?string

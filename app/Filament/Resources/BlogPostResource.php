@@ -32,6 +32,7 @@ class BlogPostResource extends Resource
             Forms\Components\Textarea::make('excerpt')->rows(2)->columnSpanFull(),
             Forms\Components\SpatieMediaLibraryFileUpload::make('featured_image')
                 ->collection('featured_image')
+                ->disk('public')
                 ->image(),
             Forms\Components\TextInput::make('author'),
             Forms\Components\Select::make('category')
