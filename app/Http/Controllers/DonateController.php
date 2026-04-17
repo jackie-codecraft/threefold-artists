@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\DonationReceipt;
 use App\Models\Donation;
+use App\Models\SiteSettings;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -15,11 +16,15 @@ class DonateController extends Controller
 {
     public function show(): View
     {
+        $this->ensureDonationsEnabled();
+
         return view('pages.donate');
     }
 
     public function checkout(Request $request): RedirectResponse
     {
+        $this->ensureDonationsEnabled();
+
         $request->validate([
             'amount' => ['required', 'numeric', 'min:1'],
             'donor_name' => ['nullable', 'string', 'max:255'],
@@ -105,6 +110,8 @@ class DonateController extends Controller
 
     public function success(Request $request): RedirectResponse
     {
+        $this->ensureDonationsEnabled();
+
         $sessionId = $request->get('session_id');
 
         if ($sessionId) {
@@ -140,6 +147,13 @@ class DonateController extends Controller
 
     public function thanks(): View
     {
+        $this->ensureDonationsEnabled();
+
         return view('pages.donate-thanks');
+    }
+
+    private function ensureDonationsEnabled(): void
+    {
+        abort_unless(SiteSettings::current()->donationsEnabled(), 404);
     }
 }

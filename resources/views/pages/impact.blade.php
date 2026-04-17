@@ -65,15 +65,17 @@
         </div>
     </section>
 
-    {{-- CTA --}}
-    <section class="py-24 sm:py-32 bg-theatre-black text-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="font-display text-4xl sm:text-5xl font-light mb-6">Be Part of the Impact</h2>
-            <p class="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">Your support helps us reach more communities with the power of live performance.</p>
-            <a href="{{ route('donate') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-gray-100 transition-colors">
-                Make a Donation
-            </a>
-        </div>
-    </section>
+    @if($siteSettings->donationsEnabled())
+        {{-- CTA --}}
+        <section class="py-24 sm:py-32 bg-theatre-black text-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="font-display text-4xl sm:text-5xl font-light mb-6">Be Part of the Impact</h2>
+                <p class="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">Your support helps us reach more communities with the power of live performance.</p>
+                <a href="{{ route('donate') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-gray-100 transition-colors">
+                    Make a Donation
+                </a>
+            </div>
+        </section>
+    @endif
 
 </x-layouts.app>

@@ -10,9 +10,11 @@
                 <a href="{{ route('home') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
                     Return to Home
                 </a>
-                <a href="{{ route('donor-wall') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-theatre-black text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-theatre-black hover:text-white transition-colors">
-                    View Donor Wall
-                </a>
+                @if($siteSettings->donationsEnabled())
+                    <a href="{{ route('donor-wall') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-theatre-black text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-theatre-black hover:text-white transition-colors">
+                        View Donor Wall
+                    </a>
+                @endif
             </div>
         </div>
     </section>

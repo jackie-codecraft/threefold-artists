@@ -16,6 +16,7 @@ class SiteSettings extends Model
         'show_impact',
         'show_gallery',
         'show_events',
+        'show_donations',
         'contact_email',
         'donations_email',
     ];
@@ -25,6 +26,7 @@ class SiteSettings extends Model
         'show_impact' => 'boolean',
         'show_gallery' => 'boolean',
         'show_events' => 'boolean',
+        'show_donations' => 'boolean',
     ];
 
     public static function current(): self
@@ -54,6 +56,7 @@ class SiteSettings extends Model
             'show_impact' => true,
             'show_gallery' => true,
             'show_events' => true,
+            'show_donations' => true,
             'contact_email' => 'hello@threefoldartists.org',
             'donations_email' => null,
         ];
@@ -61,21 +64,37 @@ class SiteSettings extends Model
 
     public function blogEnabled(): bool
     {
-        return $this->show_blog;
+        return $this->flag('show_blog');
     }
 
     public function impactEnabled(): bool
     {
-        return $this->show_impact;
+        return $this->flag('show_impact');
     }
 
     public function galleryEnabled(): bool
     {
-        return $this->show_gallery;
+        return $this->flag('show_gallery');
     }
 
     public function eventsEnabled(): bool
     {
-        return $this->show_events;
+        return $this->flag('show_events');
+    }
+
+    public function donationsEnabled(): bool
+    {
+        return $this->flag('show_donations');
+    }
+
+    private function flag(string $attribute): bool
+    {
+        $value = $this->getAttribute($attribute);
+
+        if ($value !== null) {
+            return (bool) $value;
+        }
+
+        return (bool) (static::defaultAttributes()[$attribute] ?? false);
     }
 }

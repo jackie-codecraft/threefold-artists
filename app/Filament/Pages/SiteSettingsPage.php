@@ -73,6 +73,12 @@ class SiteSettingsPage extends Page implements HasForms
                                     ->default(true)
                                     ->inline(false)
                                     ->required(),
+                                Toggle::make('show_donations')
+                                    ->label('Show donations')
+                                    ->helperText('Hide donation links and return 404 for donation pages when disabled.')
+                                    ->default(true)
+                                    ->inline(false)
+                                    ->required(),
                             ]),
                     ]),
                 Section::make('Future-ready contact details')

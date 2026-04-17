@@ -113,6 +113,8 @@ class PageController extends Controller
 
     public function donorWall(): View
     {
+        abort_unless(SiteSettings::current()->donationsEnabled(), 404);
+
         $donors = Donation::query()
             ->where('is_anonymous', false)
             ->whereNotNull('donor_name')
