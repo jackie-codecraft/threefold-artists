@@ -73,7 +73,7 @@
                 <a href="{{ route('home') }}" class="shrink-0 relative">
                     <img src="{{ asset('images/logo.png') }}" alt="Threefold Artists Inc."
                          class="w-auto transition-all duration-300"
-                         :class="scrolled ? 'h-12' : 'h-24'">
+                         :class="scrolled ? 'h-16' : 'h-24'">
                 </a>
 
                 {{-- Desktop Navigation --}}
