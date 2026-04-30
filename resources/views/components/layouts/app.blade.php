@@ -69,11 +69,11 @@
         <nav aria-label="Main navigation" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between transition-all duration-300"
                  :class="scrolled ? 'h-20' : 'h-28'">
-                {{-- Logo — large on load, shrinks on scroll --}}
+                {{-- Logo — large on load, remains readable after the header shrinks --}}
                 <a href="{{ route('home') }}" class="shrink-0 relative">
                     <img src="{{ asset('images/logo.png') }}" alt="Threefold Artists Inc."
                          class="w-auto transition-all duration-300"
-                         :class="scrolled ? 'h-12' : 'h-24'">
+                         :class="scrolled ? 'h-16' : 'h-24'">
                 </a>
 
                 {{-- Desktop Navigation --}}
