@@ -83,7 +83,7 @@
                     <a href="{{ route('what-we-do') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('what-we-do') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">What We Do</a>
                     <a href="{{ route('artists') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('artists') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Artists</a>
                     @if($siteSettings->eventsEnabled())
-                        <a href="{{ route('events') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('events') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Events</a>
+                        <a href="{{ route('events') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('events*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Events</a>
                     @endif
                     @if($siteSettings->galleryEnabled())
                         <a href="{{ route('gallery') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('gallery') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Gallery</a>
@@ -130,7 +130,7 @@
                     <a href="{{ route('what-we-do') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('what-we-do') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">What We Do</a>
                     <a href="{{ route('artists') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('artists') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Artists</a>
                     @if($siteSettings->eventsEnabled())
-                        <a href="{{ route('events') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('events') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Events</a>
+                        <a href="{{ route('events') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('events*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Events</a>
                     @endif
                     @if($siteSettings->galleryEnabled())
                         <a href="{{ route('gallery') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('gallery') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Gallery</a>

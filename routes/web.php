@@ -15,6 +15,7 @@ use App\Http\Controllers\PerformanceRequestReplyController;
 use App\Http\Controllers\UnsubscribeController;
 use App\Models\Artist;
 use App\Models\BlogPost;
+use App\Models\Event;
 use App\Models\SiteSettings;
 use Illuminate\Support\Facades\Route;
 use Spatie\Sitemap\Sitemap;
@@ -36,6 +37,14 @@ Route::get('/sitemap.xml', function () {
 
     if ($settings->eventsEnabled()) {
         $sitemap->add(Url::create('/events')->setPriority(0.7)->setChangeFrequency('weekly'));
+
+        Event::public()->each(function (Event $event) use ($sitemap): void {
+            $sitemap->add(
+                Url::create(route('events.show', $event, false))
+                    ->setLastModificationDate($event->updated_at)
+                    ->setPriority(0.5)
+            );
+        });
     }
 
     if ($settings->donationsEnabled()) {
@@ -81,6 +90,7 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/what-we-do', [PageController::class, 'whatWeDo'])->name('what-we-do');
 Route::get('/events', [PageController::class, 'events'])->name('events');
+Route::get('/events/{event}', [PageController::class, 'eventShow'])->name('events.show');
 Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 Route::get('/impact', [PageController::class, 'impact'])->name('impact');
 Route::get('/blog', [PageController::class, 'blog'])->name('blog');
