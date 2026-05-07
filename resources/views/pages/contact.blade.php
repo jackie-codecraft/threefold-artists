@@ -24,7 +24,7 @@
                     <div class="space-y-8">
                         <div>
                             <h3 class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Email</h3>
-                            <a href="mailto:hello@threefoldartists.org" class="text-theatre-black hover:underline">hello@threefoldartists.org</a>
+                            <a href="mailto:{{ $settings->contact_email }}" class="text-theatre-black hover:underline">{{ $settings->contact_email }}</a>
                         </div>
 
                         <div>
@@ -32,14 +32,16 @@
                             <p class="text-gray-700">Greater Los Angeles, California</p>
                         </div>
 
-                        <div>
-                            <h3 class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Social</h3>
-                            <div class="flex gap-4 mt-2">
-                                <a href="#" class="text-gray-500 hover:text-theatre-black transition-colors">Facebook</a>
-                                <a href="#" class="text-gray-500 hover:text-theatre-black transition-colors">Instagram</a>
-                                <a href="#" class="text-gray-500 hover:text-theatre-black transition-colors">YouTube</a>
+                        @if($socialLinks !== [])
+                            <div>
+                                <h3 class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Social</h3>
+                                <div class="flex flex-wrap gap-4 mt-2">
+                                    @foreach($socialLinks as $link)
+                                        <a href="{{ $link['url'] }}" target="_blank" rel="noopener" class="text-gray-500 hover:text-theatre-black transition-colors">{{ $link['label'] }}</a>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
 

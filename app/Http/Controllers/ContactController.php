@@ -7,13 +7,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ContactMessageRequest;
 use App\Mail\ContactMessageReceived;
 use App\Models\ContactMessage;
+use App\Models\SiteSettings;
 use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
     public function create()
     {
-        return view('pages.contact');
+        $settings = SiteSettings::current();
+
+        return view('pages.contact', [
+            'settings' => $settings,
+            'socialLinks' => $settings->socialLinks(),
+        ]);
     }
 
     public function store(ContactMessageRequest $request)
