@@ -74,11 +74,16 @@
                                 <span class="text-sm font-semibold tracking-[0.15em] uppercase text-gray-400 ml-2">{{ $event->date->format('M Y') }}</span>
                             </div>
                             <div class="w-12 h-px bg-stage-gold mb-4"></div>
-                            <h3 class="font-display text-xl font-normal text-theatre-black mb-2">{{ $event->title }}</h3>
+                            <h3 class="font-display text-xl font-normal text-theatre-black mb-2">
+                                <a href="{{ route('events.show', $event) }}" class="hover:text-stage-gold-dark transition-colors">{{ $event->title }}</a>
+                            </h3>
                             @if($event->art_form)
                                 <span class="text-xs font-semibold tracking-[0.15em] uppercase text-stage-gold-dark">{{ ucfirst($event->art_form) }}</span>
                             @endif
                             <p class="text-gray-500 text-sm mt-3 mb-3">{{ Str::limit($event->description, 120) }}</p>
+                            <a href="{{ route('events.show', $event) }}" class="inline-flex items-center text-xs font-semibold tracking-[0.15em] uppercase text-stage-gold-dark hover:text-theatre-black transition-colors mb-4">
+                                More...
+                            </a>
                             <div class="text-sm text-gray-400 space-y-1">
                                 <div class="flex items-center gap-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -206,6 +211,9 @@
                                         </div>
                                     </div>
                                     <p x-show="ev.description" class="text-gray-500 text-sm leading-relaxed mt-3" x-text="ev.description"></p>
+                                    <a :href="ev.detail_url" class="inline-flex mt-4 text-xs font-semibold tracking-[0.15em] uppercase text-stage-gold-dark hover:text-theatre-black transition-colors">
+                                        More...
+                                    </a>
                                 </div>
                             </template>
                         </div>

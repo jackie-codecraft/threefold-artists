@@ -43,9 +43,28 @@ class PageController extends Controller
         $allEvents = Event::public()
             ->whereDate('date', '>=', now()->startOfMonth()->subMonths(1))
             ->whereDate('date', '<=', now()->endOfMonth()->addMonths(2))
-            ->get();
+            ->get()
+            ->map(fn (Event $event): array => [
+                'id' => $event->id,
+                'title' => $event->title,
+                'description' => $event->description,
+                'date' => $event->date,
+                'time' => $event->time,
+                'venue_name' => $event->venue_name,
+                'venue_address' => $event->venue_address,
+                'art_form' => $event->art_form,
+                'detail_url' => route('events.show', $event),
+            ]);
 
         return view('pages.events', compact('events', 'allEvents'));
+    }
+
+    public function eventShow(Event $event): View
+    {
+        abort_unless(SiteSettings::current()->eventsEnabled(), 404);
+        abort_unless($event->is_public, 404);
+
+        return view('pages.event-show', compact('event'));
     }
 
     public function gallery()
