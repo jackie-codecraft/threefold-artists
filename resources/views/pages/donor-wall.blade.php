@@ -38,7 +38,7 @@
                 <div class="max-w-lg mx-auto text-center">
                     <div class="w-12 h-px bg-stage-gold mx-auto mb-8"></div>
                     <h2 class="font-display text-3xl font-light text-theatre-black mb-4">Be Our First Donor</h2>
-                    <p class="text-gray-500 leading-relaxed mb-4">"As you give, you return threefold."</p>
+                    <p class="text-gray-500 leading-relaxed mb-4">"As you give, it returns threefold."</p>
                     <p class="text-gray-500 leading-relaxed mb-10">Your name could be the first on our wall. Every donation, no matter the size, helps keep theatre alive.</p>
                     @if($siteSettings->donationsEnabled())
                         <a href="{{ route('donate') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
@@ -62,7 +62,7 @@
 
                 @if($siteSettings->donationsEnabled())
                     <div class="text-center mt-20 pt-16 border-t border-gray-100">
-                        <p class="text-gray-400 italic font-display text-lg mb-8">"As you give, you return threefold."</p>
+                        <p class="text-gray-400 italic font-display text-lg mb-8">"As you give, it returns threefold."</p>
                         <a href="{{ route('donate') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
                             Join Our Donors
                         </a>

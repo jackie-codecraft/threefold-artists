@@ -179,7 +179,7 @@
                     <p class="text-sm text-gray-400 leading-relaxed mb-6">
                         When people cannot come to the arts, we will come to them.
                     </p>
-                    <p class="text-xs text-stage-gold italic font-display">"As you give, you return threefold."</p>
+                    <p class="text-xs text-stage-gold italic font-display">"As you give, it returns threefold."</p>
                 </div>
 
                 {{-- Quick Links --}}
