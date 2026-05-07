@@ -33,7 +33,7 @@
                 </p>
 
                 <p class="text-sm text-stage-gold font-display italic mb-12">
-                    "As you give, you return threefold."
+                    "As you give, it returns threefold."
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-3">

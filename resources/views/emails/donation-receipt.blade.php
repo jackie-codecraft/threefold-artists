@@ -21,7 +21,7 @@
         </div>
 
         <p style="color: #C9A84C; font-style: italic; font-family: Georgia, serif; font-size: 16px;">
-            "As you give, you return threefold."
+            "As you give, it returns threefold."
         </p>
 
         <p style="color: #999; font-size: 12px; margin-top: 30px;">

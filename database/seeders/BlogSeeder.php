@@ -145,7 +145,7 @@ class BlogSeeder extends Seeder
 
 <p>If you run a facility that would love to bring live arts to the people you serve — we want to hear from you too.</p>
 
-<p><em>As you give, you return threefold.</em></p>',
+<p><em>As you give, it returns threefold.</em></p>',
                 'featured_image_url'  => 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=1200&q=80',
                 'featured_image_name' => 'blog-origin-story.jpg',
             ],
