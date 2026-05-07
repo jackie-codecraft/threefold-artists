@@ -19,6 +19,10 @@ class SiteSettings extends Model
         'show_donations',
         'contact_email',
         'donations_email',
+        'facebook_url',
+        'instagram_url',
+        'youtube_url',
+        'tiktok_url',
     ];
 
     protected $casts = [
@@ -59,6 +63,10 @@ class SiteSettings extends Model
             'show_donations' => true,
             'contact_email' => 'hello@threefoldartists.org',
             'donations_email' => null,
+            'facebook_url' => null,
+            'instagram_url' => null,
+            'youtube_url' => null,
+            'tiktok_url' => null,
         ];
     }
 
@@ -85,6 +93,26 @@ class SiteSettings extends Model
     public function donationsEnabled(): bool
     {
         return $this->flag('show_donations');
+    }
+
+    /**
+     * @return array<int, array{label: string, url: string}>
+     */
+    public function socialLinks(): array
+    {
+        return collect([
+            'facebook_url' => 'Facebook',
+            'instagram_url' => 'Instagram',
+            'youtube_url' => 'YouTube',
+            'tiktok_url' => 'TikTok',
+        ])
+            ->map(fn (string $label, string $attribute): array => [
+                'label' => $label,
+                'url' => trim((string) $this->getAttribute($attribute)),
+            ])
+            ->filter(fn (array $link): bool => $link['url'] !== '')
+            ->values()
+            ->all();
     }
 
     private function flag(string $attribute): bool

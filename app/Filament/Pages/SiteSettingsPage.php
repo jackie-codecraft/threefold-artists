@@ -96,6 +96,29 @@ class SiteSettingsPage extends Page implements HasForms
                                     ->maxLength(255),
                             ]),
                     ]),
+                Section::make('Contact page social links')
+                    ->description('Only links with URLs are shown on the public contact page. Leave every field blank to hide the Social heading entirely.')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('facebook_url')
+                                    ->label('Facebook URL')
+                                    ->url()
+                                    ->maxLength(255),
+                                TextInput::make('instagram_url')
+                                    ->label('Instagram URL')
+                                    ->url()
+                                    ->maxLength(255),
+                                TextInput::make('youtube_url')
+                                    ->label('YouTube URL')
+                                    ->url()
+                                    ->maxLength(255),
+                                TextInput::make('tiktok_url')
+                                    ->label('TikTok URL')
+                                    ->url()
+                                    ->maxLength(255),
+                            ]),
+                    ]),
             ]);
     }
 
