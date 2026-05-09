@@ -110,7 +110,7 @@ Route::get('/get-involved/thank-you', [GetInvolvedController::class, 'thanks'])-
 
 // Contact
 Route::get('/contact', [ContactController::class, 'create'])->name('contact');
-Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store')->middleware('throttle:contact-form');
 Route::get('/contact/thank-you', [ContactController::class, 'thanks'])->name('contact.thanks');
 
 // Donor Wall

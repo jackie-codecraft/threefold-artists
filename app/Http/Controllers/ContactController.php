@@ -24,7 +24,7 @@ class ContactController extends Controller
 
     public function store(ContactMessageRequest $request)
     {
-        $message = ContactMessage::create($request->validated());
+        $message = ContactMessage::create($request->contactData());
 
         Mail::to(config('mail.from.address'))->send(
             new ContactMessageReceived($message)

@@ -51,6 +51,8 @@
 
                     <form action="{{ route('contact.store') }}" method="POST" class="space-y-8">
                         @csrf
+                        <input type="text" name="website" value="" autocomplete="off" tabindex="-1" class="hidden" aria-hidden="true">
+                        <input type="hidden" name="form_started_at" value="{{ now()->timestamp }}">
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div>
