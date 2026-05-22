@@ -50,7 +50,33 @@ class PledgePageTest extends TestCase
 
         $response->assertRedirect(route('pledge'));
         $response->assertSessionHasErrors('website');
-        $this->assertDatabaseCount(Pledge::class, 0);
+        $this->assertDatabaseMissing(Pledge::class, [
+            'email' => 'jane@example.com',
+            'message' => 'I want to help keep theatre accessible.',
+        ]);
+    }
+
+    public function test_contact_form_throttle_does_not_block_pledge_submissions(): void
+    {
+        for ($i = 0; $i < 3; $i++) {
+            $this->withSession(['_token' => 'test-token'])
+                ->post(route('contact.store'), [
+                    '_token' => 'test-token',
+                    'name' => "Contact {$i}",
+                    'email' => "contact{$i}@example.com",
+                    'subject' => 'Question',
+                    'message' => 'I would like to learn more about your performances.',
+                    'website' => '',
+                    'form_started_at' => (string) now()->subSeconds(10)->timestamp,
+                ])
+                ->assertRedirect(route('contact.thanks'));
+        }
+
+        $this->withSession(['_token' => 'test-token'])
+            ->post(route('pledge.store'), $this->validPayload([
+                'email' => 'pledge-after-contact@example.com',
+            ]))
+            ->assertRedirect(route('pledge.thanks'));
     }
 
     public function test_disabled_pledges_are_hidden_from_navigation_and_return_404(): void
@@ -65,7 +91,9 @@ class PledgePageTest extends TestCase
         $homeResponse->assertDontSee(route('pledge'), false);
 
         $this->get(route('pledge'))->assertNotFound();
-        $this->post(route('pledge.store'), $this->validPayload())->assertNotFound();
+        $this->withSession(['_token' => 'test-token'])
+            ->post(route('pledge.store'), $this->validPayload())
+            ->assertNotFound();
         $this->get(route('pledge.thanks'))->assertNotFound();
     }
 

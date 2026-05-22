@@ -30,8 +30,13 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perHour(3)->by($request->ip());
         });
 
+        RateLimiter::for('pledge-form', function (Request $request) {
+            return Limit::perHour(10)->by($request->ip());
+        });
+
         View::composer('*', function ($view): void {
             $view->with('siteSettings', SiteSettings::current());
         });
     }
 }
+
