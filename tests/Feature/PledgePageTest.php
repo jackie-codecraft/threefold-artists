@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Mail\PledgeConfirmation;
 use App\Models\Pledge;
 use App\Models\SiteSettings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class PledgePageTest extends TestCase
@@ -38,6 +40,21 @@ class PledgePageTest extends TestCase
             'amount' => 250,
             'status' => 'new',
         ]);
+    }
+
+    public function test_pledge_form_sends_confirmation_email_to_supporter(): void
+    {
+        Mail::fake();
+
+        $this->withSession(['_token' => 'test-token'])
+            ->post(route('pledge.store'), $this->validPayload())
+            ->assertRedirect(route('pledge.thanks'));
+
+        Mail::assertSent(PledgeConfirmation::class, function (PledgeConfirmation $mail) {
+            return $mail->hasTo('jane@example.com')
+                && $mail->pledge->name === 'Jane Supporter'
+                && (int) $mail->pledge->amount === 250;
+        });
     }
 
     public function test_pledge_form_rejects_honeypot_submissions(): void

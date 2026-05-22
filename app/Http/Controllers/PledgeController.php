@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PledgeRequest;
+use App\Mail\PledgeConfirmation;
 use App\Models\Pledge;
 use App\Models\SiteSettings;
+use Illuminate\Support\Facades\Mail;
 
 class PledgeController extends Controller
 {
@@ -21,7 +23,9 @@ class PledgeController extends Controller
     {
         $this->ensurePledgesEnabled();
 
-        Pledge::create($request->pledgeData());
+        $pledge = Pledge::create($request->pledgeData());
+
+        Mail::to($pledge->email)->send(new PledgeConfirmation($pledge));
 
         return redirect()->route('pledge.thanks');
     }
