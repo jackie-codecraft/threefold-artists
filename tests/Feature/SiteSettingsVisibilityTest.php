@@ -21,6 +21,7 @@ class SiteSettingsVisibilityTest extends TestCase
         $this->assertTrue($settings->show_gallery);
         $this->assertTrue($settings->show_events);
         $this->assertTrue($settings->show_donations);
+        $this->assertTrue($settings->show_pledges);
         $this->assertSame('hello@threefoldartists.org', $settings->contact_email);
     }
 

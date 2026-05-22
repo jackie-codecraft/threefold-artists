@@ -12,6 +12,7 @@ use App\Http\Controllers\NewsletterPreviewController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PerformanceRequestController;
 use App\Http\Controllers\PerformanceRequestReplyController;
+use App\Http\Controllers\PledgeController;
 use App\Http\Controllers\UnsubscribeController;
 use App\Models\Artist;
 use App\Models\BlogPost;
@@ -50,6 +51,10 @@ Route::get('/sitemap.xml', function () {
     if ($settings->donationsEnabled()) {
         $sitemap->add(Url::create('/donate')->setPriority(0.9));
         $sitemap->add(Url::create('/donor-wall')->setPriority(0.5));
+    }
+
+    if ($settings->pledgesEnabled()) {
+        $sitemap->add(Url::create('/pledge')->setPriority(0.9));
     }
 
     if ($settings->galleryEnabled()) {
@@ -160,3 +165,7 @@ Route::get('/donate', [DonateController::class, 'show'])->name('donate');
 Route::post('/donate/checkout', [DonateController::class, 'checkout'])->name('donate.checkout');
 Route::get('/donate/success', [DonateController::class, 'success'])->name('donate.success');
 Route::get('/donate/thank-you', [DonateController::class, 'thanks'])->name('donate.thanks');
+
+Route::get('/pledge', [PledgeController::class, 'create'])->name('pledge');
+Route::post('/pledge', [PledgeController::class, 'store'])->name('pledge.store')->middleware('throttle:pledge-form');
+Route::get('/pledge/thank-you', [PledgeController::class, 'thanks'])->name('pledge.thanks');
