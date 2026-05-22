@@ -17,6 +17,7 @@ class SiteSettings extends Model
         'show_gallery',
         'show_events',
         'show_donations',
+        'show_pledges',
         'contact_email',
         'donations_email',
         'facebook_url',
@@ -31,6 +32,7 @@ class SiteSettings extends Model
         'show_gallery' => 'boolean',
         'show_events' => 'boolean',
         'show_donations' => 'boolean',
+        'show_pledges' => 'boolean',
     ];
 
     public static function current(): self
@@ -61,6 +63,7 @@ class SiteSettings extends Model
             'show_gallery' => true,
             'show_events' => true,
             'show_donations' => true,
+            'show_pledges' => true,
             'contact_email' => 'hello@threefoldartists.org',
             'donations_email' => null,
             'facebook_url' => null,
@@ -93,6 +96,11 @@ class SiteSettings extends Model
     public function donationsEnabled(): bool
     {
         return $this->flag('show_donations');
+    }
+
+    public function pledgesEnabled(): bool
+    {
+        return $this->flag('show_pledges');
     }
 
     /**

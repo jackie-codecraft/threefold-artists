@@ -79,6 +79,12 @@ class SiteSettingsPage extends Page implements HasForms
                                     ->default(true)
                                     ->inline(false)
                                     ->required(),
+                                Toggle::make('show_pledges')
+                                    ->label('Show pledge page')
+                                    ->helperText('Hide founding supporter pledge links and return 404 for pledge pages when disabled.')
+                                    ->default(true)
+                                    ->inline(false)
+                                    ->required(),
                             ]),
                     ]),
                 Section::make('Future-ready contact details')
