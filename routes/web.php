@@ -169,4 +169,3 @@ Route::get('/donate/thank-you', [DonateController::class, 'thanks'])->name('dona
 Route::get('/pledge', [PledgeController::class, 'create'])->name('pledge');
 Route::post('/pledge', [PledgeController::class, 'store'])->name('pledge.store')->middleware('throttle:pledge-form');
 Route::get('/pledge/thank-you', [PledgeController::class, 'thanks'])->name('pledge.thanks');
-
