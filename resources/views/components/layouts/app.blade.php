@@ -284,9 +284,12 @@
             {{-- Bottom Bar --}}
             <div class="border-t border-gray-800 mt-16 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p class="text-xs text-gray-500">&copy; {{ date('Y') }} Threefold Artists. All rights reserved.</p>
-                @if($siteSettings->donationsEnabled())
-                    <p class="text-xs text-gray-500">A 501(c)(3) nonprofit organization. All donations are tax-deductible.</p>
-                @endif
+                <div class="flex flex-col items-center gap-1 text-center sm:items-end sm:text-right">
+                    <p class="text-xs text-gray-500">EIN #85-0567934</p>
+                    @if($siteSettings->donationsEnabled())
+                        <p class="text-xs text-gray-500">A 501(c)(3) nonprofit organization. All donations are tax-deductible.</p>
+                    @endif
+                </div>
             </div>
         </div>
     </footer>
