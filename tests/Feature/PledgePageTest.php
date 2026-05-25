@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Mail\PledgeConfirmation;
+use App\Mail\PledgeSubmittedNotification;
 use App\Models\Pledge;
 use App\Models\SiteSettings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -54,6 +55,39 @@ class PledgePageTest extends TestCase
             return $mail->hasTo('jane@example.com')
                 && $mail->pledge->name === 'Jane Supporter'
                 && (int) $mail->pledge->amount === 250;
+        });
+    }
+
+    public function test_pledge_form_sends_notification_email_to_donations_admin_email(): void
+    {
+        Mail::fake();
+        SiteSettings::query()->updateOrCreate([], [
+            'donations_email' => 'giving@example.org',
+        ]);
+
+        $this->withSession(['_token' => 'test-token'])
+            ->post(route('pledge.store'), $this->validPayload())
+            ->assertRedirect(route('pledge.thanks'));
+
+        Mail::assertSent(PledgeSubmittedNotification::class, function (PledgeSubmittedNotification $mail) {
+            return $mail->hasTo('giving@example.org')
+                && $mail->pledge->email === 'jane@example.com'
+                && $mail->pledge->name === 'Jane Supporter'
+                && (int) $mail->pledge->amount === 250;
+        });
+    }
+
+    public function test_pledge_notification_falls_back_to_default_mail_from_address(): void
+    {
+        Mail::fake();
+        config(['mail.from.address' => 'admin@example.org']);
+
+        $this->withSession(['_token' => 'test-token'])
+            ->post(route('pledge.store'), $this->validPayload())
+            ->assertRedirect(route('pledge.thanks'));
+
+        Mail::assertSent(PledgeSubmittedNotification::class, function (PledgeSubmittedNotification $mail) {
+            return $mail->hasTo('admin@example.org');
         });
     }
 
