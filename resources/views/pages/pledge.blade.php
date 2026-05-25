@@ -56,10 +56,21 @@
             <div class="rounded-3xl bg-linen p-6 shadow-2xl shadow-black/35 ring-1 ring-stage-gold/20 sm:p-10 lg:p-14">
                 <div class="text-center">
                     <p class="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-stage-gold">Pledge your future support</p>
-                    <h2 class="font-display text-4xl font-light text-curtain-red sm:text-5xl">Founding Supporter Pledge Form</h2>
-                    <p class="mx-auto mt-5 max-w-2xl text-gray-600 leading-7">
-                        We are currently finalizing our nonprofit banking setup and donation platform. At this time, we are collecting pledge commitments and supporter interest only.
-                    </p>
+                    <h2 class="font-display text-4xl font-light text-curtain-red sm:text-5xl">
+                        <span class="block">Founding Supporter</span>
+                        <span class="block">Pledge Form</span>
+                    </h2>
+                    <div class="mx-auto mt-5 max-w-3xl space-y-4 text-gray-600 leading-7">
+                        <p class="[text-wrap:balance]">
+                            We are currently preparing our official donation platform and nonprofit banking infrastructure.
+                        </p>
+                        <p class="[text-wrap:balance]">
+                            In the meantime, we invite you to become part of our growing community by submitting a Founding Supporter pledge. Once our donation system is fully active, we will personally follow up with instructions for completing your contribution.
+                        </p>
+                        <p class="font-semibold text-curtain-red [text-wrap:balance]">
+                            Thank you for believing in the mission of keeping theatre and the arts alive for all.
+                        </p>
+                    </div>
                 </div>
 
                 @if ($errors->any())
