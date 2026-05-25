@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -42,6 +43,11 @@ class BlogPost extends Model implements HasMedia
         return $query->where('category', $category);
     }
 
+    public function galleryItems(): MorphMany
+    {
+        return $this->morphMany(GalleryItem::class, 'galleryable');
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('featured_image')
@@ -60,7 +66,7 @@ class BlogPost extends Model implements HasMedia
                 return $media->getUrl();
             }
 
-            $seededFallbackPath = 'blog/' . $media->file_name;
+            $seededFallbackPath = 'blog/'.$media->file_name;
 
             if (Storage::disk($media->disk)->exists($seededFallbackPath)) {
                 return Storage::disk($media->disk)->url($seededFallbackPath);
@@ -78,7 +84,7 @@ class BlogPost extends Model implements HasMedia
                 }
 
                 $legacyFilename = basename($relativePath);
-                $seededFallbackPath = 'blog/' . $legacyFilename;
+                $seededFallbackPath = 'blog/'.$legacyFilename;
 
                 if ($legacyFilename !== '' && Storage::disk('public')->exists($seededFallbackPath)) {
                     return Storage::disk('public')->url($seededFallbackPath);

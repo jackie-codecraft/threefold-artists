@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BlogPostResource\Pages;
+use App\Filament\Resources\RelationManagers\GalleryItemsRelationManager;
 use App\Models\BlogPost;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
-use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -16,8 +20,11 @@ use Illuminate\Support\Str;
 class BlogPostResource extends Resource
 {
     protected static ?string $model = BlogPost::class;
+
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-newspaper';
+
     protected static string|\UnitEnum|null $navigationGroup = 'Content';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
@@ -59,8 +66,8 @@ class BlogPostResource extends Resource
                 Tables\Columns\TextColumn::make('published_at')->dateTime()->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
-            ->recordActions([\Filament\Actions\EditAction::make()])
-            ->toolbarActions([\Filament\Actions\BulkActionGroup::make([\Filament\Actions\DeleteBulkAction::make()])]);
+            ->recordActions([EditAction::make()])
+            ->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array
@@ -69,6 +76,13 @@ class BlogPostResource extends Resource
             'index' => Pages\ListBlogPosts::route('/'),
             'create' => Pages\CreateBlogPost::route('/create'),
             'edit' => Pages\EditBlogPost::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            GalleryItemsRelationManager::class,
         ];
     }
 }

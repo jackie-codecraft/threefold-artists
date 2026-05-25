@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -42,6 +43,11 @@ class Event extends Model implements HasMedia
     public function scopePublic($query)
     {
         return $query->where('is_public', true);
+    }
+
+    public function galleryItems(): MorphMany
+    {
+        return $this->morphMany(GalleryItem::class, 'galleryable');
     }
 
     public function registerMediaCollections(): void

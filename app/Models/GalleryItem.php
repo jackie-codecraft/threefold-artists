@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -19,6 +20,8 @@ class GalleryItem extends Model implements HasMedia
         'type',
         'art_form',
         'event_name',
+        'galleryable_type',
+        'galleryable_id',
         'is_featured',
         'is_active',
     ];
@@ -36,6 +39,11 @@ class GalleryItem extends Model implements HasMedia
     public function scopeFeatured(Builder $query): Builder
     {
         return $query->where('is_featured', true);
+    }
+
+    public function galleryable(): MorphTo
+    {
+        return $this->morphTo();
     }
 
     public function registerMediaCollections(): void

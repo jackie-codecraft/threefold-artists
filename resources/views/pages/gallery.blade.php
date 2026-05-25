@@ -31,36 +31,80 @@
                 <div x-data="{
                     lightbox: false,
                     currentImage: '',
+                    currentType: 'photo',
                     currentTitle: '',
-                    currentCaption: '',
-                    filter: 'all'
+                    currentCaption: ''
                 }" @keydown.escape.window="lightbox = false">
 
-                    {{-- Filter buttons --}}
-                    <div class="flex flex-wrap gap-3 mb-16">
-                        <template x-for="f in ['all', 'theatre', 'music', 'dance', 'fine_arts']">
-                            <button @click="filter = f"
-                                :class="filter === f ? 'bg-theatre-black text-white' : 'border border-gray-300 text-gray-500 hover:border-theatre-black hover:text-theatre-black'"
-                                class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors"
-                                x-text="f === 'all' ? 'All' : f.replace('_', ' ')">
-                            </button>
-                        </template>
+                    {{-- Filters --}}
+                    <div class="mb-16 space-y-6">
+                        @php($artForms = ['' => 'All Art Forms', 'theatre' => 'Theatre', 'music' => 'Music', 'dance' => 'Dance', 'fine_arts' => 'Fine Arts'])
+                        <div class="flex flex-wrap gap-3">
+                            @foreach($artForms as $value => $label)
+                                <a href="{{ route('gallery', array_filter(['art_form' => $value, 'related_type' => $selectedRelatedType, 'related_id' => $selectedRelatedId])) }}"
+                                   class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors {{ $selectedArtForm === $value ? 'bg-theatre-black text-white' : 'border border-gray-300 text-gray-500 hover:border-theatre-black hover:text-theatre-black' }}">
+                                    {{ $label }}
+                                </a>
+                            @endforeach
+                        </div>
+
+                        @if($events->isNotEmpty() || $posts->isNotEmpty())
+                            <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 items-end p-5 bg-linen">
+                                <form method="GET" action="{{ route('gallery') }}" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    @if($selectedArtForm !== '')
+                                        <input type="hidden" name="art_form" value="{{ $selectedArtForm }}">
+                                    @endif
+                                    <div>
+                                        <label for="related_type" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Content Type</label>
+                                        <select id="related_type" name="related_type" class="w-full border border-gray-300 bg-white px-3 py-2 text-sm text-theatre-black">
+                                            <option value="">Any</option>
+                                            <option value="event" @selected($selectedRelatedType === 'event')>Events</option>
+                                            <option value="blog_post" @selected($selectedRelatedType === 'blog_post')>Blog Posts</option>
+                                        </select>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <label for="related_id" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Related Content</label>
+                                        <select id="related_id" name="related_id" class="w-full border border-gray-300 bg-white px-3 py-2 text-sm text-theatre-black">
+                                            <option value="">Any event or post</option>
+                                            @if($events->isNotEmpty())
+                                                <optgroup label="Events">
+                                                    @foreach($events as $event)
+                                                        <option value="{{ $event->id }}" @selected($selectedRelatedType === 'event' && $selectedRelatedId === $event->id)>Event: {{ $event->title }}</option>
+                                                    @endforeach
+                                                </optgroup>
+                                            @endif
+                                            @if($posts->isNotEmpty())
+                                                <optgroup label="Blog Posts">
+                                                    @foreach($posts as $post)
+                                                        <option value="{{ $post->id }}" @selected($selectedRelatedType === 'blog_post' && $selectedRelatedId === $post->id)>Blog: {{ $post->title }}</option>
+                                                    @endforeach
+                                                </optgroup>
+                                            @endif
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="sm:col-span-3 inline-flex items-center justify-center px-6 py-3 bg-theatre-black text-white text-xs font-semibold tracking-[0.15em] uppercase hover:bg-gray-800 transition-colors">Filter Gallery</button>
+                                </form>
+                                @if($selectedArtForm !== '' || $selectedRelatedType !== '')
+                                    <a href="{{ route('gallery') }}" class="inline-flex items-center justify-center px-6 py-3 border border-theatre-black text-theatre-black text-xs font-semibold tracking-[0.15em] uppercase hover:bg-theatre-black hover:text-white transition-colors">Clear Filters</a>
+                                @endif
+                            </div>
+                        @endif
                     </div>
 
                     {{-- Grid --}}
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($items as $item)
-                        <div x-show="filter === 'all' || filter === '{{ $item->art_form }}'"
-                             x-transition:enter="transition ease-out duration-300"
-                             x-transition:enter-start="opacity-0"
-                             x-transition:enter-end="opacity-100"
-                             class="group">
+                        <div class="group">
                             @if($item->getFirstMediaUrl('media'))
-                                <div @click="lightbox = true; currentImage = '{{ $item->getFirstMediaUrl('media') }}'; currentTitle = '{{ addslashes($item->title ?? '') }}'; currentCaption = '{{ addslashes($item->caption ?? '') }}'"
+                                <div @click="lightbox = true; currentImage = '{{ $item->getFirstMediaUrl('media') }}'; currentType = '{{ $item->type }}'; currentTitle = '{{ addslashes($item->title ?? '') }}'; currentCaption = '{{ addslashes($item->caption ?? '') }}'"
                                      class="cursor-pointer">
                                     <div class="aspect-[4/3] overflow-hidden">
-                                        <img src="{{ $item->getFirstMediaUrl('media') }}" alt="{{ $item->title ?? 'Gallery image' }}"
-                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        @if($item->type === 'video')
+                                            <video src="{{ $item->getFirstMediaUrl('media') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" muted playsinline preload="metadata"></video>
+                                        @else
+                                            <img src="{{ $item->getFirstMediaUrl('media') }}" alt="{{ $item->title ?? 'Gallery image' }}"
+                                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        @endif
                                     </div>
                                 </div>
                             @endif
@@ -93,7 +137,12 @@
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
                         </button>
                         <div class="max-w-5xl w-full">
-                            <img :src="currentImage" :alt="currentTitle" class="max-h-[80vh] w-auto mx-auto">
+                            <template x-if="currentType === 'video'">
+                                <video :src="currentImage" class="max-h-[80vh] w-auto mx-auto" controls autoplay></video>
+                            </template>
+                            <template x-if="currentType !== 'video'">
+                                <img :src="currentImage" :alt="currentTitle" class="max-h-[80vh] w-auto mx-auto">
+                            </template>
                             <div class="text-center mt-6" x-show="currentTitle || currentCaption">
                                 <p class="text-white font-display text-xl" x-text="currentTitle"></p>
                                 <p class="text-gray-400 text-sm mt-2" x-text="currentCaption"></p>
