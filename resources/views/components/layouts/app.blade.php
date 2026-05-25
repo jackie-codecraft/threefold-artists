@@ -1,5 +1,6 @@
 @props(['title' => null, 'metaDescription' => null, 'ogImage' => null, 'canonical' => null])
 @php($siteSettings = \App\Models\SiteSettings::current())
+@php($contactEmail = $siteSettings->contactEmail())
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -234,7 +235,7 @@
                     <h3 class="text-xs font-semibold text-gray-400 tracking-[0.15em] uppercase mb-6">Connect</h3>
                     <div class="space-y-3 text-sm">
                         <p>
-                            <a href="mailto:hello@threefoldartists.org" class="text-gray-300 hover:text-white transition-colors">hello@threefoldartists.org</a>
+                            <a href="mailto:{{ $contactEmail }}" class="text-gray-300 hover:text-white transition-colors">{{ $contactEmail }}</a>
                         </p>
                         <p class="text-gray-400">Greater Los Angeles, California</p>
                         <div class="flex gap-5 mt-6">

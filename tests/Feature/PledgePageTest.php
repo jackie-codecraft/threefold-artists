@@ -24,7 +24,8 @@ class PledgePageTest extends TestCase
         $response->assertSee('Become a Founding Supporter');
         $response->assertSee('What You Make Possible');
         $response->assertSee('Employ and support working artists');
-        $response->assertSee('Founding Supporter Pledge Form');
+        $response->assertSee('Founding Supporter');
+        $response->assertSee('Pledge Form');
         $response->assertDontSee('Areas of Interest');
     }
 

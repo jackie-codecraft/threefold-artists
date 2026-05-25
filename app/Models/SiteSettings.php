@@ -103,6 +103,17 @@ class SiteSettings extends Model
         return $this->flag('show_pledges');
     }
 
+    public function contactEmail(): string
+    {
+        $email = trim((string) $this->contact_email);
+
+        if ($email !== '') {
+            return $email;
+        }
+
+        return (string) static::defaultAttributes()['contact_email'];
+    }
+
     /**
      * @return array<int, array{label: string, url: string}>
      */
