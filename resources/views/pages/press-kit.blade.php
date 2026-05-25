@@ -138,12 +138,13 @@
     </section>
 
     {{-- Contact for Media --}}
+    @php($contactEmail = \App\Models\SiteSettings::current()->contactEmail())
     <section class="py-24 sm:py-32">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Media Inquiries</p>
             <h2 class="font-display text-4xl font-light text-theatre-black mb-6">Get in Touch</h2>
             <p class="text-gray-500 leading-relaxed mb-8">For press inquiries, interviews, or additional assets, please contact us.</p>
-            <a href="mailto:hello@threefoldartists.org" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+            <a href="mailto:{{ $contactEmail }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
                 Contact Press Team
             </a>
         </div>

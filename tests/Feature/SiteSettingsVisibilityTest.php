@@ -25,6 +25,26 @@ class SiteSettingsVisibilityTest extends TestCase
         $this->assertSame('hello@threefoldartists.org', $settings->contact_email);
     }
 
+    public function test_public_email_links_use_configured_contact_email(): void
+    {
+        SiteSettings::query()->updateOrCreate([], [
+            'contact_email' => 'admin@example.org',
+        ]);
+
+        $homeResponse = $this->get(route('home'));
+
+        $homeResponse->assertOk();
+        $homeResponse->assertSee('mailto:admin@example.org', false);
+        $homeResponse->assertSee('admin@example.org');
+        $homeResponse->assertDontSee('mailto:hello@threefoldartists.org', false);
+
+        $pressResponse = $this->get(route('press-kit'));
+
+        $pressResponse->assertOk();
+        $pressResponse->assertSee('mailto:admin@example.org', false);
+        $pressResponse->assertDontSee('mailto:hello@threefoldartists.org', false);
+    }
+
     public function test_disabled_gallery_and_events_are_hidden_from_navigation_and_return_404(): void
     {
         SiteSettings::query()->updateOrCreate([], [
