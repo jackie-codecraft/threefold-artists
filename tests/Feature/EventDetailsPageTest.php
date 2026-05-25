@@ -29,7 +29,7 @@ class EventDetailsPageTest extends TestCase
         $response = $this->get(route('events'));
 
         $response->assertOk();
-        $response->assertSee('More...');
+        $response->assertSee('View Event');
         $response->assertSee(route('events.show', $event), false);
     }
 
@@ -54,6 +54,45 @@ class EventDetailsPageTest extends TestCase
         $response->assertSee('Eastside Community Center');
         $response->assertSee('6:30 PM');
         $response->assertSee(route('events'), false);
+    }
+
+    public function test_event_featured_image_renders_on_event_list_and_detail_pages(): void
+    {
+        $event = Event::query()->create([
+            'title' => 'Featured Fundraiser Concert',
+            'description' => 'A music event with a full landing page image.',
+            'date' => now()->addWeek()->toDateString(),
+            'time' => '19:00:00',
+            'venue_name' => 'Theatre Hall',
+            'art_form' => 'music',
+            'featured_image' => 'https://example.com/event-featured.jpg',
+            'is_public' => true,
+        ]);
+
+        $this->get(route('events'))
+            ->assertOk()
+            ->assertSee('https://example.com/event-featured.jpg', false)
+            ->assertSee('alt="Featured Fundraiser Concert"', false);
+
+        $this->get(route('events.show', $event))
+            ->assertOk()
+            ->assertSee('https://example.com/event-featured.jpg', false)
+            ->assertSee('Featured Fundraiser Concert');
+    }
+
+    public function test_event_list_uses_branded_placeholder_without_featured_image(): void
+    {
+        Event::query()->create([
+            'title' => 'Community Theatre Night',
+            'description' => 'A full evening of theatre and music for the community.',
+            'date' => now()->addWeek()->toDateString(),
+            'venue_name' => 'Eastside Community Center',
+            'is_public' => true,
+        ]);
+
+        $this->get(route('events'))
+            ->assertOk()
+            ->assertSee('Threefold Artists');
     }
 
     public function test_event_details_page_hides_non_public_events(): void

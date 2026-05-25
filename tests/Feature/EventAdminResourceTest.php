@@ -1,0 +1,26 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature;
+
+use App\Filament\Resources\EventResource;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class EventAdminResourceTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_event_create_form_exposes_featured_image_upload(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get(EventResource::getUrl('create'))
+            ->assertOk()
+            ->assertSee('Featured Image')
+            ->assertSee('Used on the public event card and event detail hero.');
+    }
+}
