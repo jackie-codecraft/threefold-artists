@@ -28,6 +28,17 @@ class PledgePageTest extends TestCase
         $response->assertDontSee('Areas of Interest');
     }
 
+    public function test_home_page_shows_pledge_cta_when_pledges_are_enabled(): void
+    {
+        $response = $this->get(route('home'));
+
+        $response->assertOk();
+        $response->assertSee('Request a Performance');
+        $response->assertSee('inline-grid gap-3', false);
+        $response->assertSee(route('pledge'), false);
+        $response->assertSee('Pledge');
+    }
+
     public function test_pledge_form_accepts_valid_submission(): void
     {
         $response = $this->withSession(['_token' => 'test-token'])
