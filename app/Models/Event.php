@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Event extends Model
+class Event extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+
     protected $fillable = [
         'title',
         'description',
@@ -18,6 +23,7 @@ class Event extends Model
         'latitude',
         'longitude',
         'art_form',
+        'featured_image',
         'is_public',
     ];
 
@@ -36,5 +42,41 @@ class Event extends Model
     public function scopePublic($query)
     {
         return $query->where('is_public', true);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('featured_image')
+            ->useDisk('public')
+            ->singleFile();
+    }
+
+    public function featuredImageUrl(): ?string
+    {
+        $media = $this->getFirstMedia('featured_image');
+
+        if ($media !== null) {
+            $path = $media->getPathRelativeToRoot();
+
+            if (Storage::disk($media->disk)->exists($path)) {
+                return $media->getUrl();
+            }
+        }
+
+        if (filled($this->featured_image)) {
+            $legacyPath = ltrim((string) parse_url($this->featured_image, PHP_URL_PATH), '/');
+
+            if ($legacyPath !== '' && str_starts_with($legacyPath, 'storage/')) {
+                $relativePath = substr($legacyPath, strlen('storage/'));
+
+                if (Storage::disk('public')->exists($relativePath)) {
+                    return Storage::disk('public')->url($relativePath);
+                }
+            }
+
+            return $this->featured_image;
+        }
+
+        return null;
     }
 }

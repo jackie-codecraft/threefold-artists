@@ -20,20 +20,36 @@
     }
     </script>
 
-    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    @php($featuredImageUrl = $event->featuredImageUrl())
+
+    <section class="pt-20 pb-24 bg-theatre-black relative overflow-hidden min-h-[520px] flex items-end">
         <div class="absolute inset-0">
-            <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
-            <div class="absolute inset-0 bg-black/35"></div>
+            @if($featuredImageUrl)
+                <img src="{{ $featuredImageUrl }}" alt="{{ $event->title }}" class="w-full h-full object-cover object-center">
+                <div class="absolute inset-0 bg-gradient-to-r from-theatre-black/90 via-theatre-black/65 to-theatre-black/20"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-theatre-black/75 via-transparent to-theatre-black/20"></div>
+            @else
+                <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
+                <div class="absolute inset-0 bg-black/35"></div>
+            @endif
         </div>
-        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="w-16 h-px bg-stage-gold mb-6"></div>
-            <a href="{{ route('events') }}" class="inline-flex text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 hover:text-stage-gold transition-colors mb-4">
-                Events
-            </a>
-            <h1 class="font-display text-5xl sm:text-6xl font-light text-white max-w-4xl">{{ $event->title }}</h1>
-            <p class="text-lg text-gray-300 mt-4 max-w-2xl">
-                {{ $event->date->format('F j, Y') }}@if($event->time) at {{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}@endif
-            </p>
+        <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="max-w-4xl">
+                <div class="w-16 h-px bg-stage-gold mb-6"></div>
+                <a href="{{ route('events') }}" class="inline-flex text-xs font-semibold tracking-[0.2em] uppercase text-gray-300 hover:text-stage-gold transition-colors mb-4">
+                    Events
+                </a>
+                @if($event->art_form)
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-stage-gold mb-4">{{ str_replace('_', ' ', $event->art_form) }}</p>
+                @endif
+                <h1 class="font-display text-5xl sm:text-7xl font-light text-white leading-tight">{{ $event->title }}</h1>
+                <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 text-gray-100">
+                    <p class="text-lg">
+                        {{ $event->date->format('F j, Y') }}@if($event->time) at {{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}@endif
+                    </p>
+                    <p class="text-lg text-gray-300">{{ $event->venue_name }}</p>
+                </div>
+            </div>
         </div>
     </section>
 

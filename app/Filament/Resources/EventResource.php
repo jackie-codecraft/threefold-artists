@@ -6,17 +6,23 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\EventResource\Pages;
 use App\Models\Event;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
-use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 
 class EventResource extends Resource
 {
     protected static ?string $model = Event::class;
+
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-calendar-days';
+
     protected static string|\UnitEnum|null $navigationGroup = 'Operations';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
@@ -28,6 +34,13 @@ class EventResource extends Resource
             Forms\Components\TimePicker::make('time'),
             Forms\Components\TextInput::make('venue_name')->required(),
             Forms\Components\Textarea::make('venue_address'),
+            Forms\Components\SpatieMediaLibraryFileUpload::make('featured_image')
+                ->label('Featured Image')
+                ->helperText('Used on the public event card and event detail hero.')
+                ->collection('featured_image')
+                ->disk('public')
+                ->image()
+                ->columnSpanFull(),
             Forms\Components\TextInput::make('latitude')->numeric()->step(0.0000001),
             Forms\Components\TextInput::make('longitude')->numeric()->step(0.0000001),
             Forms\Components\Select::make('art_form')
@@ -53,8 +66,8 @@ class EventResource extends Resource
                 Tables\Columns\IconColumn::make('is_public')->boolean(),
             ])
             ->defaultSort('date', 'asc')
-            ->recordActions([\Filament\Actions\EditAction::make()])
-            ->toolbarActions([\Filament\Actions\BulkActionGroup::make([\Filament\Actions\DeleteBulkAction::make()])]);
+            ->recordActions([EditAction::make()])
+            ->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array
