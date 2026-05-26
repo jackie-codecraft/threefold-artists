@@ -79,6 +79,43 @@
             </div>
         </section>
 
+        @if($galleryItems->isNotEmpty() && $siteSettings->galleryEnabled())
+        <section class="pb-16 sm:pb-24">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+                    <div>
+                        <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">Related Gallery</p>
+                        <h2 class="font-display text-3xl font-light text-theatre-black">Images from this story</h2>
+                    </div>
+                    <a href="{{ route('gallery', ['related_type' => 'blog_post', 'related_id' => $post->id]) }}" class="inline-flex items-center text-sm font-semibold text-theatre-black hover:text-stage-gold-dark transition-colors">
+                        View Gallery
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </a>
+                </div>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    @foreach($galleryItems as $galleryItem)
+                        <a href="{{ route('gallery', ['related_type' => 'blog_post', 'related_id' => $post->id]) }}" class="group block">
+                            <div class="aspect-square overflow-hidden bg-linen">
+                                @if($galleryItem->getFirstMediaUrl('media'))
+                                    @if($galleryItem->type === 'video')
+                                        <video src="{{ $galleryItem->getFirstMediaUrl('media') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" muted playsinline preload="metadata"></video>
+                                    @else
+                                        <img src="{{ $galleryItem->getFirstMediaUrl('media') }}" alt="{{ $galleryItem->title ?? 'Blog gallery image' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    @endif
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center px-4 text-center text-xs font-semibold tracking-[0.15em] uppercase text-gray-400">Gallery Image</div>
+                                @endif
+                            </div>
+                            @if($galleryItem->title)
+                                <p class="mt-3 text-sm font-medium text-theatre-black group-hover:text-stage-gold-dark transition-colors">{{ $galleryItem->title }}</p>
+                            @endif
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+        @endif
+
         @if($relatedPosts->isNotEmpty())
         <section class="py-24 sm:py-32 bg-linen">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

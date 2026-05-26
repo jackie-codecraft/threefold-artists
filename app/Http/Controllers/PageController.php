@@ -12,6 +12,7 @@ use App\Models\GalleryItem;
 use App\Models\ImpactMetric;
 use App\Models\SiteSettings;
 use App\Models\Testimonial;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -64,16 +65,48 @@ class PageController extends Controller
         abort_unless(SiteSettings::current()->eventsEnabled(), 404);
         abort_unless($event->is_public, 404);
 
-        return view('pages.event-show', compact('event'));
+        $galleryItems = $event->galleryItems()
+            ->active()
+            ->latest()
+            ->take(4)
+            ->get();
+
+        return view('pages.event-show', compact('event', 'galleryItems'));
     }
 
-    public function gallery()
+    public function gallery(Request $request)
     {
         abort_unless(SiteSettings::current()->galleryEnabled(), 404);
 
-        $items = GalleryItem::query()->active()->latest()->get();
+        $selectedArtForm = $request->string('art_form')->toString();
+        $selectedRelatedType = $request->string('related_type')->toString();
+        $selectedRelatedId = $request->integer('related_id');
 
-        return view('pages.gallery', compact('items'));
+        $items = GalleryItem::query()
+            ->active()
+            ->when($selectedArtForm !== '', fn ($query) => $query->where('art_form', $selectedArtForm))
+            ->when(
+                in_array($selectedRelatedType, ['event', 'blog_post'], true) && $selectedRelatedId > 0,
+                fn ($query) => $query
+                    ->where('galleryable_type', $selectedRelatedType === 'event' ? Event::class : BlogPost::class)
+                    ->where('galleryable_id', $selectedRelatedId)
+            )
+            ->latest()
+            ->get();
+
+        $events = Event::query()
+            ->public()
+            ->whereHas('galleryItems', fn ($query) => $query->active())
+            ->orderByDesc('date')
+            ->get();
+
+        $posts = BlogPost::query()
+            ->published()
+            ->whereHas('galleryItems', fn ($query) => $query->active())
+            ->latest('published_at')
+            ->get();
+
+        return view('pages.gallery', compact('items', 'events', 'posts', 'selectedArtForm', 'selectedRelatedType', 'selectedRelatedId'));
     }
 
     public function impact()
@@ -108,7 +141,13 @@ class PageController extends Controller
             ->take(3)
             ->get();
 
-        return view('pages.blog-post', compact('post', 'relatedPosts'));
+        $galleryItems = $post->galleryItems()
+            ->active()
+            ->latest()
+            ->take(4)
+            ->get();
+
+        return view('pages.blog-post', compact('post', 'relatedPosts', 'galleryItems'));
     }
 
     public function artistShow(Artist $artist)

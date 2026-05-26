@@ -97,6 +97,41 @@
                         <p class="text-gray-500 leading-relaxed">Full details for this performance are coming soon.</p>
                     @endif
 
+                    @if($galleryItems->isNotEmpty() && $siteSettings->galleryEnabled())
+                        <div class="mt-12 pt-10 border-t border-gray-100">
+                            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+                                <div>
+                                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">Event Gallery</p>
+                                    <h2 class="font-display text-3xl font-light text-theatre-black">Moments from {{ $event->title }}</h2>
+                                </div>
+                                <a href="{{ route('gallery', ['related_type' => 'event', 'related_id' => $event->id]) }}" class="inline-flex items-center text-sm font-semibold text-theatre-black hover:text-stage-gold-dark transition-colors">
+                                    View Gallery
+                                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                                </a>
+                            </div>
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                                @foreach($galleryItems as $galleryItem)
+                                    <a href="{{ route('gallery', ['related_type' => 'event', 'related_id' => $event->id]) }}" class="group block">
+                                        <div class="aspect-square overflow-hidden bg-linen">
+                                            @if($galleryItem->getFirstMediaUrl('media'))
+                                                @if($galleryItem->type === 'video')
+                                                    <video src="{{ $galleryItem->getFirstMediaUrl('media') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" muted playsinline preload="metadata"></video>
+                                                @else
+                                                    <img src="{{ $galleryItem->getFirstMediaUrl('media') }}" alt="{{ $galleryItem->title ?? 'Event gallery image' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                                @endif
+                                            @else
+                                                <div class="w-full h-full flex items-center justify-center px-4 text-center text-xs font-semibold tracking-[0.15em] uppercase text-gray-400">Gallery Image</div>
+                                            @endif
+                                        </div>
+                                        @if($galleryItem->title)
+                                            <p class="mt-3 text-sm font-medium text-theatre-black group-hover:text-stage-gold-dark transition-colors">{{ $galleryItem->title }}</p>
+                                        @endif
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="mt-12 pt-8 border-t border-gray-100 flex flex-col sm:flex-row gap-3">
                         <a href="{{ route('events') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-theatre-black text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-theatre-black hover:text-white transition-colors">
                             Back to Events
