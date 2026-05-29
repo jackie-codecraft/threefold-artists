@@ -7,9 +7,14 @@ namespace App\Models;
 use App\Support\DisciplineOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\URL;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class ArtistApplication extends Model
+class ArtistApplication extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+
     protected $fillable = [
         'name',
         'email',
@@ -56,5 +61,41 @@ class ArtistApplication extends Model
     public function disciplineLabel(): string
     {
         return DisciplineOptions::label($this->discipline);
+    }
+
+    public function mediaPreviewUrl(string $collection): ?string
+    {
+        return $this->signedMediaUrl($collection, 'artist-application.media.show');
+    }
+
+    public function mediaDownloadUrl(string $collection): ?string
+    {
+        return $this->signedMediaUrl($collection, 'artist-application.media.download');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('photo')
+            ->useDisk('local')
+            ->singleFile();
+
+        $this->addMediaCollection('resume')
+            ->useDisk('local')
+            ->singleFile();
+    }
+
+    private function signedMediaUrl(string $collection, string $route): ?string
+    {
+        $media = $this->getFirstMedia($collection);
+
+        if ($media === null) {
+            return null;
+        }
+
+        return URL::signedRoute($route, [
+            'artistApplication' => $this,
+            'collection' => $collection,
+            'media' => $media,
+        ]);
     }
 }

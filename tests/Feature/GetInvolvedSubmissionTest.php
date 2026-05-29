@@ -7,8 +7,10 @@ namespace Tests\Feature;
 use App\Mail\ArtistApplicationSubmitted;
 use App\Models\ArtistApplication;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -19,6 +21,7 @@ class GetInvolvedSubmissionTest extends TestCase
     public function test_public_artist_application_submission_persists_and_redirects(): void
     {
         Mail::fake();
+        Storage::fake('local');
 
         $response = $this->post(route('get-involved.store'), $this->validPayload());
 
@@ -30,12 +33,20 @@ class GetInvolvedSubmissionTest extends TestCase
             'discipline' => 'music',
         ]);
 
+        $application = ArtistApplication::query()->where('email', 'alex@example.com')->firstOrFail();
+
+        $this->assertNotNull($application->getFirstMedia('photo'));
+        $this->assertNotNull($application->getFirstMedia('resume'));
+        $this->assertSame('local', $application->getFirstMedia('photo')->disk);
+        $this->assertSame('local', $application->getFirstMedia('resume')->disk);
+
         Mail::assertSent(ArtistApplicationSubmitted::class);
     }
 
     public function test_public_artist_application_submission_still_succeeds_when_mail_delivery_fails(): void
     {
         Log::spy();
+        Storage::fake('local');
 
         Mail::shouldReceive('to')->once()->with(config('mail.from.address'))->andReturnSelf()->ordered();
         Mail::shouldReceive('send')->once()->withArgs(fn ($mailable) => $mailable instanceof ArtistApplicationSubmitted)->andThrow(new RuntimeException('Resend misconfigured'))->ordered();
@@ -60,7 +71,7 @@ class GetInvolvedSubmissionTest extends TestCase
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, mixed>
      */
     private function validPayload(): array
     {
@@ -72,6 +83,8 @@ class GetInvolvedSubmissionTest extends TestCase
             'experience' => 'Community performances',
             'bio' => 'Singer and teaching artist',
             'availability' => 'Weekends',
+            'photo' => UploadedFile::fake()->image('alex.jpg', 800, 1000),
+            'resume' => UploadedFile::fake()->create('alex-resume.pdf', 256, 'application/pdf'),
         ];
     }
 }

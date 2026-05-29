@@ -10,11 +10,15 @@ use App\Models\Artist;
 use App\Models\ArtistApplication;
 use App\Models\Discipline;
 use App\Support\DisciplineOptions;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Forms;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Mail;
@@ -25,8 +29,11 @@ use Illuminate\Validation\Rule;
 class ArtistApplicationResource extends Resource
 {
     protected static ?string $model = ArtistApplication::class;
+
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-list';
+
     protected static string|\UnitEnum|null $navigationGroup = 'People';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
@@ -41,6 +48,23 @@ class ArtistApplicationResource extends Resource
                     Forms\Components\Textarea::make('experience')->columnSpanFull(),
                     Forms\Components\Textarea::make('bio')->columnSpanFull(),
                     Forms\Components\Textarea::make('availability'),
+                    Forms\Components\SpatieMediaLibraryFileUpload::make('photo')
+                        ->collection('photo')
+                        ->disk('local')
+                        ->image()
+                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                        ->maxSize(5120)
+                        ->helperText('Applicant-uploaded artist photo. Kept private until manually used on an artist profile.'),
+                    Forms\Components\SpatieMediaLibraryFileUpload::make('resume')
+                        ->collection('resume')
+                        ->disk('local')
+                        ->acceptedFileTypes([
+                            'application/pdf',
+                            'application/msword',
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        ])
+                        ->maxSize(10240)
+                        ->helperText('Applicant resume. PDF, DOC, or DOCX.'),
                     Forms\Components\Select::make('status')
                         ->options([
                             'pending' => 'Pending',
@@ -50,6 +74,17 @@ class ArtistApplicationResource extends Resource
                             'declined' => 'Declined',
                         ])->required(),
                 ]),
+            Section::make('Applicant Media')
+                ->schema([
+                    Forms\Components\Placeholder::make('photo_download')
+                        ->label('Artist photo')
+                        ->content(fn (ArtistApplication $record): HtmlString => self::mediaDownloadLink($record, 'photo', 'Download photo')),
+                    Forms\Components\Placeholder::make('resume_download')
+                        ->label('Resume')
+                        ->content(fn (ArtistApplication $record): HtmlString => self::mediaDownloadLink($record, 'resume', 'Download resume')),
+                ])
+                ->columns(2)
+                ->visible(fn (?ArtistApplication $record): bool => $record?->getFirstMedia('photo') !== null || $record?->getFirstMedia('resume') !== null),
             Section::make('Conversion')
                 ->schema([
                     Forms\Components\Placeholder::make('approved_at_display')
@@ -90,6 +125,11 @@ class ArtistApplicationResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('artist_photo')
+                    ->label('Photo')
+                    ->state(fn (ArtistApplication $record): ?string => $record->mediaPreviewUrl('photo'))
+                    ->circular()
+                    ->defaultImageUrl(asset('images/logo.png')),
                 Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('discipline')
@@ -120,7 +160,7 @@ class ArtistApplicationResource extends Resource
                     ]),
             ])
             ->recordActions([
-                \Filament\Actions\Action::make('approve')
+                Action::make('approve')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
@@ -133,7 +173,7 @@ class ArtistApplicationResource extends Resource
 
                         Notification::make()->title('Application approved')->success()->send();
                     }),
-                \Filament\Actions\Action::make('convert_to_artist')
+                Action::make('convert_to_artist')
                     ->label('Convert to artist')
                     ->icon('heroicon-o-arrow-path-rounded-square')
                     ->color('primary')
@@ -159,6 +199,7 @@ class ArtistApplicationResource extends Resource
                     ->action(function (ArtistApplication $record, array $data): void {
                         if ($record->isConverted()) {
                             Notification::make()->title('Application already converted')->warning()->send();
+
                             return;
                         }
 
@@ -171,6 +212,8 @@ class ArtistApplicationResource extends Resource
                         ]);
 
                         $artist->disciplines()->sync($data['discipline_ids']);
+
+                        $record->getFirstMedia('photo')?->copy($artist, 'photo', 'public');
 
                         $record->update([
                             'status' => 'converted',
@@ -185,7 +228,7 @@ class ArtistApplicationResource extends Resource
                             ->success()
                             ->send();
                     }),
-                \Filament\Actions\Action::make('reply')
+                Action::make('reply')
                     ->label('Reply')
                     ->icon('heroicon-o-paper-airplane')
                     ->color('success')
@@ -194,13 +237,13 @@ class ArtistApplicationResource extends Resource
                             ->label('Application Details')
                             ->content(fn (ArtistApplication $record): HtmlString => new HtmlString(
                                 '<div style="padding: 12px; background: #f9fafb; border-radius: 6px; font-size: 13px; line-height: 1.6;">'
-                                . '<strong>Name:</strong> ' . e($record->name) . '<br>'
-                                . '<strong>Email:</strong> ' . e($record->email) . '<br>'
-                                . '<strong>Discipline:</strong> ' . e($record->disciplineLabel()) . '<br>'
-                                . ($record->experience ? '<strong>Experience:</strong> ' . e($record->experience) . '<br>' : '')
-                                . ($record->availability ? '<strong>Availability:</strong> ' . e($record->availability) . '<br>' : '')
-                                . '<strong>Submitted:</strong> ' . $record->created_at->format('M j, Y g:i A')
-                                . '</div>'
+                                .'<strong>Name:</strong> '.e($record->name).'<br>'
+                                .'<strong>Email:</strong> '.e($record->email).'<br>'
+                                .'<strong>Discipline:</strong> '.e($record->disciplineLabel()).'<br>'
+                                .($record->experience ? '<strong>Experience:</strong> '.e($record->experience).'<br>' : '')
+                                .($record->availability ? '<strong>Availability:</strong> '.e($record->availability).'<br>' : '')
+                                .'<strong>Submitted:</strong> '.$record->created_at->format('M j, Y g:i A')
+                                .'</div>'
                             )),
                         Forms\Components\Textarea::make('reply_message')
                             ->label('Your Reply')
@@ -220,9 +263,9 @@ class ArtistApplicationResource extends Resource
                     })
                     ->modalHeading('Reply to Artist Application')
                     ->modalSubmitActionLabel('Send Reply'),
-                \Filament\Actions\EditAction::make(),
+                EditAction::make(),
             ])
-            ->toolbarActions([\Filament\Actions\BulkActionGroup::make([\Filament\Actions\DeleteBulkAction::make()])]);
+            ->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array
@@ -232,5 +275,20 @@ class ArtistApplicationResource extends Resource
             'create' => Pages\CreateArtistApplication::route('/create'),
             'edit' => Pages\EditArtistApplication::route('/{record}/edit'),
         ];
+    }
+
+    private static function mediaDownloadLink(ArtistApplication $record, string $collection, string $label): HtmlString
+    {
+        $url = $record->mediaDownloadUrl($collection);
+
+        if ($url === null) {
+            return new HtmlString('<span class="text-gray-500">Not provided</span>');
+        }
+
+        return new HtmlString(sprintf(
+            '<a href="%s" class="text-primary-600 underline" target="_blank" rel="noopener">%s</a>',
+            e($url),
+            e($label)
+        ));
     }
 }

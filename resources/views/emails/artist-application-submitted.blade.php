@@ -9,7 +9,16 @@
             <tr><td style="padding: 8px 0; color: #666; width: 40%;">Email:</td><td style="padding: 8px 0;"><a href="mailto:{{ $application->email }}">{{ $application->email }}</a></td></tr>
             @if($application->phone)<tr><td style="padding: 8px 0; color: #666;">Phone:</td><td style="padding: 8px 0;">{{ $application->phone }}</td></tr>@endif
             <tr><td style="padding: 8px 0; color: #666;">Discipline:</td><td style="padding: 8px 0;">{{ $application->disciplineLabel() }}</td></tr>
+            <tr><td style="padding: 8px 0; color: #666;">Photo:</td><td style="padding: 8px 0;">@if($application->mediaDownloadUrl('photo'))<a href="{{ $application->mediaDownloadUrl('photo') }}" style="color: #8B1A2B;">Download photo</a>@else Not provided @endif</td></tr>
+            <tr><td style="padding: 8px 0; color: #666;">Resume:</td><td style="padding: 8px 0;">@if($application->mediaDownloadUrl('resume'))<a href="{{ $application->mediaDownloadUrl('resume') }}" style="color: #8B1A2B;">Download resume</a>@else Not provided @endif</td></tr>
         </table>
+
+        @if($application->mediaPreviewUrl('photo'))
+        <div style="margin-top: 20px;">
+            <strong style="display: block; margin-bottom: 10px; color: #666;">Artist Photo:</strong>
+            <img src="{{ $application->mediaPreviewUrl('photo') }}" alt="{{ $application->name }}" style="display: block; width: 160px; max-width: 100%; height: auto; border-radius: 8px;">
+        </div>
+        @endif
 
         @if($application->experience)
         <div style="margin-top: 20px; padding: 15px; background: #F5F0E8; border-radius: 8px;">

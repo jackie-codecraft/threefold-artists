@@ -15,6 +15,25 @@
 
                 {{-- Application details --}}
                 <div class="mb-8 p-5 bg-gray-50 border-l-4 border-gray-200">
+                    @if($application->mediaPreviewUrl('photo') || $application->mediaDownloadUrl('resume'))
+                        <div class="mb-6 grid grid-cols-1 sm:grid-cols-[120px,1fr] gap-5 items-start">
+                            @if($application->mediaPreviewUrl('photo'))
+                                <div>
+                                    <img src="{{ $application->mediaPreviewUrl('photo') }}" alt="{{ $application->name }}" class="w-28 h-28 object-cover rounded-full border border-gray-200">
+                                    <a href="{{ $application->mediaDownloadUrl('photo') }}" class="mt-3 inline-block text-sm text-theatre-black underline">Download photo</a>
+                                </div>
+                            @endif
+
+                            <div class="space-y-2">
+                                @if($application->mediaDownloadUrl('resume'))
+                                    <a href="{{ $application->mediaDownloadUrl('resume') }}" class="inline-flex items-center justify-center px-4 py-2 bg-theatre-black text-white text-xs font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                                        Download Resume
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+
                     <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Discipline</p>
                     <p class="text-theatre-black font-medium mb-3">{{ $application->disciplineLabel() }}</p>
 

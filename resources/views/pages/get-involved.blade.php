@@ -51,7 +51,7 @@
                 <p class="text-gray-500">Fill in the form below and we will be in touch about volunteer opportunities.</p>
             </div>
 
-            <form action="{{ route('get-involved.store') }}" method="POST" class="space-y-8">
+            <form action="{{ route('get-involved.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -110,6 +110,26 @@
                     <textarea name="availability" id="availability" rows="2"
                         placeholder="e.g., Weekday afternoons, weekends..."
                         class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">{{ old('availability') }}</textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <label for="photo" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Artist Photo</label>
+                        <input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp"
+                            @error('photo') aria-describedby="photo-error" @enderror
+                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black file:mr-4 file:border-0 file:bg-theatre-black file:px-4 file:py-2 file:text-sm file:font-semibold file:uppercase file:tracking-wide file:text-white hover:file:bg-gray-800 focus:border-theatre-black focus:ring-0">
+                        <p class="mt-2 text-sm text-gray-500">JPG, PNG, or WebP up to 5 MB.</p>
+                        @error('photo') <p id="photo-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label for="resume" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Resume</label>
+                        <input type="file" name="resume" id="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                            @error('resume') aria-describedby="resume-error" @enderror
+                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black file:mr-4 file:border-0 file:bg-theatre-black file:px-4 file:py-2 file:text-sm file:font-semibold file:uppercase file:tracking-wide file:text-white hover:file:bg-gray-800 focus:border-theatre-black focus:ring-0">
+                        <p class="mt-2 text-sm text-gray-500">PDF, DOC, or DOCX up to 10 MB.</p>
+                        @error('resume') <p id="resume-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                    </div>
                 </div>
 
                 <div>
