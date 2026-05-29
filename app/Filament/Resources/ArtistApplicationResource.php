@@ -74,6 +74,17 @@ class ArtistApplicationResource extends Resource
                             'declined' => 'Declined',
                         ])->required(),
                 ]),
+            Section::make('Applicant Media')
+                ->schema([
+                    Forms\Components\Placeholder::make('photo_download')
+                        ->label('Artist photo')
+                        ->content(fn (ArtistApplication $record): HtmlString => self::mediaDownloadLink($record, 'photo', 'Download photo')),
+                    Forms\Components\Placeholder::make('resume_download')
+                        ->label('Resume')
+                        ->content(fn (ArtistApplication $record): HtmlString => self::mediaDownloadLink($record, 'resume', 'Download resume')),
+                ])
+                ->columns(2)
+                ->visible(fn (?ArtistApplication $record): bool => $record?->getFirstMedia('photo') !== null || $record?->getFirstMedia('resume') !== null),
             Section::make('Conversion')
                 ->schema([
                     Forms\Components\Placeholder::make('approved_at_display')
@@ -114,6 +125,11 @@ class ArtistApplicationResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('artist_photo')
+                    ->label('Photo')
+                    ->state(fn (ArtistApplication $record): ?string => $record->mediaPreviewUrl('photo'))
+                    ->circular()
+                    ->defaultImageUrl(asset('images/logo.png')),
                 Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('discipline')
@@ -259,5 +275,20 @@ class ArtistApplicationResource extends Resource
             'create' => Pages\CreateArtistApplication::route('/create'),
             'edit' => Pages\EditArtistApplication::route('/{record}/edit'),
         ];
+    }
+
+    private static function mediaDownloadLink(ArtistApplication $record, string $collection, string $label): HtmlString
+    {
+        $url = $record->mediaDownloadUrl($collection);
+
+        if ($url === null) {
+            return new HtmlString('<span class="text-gray-500">Not provided</span>');
+        }
+
+        return new HtmlString(sprintf(
+            '<a href="%s" class="text-primary-600 underline" target="_blank" rel="noopener">%s</a>',
+            e($url),
+            e($label)
+        ));
     }
 }

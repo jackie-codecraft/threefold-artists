@@ -7,6 +7,7 @@ namespace App\Mail;
 use App\Models\ArtistApplication;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -27,7 +28,7 @@ class ArtistApplicationSubmitted extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Artist Application: ' . $this->application->name,
+            subject: 'New Artist Application: '.$this->application->name,
         );
     }
 
@@ -39,5 +40,20 @@ class ArtistApplicationSubmitted extends Mailable
                 'replyUrl' => $this->replyUrl,
             ],
         );
+    }
+
+    /**
+     * @return array<int, Attachment>
+     */
+    public function attachments(): array
+    {
+        return collect(['photo', 'resume'])
+            ->map(fn (string $collection) => $this->application->getFirstMedia($collection))
+            ->filter()
+            ->map(fn ($media): Attachment => Attachment::fromStorageDisk($media->disk, $media->getPathRelativeToRoot())
+                ->as($media->file_name)
+                ->withMime($media->mime_type))
+            ->values()
+            ->all();
     }
 }

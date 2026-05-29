@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\ArtistApplicationMediaController;
 use App\Http\Controllers\ArtistApplicationReplyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContactMessageReplyController;
@@ -145,6 +146,12 @@ Route::post('/admin/contact-reply/{contactMessage}', [ContactMessageReplyControl
     ->middleware('signed');
 
 // Artist Application Reply (signed URL, no auth required)
+Route::get('/admin/application-media/{artistApplication}/{collection}/{media}', [ArtistApplicationMediaController::class, 'show'])
+    ->name('artist-application.media.show')
+    ->middleware('signed');
+Route::get('/admin/application-media/{artistApplication}/{collection}/{media}/download', [ArtistApplicationMediaController::class, 'download'])
+    ->name('artist-application.media.download')
+    ->middleware('signed');
 Route::get('/admin/application-reply/{artistApplication}', [ArtistApplicationReplyController::class, 'show'])
     ->name('artist-application.reply')
     ->middleware('signed');
