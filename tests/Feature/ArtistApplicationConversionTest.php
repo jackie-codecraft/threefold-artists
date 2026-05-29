@@ -10,7 +10,9 @@ use App\Models\ArtistApplication;
 use App\Models\Discipline;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -21,6 +23,9 @@ class ArtistApplicationConversionTest extends TestCase
 
     public function test_admin_can_approve_and_convert_an_application_into_an_inactive_artist(): void
     {
+        Storage::fake('local');
+        Storage::fake('public');
+
         $user = User::factory()->create();
         $music = Discipline::query()->where('slug', 'music')->firstOrFail();
         $dance = Discipline::query()->where('slug', 'dance')->firstOrFail();
@@ -38,6 +43,10 @@ class ArtistApplicationConversionTest extends TestCase
             'status' => 'pending',
             'bio' => 'Multidisciplinary performer',
         ]);
+
+        $application
+            ->addMedia(UploadedFile::fake()->image('taylor.jpg', 800, 1000))
+            ->toMediaCollection('photo');
 
         $this->actingAs($user);
 
@@ -65,6 +74,8 @@ class ArtistApplicationConversionTest extends TestCase
 
         $this->assertNotNull($artist);
         $this->assertFalse($artist->is_active);
+        $this->assertNotNull($artist->getFirstMedia('photo'));
+        $this->assertSame('public', $artist->getFirstMedia('photo')->disk);
         $this->assertSame($existingArtist->sort_order + 1, $artist->sort_order);
         $this->assertSame(['Dance', 'Music'], $artist->disciplines()->orderBy('name')->pluck('name')->all());
         $this->assertSame('converted', $application->status);

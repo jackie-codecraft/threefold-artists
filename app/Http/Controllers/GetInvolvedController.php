@@ -20,7 +20,21 @@ class GetInvolvedController extends Controller
 
     public function store(ArtistApplicationRequest $request)
     {
-        $application = ArtistApplication::create($request->validated());
+        $validated = $request->validated();
+
+        $application = ArtistApplication::create(collect($validated)->except(['photo', 'resume'])->all());
+
+        if ($request->hasFile('photo')) {
+            $application
+                ->addMediaFromRequest('photo')
+                ->toMediaCollection('photo');
+        }
+
+        if ($request->hasFile('resume')) {
+            $application
+                ->addMediaFromRequest('resume')
+                ->toMediaCollection('resume');
+        }
 
         $this->sendSubmissionNotification($application);
 

@@ -9,6 +9,8 @@
             <tr><td style="padding: 8px 0; color: #666; width: 40%;">Email:</td><td style="padding: 8px 0;"><a href="mailto:{{ $application->email }}">{{ $application->email }}</a></td></tr>
             @if($application->phone)<tr><td style="padding: 8px 0; color: #666;">Phone:</td><td style="padding: 8px 0;">{{ $application->phone }}</td></tr>@endif
             <tr><td style="padding: 8px 0; color: #666;">Discipline:</td><td style="padding: 8px 0;">{{ $application->disciplineLabel() }}</td></tr>
+            <tr><td style="padding: 8px 0; color: #666;">Photo:</td><td style="padding: 8px 0;">{{ $application->getFirstMedia('photo') ? 'Uploaded' : 'Not provided' }}</td></tr>
+            <tr><td style="padding: 8px 0; color: #666;">Resume:</td><td style="padding: 8px 0;">{{ $application->getFirstMedia('resume') ? 'Uploaded' : 'Not provided' }}</td></tr>
         </table>
 
         @if($application->experience)

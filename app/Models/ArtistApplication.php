@@ -7,9 +7,13 @@ namespace App\Models;
 use App\Support\DisciplineOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class ArtistApplication extends Model
+class ArtistApplication extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+
     protected $fillable = [
         'name',
         'email',
@@ -56,5 +60,16 @@ class ArtistApplication extends Model
     public function disciplineLabel(): string
     {
         return DisciplineOptions::label($this->discipline);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('photo')
+            ->useDisk('local')
+            ->singleFile();
+
+        $this->addMediaCollection('resume')
+            ->useDisk('local')
+            ->singleFile();
     }
 }
