@@ -8,8 +8,9 @@ use App\Filament\Resources\NewsletterResource\Pages;
 use App\Models\Newsletter;
 use App\Models\NewsletterSubscriber;
 use Filament\Forms;
-use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -48,8 +49,8 @@ class NewsletterResource extends Resource
                 ->label('Select recipients')
                 ->multiple()
                 ->options(NewsletterSubscriber::active()->confirmed()->pluck('email', 'id'))
-                ->visible(fn (Forms\Get $get): bool => $get('recipient_type') === 'custom')
-                ->required(fn (Forms\Get $get): bool => $get('recipient_type') === 'custom'),
+                ->visible(fn (Get $get): bool => $get('recipient_type') === 'custom')
+                ->required(fn (Get $get): bool => $get('recipient_type') === 'custom'),
         ]);
     }
 
