@@ -37,7 +37,7 @@ class PledgePageTest extends TestCase
         $response->assertSee('Request a Performance');
         $response->assertSee('inline-grid gap-3', false);
         $response->assertSee(route('pledge'), false);
-        $response->assertSee('Pledge');
+        $response->assertSee('Support Here, Make a Pledge');
     }
 
     public function test_pledge_form_accepts_valid_submission(): void
