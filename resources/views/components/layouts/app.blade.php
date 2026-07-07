@@ -102,7 +102,7 @@
                         </a>
                         @if($siteSettings->pledgesEnabled())
                             <a href="{{ route('pledge') }}" class="px-5 py-2 text-sm font-medium bg-curtain-red text-white hover:bg-theatre-black transition-colors">
-                                Donate
+                                Make a Pledge
                             </a>
                         @endif
                         @if($siteSettings->donationsEnabled())
@@ -151,7 +151,7 @@
                     <div class="flex flex-col gap-2 mt-4 px-3">
                         <a href="{{ route('request-performance') }}" class="text-center px-5 py-3 text-sm font-medium border border-theatre-black text-theatre-black">Request Performance</a>
                         @if($siteSettings->pledgesEnabled())
-                            <a href="{{ route('pledge') }}" class="text-center px-5 py-3 text-sm font-medium bg-curtain-red text-white">Donate</a>
+                            <a href="{{ route('pledge') }}" class="text-center px-5 py-3 text-sm font-medium bg-curtain-red text-white">Make a Pledge</a>
                         @endif
                         @if($siteSettings->donationsEnabled())
                             <a href="{{ route('donate') }}" class="text-center px-5 py-3 text-sm font-medium bg-theatre-black text-white">Donate</a>

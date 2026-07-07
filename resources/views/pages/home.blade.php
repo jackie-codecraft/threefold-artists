@@ -42,7 +42,7 @@
                     </a>
                     @if($siteSettings->pledgesEnabled())
                         <a href="{{ route('pledge') }}" class="inline-flex w-full items-center justify-center px-8 py-3.5 bg-curtain-red text-white text-sm font-semibold tracking-wide uppercase hover:bg-white hover:text-curtain-red transition-colors">
-                            Support Here, Make a Pledge
+                            Support Us With a Pledge
                         </a>
                     @endif
                     @if($siteSettings->donationsEnabled())
