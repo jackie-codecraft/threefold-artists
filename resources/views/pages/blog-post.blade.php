@@ -72,7 +72,7 @@
                     prose-p:text-gray-600 prose-p:leading-relaxed prose-p:mb-6
                     prose-a:text-stage-gold prose-a:no-underline hover:prose-a:underline
                     prose-strong:text-theatre-black prose-strong:font-semibold
-                    prose-em:text-theater-black prose-em:italic
+                    prose-em:text-theatre-black prose-em:italic
                     prose-blockquote:border-l-4 prose-blockquote:border-stage-gold prose-blockquote:pl-6 prose-blockquote:text-gray-500 prose-blockquote:italic">
                     {!! $post->content !!}
                 </div>
