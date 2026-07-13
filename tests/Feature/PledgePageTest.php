@@ -26,6 +26,9 @@ class PledgePageTest extends TestCase
         $response->assertSee('Employ and support working artists');
         $response->assertSee('Founding Supporter');
         $response->assertSee('Pledge Form');
+        $response->assertSee('May we publicly thank you for your pledge?');
+        $response->assertSee('Yes, recognize me by name');
+        $response->assertSee('Please keep my pledge anonymous');
         $response->assertDontSee('Areas of Interest');
     }
 
@@ -52,8 +55,36 @@ class PledgePageTest extends TestCase
             'email' => 'jane@example.com',
             'phone' => '555-123-4567',
             'amount' => 250,
+            'public_acknowledgment_consent' => true,
             'status' => 'new',
         ]);
+    }
+
+    public function test_pledge_form_accepts_anonymous_public_recognition_preference(): void
+    {
+        $response = $this->withSession(['_token' => 'test-token'])
+            ->post(route('pledge.store'), $this->validPayload([
+                'public_acknowledgment_consent' => '0',
+            ]));
+
+        $response->assertRedirect(route('pledge.thanks'));
+        $this->assertDatabaseHas(Pledge::class, [
+            'email' => 'jane@example.com',
+            'public_acknowledgment_consent' => false,
+        ]);
+    }
+
+    public function test_pledge_form_requires_public_recognition_preference(): void
+    {
+        $payload = $this->validPayload();
+        unset($payload['public_acknowledgment_consent']);
+
+        $response = $this->withSession(['_token' => 'test-token'])
+            ->from(route('pledge'))
+            ->post(route('pledge.store'), $payload);
+
+        $response->assertRedirect(route('pledge'));
+        $response->assertSessionHasErrors('public_acknowledgment_consent');
     }
 
     public function test_pledge_form_sends_confirmation_email_to_supporter(): void
@@ -186,6 +217,7 @@ class PledgePageTest extends TestCase
             'phone' => '555-123-4567',
             'amount' => 250,
             'message' => 'I want to help keep theatre accessible.',
+            'public_acknowledgment_consent' => '1',
             'pledge_acknowledgment' => '1',
             'website' => '',
             'form_started_at' => (string) now()->subSeconds(10)->timestamp,

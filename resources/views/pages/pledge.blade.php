@@ -106,6 +106,33 @@
                     </section>
 
                     <section>
+                        <div class="rounded-2xl border border-stage-gold/30 bg-white p-5 shadow-sm shadow-curtain-red/5">
+                            <p class="mb-1 text-xs font-semibold uppercase tracking-[0.2em] text-stage-gold">Public recognition</p>
+                            <h3 class="text-xl font-semibold text-theatre-black">May we publicly thank you for your pledge?</h3>
+                            <p class="mt-2 text-sm leading-6 text-gray-600">Choose whether Threefold Artists may recognize you by name in future supporter acknowledgments.</p>
+
+                            <fieldset class="mt-5 grid gap-3 sm:grid-cols-2">
+                                <legend class="sr-only">Public recognition preference</legend>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-linen-dark bg-linen/60 p-4 transition hover:border-stage-gold hover:bg-stage-gold/10 has-[:checked]:border-stage-gold has-[:checked]:bg-stage-gold/10 has-[:checked]:ring-2 has-[:checked]:ring-stage-gold/30">
+                                    <input type="radio" name="public_acknowledgment_consent" value="1" class="mt-1 h-4 w-4 border-stage-gold/60 text-curtain-red focus:ring-stage-gold" @checked(old('public_acknowledgment_consent', '1') === '1')>
+                                    <span>
+                                        <span class="block font-semibold text-theatre-black">Yes, recognize me by name</span>
+                                        <span class="mt-1 block text-sm leading-5 text-gray-600">Use the name above when thanking founding supporters publicly.</span>
+                                    </span>
+                                </label>
+                                <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-linen-dark bg-linen/60 p-4 transition hover:border-stage-gold hover:bg-stage-gold/10 has-[:checked]:border-stage-gold has-[:checked]:bg-stage-gold/10 has-[:checked]:ring-2 has-[:checked]:ring-stage-gold/30">
+                                    <input type="radio" name="public_acknowledgment_consent" value="0" class="mt-1 h-4 w-4 border-stage-gold/60 text-curtain-red focus:ring-stage-gold" @checked(old('public_acknowledgment_consent') === '0')>
+                                    <span>
+                                        <span class="block font-semibold text-theatre-black">Please keep my pledge anonymous</span>
+                                        <span class="mt-1 block text-sm leading-5 text-gray-600">We will keep your pledge private in public-facing acknowledgments.</span>
+                                    </span>
+                                </label>
+                            </fieldset>
+                            @error('public_acknowledgment_consent')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                        </div>
+                    </section>
+
+                    <section>
                         <h3 class="mb-5 text-xl font-semibold text-theatre-black">Pledge Amount</h3>
                         <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
                             @foreach([25, 50, 100, 250, 500] as $amount)

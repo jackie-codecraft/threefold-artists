@@ -55,6 +55,11 @@
                                     <td style="padding: 10px 0; font-size: 13px; color: #888; vertical-align: top;">Pledge amount</td>
                                     <td style="padding: 10px 0; font-size: 15px; color: #1A1A1A; font-weight: 600;">${{ number_format((float) $pledge->amount, 2) }}</td>
                                 </tr>
+                                <tr><td colspan="2" style="border-top: 1px solid #f0f0f0;"></td></tr>
+                                <tr>
+                                    <td style="padding: 10px 0; font-size: 13px; color: #888; vertical-align: top;">Public recognition</td>
+                                    <td style="padding: 10px 0; font-size: 15px; color: #1A1A1A; font-weight: 600;">{{ $pledge->public_acknowledgment_consent ? 'Yes, may recognize by name' : 'Anonymous — do not publicly name' }}</td>
+                                </tr>
                                 @if($pledge->message)
                                 <tr><td colspan="2" style="border-top: 1px solid #f0f0f0;"></td></tr>
                                 <tr>

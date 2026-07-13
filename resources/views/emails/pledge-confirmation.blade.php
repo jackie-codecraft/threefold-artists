@@ -19,6 +19,9 @@
             <div style="color: #666; font-size: 14px; margin-top: 5px;">
                 Pledge submitted on {{ $pledge->created_at->format('F j, Y') }}
             </div>
+            <div style="margin-top: 14px; color: #666; font-size: 14px;">
+                Public recognition: {{ $pledge->public_acknowledgment_consent ? 'Yes, you may thank me by name' : 'Please keep my pledge anonymous' }}
+            </div>
         </div>
 
         <p style="color: #666; line-height: 1.6;">
