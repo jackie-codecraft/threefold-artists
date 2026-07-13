@@ -6,6 +6,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PledgeResource\Pages;
 use App\Models\Pledge;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
@@ -53,6 +56,10 @@ class PledgeResource extends Resource
                     Forms\Components\Textarea::make('message')
                         ->rows(5)
                         ->columnSpanFull(),
+                    Forms\Components\Toggle::make('public_acknowledgment_consent')
+                        ->label('May publicly recognize by name')
+                        ->helperText('Turn this off when the supporter asked to remain anonymous.')
+                        ->default(true),
                 ]),
             Section::make('Admin')
                 ->schema([
@@ -83,6 +90,9 @@ class PledgeResource extends Resource
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('phone')->searchable()->placeholder('—'),
                 Tables\Columns\TextColumn::make('amount')->money('USD')->sortable(),
+                Tables\Columns\IconColumn::make('public_acknowledgment_consent')
+                    ->label('Public thank-you')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -105,8 +115,8 @@ class PledgeResource extends Resource
                         'closed' => 'Closed',
                     ]),
             ])
-            ->recordActions([\Filament\Actions\EditAction::make()])
-            ->toolbarActions([\Filament\Actions\BulkActionGroup::make([\Filament\Actions\DeleteBulkAction::make()])]);
+            ->recordActions([EditAction::make()])
+            ->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array

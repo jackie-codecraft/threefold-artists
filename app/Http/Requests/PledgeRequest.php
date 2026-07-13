@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Validator;
 
 class PledgeRequest extends FormRequest
@@ -29,6 +30,7 @@ class PledgeRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:50'],
             'amount' => ['required', 'numeric', 'min:1', 'max:999999.99'],
             'message' => ['nullable', 'string', 'max:5000'],
+            'public_acknowledgment_consent' => ['required', 'boolean'],
             'pledge_acknowledgment' => ['accepted'],
             'website' => ['nullable', 'prohibited'],
             'form_started_at' => ['required', 'integer'],
@@ -53,7 +55,7 @@ class PledgeRequest extends FormRequest
     }
 
     /**
-     * @return array{name: string, email: string, phone?: string|null, amount: mixed, message?: string|null, status: string, acknowledged_at: \Illuminate\Support\Carbon}
+     * @return array{name: string, email: string, phone?: string|null, amount: mixed, message?: string|null, public_acknowledgment_consent: bool, status: string, acknowledged_at: Carbon}
      */
     public function pledgeData(): array
     {
@@ -64,6 +66,7 @@ class PledgeRequest extends FormRequest
             'amount',
             'message',
         ]), [
+            'public_acknowledgment_consent' => $this->boolean('public_acknowledgment_consent'),
             'status' => 'new',
             'acknowledged_at' => now(),
         ]);

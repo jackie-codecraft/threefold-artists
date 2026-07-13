@@ -15,6 +15,7 @@ class Pledge extends Model
         'phone',
         'amount',
         'message',
+        'public_acknowledgment_consent',
         'status',
         'internal_notes',
         'acknowledged_at',
@@ -22,11 +23,12 @@ class Pledge extends Model
 
     protected $casts = [
         'amount' => 'decimal:2',
+        'public_acknowledgment_consent' => 'boolean',
         'acknowledged_at' => 'datetime',
     ];
 
     /**
-     * @param Builder<Pledge> $query
+     * @param  Builder<Pledge>  $query
      * @return Builder<Pledge>
      */
     public function scopeNew(Builder $query): Builder
