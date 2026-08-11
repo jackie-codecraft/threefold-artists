@@ -56,4 +56,16 @@ class ArtistSortOrderTest extends TestCase
         $response->assertOk();
         $response->assertSeeInOrder([$lastByName->name, $firstByName->name]);
     }
+
+    public function test_artists_page_shares_the_volunteer_artist_submission_copy(): void
+    {
+        $response = $this->get(route('artists'));
+
+        $response->assertOk()
+            ->assertSee('Every artist you see here has shared their time and talent because they believe that live performance belongs to everyone, not just those who can make it to a theatre.')
+            ->assertSee('If you’re an actor, musician, singer, dancer, or visual artist who believes in the power of the arts to connect and inspire, we would love to discover what you do.')
+            ->assertSee('Send us your photo and résumé, along with a media submission that showcases you at your best: your favorite song, dance, scene, monologue, performance reel, or other example of your work.')
+            ->assertSee('Tell us a little about yourself, share your artistry with us, and let us know why the mission of Threefold Artists speaks to you.')
+            ->assertSee('We look forward to hearing from you!');
+    }
 }

@@ -55,10 +55,19 @@
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Volunteer</p>
             <h2 class="font-display text-4xl sm:text-5xl font-light text-white mb-6">Your Stage is Waiting</h2>
             <p class="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto mb-4">
-                Every artist you see here gave their time freely, because they believe that live performance belongs to everyone, not just those who can buy a ticket.
+                Every artist you see here has shared their time and talent because they believe that live performance belongs to everyone, not just those who can make it to a theatre.
+            </p>
+            <p class="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto mb-4">
+                If you’re an actor, musician, singer, dancer, or visual artist who believes in the power of the arts to connect and inspire, we would love to discover what you do.
+            </p>
+            <p class="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto mb-4">
+                Send us your photo and résumé, along with a media submission that showcases you at your best: your favorite song, dance, scene, monologue, performance reel, or other example of your work.
+            </p>
+            <p class="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto mb-4">
+                Tell us a little about yourself, share your artistry with us, and let us know why the mission of Threefold Artists speaks to you.
             </p>
             <p class="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto mb-12">
-                If you are a performer, actor, musician, dancer, or visual artist, we would love to have you. No auditions, no fees. Just your craft, and a community that needs it.
+                We look forward to hearing from you!
             </p>
             <div class="flex flex-col sm:flex-row gap-3 justify-center">
                 <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-gray-100 transition-colors">
