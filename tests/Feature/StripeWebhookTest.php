@@ -34,7 +34,7 @@ class StripeWebhookTest extends TestCase
             'customer' => 'cus_paid_123',
             'customer_email' => 'supporter@example.com',
             'customer_details' => ['name' => 'Supporter'],
-            'metadata' => ['donor_name' => 'Supporter', 'is_anonymous' => '0'],
+            'metadata' => ['donor_name' => 'Supporter', 'is_anonymous' => '0', 'public_recognition_consent' => '1'],
         ]);
 
         $this->postJson('/stripe/webhook', $payload, $this->signature($payload))
@@ -47,6 +47,7 @@ class StripeWebhookTest extends TestCase
             'stripe_checkout_session_id' => 'cs_paid_123',
             'amount_cents' => 2500,
             'status' => 'paid',
+            'public_recognition_consent' => 1,
         ]);
         Mail::assertSent(DonationReceipt::class, 1);
     }

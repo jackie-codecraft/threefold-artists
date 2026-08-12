@@ -23,6 +23,7 @@ class Donation extends Model
         'is_recurring',
         'recurring_interval',
         'is_anonymous',
+        'public_recognition_consent',
         'stripe_payment_id',
         'stripe_checkout_session_id',
         'stripe_payment_intent_id',
@@ -42,6 +43,7 @@ class Donation extends Model
         'amount' => 'decimal:2',
         'is_recurring' => 'boolean',
         'is_anonymous' => 'boolean',
+        'public_recognition_consent' => 'boolean',
         'receipt_sent_at' => 'datetime',
         'paid_at' => 'datetime',
         'refunded_at' => 'datetime',
@@ -66,7 +68,15 @@ class Donation extends Model
     }
 
     /**
-     * @param Builder<Donation> $query
+     * @return BelongsTo<Donation, $this>
+     */
+    public function adjustmentFor(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'adjustment_for_donation_id');
+    }
+
+    /**
+     * @param  Builder<Donation>  $query
      * @return Builder<Donation>
      */
     public function scopeRecurring(Builder $query): Builder
@@ -75,7 +85,7 @@ class Donation extends Model
     }
 
     /**
-     * @param Builder<Donation> $query
+     * @param  Builder<Donation>  $query
      * @return Builder<Donation>
      */
     public function scopeOneTime(Builder $query): Builder
@@ -84,11 +94,22 @@ class Donation extends Model
     }
 
     /**
-     * @param Builder<Donation> $query
+     * @param  Builder<Donation>  $query
      * @return Builder<Donation>
      */
     public function scopeActive(Builder $query): Builder
     {
         return $query->whereNull('cancelled_at');
+    }
+
+    /**
+     * Confirmed Stripe ledger rows, including linked reversals which reduce net paid totals.
+     *
+     * @param  Builder<Donation>  $query
+     * @return Builder<Donation>
+     */
+    public function scopeConfirmedLedger(Builder $query): Builder
+    {
+        return $query->whereIn('status', ['paid', 'refunded', 'disputed']);
     }
 }

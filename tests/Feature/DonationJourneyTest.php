@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\Pledge;
-use App\Models\SiteSettings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Stripe\ApiRequestor;
@@ -99,6 +98,7 @@ class DonationJourneyTest extends TestCase
             'donor_email' => 'supporter@example.com',
             'donation_type' => $cadence,
             'is_anonymous' => '1',
+            'public_recognition_consent' => '1',
         ])->assertRedirect('https://checkout.stripe.test/session/cs_test_donation');
 
         $params = $client->params;
@@ -108,6 +108,7 @@ class DonationJourneyTest extends TestCase
         $this->assertSame('supporter@example.com', $params['customer_email']);
         $this->assertSame('Supporter Name', $params['metadata']['donor_name']);
         $this->assertSame('1', $params['metadata']['is_anonymous']);
+        $this->assertSame('1', $params['metadata']['public_recognition_consent']);
         $this->assertDatabaseCount('donations', 0);
     }
 
@@ -131,11 +132,13 @@ class DonationJourneyTest extends TestCase
             'donor_email' => 'supporter@example.com',
             'donation_type' => 'one-time',
             'is_anonymous' => '0',
+            'public_recognition_consent' => '0',
         ])->assertRedirect('https://checkout.stripe.test/session/cs_test_donation');
 
         $this->assertSame('payment', $client->params['mode']);
         $this->assertArrayNotHasKey('recurring', $client->params['line_items'][0]['price_data']);
         $this->assertSame('0', $client->params['metadata']['is_anonymous']);
+        $this->assertSame('0', $client->params['metadata']['public_recognition_consent']);
         $this->assertDatabaseCount('donations', 0);
     }
 }

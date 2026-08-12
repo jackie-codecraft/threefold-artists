@@ -14,7 +14,15 @@ class Donor extends Model
         'name',
         'email',
         'stripe_customer_id',
+        'public_recognition_consent',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'public_recognition_consent' => 'boolean',
+        ];
+    }
 
     /**
      * @return Attribute<string, string>

@@ -10,4 +10,9 @@ use Filament\Resources\Pages\ListRecords;
 class ListPledges extends ListRecords
 {
     protected static string $resource = PledgeResource::class;
+
+    public function getTitle(): string
+    {
+        return 'Historical Founding Supporter Pledges';
+    }
 }

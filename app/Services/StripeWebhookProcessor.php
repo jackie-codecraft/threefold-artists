@@ -133,6 +133,7 @@ class StripeWebhookProcessor
                     'is_recurring' => $paidDonation->is_recurring,
                     'recurring_interval' => $paidDonation->recurring_interval,
                     'is_anonymous' => $paidDonation->is_anonymous,
+                    'public_recognition_consent' => $paidDonation->public_recognition_consent,
                     'stripe_charge_id' => null,
                     'stripe_subscription_id' => $paidDonation->stripe_subscription_id,
                     'refunded_at' => $this->timestamp($refund['created'] ?? null) ?? now(),
@@ -180,6 +181,7 @@ class StripeWebhookProcessor
                 'is_recurring' => $paidDonation->is_recurring,
                 'recurring_interval' => $paidDonation->recurring_interval,
                 'is_anonymous' => $paidDonation->is_anonymous,
+                'public_recognition_consent' => $paidDonation->public_recognition_consent,
                 'stripe_subscription_id' => $paidDonation->stripe_subscription_id,
                 'disputed_at' => $this->timestamp($dispute['created'] ?? null) ?? now(),
             ],
@@ -233,7 +235,8 @@ class StripeWebhookProcessor
                 'stripe_price_id' => $this->id($price['id'] ?? null),
                 'amount_cents' => (int) ($price['unit_amount'] ?? $subscription['amount'] ?? 0),
                 'currency' => strtolower((string) ($price['currency'] ?? $subscription['currency'] ?? 'usd')),
-                'interval' => $price['recurring']['interval'] ?? null,
+                'interval' => $this->canonicalInterval($price['recurring']['interval'] ?? null, $price['recurring']['interval_count'] ?? 1),
+                'interval_count' => max(1, (int) ($price['recurring']['interval_count'] ?? 1)),
                 'status' => (string) ($subscription['status'] ?? 'active'),
                 'pause_collection_behavior' => is_array($pause) ? ($pause['behavior'] ?? null) : null,
                 'paused_at' => is_array($pause) ? now() : null,
@@ -258,11 +261,18 @@ class StripeWebhookProcessor
 
     private function donationAttributes(array $object, bool $recurring): array
     {
-        $metadata = $object['metadata'] ?? [];
+        $metadata = is_array($object['metadata'] ?? null)
+            ? $object['metadata']
+            : (is_array(Arr::get($object, 'subscription_details.metadata')) ? Arr::get($object, 'subscription_details.metadata') : []);
         $email = $object['customer_email'] ?? $object['customer_details']['email'] ?? null;
         $name = $metadata['donor_name'] ?? $object['customer_details']['name'] ?? $object['customer_name'] ?? null;
         $customerId = $this->id($object['customer'] ?? null);
         $donor = $email !== null ? $this->donor($customerId, $email, $name) : null;
+        $publicRecognitionConsent = $this->publicRecognitionConsent($metadata);
+
+        if ($donor !== null && $publicRecognitionConsent !== null) {
+            $donor->update(['public_recognition_consent' => $publicRecognitionConsent]);
+        }
         $amount = (int) ($object['amount_total'] ?? $object['amount_paid'] ?? 0);
 
         return [
@@ -274,13 +284,40 @@ class StripeWebhookProcessor
             'currency' => strtolower((string) ($object['currency'] ?? 'usd')),
             'status' => 'paid',
             'is_recurring' => $recurring,
-            'recurring_interval' => $recurring ? 'monthly' : null,
+            'recurring_interval' => $recurring ? $this->canonicalInterval(
+                Arr::get($object, 'lines.data.0.price.recurring.interval'),
+                Arr::get($object, 'lines.data.0.price.recurring.interval_count', 1),
+            ) : null,
             'is_anonymous' => ($metadata['is_anonymous'] ?? '0') === '1',
+            'public_recognition_consent' => $publicRecognitionConsent,
             'stripe_payment_id' => $this->id($object['payment_intent'] ?? null),
             'stripe_payment_intent_id' => $this->id($object['payment_intent'] ?? null),
             'stripe_charge_id' => $this->id($object['charge'] ?? null),
             'paid_at' => now(),
         ];
+    }
+
+    private function canonicalInterval(mixed $interval, mixed $intervalCount): ?string
+    {
+        $count = max(1, (int) $intervalCount);
+
+        if ($interval === 'month' && $count === 1) {
+            return 'monthly';
+        }
+
+        if ($interval === 'month' && $count === 3) {
+            return 'quarterly';
+        }
+
+        return $interval === 'year' && $count === 1 ? 'annual' : null;
+    }
+
+    /** @param array<string, mixed> $metadata */
+    private function publicRecognitionConsent(array $metadata): ?bool
+    {
+        return array_key_exists('public_recognition_consent', $metadata)
+            ? (string) $metadata['public_recognition_consent'] === '1'
+            : null;
     }
 
     private function id(mixed $value): ?string

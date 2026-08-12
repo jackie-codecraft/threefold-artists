@@ -40,6 +40,7 @@ class DonateController extends Controller
         $amount = $request->amountInCents();
         $donorName = $request->validated('donor_name');
         $isAnonymous = $request->boolean('is_anonymous');
+        $publicRecognitionConsent = $request->boolean('public_recognition_consent');
 
         $priceData = [
             'currency' => 'usd',
@@ -55,6 +56,12 @@ class DonateController extends Controller
             $priceData['recurring'] = $interval;
         }
 
+        $metadata = array_filter([
+            'donor_name' => $donorName,
+            'is_anonymous' => $isAnonymous ? '1' : '0',
+            'public_recognition_consent' => $publicRecognitionConsent ? '1' : '0',
+        ], static fn (?string $value): bool => $value !== null);
+
         $session = (new StripeClient($stripeSecret))->checkout->sessions->create([
             'payment_method_types' => ['card'],
             'line_items' => [[
@@ -65,10 +72,8 @@ class DonateController extends Controller
             'success_url' => route('donate.success').'?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('donate'),
             'customer_email' => $request->validated('donor_email'),
-            'metadata' => array_filter([
-                'donor_name' => $donorName,
-                'is_anonymous' => $isAnonymous ? '1' : '0',
-            ], static fn (?string $value): bool => $value !== null),
+            'metadata' => $metadata,
+            'subscription_data' => $isRecurring ? ['metadata' => $metadata] : null,
         ]);
 
         return redirect($session->url);

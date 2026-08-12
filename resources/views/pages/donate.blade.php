@@ -90,6 +90,12 @@
                         <label for="is_anonymous" class="text-sm text-gray-500">Keep my donation anonymous on public recognition surfaces.</label>
                     </div>
 
+                    <input type="hidden" name="public_recognition_consent" value="0">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" name="public_recognition_consent" id="public_recognition_consent" value="1" @checked(old('public_recognition_consent')) class="w-4 h-4 border-gray-300 text-theatre-black focus:ring-theatre-black">
+                        <label for="public_recognition_consent" class="text-sm text-gray-500">Yes, you may recognize my name on the Donor Wall.</label>
+                    </div>
+
                     <div class="pt-4">
                         <button type="submit" class="inline-flex items-center justify-center w-full px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
                             Donate <span x-text="customAmount !== '' ? '$' + customAmount : '$' + selectedAmount" class="ml-1"></span>
