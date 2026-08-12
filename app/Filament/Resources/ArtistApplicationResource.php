@@ -65,6 +65,26 @@ class ArtistApplicationResource extends Resource
                         ])
                         ->maxSize(10240)
                         ->helperText('Applicant resume. PDF, DOC, or DOCX.'),
+                    Forms\Components\SpatieMediaLibraryFileUpload::make('supporting_media')
+                        ->label('Supporting media')
+                        ->collection('supporting_media')
+                        ->disk('local')
+                        ->multiple()
+                        ->acceptedFileTypes([
+                            'video/mp4',
+                            'video/quicktime',
+                            'video/webm',
+                            'audio/mpeg',
+                            'audio/wav',
+                            'audio/x-m4a',
+                            'image/jpeg',
+                            'image/png',
+                            'image/webp',
+                            'application/pdf',
+                        ])
+                        ->maxFiles(5)
+                        ->maxSize(20480)
+                        ->helperText('Optional performance samples and other supporting materials. Private to Threefold Artists.'),
                     Forms\Components\Select::make('status')
                         ->options([
                             'pending' => 'Pending',
@@ -82,9 +102,13 @@ class ArtistApplicationResource extends Resource
                     Forms\Components\Placeholder::make('resume_download')
                         ->label('Resume')
                         ->content(fn (ArtistApplication $record): HtmlString => self::mediaDownloadLink($record, 'resume', 'Download resume')),
+                    Forms\Components\Placeholder::make('supporting_media_downloads')
+                        ->label('Supporting media')
+                        ->content(fn (ArtistApplication $record): HtmlString => self::supportingMediaLinks($record))
+                        ->columnSpanFull(),
                 ])
                 ->columns(2)
-                ->visible(fn (?ArtistApplication $record): bool => $record?->getFirstMedia('photo') !== null || $record?->getFirstMedia('resume') !== null),
+                ->visible(fn (?ArtistApplication $record): bool => $record?->getFirstMedia('photo') !== null || $record?->getFirstMedia('resume') !== null || $record?->getMedia('supporting_media')->isNotEmpty()),
             Section::make('Conversion')
                 ->schema([
                     Forms\Components\Placeholder::make('approved_at_display')
@@ -290,5 +314,24 @@ class ArtistApplicationResource extends Resource
             e($url),
             e($label)
         ));
+    }
+
+    private static function supportingMediaLinks(ArtistApplication $record): HtmlString
+    {
+        $links = $record->getMedia('supporting_media')
+            ->map(function ($media) use ($record): string {
+                $previewUrl = $record->supportingMediaPreviewUrl($media);
+                $downloadUrl = $record->supportingMediaDownloadUrl($media);
+
+                return sprintf(
+                    '<li><a href="%s" class="text-primary-600 underline" target="_blank" rel="noopener">%s</a> <span class="text-gray-500">|</span> <a href="%s" class="text-primary-600 underline" target="_blank" rel="noopener">Download</a></li>',
+                    e($previewUrl),
+                    e($media->file_name),
+                    e($downloadUrl),
+                );
+            })
+            ->implode('');
+
+        return new HtmlString($links === '' ? '<span class="text-gray-500">Not provided</span>' : '<ul class="space-y-1">'.$links.'</ul>');
     }
 }

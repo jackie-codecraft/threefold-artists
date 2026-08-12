@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\URL;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ArtistApplication extends Model implements HasMedia
 {
@@ -73,6 +74,16 @@ class ArtistApplication extends Model implements HasMedia
         return $this->signedMediaUrl($collection, 'artist-application.media.download');
     }
 
+    public function supportingMediaPreviewUrl(Media $media): ?string
+    {
+        return $this->signedSupportingMediaUrl($media, 'artist-application.media.show');
+    }
+
+    public function supportingMediaDownloadUrl(Media $media): ?string
+    {
+        return $this->signedSupportingMediaUrl($media, 'artist-application.media.download');
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('photo')
@@ -82,6 +93,9 @@ class ArtistApplication extends Model implements HasMedia
         $this->addMediaCollection('resume')
             ->useDisk('local')
             ->singleFile();
+
+        $this->addMediaCollection('supporting_media')
+            ->useDisk('local');
     }
 
     private function signedMediaUrl(string $collection, string $route): ?string
@@ -95,6 +109,21 @@ class ArtistApplication extends Model implements HasMedia
         return URL::signedRoute($route, [
             'artistApplication' => $this,
             'collection' => $collection,
+            'media' => $media,
+        ]);
+    }
+
+    private function signedSupportingMediaUrl(Media $media, string $route): ?string
+    {
+        if ($media->model_type !== self::class
+            || (int) $media->model_id !== $this->id
+            || $media->collection_name !== 'supporting_media') {
+            return null;
+        }
+
+        return URL::signedRoute($route, [
+            'artistApplication' => $this,
+            'collection' => 'supporting_media',
             'media' => $media,
         ]);
     }

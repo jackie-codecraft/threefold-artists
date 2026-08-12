@@ -36,7 +36,7 @@ class ArtistApplicationMediaController extends Controller
 
     private function authorizeMedia(ArtistApplication $artistApplication, string $collection, Media $media): void
     {
-        abort_unless(in_array($collection, ['photo', 'resume'], true), 404);
+        abort_unless(in_array($collection, ['photo', 'resume', 'supporting_media'], true), 404);
         abort_unless($media->model_type === ArtistApplication::class, 404);
         abort_unless((int) $media->model_id === $artistApplication->id, 404);
         abort_unless($media->collection_name === $collection, 404);

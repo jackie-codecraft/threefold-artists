@@ -22,7 +22,7 @@ class GetInvolvedController extends Controller
     {
         $validated = $request->validated();
 
-        $application = ArtistApplication::create(collect($validated)->except(['photo', 'resume'])->all());
+        $application = ArtistApplication::create(collect($validated)->except(['photo', 'resume', 'supporting_media'])->all());
 
         if ($request->hasFile('photo')) {
             $application
@@ -34,6 +34,12 @@ class GetInvolvedController extends Controller
             $application
                 ->addMediaFromRequest('resume')
                 ->toMediaCollection('resume');
+        }
+
+        foreach ($request->file('supporting_media', []) as $media) {
+            $application
+                ->addMedia($media)
+                ->toMediaCollection('supporting_media');
         }
 
         $this->sendSubmissionNotification($application);
