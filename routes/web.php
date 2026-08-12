@@ -14,6 +14,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PerformanceRequestController;
 use App\Http\Controllers\PerformanceRequestReplyController;
 use App\Http\Controllers\PledgeController;
+use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\UnsubscribeController;
 use App\Models\Artist;
 use App\Models\BlogPost;
@@ -168,6 +169,9 @@ Route::post('/admin/performance-reply/{performanceRequest}', [PerformanceRequest
     ->middleware('signed');
 
 // Donate
+Route::post('/stripe/webhook', StripeWebhookController::class)
+    ->name('stripe.webhook')
+    ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class);
 Route::get('/donate', [DonateController::class, 'show'])->name('donate');
 Route::post('/donate/checkout', [DonateController::class, 'checkout'])->name('donate.checkout');
 Route::get('/donate/success', [DonateController::class, 'success'])->name('donate.success');

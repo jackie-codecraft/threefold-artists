@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Mail\DonationReceipt;
-use App\Models\Donation;
 use App\Models\SiteSettings;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class DonateController extends Controller
@@ -40,18 +37,7 @@ class DonateController extends Controller
         $stripeKey = config('services.stripe.secret');
 
         if ($stripeKey === 'sk_test_placeholder' || empty($stripeKey)) {
-            // Stripe not configured yet - simulate success for development
-            Donation::create([
-                'donor_name' => $request->input('donor_name'),
-                'donor_email' => $request->input('donor_email'),
-                'amount' => $request->input('amount'),
-                'is_recurring' => $isRecurring,
-                'recurring_interval' => $isRecurring ? 'monthly' : null,
-                'is_anonymous' => $isAnonymous,
-                'stripe_payment_id' => 'dev_' . uniqid(),
-            ]);
-
-            return redirect()->route('donate.thanks');
+            abort(503, 'Donations are temporarily unavailable.');
         }
 
         \Stripe\Stripe::setApiKey($stripeKey);
@@ -108,39 +94,9 @@ class DonateController extends Controller
         return redirect($session->url);
     }
 
-    public function success(Request $request): RedirectResponse
+    public function success(): RedirectResponse
     {
         $this->ensureDonationsEnabled();
-
-        $sessionId = $request->get('session_id');
-
-        if ($sessionId) {
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-
-            try {
-                $session = \Stripe\Checkout\Session::retrieve($sessionId);
-
-                $donation = Donation::create([
-                    'donor_name' => $session->metadata->donor_name ?? null,
-                    'donor_email' => $session->customer_email,
-                    'amount' => $session->mode === 'subscription'
-                        ? ($session->amount_total ?? 0) / 100
-                        : $session->amount_total / 100,
-                    'is_recurring' => $session->mode === 'subscription',
-                    'recurring_interval' => $session->mode === 'subscription' ? 'monthly' : null,
-                    'is_anonymous' => ($session->metadata->is_anonymous ?? '0') === '1',
-                    'stripe_payment_id' => $session->mode === 'subscription' ? null : $session->payment_intent,
-                    'stripe_subscription_id' => $session->mode === 'subscription' ? $session->subscription : null,
-                ]);
-
-                if ($donation->donor_email) {
-                    Mail::to($donation->donor_email)->send(new DonationReceipt($donation));
-                    $donation->update(['receipt_sent_at' => now()]);
-                }
-            } catch (\Exception $e) {
-                report($e);
-            }
-        }
 
         return redirect()->route('donate.thanks');
     }
