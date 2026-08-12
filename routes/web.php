@@ -13,7 +13,6 @@ use App\Http\Controllers\NewsletterPreviewController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PerformanceRequestController;
 use App\Http\Controllers\PerformanceRequestReplyController;
-use App\Http\Controllers\PledgeController;
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\UnsubscribeController;
 use App\Models\Artist;
@@ -53,10 +52,6 @@ Route::get('/sitemap.xml', function () {
     if ($settings->donationsEnabled()) {
         $sitemap->add(Url::create('/donate')->setPriority(0.9));
         $sitemap->add(Url::create('/donor-wall')->setPriority(0.5));
-    }
-
-    if ($settings->pledgesEnabled()) {
-        $sitemap->add(Url::create('/pledge')->setPriority(0.9));
     }
 
     if ($settings->galleryEnabled()) {
@@ -173,10 +168,10 @@ Route::post('/stripe/webhook', StripeWebhookController::class)
     ->name('stripe.webhook')
     ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class);
 Route::get('/donate', [DonateController::class, 'show'])->name('donate');
-Route::post('/donate/checkout', [DonateController::class, 'checkout'])->name('donate.checkout');
+Route::post('/donate/checkout', [DonateController::class, 'checkout'])
+    ->middleware(\App\Http\Middleware\EnsureDonationsEnabled::class)
+    ->name('donate.checkout');
 Route::get('/donate/success', [DonateController::class, 'success'])->name('donate.success');
 Route::get('/donate/thank-you', [DonateController::class, 'thanks'])->name('donate.thanks');
 
-Route::get('/pledge', [PledgeController::class, 'create'])->name('pledge');
-Route::post('/pledge', [PledgeController::class, 'store'])->name('pledge.store')->middleware('throttle:pledge-form');
-Route::get('/pledge/thank-you', [PledgeController::class, 'thanks'])->name('pledge.thanks');
+Route::get('/pledge', fn (): \Illuminate\Http\RedirectResponse => redirect()->route('donate', status: 301))->name('pledge');

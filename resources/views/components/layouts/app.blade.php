@@ -100,11 +100,6 @@
                         <a href="{{ route('request-performance') }}" class="px-5 py-2 text-sm font-medium border border-theatre-black text-theatre-black hover:bg-theatre-black hover:text-white transition-colors">
                             Request Performance
                         </a>
-                        @if($siteSettings->pledgesEnabled())
-                            <a href="{{ route('pledge') }}" class="px-5 py-2 text-sm font-medium bg-curtain-red text-white hover:bg-theatre-black transition-colors">
-                                Make a Pledge
-                            </a>
-                        @endif
                         @if($siteSettings->donationsEnabled())
                             <a href="{{ route('donate') }}" class="px-5 py-2 text-sm font-medium bg-theatre-black text-white hover:bg-gray-800 transition-colors">
                                 Donate
@@ -150,9 +145,6 @@
                     <a href="{{ route('contact') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('contact*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Contact</a>
                     <div class="flex flex-col gap-2 mt-4 px-3">
                         <a href="{{ route('request-performance') }}" class="text-center px-5 py-3 text-sm font-medium border border-theatre-black text-theatre-black">Request Performance</a>
-                        @if($siteSettings->pledgesEnabled())
-                            <a href="{{ route('pledge') }}" class="text-center px-5 py-3 text-sm font-medium bg-curtain-red text-white">Make a Pledge</a>
-                        @endif
                         @if($siteSettings->donationsEnabled())
                             <a href="{{ route('donate') }}" class="text-center px-5 py-3 text-sm font-medium bg-theatre-black text-white">Donate</a>
                         @endif
@@ -219,9 +211,6 @@
                     <ul class="space-y-3 text-sm">
                         <li><a href="{{ route('request-performance') }}" class="text-gray-300 hover:text-white transition-colors">Request a Performance</a></li>
                         <li><a href="{{ route('get-involved') }}" class="text-gray-300 hover:text-white transition-colors">Volunteer</a></li>
-                        @if($siteSettings->pledgesEnabled())
-                            <li><a href="{{ route('pledge') }}" class="text-gray-300 hover:text-white transition-colors">Founding Supporter Pledge</a></li>
-                        @endif
                         @if($siteSettings->donationsEnabled())
                             <li><a href="{{ route('donate') }}" class="text-gray-300 hover:text-white transition-colors">Donate</a></li>
                             <li><a href="{{ route('donor-wall') }}" class="text-gray-300 hover:text-white transition-colors">Donor Wall</a></li>
@@ -285,12 +274,6 @@
             {{-- Bottom Bar --}}
             <div class="border-t border-gray-800 mt-16 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p class="text-xs text-gray-500">&copy; {{ date('Y') }} Threefold Artists. All rights reserved.</p>
-                <div class="flex flex-col items-center gap-1 text-center sm:items-end sm:text-right">
-                    <p class="text-xs text-gray-500">EIN #85-0567934</p>
-                    @if($siteSettings->donationsEnabled())
-                        <p class="text-xs text-gray-500">A 501(c)(3) nonprofit organization. All donations are tax-deductible.</p>
-                    @endif
-                </div>
             </div>
         </div>
     </footer>
