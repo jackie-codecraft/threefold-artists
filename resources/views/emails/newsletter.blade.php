@@ -60,7 +60,7 @@
                     <tr>
                         <td align="center" style="color: #888888; font-size: 12px; line-height: 1.6;">
                             Threefold Artists Inc. &middot; Greater Los Angeles, California<br>
-                            A 501(c)(3) nonprofit organization<br><br>
+                            A nonprofit performing arts organization<br><br>
                             <a href="{{ $unsubscribeUrl }}" style="color: #C9A84C; text-decoration: underline;">Unsubscribe</a>
                         </td>
                     </tr>

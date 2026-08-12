@@ -22,7 +22,7 @@
             </div>
 
             <div class="space-y-6 text-gray-500 leading-relaxed text-lg">
-                <p>Threefold Artists is a 501(c)(3) nonprofit performing arts organization based in greater Los Angeles, California. Founded in 2026, we bring live theatre, music, and dance directly to communities that cannot easily access traditional venues.</p>
+                <p>Threefold Artists is a nonprofit performing arts organization based in greater Los Angeles, California. Founded in 2026, we bring live theatre, music, and dance directly to communities that cannot easily access traditional venues.</p>
                 <p>Our volunteer artists perform at senior living communities, hospitals, rehabilitation centers, schools, shelters, and community centers — always free of charge. We believe that access to live art is a right, not a privilege.</p>
             </div>
 
@@ -37,11 +37,7 @@
                     <div class="w-8 h-px bg-stage-gold my-3"></div>
                     <div class="text-sm text-gray-500">Based In</div>
                 </div>
-                <div>
-                    <div class="font-display text-3xl font-light text-theatre-black mb-2">501(c)(3)</div>
-                    <div class="w-8 h-px bg-stage-gold my-3"></div>
-                    <div class="text-sm text-gray-500">Tax Status</div>
-                </div>
+
             </div>
         </div>
     </section>
@@ -68,7 +64,7 @@
                 <div>
                     <div class="w-12 h-px bg-stage-gold mb-6"></div>
                     <h3 class="font-display text-xl font-normal text-theatre-black mb-3">Boilerplate</h3>
-                    <p class="text-gray-500 leading-relaxed">Threefold Artists is a Los Angeles–based 501(c)(3) nonprofit that brings professional-quality live theatre, music, and dance to communities that cannot easily access them, at no cost. For more information, visit threefoldartists.org.</p>
+                    <p class="text-gray-500 leading-relaxed">Threefold Artists is a Los Angeles–based nonprofit that brings professional-quality live theatre, music, and dance to communities that cannot easily access them, at no cost. For more information, visit threefoldartists.org.</p>
                 </div>
             </div>
         </div>
