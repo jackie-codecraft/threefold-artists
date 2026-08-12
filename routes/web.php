@@ -7,6 +7,8 @@ use App\Http\Controllers\ArtistApplicationReplyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContactMessageReplyController;
 use App\Http\Controllers\DonateController;
+use App\Http\Controllers\DonationStatementController;
+use App\Http\Controllers\DonationSupportController;
 use App\Http\Controllers\DonorPortalController;
 use App\Http\Controllers\GetInvolvedController;
 use App\Http\Controllers\NewsletterController;
@@ -183,5 +185,7 @@ Route::post('/my-donations/access', [DonorPortalController::class, 'sendAccessLi
 Route::get('/my-donations/access/{token}', [DonorPortalController::class, 'consume'])->name('donor-access.consume');
 Route::get('/my-donations', [DonorPortalController::class, 'show'])->name('donor-portal');
 Route::post('/my-donations/billing-portal', [DonorPortalController::class, 'billingPortal'])->name('donor-portal.billing');
+Route::post('/my-donations/supports/{support}/pause', [DonationSupportController::class, 'pause'])->name('donor-portal.supports.pause');
+Route::get('/my-donations/statement', [DonationStatementController::class, 'show'])->name('donor-portal.statement');
 
 Route::get('/pledge', fn (): \Illuminate\Http\RedirectResponse => redirect()->route('donate', status: 301))->name('pledge');

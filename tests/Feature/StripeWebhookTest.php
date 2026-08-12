@@ -63,7 +63,7 @@ class StripeWebhookTest extends TestCase
             'current_period_start' => 1_700_000_000,
             'current_period_end' => 1_700_100_000,
             'pause_collection' => ['behavior' => 'void', 'resumes_at' => 1_700_200_000],
-            'items' => ['data' => [['price' => ['id' => 'price_123', 'unit_amount' => 1500, 'currency' => 'usd', 'recurring' => ['interval' => 'month']]]]],
+            'items' => ['data' => [['price' => ['id' => 'price_123', 'unit_amount' => 1500, 'currency' => 'usd', 'recurring' => ['interval' => 'month', 'interval_count' => 1]]]]],
         ]);
         $this->postJson('/stripe/webhook', $subscription, $this->signature($subscription))->assertOk();
 
@@ -80,7 +80,7 @@ class StripeWebhookTest extends TestCase
             'charge' => 'ch_invoice_123',
             'period_start' => 1_700_000_000,
             'period_end' => 1_700_100_000,
-            'lines' => ['data' => [['price' => ['id' => 'price_123', 'unit_amount' => 1500, 'currency' => 'usd', 'recurring' => ['interval' => 'month']]]]],
+            'lines' => ['data' => [['price' => ['id' => 'price_123', 'unit_amount' => 1500, 'currency' => 'usd', 'recurring' => ['interval' => 'month', 'interval_count' => 1]]]]],
         ]);
         $this->postJson('/stripe/webhook', $invoice, $this->signature($invoice))->assertOk();
         $this->postJson('/stripe/webhook', $invoice, $this->signature($invoice))->assertOk();
@@ -91,6 +91,25 @@ class StripeWebhookTest extends TestCase
             'status' => 'active',
             'cancel_at_period_end' => 1,
             'pause_collection_behavior' => 'void',
+            'interval' => 'monthly',
+            'interval_count' => 1,
+        ]);
+    }
+
+    public function test_stripe_recurring_cadences_are_canonicalized_and_persist_the_price_interval_count(): void
+    {
+        $quarterly = $this->event('evt_subscription_quarterly', 'customer.subscription.created', [
+            'id' => 'sub_quarterly', 'customer' => 'cus_quarterly', 'customer_email' => 'quarterly@example.com',
+            'status' => 'active', 'items' => ['data' => [['price' => [
+                'id' => 'price_quarterly', 'unit_amount' => 3000, 'currency' => 'usd',
+                'recurring' => ['interval' => 'month', 'interval_count' => 3],
+            ]]]],
+        ]);
+
+        $this->postJson('/stripe/webhook', $quarterly, $this->signature($quarterly))->assertOk();
+
+        $this->assertDatabaseHas('donation_supports', [
+            'stripe_subscription_id' => 'sub_quarterly', 'interval' => 'quarterly', 'interval_count' => 3,
         ]);
     }
 
@@ -123,7 +142,7 @@ class StripeWebhookTest extends TestCase
         $created = $this->event('evt_subscription_created', 'customer.subscription.created', [
             'id' => 'sub_lifecycle', 'customer' => 'cus_lifecycle', 'customer_email' => 'lifecycle@example.com',
             'status' => 'active', 'cancel_at_period_end' => false,
-            'items' => ['data' => [['price' => ['id' => 'price_lifecycle', 'unit_amount' => 2000, 'currency' => 'usd', 'recurring' => ['interval' => 'month']]]]],
+            'items' => ['data' => [['price' => ['id' => 'price_lifecycle', 'unit_amount' => 2000, 'currency' => 'usd', 'recurring' => ['interval' => 'month', 'interval_count' => 1]]]]],
         ]);
         $this->postJson('/stripe/webhook', $created, $this->signature($created))->assertOk();
 
@@ -136,7 +155,7 @@ class StripeWebhookTest extends TestCase
         $deleted = $this->event('evt_subscription_deleted', 'customer.subscription.deleted', [
             'id' => 'sub_lifecycle', 'customer' => 'cus_lifecycle', 'customer_email' => 'lifecycle@example.com',
             'status' => 'canceled', 'cancel_at_period_end' => false,
-            'items' => ['data' => [['price' => ['id' => 'price_lifecycle', 'unit_amount' => 2000, 'currency' => 'usd', 'recurring' => ['interval' => 'month']]]]],
+            'items' => ['data' => [['price' => ['id' => 'price_lifecycle', 'unit_amount' => 2000, 'currency' => 'usd', 'recurring' => ['interval' => 'month', 'interval_count' => 1]]]]],
         ]);
         $this->postJson('/stripe/webhook', $deleted, $this->signature($deleted))->assertOk();
 

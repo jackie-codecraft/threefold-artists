@@ -18,6 +18,7 @@ class DonationSupport extends Model
         'amount_cents',
         'currency',
         'interval',
+        'interval_count',
         'status',
         'pause_collection_behavior',
         'paused_at',
