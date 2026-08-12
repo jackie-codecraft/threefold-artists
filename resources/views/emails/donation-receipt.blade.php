@@ -25,7 +25,6 @@
         </p>
 
         <p style="color: #999; font-size: 12px; margin-top: 30px;">
-            Threefold Artists is a 501(c)(3) nonprofit organization. This donation is tax-deductible to the extent allowed by law.
             @if($donation->stripe_payment_id)
             <br>Transaction ID: {{ $donation->stripe_payment_id }}
             @endif
