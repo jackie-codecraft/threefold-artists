@@ -101,6 +101,7 @@
                 </form>
 
                 <p class="text-xs text-gray-400 text-center mt-6">Payments are processed securely via Stripe.</p>
+                <p class="text-sm text-gray-500 text-center mt-4"><a href="{{ route('donor-access.request') }}" class="underline hover:text-theatre-black">Manage My Donations</a></p>
             </div>
         </div>
     </section>

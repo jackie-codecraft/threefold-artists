@@ -34,6 +34,10 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perHour(10)->by($request->ip());
         });
 
+        RateLimiter::for('donor-access-link', function (Request $request) {
+            return Limit::perHour(5)->by($request->ip().'|'.mb_strtolower(trim((string) $request->input('email'))));
+        });
+
         View::composer('*', function ($view): void {
             $view->with('siteSettings', SiteSettings::current());
         });

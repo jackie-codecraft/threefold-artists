@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Donor extends Model
 {
@@ -40,5 +40,13 @@ class Donor extends Model
     public function donationSupports(): HasMany
     {
         return $this->hasMany(DonationSupport::class);
+    }
+
+    /**
+     * @return HasMany<DonorAccessLink, $this>
+     */
+    public function accessLinks(): HasMany
+    {
+        return $this->hasMany(DonorAccessLink::class);
     }
 }

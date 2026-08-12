@@ -7,6 +7,7 @@ use App\Http\Controllers\ArtistApplicationReplyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContactMessageReplyController;
 use App\Http\Controllers\DonateController;
+use App\Http\Controllers\DonorPortalController;
 use App\Http\Controllers\GetInvolvedController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\NewsletterPreviewController;
@@ -173,5 +174,14 @@ Route::post('/donate/checkout', [DonateController::class, 'checkout'])
     ->name('donate.checkout');
 Route::get('/donate/success', [DonateController::class, 'success'])->name('donate.success');
 Route::get('/donate/thank-you', [DonateController::class, 'thanks'])->name('donate.thanks');
+
+// Donor access is intentionally separate from application/Filament authentication.
+Route::get('/my-donations/access', [DonorPortalController::class, 'requestForm'])->name('donor-access.request');
+Route::post('/my-donations/access', [DonorPortalController::class, 'sendAccessLink'])
+    ->middleware('throttle:donor-access-link')
+    ->name('donor-access.send');
+Route::get('/my-donations/access/{token}', [DonorPortalController::class, 'consume'])->name('donor-access.consume');
+Route::get('/my-donations', [DonorPortalController::class, 'show'])->name('donor-portal');
+Route::post('/my-donations/billing-portal', [DonorPortalController::class, 'billingPortal'])->name('donor-portal.billing');
 
 Route::get('/pledge', fn (): \Illuminate\Http\RedirectResponse => redirect()->route('donate', status: 301))->name('pledge');

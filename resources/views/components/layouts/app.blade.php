@@ -214,6 +214,7 @@
                         @if($siteSettings->donationsEnabled())
                             <li><a href="{{ route('donate') }}" class="text-gray-300 hover:text-white transition-colors">Donate</a></li>
                             <li><a href="{{ route('donor-wall') }}" class="text-gray-300 hover:text-white transition-colors">Donor Wall</a></li>
+                            <li><a href="{{ route('donor-access.request') }}" class="text-gray-300 hover:text-white transition-colors">Manage My Donations</a></li>
                         @endif
                         <li><a href="{{ route('contact') }}" class="text-gray-300 hover:text-white transition-colors">Contact</a></li>
                     </ul>
