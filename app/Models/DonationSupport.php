@@ -22,6 +22,8 @@ class DonationSupport extends Model
         'pause_collection_behavior',
         'paused_at',
         'pause_resumes_at',
+        'paused_until',
+        'cancel_at_period_end',
         'current_period_starts_at',
         'current_period_ends_at',
     ];
@@ -31,6 +33,8 @@ class DonationSupport extends Model
         return [
             'paused_at' => 'datetime',
             'pause_resumes_at' => 'datetime',
+            'paused_until' => 'datetime',
+            'cancel_at_period_end' => 'boolean',
             'current_period_starts_at' => 'datetime',
             'current_period_ends_at' => 'datetime',
         ];
