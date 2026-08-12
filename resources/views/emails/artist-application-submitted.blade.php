@@ -11,6 +11,7 @@
             <tr><td style="padding: 8px 0; color: #666;">Discipline:</td><td style="padding: 8px 0;">{{ $application->disciplineLabel() }}</td></tr>
             <tr><td style="padding: 8px 0; color: #666;">Photo:</td><td style="padding: 8px 0;">@if($application->mediaDownloadUrl('photo'))<a href="{{ $application->mediaDownloadUrl('photo') }}" style="color: #8B1A2B;">Download photo</a>@else Not provided @endif</td></tr>
             <tr><td style="padding: 8px 0; color: #666;">Resume:</td><td style="padding: 8px 0;">@if($application->mediaDownloadUrl('resume'))<a href="{{ $application->mediaDownloadUrl('resume') }}" style="color: #8B1A2B;">Download resume</a>@else Not provided @endif</td></tr>
+            <tr><td style="padding: 8px 0; color: #666; vertical-align: top;">Supporting media:</td><td style="padding: 8px 0;">@if($application->getMedia('supporting_media')->isNotEmpty()) {{ $application->getMedia('supporting_media')->count() }} file(s) submitted. Review them in the admin panel. @else Not provided @endif</td></tr>
         </table>
 
         @if($application->mediaPreviewUrl('photo'))

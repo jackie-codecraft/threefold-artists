@@ -29,6 +29,7 @@ class ArtistApplicationMediaTest extends TestCase
 
         $photo = $application->getFirstMedia('photo');
         $resume = $application->getFirstMedia('resume');
+        $performanceReel = $application->getMedia('supporting_media')->first();
 
         $this->get($application->mediaPreviewUrl('photo'))
             ->assertOk()
@@ -38,6 +39,14 @@ class ArtistApplicationMediaTest extends TestCase
             ->assertOk()
             ->assertHeader('content-type', $resume->mime_type)
             ->assertHeader('content-disposition', 'attachment; filename=alex-resume.pdf');
+
+        $this->get($application->supportingMediaPreviewUrl($performanceReel))
+            ->assertOk()
+            ->assertHeader('content-type', $performanceReel->mime_type);
+
+        $this->get($application->supportingMediaDownloadUrl($performanceReel))
+            ->assertOk()
+            ->assertHeader('content-disposition', 'attachment; filename=alex-performance-reel.mp4');
     }
 
     public function test_admin_artist_application_surfaces_media_on_list_and_detail_pages(): void
@@ -54,7 +63,8 @@ class ArtistApplicationMediaTest extends TestCase
 
         Livewire::test(EditArtistApplication::class, ['record' => $application->getRouteKey()])
             ->assertSee('Download photo')
-            ->assertSee('Download resume');
+            ->assertSee('Download resume')
+            ->assertSee('alex-performance-reel.mp4');
     }
 
     public function test_artist_application_notification_email_includes_media_links_and_attachments(): void
@@ -69,6 +79,7 @@ class ArtistApplicationMediaTest extends TestCase
         $mail
             ->assertSeeInHtml('Download photo')
             ->assertSeeInHtml('Download resume')
+            ->assertSeeInHtml('2 file(s) submitted')
             ->assertSeeInHtml($application->mediaPreviewUrl('photo'), false)
             ->assertHasAttachment(Attachment::fromStorageDisk('local', $photo->getPathRelativeToRoot())
                 ->as($photo->file_name)
@@ -91,6 +102,8 @@ class ArtistApplicationMediaTest extends TestCase
             ->assertOk()
             ->assertSee('Download photo')
             ->assertSee('Download Resume')
+            ->assertSee('Supporting Media')
+            ->assertSee('alex-performance-reel.mp4')
             ->assertSee($application->mediaPreviewUrl('photo'), false)
             ->assertSee($application->mediaDownloadUrl('resume'), false);
     }
@@ -114,6 +127,14 @@ class ArtistApplicationMediaTest extends TestCase
         $application
             ->addMedia(UploadedFile::fake()->create('alex-resume.pdf', 256, 'application/pdf'))
             ->toMediaCollection('resume');
+
+        $application
+            ->addMedia(UploadedFile::fake()->create('alex-performance-reel.mp4', 1024, 'video/mp4'))
+            ->toMediaCollection('supporting_media');
+
+        $application
+            ->addMedia(UploadedFile::fake()->create('alex-song.mp3', 512, 'audio/mpeg'))
+            ->toMediaCollection('supporting_media');
 
         return $application->refresh();
     }

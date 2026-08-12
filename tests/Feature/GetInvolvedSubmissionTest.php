@@ -39,6 +39,8 @@ class GetInvolvedSubmissionTest extends TestCase
         $this->assertNotNull($application->getFirstMedia('resume'));
         $this->assertSame('local', $application->getFirstMedia('photo')->disk);
         $this->assertSame('local', $application->getFirstMedia('resume')->disk);
+        $this->assertCount(2, $application->getMedia('supporting_media'));
+        $this->assertSame(['alex-performance-reel.mp4', 'alex-song.mp3'], $application->getMedia('supporting_media')->pluck('file_name')->all());
 
         Mail::assertSent(ArtistApplicationSubmitted::class);
     }
@@ -70,6 +72,15 @@ class GetInvolvedSubmissionTest extends TestCase
         });
     }
 
+    public function test_artist_application_thank_you_page_confirms_receipt_without_implying_acceptance(): void
+    {
+        $this->get(route('get-involved.thanks'))
+            ->assertOk()
+            ->assertSee('Application Received')
+            ->assertSee('Thank you for sharing your artistry with Threefold Artists. We’ve received your application and will review it with care. We’ll be in touch soon.')
+            ->assertDontSee('Welcome Aboard');
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -85,6 +96,10 @@ class GetInvolvedSubmissionTest extends TestCase
             'availability' => 'Weekends',
             'photo' => UploadedFile::fake()->image('alex.jpg', 800, 1000),
             'resume' => UploadedFile::fake()->create('alex-resume.pdf', 256, 'application/pdf'),
+            'supporting_media' => [
+                UploadedFile::fake()->create('alex-performance-reel.mp4', 1024, 'video/mp4'),
+                UploadedFile::fake()->create('alex-song.mp3', 512, 'audio/mpeg'),
+            ],
         ];
     }
 }

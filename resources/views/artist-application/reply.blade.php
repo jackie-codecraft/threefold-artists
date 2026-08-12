@@ -15,7 +15,7 @@
 
                 {{-- Application details --}}
                 <div class="mb-8 p-5 bg-gray-50 border-l-4 border-gray-200">
-                    @if($application->mediaPreviewUrl('photo') || $application->mediaDownloadUrl('resume'))
+                    @if($application->mediaPreviewUrl('photo') || $application->mediaDownloadUrl('resume') || $application->getMedia('supporting_media')->isNotEmpty())
                         <div class="mb-6 grid grid-cols-1 sm:grid-cols-[120px,1fr] gap-5 items-start">
                             @if($application->mediaPreviewUrl('photo'))
                                 <div>
@@ -29,6 +29,20 @@
                                     <a href="{{ $application->mediaDownloadUrl('resume') }}" class="inline-flex items-center justify-center px-4 py-2 bg-theatre-black text-white text-xs font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
                                         Download Resume
                                     </a>
+                                @endif
+
+                                @if($application->getMedia('supporting_media')->isNotEmpty())
+                                    <div class="pt-2">
+                                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Supporting Media</p>
+                                        <ul class="space-y-2">
+                                            @foreach($application->getMedia('supporting_media') as $media)
+                                                <li class="text-sm">
+                                                    <a href="{{ $application->supportingMediaPreviewUrl($media) }}" class="text-theatre-black underline" target="_blank" rel="noopener">{{ $media->file_name }}</a>
+                                                    <a href="{{ $application->supportingMediaDownloadUrl($media) }}" class="ml-2 text-gray-500 underline" target="_blank" rel="noopener">Download</a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
                                 @endif
                             </div>
                         </div>
