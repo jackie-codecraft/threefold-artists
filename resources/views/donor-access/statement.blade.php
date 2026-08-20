@@ -7,8 +7,10 @@
             </div>
             <article class="mt-8 print:mt-0">
                 <h1 class="font-display text-4xl text-theatre-black">Donation Statement — {{ $statement['year'] }}</h1>
-                <p class="mt-4 font-medium">{{ $organization['organization_name'] }}</p>
+                <p class="mt-4 font-medium">{{ $organization['legal_name'] }}</p>
+                <p class="text-sm text-gray-600">EIN: {{ $organization['tax_id'] }}</p>
                 @if($organization['mailing_address'])<p class="whitespace-pre-line text-sm text-gray-600">{{ $organization['mailing_address'] }}</p>@endif
+                <p class="mt-4 text-sm text-gray-600">{{ $organization['tax_status'] }}</p>
                 <p class="mt-6 text-gray-600">Prepared for {{ $donor->name ?: $donor->email }}</p>
                 <table class="w-full mt-8 text-sm border-collapse"><thead><tr class="border-b text-left"><th class="py-2">Date</th><th>Description</th><th class="py-2 text-right">Amount</th></tr></thead><tbody>
                     @forelse($statement['entries'] as $entry)

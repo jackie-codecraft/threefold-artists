@@ -33,7 +33,7 @@ class DonationStatementTest extends TestCase
     }
 
     #[Test]
-    public function statement_route_requires_the_donor_portal_session_and_renders_neutral_text(): void
+    public function statement_route_requires_the_donor_portal_session_and_renders_approved_tax_text(): void
     {
         Carbon::setTestNow('2026-06-01');
         $donor = Donor::query()->create(['email' => 'supporter@example.com']);
@@ -44,16 +44,19 @@ class DonationStatementTest extends TestCase
             ->get(route('donor-portal.statement', ['year' => 2026]))
             ->assertOk()
             ->assertSee('Threefold Artists, Inc.')
-            ->assertSee('This statement is a record of payments and adjustments.')
-            ->assertDontSee('tax-deductible', false)
-            ->assertDontSee('501(c)(3)', false);
+            ->assertSee('This annual giving summary is a record of payments and adjustments.')
+            ->assertSee('85-0567934')
+            ->assertSee('tax-deductible', false)
+            ->assertSee('501(c)(3)', false);
     }
 
     private function entry(Donor $donor, string $status, int $cents, string $date): void
     {
         Donation::query()->create([
             'donor_id' => $donor->id, 'amount' => $cents / 100, 'amount_cents' => $cents, 'status' => $status,
-            match ($status) { 'paid' => 'paid_at', 'refunded' => 'refunded_at', 'disputed' => 'disputed_at' } => Carbon::parse($date, 'UTC'),
+            match ($status) {
+                'paid' => 'paid_at', 'refunded' => 'refunded_at', 'disputed' => 'disputed_at'
+            } => Carbon::parse($date, 'UTC'),
         ]);
     }
 }

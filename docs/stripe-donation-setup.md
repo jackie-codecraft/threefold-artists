@@ -47,16 +47,16 @@ MAIL_FROM_NAME="Threefold Artists"
 
 `STRIPE_KEY` is retained for client-facing configuration; the current donation checkout and portal calls use `STRIPE_SECRET` on the server. The signing secret is mandatory: without `STRIPE_WEBHOOK_SECRET`, `POST /stripe/webhook` returns HTTP 503; with a mismatched secret, it returns HTTP 400.
 
-If organisation identity fields are ready, they can be supplied separately for the neutral statement template:
+The approved organisation identity and donation disclosures have safe defaults in `config/donations.php`. Set environment values only if the organisation later changes any of them:
 
 ```dotenv
-DONATIONS_MAILING_ADDRESS="Approved mailing address"
-DONATIONS_LEGAL_NAME="Approved legal name"
-DONATIONS_TAX_ID=
-DONATIONS_TAX_STATUS=
+DONATIONS_MAILING_ADDRESS="14014 Moorpark Street\nSuite 308\nSherman Oaks, CA 91423"
+DONATIONS_LEGAL_NAME="Threefold Artists, Inc."
+DONATIONS_TAX_ID=85-0567934
+DONATIONS_TAX_STATUS="Threefold Artists, Inc. is recognized by the Internal Revenue Service as a 501(c)(3) nonprofit charitable organization."
 ```
 
-Leave these blank until approved. They do not enable Stripe and this application must not infer tax status, deductible treatment, an EIN, or goods/services language.
+These fields do not enable Stripe. The donation receipt and annual statement use the approved legal name, EIN, mailing address, tax-exempt-status statement, deductible-contribution statement, and no-goods/services disclosure.
 
 After updating the environment, run the normal deployment/cache sequence:
 
@@ -74,7 +74,20 @@ In Filament, open **Settings → Site settings** and turn on donations. Until th
 
 The app creates Stripe Checkout prices dynamically for one-time, monthly, quarterly, and annual donations. You do not need to pre-create Stripe Products or Prices for the current implementation.
 
-## 4. Test end-to-end before live mode
+## 4. Configure Stripe Customer Portal
+
+The application creates a Billing Portal session only after a donor proves ownership through a single-use email link. In Stripe Dashboard, open **Settings → Billing → Customer portal** and activate/configure the portal before exposing it to live donors.
+
+Enable the capabilities the founder approved:
+
+- payment-method updates;
+- subscription cancellation;
+- invoice history/receipt access, if available for the account;
+- subscription updates only if Stripe's configured products/prices and your fundraising policy permit donors to change amounts or cadence.
+
+The app provides a donor-specific **Pause** control for the approved fixed pause periods. Stripe remains authoritative: a pause becomes visible only after Stripe sends the subscription webhook. The portal's exact options are configured in Stripe, not in this codebase.
+
+## 5. Test end-to-end before live mode
 
 1. Visit `/donate` and submit a test donation using a Stripe test card such as `4242 4242 4242 4242` with any future expiry/CVC.
 2. Confirm Stripe delivers `checkout.session.completed` for one-time donations or `invoice.paid` for subscriptions.
@@ -92,7 +105,7 @@ stripe listen --forward-to http://127.0.0.1:8000/stripe/webhook
 
 Use the `whsec_…` printed by `stripe listen` as `STRIPE_WEBHOOK_SECRET` for that local session. Then trigger or complete test events through the Stripe Dashboard/CLI. Never use the CLI's local signing secret on the production server.
 
-## 5. Switch to production
+## 6. Switch to production
 
 After sandbox verification:
 
