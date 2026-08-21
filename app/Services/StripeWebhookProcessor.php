@@ -52,7 +52,7 @@ class StripeWebhookProcessor
     /** @return list<Donation> */
     private function invoicePaid(array $invoice): array
     {
-        $subscriptionId = $this->id($invoice['subscription'] ?? null);
+        $subscriptionId = $this->subscriptionIdFromInvoice($invoice);
         if ($subscriptionId === null || ($invoice['status'] ?? null) !== 'paid') {
             return [];
         }
@@ -76,7 +76,7 @@ class StripeWebhookProcessor
     /** @return list<Donation> */
     private function invoicePaymentFailed(array $invoice): array
     {
-        $subscriptionId = $this->id($invoice['subscription'] ?? null);
+        $subscriptionId = $this->subscriptionIdFromInvoice($invoice);
         if ($subscriptionId !== null) {
             $this->upsertSupportFromInvoice($invoice, $subscriptionId, 'past_due');
         }
@@ -201,11 +201,22 @@ class StripeWebhookProcessor
             return $existing;
         }
 
+        $line = Arr::first($invoice['lines']['data'] ?? [], fn (array $line): bool => true) ?? [];
+        $priceId = $this->id($line['price'] ?? null)
+            ?? $this->id(Arr::get($line, 'pricing.price_details.price'));
+        $unitAmount = (int) ($line['price']['unit_amount'] ?? Arr::get($line, 'pricing.unit_amount_decimal') ?? $invoice['amount_paid'] ?? 0);
+
         return $this->upsertSupport([
             'id' => $subscriptionId,
             'customer' => $invoice['customer'] ?? null,
             'status' => $fallbackStatus ?? 'active',
-            'items' => ['data' => $invoice['lines']['data'] ?? []],
+            'items' => ['data' => [[
+                'price' => [
+                    'id' => $priceId,
+                    'unit_amount' => $unitAmount,
+                    'currency' => $line['currency'] ?? $invoice['currency'] ?? 'usd',
+                ],
+            ]]],
             'pause_collection' => null,
             'cancel_at_period_end' => false,
             'current_period_start' => $invoice['period_start'] ?? null,
@@ -295,6 +306,13 @@ class StripeWebhookProcessor
             'stripe_charge_id' => $this->id($object['charge'] ?? null),
             'paid_at' => now(),
         ];
+    }
+
+    private function subscriptionIdFromInvoice(array $invoice): ?string
+    {
+        return $this->id($invoice['subscription'] ?? null)
+            ?? $this->id(Arr::get($invoice, 'parent.subscription_details.subscription'))
+            ?? $this->id(Arr::get($invoice, 'lines.data.0.parent.subscription_item_details.subscription'));
     }
 
     private function canonicalInterval(mixed $interval, mixed $intervalCount): ?string

@@ -164,6 +164,32 @@ class StripeWebhookTest extends TestCase
         $this->assertDatabaseCount('donations', 0);
     }
 
+    public function test_modern_invoice_payload_creates_a_donor_support_and_recurring_ledger_entry(): void
+    {
+        $invoice = $this->event('evt_modern_invoice_paid', 'invoice.paid', [
+            'id' => 'in_modern_123',
+            'status' => 'paid',
+            'customer' => 'cus_modern_123',
+            'customer_email' => 'modern@example.com',
+            'customer_name' => 'Modern Donor',
+            'amount_paid' => 2500,
+            'currency' => 'usd',
+            'payment_intent' => 'pi_modern_123',
+            'parent' => ['subscription_details' => ['subscription' => 'sub_modern_123', 'metadata' => []]],
+            'lines' => ['data' => [[
+                'currency' => 'usd',
+                'pricing' => ['price_details' => ['price' => 'price_modern_123'], 'unit_amount_decimal' => '2500'],
+                'parent' => ['subscription_item_details' => ['subscription' => 'sub_modern_123']],
+            ]]],
+        ]);
+
+        $this->postJson('/stripe/webhook', $invoice, $this->signature($invoice))->assertOk();
+
+        $this->assertDatabaseHas('donors', ['email' => 'modern@example.com', 'stripe_customer_id' => 'cus_modern_123']);
+        $this->assertDatabaseHas('donation_supports', ['stripe_subscription_id' => 'sub_modern_123', 'stripe_customer_id' => 'cus_modern_123']);
+        $this->assertDatabaseHas('donations', ['stripe_invoice_id' => 'in_modern_123', 'stripe_subscription_id' => 'sub_modern_123', 'amount_cents' => 2500]);
+    }
+
     public function test_rejects_invalid_signature_and_success_redirect_never_creates_a_donation(): void
     {
         $this->postJson('/stripe/webhook', $this->event('evt_bad', 'invoice.paid', []), ['Stripe-Signature' => 't=1,v1=bad'])

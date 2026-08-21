@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Mail\DonationReceipt;
+use App\Models\Donation;
 use App\Models\StripeWebhookEvent;
 use App\Services\StripeWebhookProcessor;
 use Illuminate\Database\QueryException;
@@ -51,13 +52,24 @@ class StripeWebhookController extends Controller
                 return $receipts;
             });
         } catch (QueryException $exception) {
-            if ($this->isDuplicateEvent($exception)) {
-                return response()->json(['received' => true]);
+            if (! $this->isDuplicateEvent($exception)) {
+                throw $exception;
             }
 
-            throw $exception;
+            // Stripe retries are safe to replay: the processor uses provider IDs
+            // as idempotency keys and this also recovers events improved code could
+            // not fully normalize when they first arrived.
+            $receipts = DB::transaction(fn (): array => $processor->process($event));
         }
 
+        $this->sendReceipts($receipts);
+
+        return response()->json(['received' => true]);
+    }
+
+    /** @param list<Donation> $receipts */
+    private function sendReceipts(array $receipts): void
+    {
         foreach ($receipts as $donation) {
             if ($donation->donor_email === null || $donation->receipt_sent_at !== null) {
                 continue;
@@ -66,8 +78,6 @@ class StripeWebhookController extends Controller
             Mail::to($donation->donor_email)->send(new DonationReceipt($donation));
             $donation->update(['receipt_sent_at' => now()]);
         }
-
-        return response()->json(['received' => true]);
     }
 
     private function isDuplicateEvent(QueryException $exception): bool
