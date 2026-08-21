@@ -72,6 +72,26 @@ class DonationSupportPauseTest extends TestCase
     }
 
     #[Test]
+    public function inactive_stripe_products_are_replaced_before_scheduling_a_new_donation_price(): void
+    {
+        config(['services.stripe.secret' => 'sk_test_change']);
+        $donor = Donor::query()->create(['email' => 'inactive-product@example.com']);
+        $support = $this->support($donor, ['stripe_subscription_id' => 'sub_inactive_product', 'stripe_price_id' => 'price_current']);
+        $client = new PauseStripeClient;
+        $client->inactiveProduct = true;
+        ApiRequestor::setHttpClient($client);
+
+        $this->withSession(['donor_portal.donor_id' => $donor->id])
+            ->post(route('donor-portal.supports.amount', $support), ['amount' => '30.00'])
+            ->assertRedirect(route('donor-portal'));
+
+        $productCreate = collect($client->requests)->first(fn (array $request): bool => str_ends_with($request['url'], '/v1/products') && $request['params'] !== []);
+        $subscriptionUpdate = collect($client->requests)->first(fn (array $request): bool => str_ends_with($request['url'], '/v1/subscriptions/sub_inactive_product') && array_key_exists('proration_behavior', $request['params']));
+        $this->assertNotNull($productCreate);
+        $this->assertSame('price_new', $subscriptionUpdate['params']['items'][0]['price']);
+    }
+
+    #[Test]
     public function pause_lengths_are_limited_by_cadence_and_do_not_call_stripe_when_invalid(): void
     {
         config(['services.stripe.secret' => 'sk_test_pause']);
@@ -128,6 +148,8 @@ class PauseStripeClient implements ClientInterface
     /** @var list<array{url: string, params: array<string, mixed>}> */
     public array $requests = [];
 
+    public bool $inactiveProduct = false;
+
     public array $params = [];
 
     public string $method = '';
@@ -145,7 +167,15 @@ class PauseStripeClient implements ClientInterface
             return [json_encode(['id' => 'price_current', 'product' => 'prod_donations']), 200, []];
         }
 
-        if (str_ends_with($absUrl, '/v1/subscriptions/sub_change') && strtolower($method) === 'get') {
+        if (str_ends_with($absUrl, '/v1/products/prod_donations')) {
+            return [json_encode(['id' => 'prod_donations', 'active' => ! $this->inactiveProduct]), 200, []];
+        }
+
+        if (str_ends_with($absUrl, '/v1/products') && strtolower($method) === 'post') {
+            return [json_encode(['id' => 'prod_replacement', 'active' => true]), 200, []];
+        }
+
+        if (str_contains($absUrl, '/v1/subscriptions/') && strtolower($method) === 'get') {
             return [json_encode(['id' => 'sub_change', 'items' => ['data' => [['id' => 'si_change']]]]), 200, []];
         }
 

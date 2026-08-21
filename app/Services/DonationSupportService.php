@@ -78,10 +78,17 @@ class DonationSupportService
             throw ValidationException::withMessages(['support' => 'This recurring support cannot be updated online.']);
         }
 
+        $product = $stripe->products->retrieve((string) $price->product);
+        if (! $product->active) {
+            $product = $stripe->products->create([
+                'name' => ucfirst($support->interval).' Donation to Threefold Artists',
+            ]);
+        }
+
         $newPrice = $stripe->prices->create([
             'currency' => $support->currency,
             'unit_amount' => $amountCents,
-            'product' => $price->product,
+            'product' => $product->id,
             'recurring' => match ($support->interval) {
                 'monthly' => ['interval' => 'month'],
                 'quarterly' => ['interval' => 'month', 'interval_count' => 3],

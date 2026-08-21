@@ -48,15 +48,19 @@
                                 @if($support->pending_amount_cents !== null && $support->pending_amount_effective_at)
                                     <p class="mt-2 text-sm text-stage-gold">Your recurring amount will change to ${{ number_format($support->pending_amount_cents / 100, 2) }} on {{ $support->pending_amount_effective_at->format('F j, Y') }}. Your current billing period remains unchanged.</p>
                                 @elseif($support->status === 'active' && ! $support->cancel_at_period_end && $support->current_period_ends_at)
-                                    <form action="{{ route('donor-portal.supports.amount', $support) }}" method="POST" class="mt-3 flex flex-wrap items-end gap-2">
-                                        @csrf
-                                        <label class="text-sm" for="amount-{{ $support->id }}">Change amount at next renewal to</label>
-                                        <div>
-                                            <span class="sr-only">New recurring amount</span>
-                                            <input id="amount-{{ $support->id }}" name="amount" type="number" min="1" max="100000" step="0.01" required class="w-28 border-gray-300 text-sm" aria-label="New recurring amount in dollars">
-                                        </div>
-                                        <button type="submit" class="text-sm underline">Schedule change</button>
-                                    </form>
+                                    <details class="mt-3">
+                                        <summary class="cursor-pointer text-sm underline">Update recurring amount</summary>
+                                        <form action="{{ route('donor-portal.supports.amount', $support) }}" method="POST" class="mt-3 flex flex-wrap items-end gap-2 rounded border border-gray-200 p-3">
+                                            @csrf
+                                            <label class="text-sm" for="amount-{{ $support->id }}">New monthly amount</label>
+                                            <div class="relative">
+                                                <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-sm text-gray-500">$</span>
+                                                <input id="amount-{{ $support->id }}" name="amount" type="number" min="1" max="100000" step="0.01" required class="w-32 border-gray-300 py-2 pl-7 text-sm" aria-describedby="amount-help-{{ $support->id }}">
+                                            </div>
+                                            <button type="submit" class="text-sm underline">Schedule for next renewal</button>
+                                            <p id="amount-help-{{ $support->id }}" class="w-full text-xs text-gray-500">Your current billing period stays unchanged. The new amount takes effect at the next renewal.</p>
+                                        </form>
+                                    </details>
                                 @endif
                                 @if($support->status === 'active' && ! $support->paused_until && ! $support->cancel_at_period_end && $support->current_period_ends_at && in_array($support->interval, ['monthly', 'quarterly', 'annual'], true))
                                     <form action="{{ route('donor-portal.supports.pause', $support) }}" method="POST" class="mt-3 flex items-center gap-2">
