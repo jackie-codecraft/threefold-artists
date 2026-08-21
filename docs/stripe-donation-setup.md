@@ -23,6 +23,7 @@ This guide connects Threefold Artists' donation flow to Stripe **test mode** fir
    - `customer.subscription.created`
    - `customer.subscription.updated`
    - `customer.subscription.deleted`
+   - `customer.updated` (billing-profile and payment-method changes)
    - `charge.refunded`
    - `charge.dispute.closed`
 

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Mail\DonationAdminActivity;
 use App\Mail\DonationReceipt;
 use App\Models\Donation;
 use App\Models\DonationSupport;
+use App\Models\StripeWebhookEvent;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -51,6 +54,31 @@ class StripeWebhookTest extends TestCase
             'public_recognition_consent' => 1,
         ]);
         Mail::assertSent(DonationReceipt::class, 1);
+    }
+
+    public function test_each_admin_receives_one_deduplicated_activity_email_for_a_confirmed_donation(): void
+    {
+        $firstAdmin = User::factory()->create(['email' => 'first-admin@example.com']);
+        $secondAdmin = User::factory()->create(['email' => 'second-admin@example.com']);
+        $payload = $this->event('evt_admin_donation', 'checkout.session.completed', [
+            'id' => 'cs_admin_donation',
+            'mode' => 'payment',
+            'payment_status' => 'paid',
+            'amount_total' => 2500,
+            'currency' => 'usd',
+            'payment_intent' => 'pi_admin_donation',
+            'customer_email' => 'supporter@example.com',
+            'customer_details' => ['name' => 'Supporter'],
+            'metadata' => ['donor_name' => 'Supporter'],
+        ]);
+
+        $this->postJson('/stripe/webhook', $payload, $this->signature($payload))->assertOk();
+        $this->postJson('/stripe/webhook', $payload, $this->signature($payload))->assertOk();
+
+        Mail::assertSent(DonationAdminActivity::class, 2);
+        Mail::assertSent(DonationAdminActivity::class, fn (DonationAdminActivity $mail): bool => $mail->hasTo($firstAdmin->email) && $mail->title === 'New one-time donation received');
+        Mail::assertSent(DonationAdminActivity::class, fn (DonationAdminActivity $mail): bool => $mail->hasTo($secondAdmin->email) && $mail->title === 'New one-time donation received');
+        $this->assertNotNull(StripeWebhookEvent::query()->where('stripe_event_id', 'evt_admin_donation')->value('admin_notified_at'));
     }
 
     public function test_recurring_invoices_are_ledgered_once_and_subscription_events_update_support_state(): void

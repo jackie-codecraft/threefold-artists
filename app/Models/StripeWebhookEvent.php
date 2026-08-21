@@ -16,6 +16,7 @@ class StripeWebhookEvent extends Model
         'payload',
         'received_at',
         'processed_at',
+        'admin_notified_at',
         'processing_error',
     ];
 
@@ -26,6 +27,7 @@ class StripeWebhookEvent extends Model
             'payload' => 'array',
             'received_at' => 'datetime',
             'processed_at' => 'datetime',
+            'admin_notified_at' => 'datetime',
         ];
     }
 }

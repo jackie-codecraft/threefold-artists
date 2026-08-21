@@ -7,18 +7,20 @@ namespace App\Http\Controllers;
 use App\Mail\DonationReceipt;
 use App\Models\Donation;
 use App\Models\StripeWebhookEvent;
+use App\Services\DonationAdminActivityNotifier;
 use App\Services\StripeWebhookProcessor;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Stripe\Event;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\Webhook;
 
 class StripeWebhookController extends Controller
 {
-    public function __invoke(Request $request, StripeWebhookProcessor $processor): JsonResponse
+    public function __invoke(Request $request, StripeWebhookProcessor $processor, DonationAdminActivityNotifier $adminNotifier): JsonResponse
     {
         $secret = (string) config('services.stripe.webhook_secret');
         if ($secret === '') {
@@ -36,7 +38,7 @@ class StripeWebhookController extends Controller
         }
 
         try {
-            $receipts = DB::transaction(function () use ($event, $processor): array {
+            $result = DB::transaction(function () use ($event, $processor): array {
                 $stored = StripeWebhookEvent::query()->create([
                     'stripe_event_id' => $event->id,
                     'event_type' => $event->type,
@@ -49,7 +51,7 @@ class StripeWebhookController extends Controller
                 $receipts = $processor->process($event);
                 $stored->update(['processed_at' => now()]);
 
-                return $receipts;
+                return ['receipts' => $receipts, 'stored' => $stored];
             });
         } catch (QueryException $exception) {
             if (! $this->isDuplicateEvent($exception)) {
@@ -59,10 +61,15 @@ class StripeWebhookController extends Controller
             // Stripe retries are safe to replay: the processor uses provider IDs
             // as idempotency keys and this also recovers events improved code could
             // not fully normalize when they first arrived.
-            $receipts = DB::transaction(fn (): array => $processor->process($event));
+            $result = DB::transaction(function () use ($event, $processor): array {
+                $stored = StripeWebhookEvent::query()->where('stripe_event_id', $event->id)->firstOrFail();
+
+                return ['receipts' => $processor->process($event), 'stored' => $stored];
+            });
         }
 
-        $this->sendReceipts($receipts);
+        $this->sendReceipts($result['receipts']);
+        $this->sendAdminNotification($result['stored'], $event, $adminNotifier);
 
         return response()->json(['received' => true]);
     }
@@ -78,6 +85,16 @@ class StripeWebhookController extends Controller
             Mail::to($donation->donor_email)->send(new DonationReceipt($donation));
             $donation->update(['receipt_sent_at' => now()]);
         }
+    }
+
+    private function sendAdminNotification(StripeWebhookEvent $stored, Event $event, DonationAdminActivityNotifier $adminNotifier): void
+    {
+        if ($stored->admin_notified_at !== null) {
+            return;
+        }
+
+        $adminNotifier->notify($event);
+        $stored->update(['admin_notified_at' => now()]);
     }
 
     private function isDuplicateEvent(QueryException $exception): bool
