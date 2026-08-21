@@ -50,15 +50,15 @@
                                 @elseif($support->status === 'active' && ! $support->cancel_at_period_end && $support->current_period_ends_at)
                                     <details class="mt-3">
                                         <summary class="cursor-pointer text-sm underline">Update recurring amount</summary>
-                                        <form action="{{ route('donor-portal.supports.amount', $support) }}" method="POST" class="mt-3 flex flex-wrap items-end gap-2 rounded border border-gray-200 p-3">
+                                        <form x-data="{ amount: '' }" action="{{ route('donor-portal.supports.amount', $support) }}" method="POST" class="mt-3 flex flex-wrap items-end gap-3 rounded border border-gray-200 p-4">
                                             @csrf
-                                            <label class="text-sm" for="amount-{{ $support->id }}">New monthly amount</label>
+                                            <input type="hidden" name="amount" x-model="amount">
+                                            <label class="w-full text-sm font-medium text-theatre-black" for="amount-{{ $support->id }}">New monthly amount</label>
                                             <div class="relative">
-                                                <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-sm text-gray-500">$</span>
-                                                <input id="amount-{{ $support->id }}" name="amount" type="number" min="1" max="100000" step="0.01" required class="w-32 border-gray-300 py-2 pl-7 text-sm" aria-describedby="amount-help-{{ $support->id }}">
+                                                <input x-ref="amount" id="amount-{{ $support->id }}" type="text" inputmode="numeric" autocomplete="off" placeholder="$0.00" class="w-40 rounded border border-gray-400 bg-white px-4 py-3 text-lg font-medium text-theatre-black placeholder-gray-400 shadow-sm focus:border-theatre-black focus:ring-0" aria-describedby="amount-help-{{ $support->id }}" @focus="$event.target.select()" @input="const digits = $event.target.value.replace(/\D/g, '').slice(0, 8); amount = digits ? (Number(digits) / 100).toFixed(2) : ''; $event.target.value = digits ? '$' + (Number(digits) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';">
                                             </div>
-                                            <button type="submit" class="text-sm underline">Schedule for next renewal</button>
-                                            <p id="amount-help-{{ $support->id }}" class="w-full text-xs text-gray-500">Your current billing period stays unchanged. The new amount takes effect at the next renewal.</p>
+                                            <button type="submit" :disabled="! amount" class="rounded bg-theatre-black px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-300">Schedule for next renewal</button>
+                                            <p id="amount-help-{{ $support->id }}" class="w-full text-sm text-gray-500">Enter the total amount you would like to give each month. Your current billing period stays unchanged; the new amount takes effect at the next renewal.</p>
                                         </form>
                                     </details>
                                 @endif
