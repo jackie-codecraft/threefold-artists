@@ -239,9 +239,13 @@ class StripeWebhookProcessor
         $pause = $subscription['pause_collection'] ?? null;
         $incomingAmountCents = (int) ($price['unit_amount'] ?? $subscription['amount'] ?? 0);
         $existing = DonationSupport::query()->where('stripe_subscription_id', $subscriptionId)->first();
+        $currentPeriodStart = $this->timestamp($subscription['current_period_start'] ?? null) ?? $existing?->current_period_starts_at;
+        $currentPeriodEnd = $this->timestamp($subscription['current_period_end'] ?? null)
+            ?? $this->timestamp($subscription['billing_cycle_anchor'] ?? null)
+            ?? $existing?->current_period_ends_at;
         $preserveCurrentAmount = $existing?->pending_amount_cents === $incomingAmountCents
             && $existing->pending_amount_effective_at !== null
-            && $this->timestamp($subscription['current_period_start'] ?? null)?->lessThan($existing->pending_amount_effective_at);
+            && $currentPeriodStart?->lessThan($existing->pending_amount_effective_at);
 
         $support = DonationSupport::query()->updateOrCreate(
             ['stripe_subscription_id' => $subscriptionId],
@@ -259,8 +263,8 @@ class StripeWebhookProcessor
                 'pause_resumes_at' => $this->timestamp(is_array($pause) ? ($pause['resumes_at'] ?? null) : null),
                 'paused_until' => $this->timestamp(is_array($pause) ? ($pause['resumes_at'] ?? null) : null),
                 'cancel_at_period_end' => (bool) ($subscription['cancel_at_period_end'] ?? false),
-                'current_period_starts_at' => $this->timestamp($subscription['current_period_start'] ?? null),
-                'current_period_ends_at' => $this->timestamp($subscription['current_period_end'] ?? null),
+                'current_period_starts_at' => $currentPeriodStart,
+                'current_period_ends_at' => $currentPeriodEnd,
             ],
         );
 
