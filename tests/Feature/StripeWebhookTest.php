@@ -208,7 +208,10 @@ class StripeWebhookTest extends TestCase
             'customer' => 'cus_customer_match',
             'status' => 'active',
             'billing_cycle_anchor' => 1_700_100_000,
-            'items' => ['data' => [['price' => ['id' => 'price_customer_match', 'unit_amount' => 2500, 'currency' => 'usd', 'recurring' => ['interval' => 'month', 'interval_count' => 1]]]]],
+            'items' => ['data' => [[
+                'current_period_end' => 1_700_200_000,
+                'price' => ['id' => 'price_customer_match', 'unit_amount' => 2500, 'currency' => 'usd', 'recurring' => ['interval' => 'month', 'interval_count' => 1]],
+            ]]],
         ]);
 
         $this->postJson('/stripe/webhook', $invoice, $this->signature($invoice))->assertOk();
@@ -217,7 +220,7 @@ class StripeWebhookTest extends TestCase
         $this->assertDatabaseCount('donors', 1);
         $this->assertDatabaseHas('donors', ['email' => 'matched@example.com', 'stripe_customer_id' => 'cus_customer_match']);
         $this->assertDatabaseHas('donation_supports', ['stripe_subscription_id' => 'sub_customer_match', 'status' => 'active']);
-        $this->assertSame('2023-11-16 02:00:00', DonationSupport::query()->where('stripe_subscription_id', 'sub_customer_match')->value('current_period_ends_at')?->format('Y-m-d H:i:s'));
+        $this->assertSame('2023-11-17 05:46:40', DonationSupport::query()->where('stripe_subscription_id', 'sub_customer_match')->value('current_period_ends_at')?->format('Y-m-d H:i:s'));
     }
 
     public function test_rejects_invalid_signature_and_success_redirect_never_creates_a_donation(): void
