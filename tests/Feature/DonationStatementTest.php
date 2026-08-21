@@ -47,7 +47,11 @@ class DonationStatementTest extends TestCase
             ->assertSee('This annual giving summary is a record of payments and adjustments.')
             ->assertSee('85-0567934')
             ->assertSee('tax-deductible', false)
-            ->assertSee('501(c)(3)', false);
+            ->assertSee('501(c)(3)', false)
+            ->assertSee('@media print', false)
+            ->assertSee('header,', false)
+            ->assertSee('footer,', false)
+            ->assertSee('display: none !important;', false);
     }
 
     private function entry(Donor $donor, string $status, int $cents, string $date): void

@@ -1,4 +1,23 @@
 <x-layouts.app title="Donation Statement" metaDescription="Your donation statement.">
+    @push('head')
+        <style>
+            @media print {
+                @page { margin: 12mm; }
+
+                header,
+                footer,
+                .print\:hidden {
+                    display: none !important;
+                }
+
+                body,
+                main {
+                    background: #fff !important;
+                }
+            }
+        </style>
+    @endpush
+
     <section class="py-16 sm:py-20 print:py-4">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between gap-6 print:hidden">
