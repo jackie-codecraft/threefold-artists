@@ -190,6 +190,33 @@ class StripeWebhookTest extends TestCase
         $this->assertDatabaseHas('donations', ['stripe_invoice_id' => 'in_modern_123', 'stripe_subscription_id' => 'sub_modern_123', 'amount_cents' => 2500]);
     }
 
+    public function test_subscription_event_without_email_reuses_the_existing_stripe_customer_donor(): void
+    {
+        $invoice = $this->event('evt_invoice_for_customer_match', 'invoice.paid', [
+            'id' => 'in_customer_match',
+            'status' => 'paid',
+            'customer' => 'cus_customer_match',
+            'customer_email' => 'matched@example.com',
+            'amount_paid' => 2500,
+            'currency' => 'usd',
+            'parent' => ['subscription_details' => ['subscription' => 'sub_customer_match']],
+            'lines' => ['data' => [['pricing' => ['price_details' => ['price' => 'price_customer_match'], 'unit_amount_decimal' => '2500']]]],
+        ]);
+        $subscription = $this->event('evt_subscription_for_customer_match', 'customer.subscription.updated', [
+            'id' => 'sub_customer_match',
+            'customer' => 'cus_customer_match',
+            'status' => 'active',
+            'items' => ['data' => [['price' => ['id' => 'price_customer_match', 'unit_amount' => 2500, 'currency' => 'usd', 'recurring' => ['interval' => 'month', 'interval_count' => 1]]]]],
+        ]);
+
+        $this->postJson('/stripe/webhook', $invoice, $this->signature($invoice))->assertOk();
+        $this->postJson('/stripe/webhook', $subscription, $this->signature($subscription))->assertOk();
+
+        $this->assertDatabaseCount('donors', 1);
+        $this->assertDatabaseHas('donors', ['email' => 'matched@example.com', 'stripe_customer_id' => 'cus_customer_match']);
+        $this->assertDatabaseHas('donation_supports', ['stripe_subscription_id' => 'sub_customer_match', 'status' => 'active']);
+    }
+
     public function test_rejects_invalid_signature_and_success_redirect_never_creates_a_donation(): void
     {
         $this->postJson('/stripe/webhook', $this->event('evt_bad', 'invoice.paid', []), ['Stripe-Signature' => 't=1,v1=bad'])

@@ -262,12 +262,35 @@ class StripeWebhookProcessor
 
     private function donor(?string $customerId, ?string $email, ?string $name): Donor
     {
-        $email ??= $customerId !== null ? "{$customerId}@stripe.invalid" : 'unknown@stripe.invalid';
+        if ($customerId !== null) {
+            $existing = Donor::query()->where('stripe_customer_id', $customerId)->first();
 
-        return Donor::query()->updateOrCreate(
-            ['email' => $email],
-            array_filter(['name' => $name, 'stripe_customer_id' => $customerId], fn ($value): bool => $value !== null),
-        );
+            if ($existing !== null) {
+                $updates = array_filter([
+                    'name' => $name,
+                    // Subscription events can omit customer_email; preserve the
+                    // verified checkout/invoice address rather than replacing it.
+                    'email' => $email,
+                ], fn ($value): bool => $value !== null);
+
+                if ($updates !== []) {
+                    $existing->update($updates);
+                }
+
+                return $existing;
+            }
+        }
+
+        $email ??= $customerId !== null ? "{$customerId}@stripe.invalid" : 'unknown@stripe.invalid';
+        $donor = Donor::query()->firstOrNew(['email' => $email]);
+
+        $donor->fill(array_filter([
+            'name' => $name,
+            'stripe_customer_id' => $customerId,
+        ], fn ($value): bool => $value !== null));
+        $donor->save();
+
+        return $donor;
     }
 
     private function donationAttributes(array $object, bool $recurring): array
