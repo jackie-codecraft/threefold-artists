@@ -45,5 +45,8 @@ class DonationReceiptTaxDisclosureTest extends TestCase
         $this->assertStringContainsString('pi_receipt_123', $html);
         $this->assertStringContainsString('August 12, 2026', $html);
         $this->assertStringContainsString('$125.00', $html);
+        $this->assertStringContainsString('Need to manage your donation?', $html);
+        $this->assertStringContainsString('Manage My Donations', $html);
+        $this->assertStringContainsString(route('donor-access.request'), $html);
     }
 }

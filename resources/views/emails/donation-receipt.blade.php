@@ -41,6 +41,12 @@
             {{ $organization['receipt_disclosure'] }}
         </p>
 
+        <div style="margin: 30px 0 24px; padding: 20px; background: #F5F0E8; border-radius: 12px; text-align: left;">
+            <p style="margin: 0 0 8px; color: #1A1A1A; font-size: 16px; font-weight: bold;">Need to manage your donation?</p>
+            <p style="margin: 0 0 16px; color: #444; line-height: 1.6; font-size: 14px;">View your donation history or manage recurring support through your secure donor portal.</p>
+            <a href="{{ route('donor-access.request') }}" style="display: inline-block; background: #1A1A1A; color: #FFFFFF; padding: 12px 18px; text-decoration: none; font-size: 13px; font-weight: bold; letter-spacing: 0.04em; text-transform: uppercase;">Manage My Donations</a>
+        </div>
+
         <p style="color: #C9A84C; font-style: italic; font-family: Georgia, serif; font-size: 16px;">
             "As you give, it returns threefold."
         </p>

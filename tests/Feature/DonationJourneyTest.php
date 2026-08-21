@@ -122,6 +122,15 @@ class DonationJourneyTest extends TestCase
         ];
     }
 
+    public function test_donation_thank_you_page_directs_donors_to_secure_self_service_access(): void
+    {
+        $this->get(route('donate.thanks'))
+            ->assertOk()
+            ->assertSee('Manage My Donations')
+            ->assertSee(route('donor-access.request'), false)
+            ->assertSee('Request a secure access link using the email connected to your donation.');
+    }
+
     public function test_one_time_checkout_uses_payment_mode_without_a_recurring_price(): void
     {
         config(['services.stripe.secret' => 'sk_test_checkout']);
