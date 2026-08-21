@@ -18,10 +18,13 @@ use App\Http\Controllers\PerformanceRequestController;
 use App\Http\Controllers\PerformanceRequestReplyController;
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\UnsubscribeController;
+use App\Http\Middleware\EnsureDonationsEnabled;
 use App\Models\Artist;
 use App\Models\BlogPost;
 use App\Models\Event;
 use App\Models\SiteSettings;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
@@ -169,10 +172,10 @@ Route::post('/admin/performance-reply/{performanceRequest}', [PerformanceRequest
 // Donate
 Route::post('/stripe/webhook', StripeWebhookController::class)
     ->name('stripe.webhook')
-    ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class);
+    ->withoutMiddleware(PreventRequestForgery::class);
 Route::get('/donate', [DonateController::class, 'show'])->name('donate');
 Route::post('/donate/checkout', [DonateController::class, 'checkout'])
-    ->middleware(\App\Http\Middleware\EnsureDonationsEnabled::class)
+    ->middleware(EnsureDonationsEnabled::class)
     ->name('donate.checkout');
 Route::get('/donate/success', [DonateController::class, 'success'])->name('donate.success');
 Route::get('/donate/thank-you', [DonateController::class, 'thanks'])->name('donate.thanks');
@@ -186,6 +189,7 @@ Route::get('/my-donations/access/{token}', [DonorPortalController::class, 'consu
 Route::get('/my-donations', [DonorPortalController::class, 'show'])->name('donor-portal');
 Route::post('/my-donations/billing-portal', [DonorPortalController::class, 'billingPortal'])->name('donor-portal.billing');
 Route::post('/my-donations/supports/{support}/pause', [DonationSupportController::class, 'pause'])->name('donor-portal.supports.pause');
+Route::post('/my-donations/supports/{support}/amount', [DonationSupportController::class, 'changeAmount'])->name('donor-portal.supports.amount');
 Route::get('/my-donations/statement', [DonationStatementController::class, 'show'])->name('donor-portal.statement');
 
-Route::get('/pledge', fn (): \Illuminate\Http\RedirectResponse => redirect()->route('donate', status: 301))->name('pledge');
+Route::get('/pledge', fn (): RedirectResponse => redirect()->route('donate', status: 301))->name('pledge');

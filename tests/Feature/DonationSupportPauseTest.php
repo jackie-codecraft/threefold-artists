@@ -48,6 +48,30 @@ class DonationSupportPauseTest extends TestCase
     }
 
     #[Test]
+    public function donor_can_schedule_a_new_monthly_amount_for_the_next_renewal_without_proration(): void
+    {
+        config(['services.stripe.secret' => 'sk_test_change']);
+        $donor = Donor::query()->create(['email' => 'change@example.com']);
+        $endsAt = Carbon::parse('2026-02-28 12:00:00', 'UTC');
+        $support = $this->support($donor, ['stripe_subscription_id' => 'sub_change', 'stripe_price_id' => 'price_current', 'current_period_ends_at' => $endsAt]);
+        $client = new PauseStripeClient;
+        ApiRequestor::setHttpClient($client);
+
+        $this->withSession(['donor_portal.donor_id' => $donor->id])
+            ->post(route('donor-portal.supports.amount', $support), ['amount' => '25.50'])
+            ->assertRedirect(route('donor-portal'))
+            ->assertSessionHas('success');
+
+        $update = collect($client->requests)->first(fn (array $request): bool => str_ends_with($request['url'], '/v1/subscriptions/sub_change') && array_key_exists('proration_behavior', $request['params']));
+        $this->assertNotNull($update);
+        $this->assertSame('none', $update['params']['proration_behavior']);
+        $this->assertSame('price_new', $update['params']['items'][0]['price']);
+        $support->refresh();
+        $this->assertSame(2550, $support->pending_amount_cents);
+        $this->assertTrue($support->pending_amount_effective_at->equalTo($endsAt));
+    }
+
+    #[Test]
     public function pause_lengths_are_limited_by_cadence_and_do_not_call_stripe_when_invalid(): void
     {
         config(['services.stripe.secret' => 'sk_test_pause']);
@@ -101,9 +125,13 @@ class DonationSupportPauseTest extends TestCase
 
 class PauseStripeClient implements ClientInterface
 {
-    /** @var array<string, mixed> */
+    /** @var list<array{url: string, params: array<string, mixed>}> */
+    public array $requests = [];
+
     public array $params = [];
+
     public string $method = '';
+
     public string $url = '';
 
     public function request($method, $absUrl, $headers, $params, $hasFile, $apiMode = 'v1'): array
@@ -111,6 +139,19 @@ class PauseStripeClient implements ClientInterface
         $this->method = $method;
         $this->url = $absUrl;
         $this->params = $params;
+        $this->requests[] = ['url' => $absUrl, 'params' => $params];
+
+        if (str_ends_with($absUrl, '/v1/prices/price_current')) {
+            return [json_encode(['id' => 'price_current', 'product' => 'prod_donations']), 200, []];
+        }
+
+        if (str_ends_with($absUrl, '/v1/subscriptions/sub_change') && strtolower($method) === 'get') {
+            return [json_encode(['id' => 'sub_change', 'items' => ['data' => [['id' => 'si_change']]]]), 200, []];
+        }
+
+        if (str_ends_with($absUrl, '/v1/prices') && strtolower($method) === 'post') {
+            return [json_encode(['id' => 'price_new']), 200, []];
+        }
 
         return [json_encode(['id' => 'sub_pause', 'object' => 'subscription']), 200, []];
     }

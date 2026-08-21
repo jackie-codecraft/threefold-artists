@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeDonationSupportAmountRequest;
 use App\Http\Requests\PauseDonationSupportRequest;
 use App\Models\DonationSupport;
 use App\Models\Donor;
@@ -28,6 +29,22 @@ class DonationSupportController extends Controller
         }
 
         return redirect()->route('donor-portal')->with('success', 'Your pause request was sent. Your support will update after Stripe confirms it.');
+    }
+
+    public function changeAmount(ChangeDonationSupportAmountRequest $request, DonationSupport $support, DonationSupportService $service): RedirectResponse
+    {
+        $donor = $this->authorizedDonor($request);
+        if ($donor === null) {
+            return redirect()->route('donor-access.request')->with('error', 'Request a secure access link to manage recurring support.');
+        }
+
+        try {
+            $service->requestAmountChange($donor, $support, $request->amountInCents());
+        } catch (AuthorizationException) {
+            abort(404);
+        }
+
+        return redirect()->route('donor-portal')->with('success', 'Your new recurring amount is scheduled for your next renewal. Your current billing period and amount are unchanged.');
     }
 
     private function authorizedDonor(Request $request): ?Donor

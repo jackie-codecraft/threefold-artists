@@ -237,14 +237,19 @@ class StripeWebhookProcessor
         $item = Arr::first(Arr::get($subscription, 'items.data', []), fn (array $item): bool => true) ?? [];
         $price = $item['price'] ?? [];
         $pause = $subscription['pause_collection'] ?? null;
+        $incomingAmountCents = (int) ($price['unit_amount'] ?? $subscription['amount'] ?? 0);
+        $existing = DonationSupport::query()->where('stripe_subscription_id', $subscriptionId)->first();
+        $preserveCurrentAmount = $existing?->pending_amount_cents === $incomingAmountCents
+            && $existing->pending_amount_effective_at !== null
+            && $this->timestamp($subscription['current_period_start'] ?? null)?->lessThan($existing->pending_amount_effective_at);
 
-        return DonationSupport::query()->updateOrCreate(
+        $support = DonationSupport::query()->updateOrCreate(
             ['stripe_subscription_id' => $subscriptionId],
             [
                 'donor_id' => $donor->id,
                 'stripe_customer_id' => $customerId,
                 'stripe_price_id' => $this->id($price['id'] ?? null),
-                'amount_cents' => (int) ($price['unit_amount'] ?? $subscription['amount'] ?? 0),
+                'amount_cents' => $preserveCurrentAmount ? $existing->amount_cents : $incomingAmountCents,
                 'currency' => strtolower((string) ($price['currency'] ?? $subscription['currency'] ?? 'usd')),
                 'interval' => $this->canonicalInterval($price['recurring']['interval'] ?? null, $price['recurring']['interval_count'] ?? 1),
                 'interval_count' => max(1, (int) ($price['recurring']['interval_count'] ?? 1)),
@@ -258,6 +263,15 @@ class StripeWebhookProcessor
                 'current_period_ends_at' => $this->timestamp($subscription['current_period_end'] ?? null),
             ],
         );
+
+        if ($support->pending_amount_cents !== null
+            && $support->pending_amount_cents === $support->amount_cents
+            && $support->pending_amount_effective_at !== null
+            && $support->current_period_starts_at?->greaterThanOrEqualTo($support->pending_amount_effective_at)) {
+            $support->update(['pending_amount_cents' => null, 'pending_amount_effective_at' => null]);
+        }
+
+        return $support;
     }
 
     private function donor(?string $customerId, ?string $email, ?string $name): Donor

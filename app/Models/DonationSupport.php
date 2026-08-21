@@ -16,6 +16,8 @@ class DonationSupport extends Model
         'stripe_customer_id',
         'stripe_price_id',
         'amount_cents',
+        'pending_amount_cents',
+        'pending_amount_effective_at',
         'currency',
         'interval',
         'interval_count',
@@ -32,6 +34,7 @@ class DonationSupport extends Model
     protected function casts(): array
     {
         return [
+            'pending_amount_effective_at' => 'datetime',
             'paused_at' => 'datetime',
             'pause_resumes_at' => 'datetime',
             'paused_until' => 'datetime',
