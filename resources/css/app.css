@@ -49,6 +49,50 @@
         outline: 2px solid var(--color-stage-gold);
         outline-offset: 2px;
     }
+
+    button:not(:disabled),
+    input[type='submit']:not(:disabled),
+    input[type='button']:not(:disabled),
+    [role='button']:not([aria-disabled='true']) {
+        cursor: pointer;
+        transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease, border-color 150ms ease, color 150ms ease, opacity 150ms ease;
+    }
+
+    button:not(:disabled):hover,
+    input[type='submit']:not(:disabled):hover,
+    input[type='button']:not(:disabled):hover,
+    [role='button']:not([aria-disabled='true']):hover {
+        transform: translateY(-1px);
+    }
+
+    button:disabled,
+    input[type='submit']:disabled,
+    input[type='button']:disabled,
+    [aria-disabled='true'] {
+        cursor: not-allowed;
+    }
+
+    form[data-submitting='true'] button[type='submit'],
+    form[data-submitting='true'] input[type='submit'] {
+        opacity: 0.72;
+    }
+
+    form[data-submitting='true'] button[type='submit']::after {
+        content: '';
+        display: inline-block;
+        width: 0.85em;
+        height: 0.85em;
+        margin-left: 0.55em;
+        vertical-align: -0.1em;
+        border: 2px solid currentColor;
+        border-right-color: transparent;
+        border-radius: 9999px;
+        animation: button-spinner 700ms linear infinite;
+    }
+}
+
+@keyframes button-spinner {
+    to { transform: rotate(360deg); }
 }
 
 /* Custom utilities */

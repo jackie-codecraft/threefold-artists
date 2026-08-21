@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Mail\DonationReceipt;
-use App\Models\Donation;
+use App\Http\Requests\StartDonationCheckoutRequest;
+use App\Models\DonationSupport;
+use App\Models\Donor;
 use App\Models\SiteSettings;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Stripe\StripeClient;
 
 class DonateController extends Controller
 {
@@ -21,126 +22,74 @@ class DonateController extends Controller
         return view('pages.donate');
     }
 
-    public function checkout(Request $request): RedirectResponse
+    public function checkout(StartDonationCheckoutRequest $request): RedirectResponse
     {
         $this->ensureDonationsEnabled();
 
-        $request->validate([
-            'amount' => ['required', 'numeric', 'min:1'],
-            'donor_name' => ['nullable', 'string', 'max:255'],
-            'donor_email' => ['nullable', 'email', 'max:255'],
-            'donation_type' => ['nullable', 'in:one-time,monthly'],
-            'is_anonymous' => ['nullable'],
+        $stripeSecret = (string) config('services.stripe.secret');
+
+        if ($stripeSecret === '' || $stripeSecret === 'sk_test_placeholder') {
+            abort(503, 'Donations are temporarily unavailable.');
+        }
+
+        $donationType = $request->validated('donation_type');
+        $isRecurring = $donationType !== 'one-time';
+        if ($isRecurring && $this->hasActiveRecurringSupport($request->validated('donor_email'))) {
+            throw ValidationException::withMessages([
+                'donor_email' => 'A recurring donation already exists for this email. Use Manage My Donations to update its amount or cadence.',
+            ]);
+        }
+        $interval = match ($donationType) {
+            'monthly' => ['interval' => 'month'],
+            'quarterly' => ['interval' => 'month', 'interval_count' => 3],
+            'annual' => ['interval' => 'year'],
+            default => null,
+        };
+        $amount = $request->amountInCents();
+        $donorName = $request->validated('donor_name');
+        $isAnonymous = $request->boolean('is_anonymous');
+        $publicRecognitionConsent = $request->boolean('public_recognition_consent');
+
+        $priceData = [
+            'currency' => 'usd',
+            'product_data' => [
+                'name' => $isRecurring
+                    ? ucfirst($donationType).' Donation to Threefold Artists'
+                    : 'Donation to Threefold Artists',
+            ],
+            'unit_amount' => $amount,
+        ];
+
+        if ($interval !== null) {
+            $priceData['recurring'] = $interval;
+        }
+
+        $metadata = array_filter([
+            'donor_name' => $donorName,
+            'is_anonymous' => $isAnonymous ? '1' : '0',
+            'public_recognition_consent' => $publicRecognitionConsent ? '1' : '0',
+        ], static fn (?string $value): bool => $value !== null);
+
+        $session = (new StripeClient($stripeSecret))->checkout->sessions->create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => $priceData,
+                'quantity' => 1,
+            ]],
+            'mode' => $isRecurring ? 'subscription' : 'payment',
+            'success_url' => route('donate.success').'?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('donate'),
+            'customer_email' => $request->validated('donor_email'),
+            'metadata' => $metadata,
+            ...($isRecurring ? ['subscription_data' => ['metadata' => $metadata]] : []),
         ]);
-
-        $amount = (int) ($request->input('amount') * 100); // cents
-        $isRecurring = $request->input('donation_type') === 'monthly';
-        $isAnonymous = (bool) $request->input('is_anonymous');
-
-        $stripeKey = config('services.stripe.secret');
-
-        if ($stripeKey === 'sk_test_placeholder' || empty($stripeKey)) {
-            // Stripe not configured yet - simulate success for development
-            Donation::create([
-                'donor_name' => $request->input('donor_name'),
-                'donor_email' => $request->input('donor_email'),
-                'amount' => $request->input('amount'),
-                'is_recurring' => $isRecurring,
-                'recurring_interval' => $isRecurring ? 'monthly' : null,
-                'is_anonymous' => $isAnonymous,
-                'stripe_payment_id' => 'dev_' . uniqid(),
-            ]);
-
-            return redirect()->route('donate.thanks');
-        }
-
-        \Stripe\Stripe::setApiKey($stripeKey);
-
-        if ($isRecurring) {
-            $session = \Stripe\Checkout\Session::create([
-                'payment_method_types' => ['card'],
-                'line_items' => [[
-                    'price_data' => [
-                        'currency' => 'usd',
-                        'product_data' => [
-                            'name' => 'Monthly Donation to Threefold Artists',
-                            'description' => 'Recurring monthly support for performing arts in underserved communities',
-                        ],
-                        'unit_amount' => $amount,
-                        'recurring' => ['interval' => 'month'],
-                    ],
-                    'quantity' => 1,
-                ]],
-                'mode' => 'subscription',
-                'success_url' => route('donate.success') . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => route('donate'),
-                'customer_email' => $request->input('donor_email'),
-                'metadata' => [
-                    'donor_name' => $request->input('donor_name'),
-                    'is_anonymous' => $isAnonymous ? '1' : '0',
-                ],
-            ]);
-        } else {
-            $session = \Stripe\Checkout\Session::create([
-                'payment_method_types' => ['card'],
-                'line_items' => [[
-                    'price_data' => [
-                        'currency' => 'usd',
-                        'product_data' => [
-                            'name' => 'Donation to Threefold Artists',
-                            'description' => 'Supporting performing arts in underserved communities',
-                        ],
-                        'unit_amount' => $amount,
-                    ],
-                    'quantity' => 1,
-                ]],
-                'mode' => 'payment',
-                'success_url' => route('donate.success') . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => route('donate'),
-                'customer_email' => $request->input('donor_email'),
-                'metadata' => [
-                    'donor_name' => $request->input('donor_name'),
-                    'is_anonymous' => $isAnonymous ? '1' : '0',
-                ],
-            ]);
-        }
 
         return redirect($session->url);
     }
 
-    public function success(Request $request): RedirectResponse
+    public function success(): RedirectResponse
     {
         $this->ensureDonationsEnabled();
-
-        $sessionId = $request->get('session_id');
-
-        if ($sessionId) {
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-
-            try {
-                $session = \Stripe\Checkout\Session::retrieve($sessionId);
-
-                $donation = Donation::create([
-                    'donor_name' => $session->metadata->donor_name ?? null,
-                    'donor_email' => $session->customer_email,
-                    'amount' => $session->mode === 'subscription'
-                        ? ($session->amount_total ?? 0) / 100
-                        : $session->amount_total / 100,
-                    'is_recurring' => $session->mode === 'subscription',
-                    'recurring_interval' => $session->mode === 'subscription' ? 'monthly' : null,
-                    'is_anonymous' => ($session->metadata->is_anonymous ?? '0') === '1',
-                    'stripe_payment_id' => $session->mode === 'subscription' ? null : $session->payment_intent,
-                    'stripe_subscription_id' => $session->mode === 'subscription' ? $session->subscription : null,
-                ]);
-
-                if ($donation->donor_email) {
-                    Mail::to($donation->donor_email)->send(new DonationReceipt($donation));
-                    $donation->update(['receipt_sent_at' => now()]);
-                }
-            } catch (\Exception $e) {
-                report($e);
-            }
-        }
 
         return redirect()->route('donate.thanks');
     }
@@ -150,6 +99,17 @@ class DonateController extends Controller
         $this->ensureDonationsEnabled();
 
         return view('pages.donate-thanks');
+    }
+
+    private function hasActiveRecurringSupport(string $email): bool
+    {
+        $donor = Donor::query()->where('email', mb_strtolower(trim($email)))->first();
+
+        return $donor !== null && DonationSupport::query()
+            ->where('donor_id', $donor->id)
+            ->whereIn('status', ['active', 'trialing', 'past_due', 'incomplete'])
+            ->where('cancel_at_period_end', false)
+            ->exists();
     }
 
     private function ensureDonationsEnabled(): void

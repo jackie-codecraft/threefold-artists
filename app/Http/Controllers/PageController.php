@@ -173,17 +173,25 @@ class PageController extends Controller
     {
         abort_unless(SiteSettings::current()->donationsEnabled(), 404);
 
-        $donors = Donation::query()
-            ->where('is_anonymous', false)
-            ->whereNotNull('donor_name')
-            ->where('donor_name', '!=', '')
-            ->selectRaw('donor_name, SUM(amount) as total_amount, MAX(created_at) as latest_donation')
-            ->groupBy('donor_name')
-            ->orderByDesc('total_amount')
+        $wallLedger = Donation::query()
+            ->confirmedLedger()
+            ->join('donors', 'donors.id', '=', 'donations.donor_id')
+            ->whereNotNull('donations.donor_id')
+            ->where('donations.is_anonymous', false)
+            ->where('donations.public_recognition_consent', true)
+            ->where('donors.public_recognition_consent', true);
+
+        $donors = (clone $wallLedger)
+            ->whereNotNull('donors.name')
+            ->where('donors.name', '!=', '')
+            ->selectRaw('donors.name as donor_name, SUM(donations.amount_cents) as total_amount_cents, MAX(donations.paid_at) as latest_donation')
+            ->groupBy('donors.id', 'donors.name')
+            ->havingRaw('SUM(donations.amount_cents) > 0')
+            ->orderByDesc('total_amount_cents')
             ->get();
 
-        $totalRaised = Donation::sum('amount');
-        $totalDonors = Donation::whereNotNull('donor_name')->distinct('donor_name')->count();
+        $totalRaised = (int) ((clone $wallLedger)->sum('amount_cents') ?? 0) / 100;
+        $totalDonors = $donors->count();
 
         return view('pages.donor-wall', compact('donors', 'totalRaised', 'totalDonors'));
     }

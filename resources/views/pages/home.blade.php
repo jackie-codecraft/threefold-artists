@@ -40,14 +40,9 @@
                     <a href="{{ route('request-performance') }}" class="inline-flex w-full items-center justify-center px-8 py-3.5 bg-white text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-gray-100 transition-colors">
                         Request a Performance
                     </a>
-                    @if($siteSettings->pledgesEnabled())
-                        <a href="{{ route('pledge') }}" class="inline-flex w-full items-center justify-center px-8 py-3.5 bg-curtain-red text-white text-sm font-semibold tracking-wide uppercase hover:bg-white hover:text-curtain-red transition-colors">
-                            Support Us With a Pledge
-                        </a>
-                    @endif
                     @if($siteSettings->donationsEnabled())
-                        <a href="{{ route('donate') }}" class="inline-flex w-full items-center justify-center px-8 py-3.5 border border-white text-white text-sm font-semibold tracking-wide uppercase hover:bg-white hover:text-theatre-black transition-colors">
-                            Make a Donation
+                        <a href="{{ route('donate') }}" class="inline-flex w-full items-center justify-center px-8 py-3.5 bg-curtain-red text-white text-sm font-semibold tracking-wide uppercase hover:bg-white hover:text-curtain-red transition-colors">
+                            Support Our Mission
                         </a>
                     @endif
                 </div>

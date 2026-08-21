@@ -30,6 +30,18 @@ class DonationReceipt extends Mailable
     {
         return new Content(
             view: 'emails.donation-receipt',
+            with: [
+                'organization' => config('donations'),
+                'transactionId' => $this->transactionId(),
+            ],
         );
+    }
+
+    public function transactionId(): ?string
+    {
+        return $this->donation->stripe_payment_intent_id
+            ?? $this->donation->stripe_payment_id
+            ?? $this->donation->stripe_invoice_id
+            ?? $this->donation->stripe_checkout_session_id;
     }
 }

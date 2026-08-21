@@ -6,8 +6,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PledgeResource\Pages;
 use App\Models\Pledge;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
@@ -34,32 +32,34 @@ class PledgeResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Pledge details')
+            Section::make('Historical source record')
                 ->schema([
                     Grid::make(2)
                         ->schema([
                             Forms\Components\TextInput::make('name')
-                                ->required()
+                                ->disabled()
                                 ->maxLength(255),
                             Forms\Components\TextInput::make('email')
                                 ->email()
-                                ->required()
+                                ->disabled()
                                 ->maxLength(255),
                             Forms\Components\TextInput::make('phone')
                                 ->tel()
+                                ->disabled()
                                 ->maxLength(50),
                             Forms\Components\TextInput::make('amount')
                                 ->numeric()
                                 ->prefix('$')
-                                ->required(),
+                                ->disabled(),
                         ]),
                     Forms\Components\Textarea::make('message')
+                        ->disabled()
                         ->rows(5)
                         ->columnSpanFull(),
                     Forms\Components\Toggle::make('public_acknowledgment_consent')
                         ->label('May publicly recognize by name')
-                        ->helperText('Turn this off when the supporter asked to remain anonymous.')
-                        ->default(true),
+                        ->disabled()
+                        ->helperText('Historical source preference; it does not authorize a donation wall listing.'),
                 ]),
             Section::make('Admin')
                 ->schema([
@@ -76,8 +76,7 @@ class PledgeResource extends Resource
                         ->rows(4)
                         ->columnSpanFull()
                         ->helperText('Internal notes — not visible to the supporter.'),
-                    Forms\Components\DateTimePicker::make('acknowledged_at')
-                        ->disabled(),
+                    Forms\Components\DateTimePicker::make('acknowledged_at')->disabled(),
                 ]),
         ]);
     }
@@ -115,8 +114,7 @@ class PledgeResource extends Resource
                         'closed' => 'Closed',
                     ]),
             ])
-            ->recordActions([EditAction::make()])
-            ->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
+            ->recordActions([EditAction::make()->label('Review historical record')]);
     }
 
     public static function getPages(): array

@@ -7,18 +7,24 @@ use App\Http\Controllers\ArtistApplicationReplyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContactMessageReplyController;
 use App\Http\Controllers\DonateController;
+use App\Http\Controllers\DonationStatementController;
+use App\Http\Controllers\DonationSupportController;
+use App\Http\Controllers\DonorPortalController;
 use App\Http\Controllers\GetInvolvedController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\NewsletterPreviewController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PerformanceRequestController;
 use App\Http\Controllers\PerformanceRequestReplyController;
-use App\Http\Controllers\PledgeController;
+use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\UnsubscribeController;
+use App\Http\Middleware\EnsureDonationsEnabled;
 use App\Models\Artist;
 use App\Models\BlogPost;
 use App\Models\Event;
 use App\Models\SiteSettings;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
@@ -52,10 +58,6 @@ Route::get('/sitemap.xml', function () {
     if ($settings->donationsEnabled()) {
         $sitemap->add(Url::create('/donate')->setPriority(0.9));
         $sitemap->add(Url::create('/donor-wall')->setPriority(0.5));
-    }
-
-    if ($settings->pledgesEnabled()) {
-        $sitemap->add(Url::create('/pledge')->setPriority(0.9));
     }
 
     if ($settings->galleryEnabled()) {
@@ -168,11 +170,26 @@ Route::post('/admin/performance-reply/{performanceRequest}', [PerformanceRequest
     ->middleware('signed');
 
 // Donate
+Route::post('/stripe/webhook', StripeWebhookController::class)
+    ->name('stripe.webhook')
+    ->withoutMiddleware(PreventRequestForgery::class);
 Route::get('/donate', [DonateController::class, 'show'])->name('donate');
-Route::post('/donate/checkout', [DonateController::class, 'checkout'])->name('donate.checkout');
+Route::post('/donate/checkout', [DonateController::class, 'checkout'])
+    ->middleware(EnsureDonationsEnabled::class)
+    ->name('donate.checkout');
 Route::get('/donate/success', [DonateController::class, 'success'])->name('donate.success');
 Route::get('/donate/thank-you', [DonateController::class, 'thanks'])->name('donate.thanks');
 
-Route::get('/pledge', [PledgeController::class, 'create'])->name('pledge');
-Route::post('/pledge', [PledgeController::class, 'store'])->name('pledge.store')->middleware('throttle:pledge-form');
-Route::get('/pledge/thank-you', [PledgeController::class, 'thanks'])->name('pledge.thanks');
+// Donor access is intentionally separate from application/Filament authentication.
+Route::get('/my-donations/access', [DonorPortalController::class, 'requestForm'])->name('donor-access.request');
+Route::post('/my-donations/access', [DonorPortalController::class, 'sendAccessLink'])
+    ->middleware('throttle:donor-access-link')
+    ->name('donor-access.send');
+Route::get('/my-donations/access/{token}', [DonorPortalController::class, 'consume'])->name('donor-access.consume');
+Route::get('/my-donations', [DonorPortalController::class, 'show'])->name('donor-portal');
+Route::post('/my-donations/billing-portal', [DonorPortalController::class, 'billingPortal'])->name('donor-portal.billing');
+Route::post('/my-donations/supports/{support}/pause', [DonationSupportController::class, 'pause'])->name('donor-portal.supports.pause');
+Route::post('/my-donations/supports/{support}/amount', [DonationSupportController::class, 'changeAmount'])->name('donor-portal.supports.amount');
+Route::get('/my-donations/statement', [DonationStatementController::class, 'show'])->name('donor-portal.statement');
+
+Route::get('/pledge', fn (): RedirectResponse => redirect()->route('donate', status: 301))->name('pledge');
