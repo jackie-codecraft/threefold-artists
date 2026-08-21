@@ -73,7 +73,7 @@ class DonateController extends Controller
             'cancel_url' => route('donate'),
             'customer_email' => $request->validated('donor_email'),
             'metadata' => $metadata,
-            'subscription_data' => $isRecurring ? ['metadata' => $metadata] : null,
+            ...($isRecurring ? ['subscription_data' => ['metadata' => $metadata]] : []),
         ]);
 
         return redirect($session->url);

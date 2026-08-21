@@ -109,6 +109,7 @@ class DonationJourneyTest extends TestCase
         $this->assertSame('Supporter Name', $params['metadata']['donor_name']);
         $this->assertSame('1', $params['metadata']['is_anonymous']);
         $this->assertSame('1', $params['metadata']['public_recognition_consent']);
+        $this->assertSame($params['metadata'], $params['subscription_data']['metadata']);
         $this->assertDatabaseCount('donations', 0);
     }
 
@@ -137,6 +138,7 @@ class DonationJourneyTest extends TestCase
 
         $this->assertSame('payment', $client->params['mode']);
         $this->assertArrayNotHasKey('recurring', $client->params['line_items'][0]['price_data']);
+        $this->assertArrayNotHasKey('subscription_data', $client->params);
         $this->assertSame('0', $client->params['metadata']['is_anonymous']);
         $this->assertSame('0', $client->params['metadata']['public_recognition_consent']);
         $this->assertDatabaseCount('donations', 0);
