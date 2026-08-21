@@ -169,7 +169,7 @@ Route::post('/admin/performance-reply/{performanceRequest}', [PerformanceRequest
 // Donate
 Route::post('/stripe/webhook', StripeWebhookController::class)
     ->name('stripe.webhook')
-    ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class);
+    ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class);
 Route::get('/donate', [DonateController::class, 'show'])->name('donate');
 Route::post('/donate/checkout', [DonateController::class, 'checkout'])
     ->middleware(\App\Http\Middleware\EnsureDonationsEnabled::class)
