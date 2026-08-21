@@ -39,7 +39,7 @@ class DonationSupportController extends Controller
         }
 
         try {
-            $service->requestAmountChange($donor, $support, $request->amountInCents());
+            $service->requestAmountChange($donor, $support, $request->amountInCents(), $request->validated('cadence'));
         } catch (AuthorizationException) {
             abort(404);
         }

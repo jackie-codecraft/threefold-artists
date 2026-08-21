@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StartDonationCheckoutRequest;
+use App\Models\DonationSupport;
+use App\Models\Donor;
 use App\Models\SiteSettings;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Stripe\StripeClient;
 
@@ -31,6 +34,11 @@ class DonateController extends Controller
 
         $donationType = $request->validated('donation_type');
         $isRecurring = $donationType !== 'one-time';
+        if ($isRecurring && $this->hasActiveRecurringSupport($request->validated('donor_email'))) {
+            throw ValidationException::withMessages([
+                'donor_email' => 'A recurring donation already exists for this email. Use Manage My Donations to update its amount or cadence.',
+            ]);
+        }
         $interval = match ($donationType) {
             'monthly' => ['interval' => 'month'],
             'quarterly' => ['interval' => 'month', 'interval_count' => 3],
@@ -91,6 +99,17 @@ class DonateController extends Controller
         $this->ensureDonationsEnabled();
 
         return view('pages.donate-thanks');
+    }
+
+    private function hasActiveRecurringSupport(string $email): bool
+    {
+        $donor = Donor::query()->where('email', mb_strtolower(trim($email)))->first();
+
+        return $donor !== null && DonationSupport::query()
+            ->where('donor_id', $donor->id)
+            ->whereIn('status', ['active', 'trialing', 'past_due', 'incomplete'])
+            ->where('cancel_at_period_end', false)
+            ->exists();
     }
 
     private function ensureDonationsEnabled(): void

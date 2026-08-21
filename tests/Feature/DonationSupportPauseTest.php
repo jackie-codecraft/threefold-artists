@@ -58,7 +58,7 @@ class DonationSupportPauseTest extends TestCase
         ApiRequestor::setHttpClient($client);
 
         $this->withSession(['donor_portal.donor_id' => $donor->id])
-            ->post(route('donor-portal.supports.amount', $support), ['amount' => '25'])
+            ->post(route('donor-portal.supports.amount', $support), ['amount' => '25', 'cadence' => 'monthly'])
             ->assertRedirect(route('donor-portal'))
             ->assertSessionHas('success');
 
@@ -99,7 +99,7 @@ class DonationSupportPauseTest extends TestCase
         ApiRequestor::setHttpClient($client);
 
         $this->withSession(['donor_portal.donor_id' => $donor->id])
-            ->post(route('donor-portal.supports.amount', $support), ['amount' => '30'])
+            ->post(route('donor-portal.supports.amount', $support), ['amount' => '30', 'cadence' => 'monthly'])
             ->assertRedirect(route('donor-portal'));
 
         $productCreate = collect($client->requests)->first(fn (array $request): bool => str_ends_with($request['url'], '/v1/products') && $request['params'] !== []);

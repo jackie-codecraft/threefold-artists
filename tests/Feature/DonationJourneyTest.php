@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Models\DonationSupport;
+use App\Models\Donor;
 use App\Models\Pledge;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -83,6 +85,21 @@ class DonationJourneyTest extends TestCase
             'donor_email' => 'supporter@example.com',
             'donation_type' => 'monthly',
         ])->assertSessionHasErrors('is_anonymous');
+    }
+
+    public function test_existing_recurring_donors_cannot_start_a_second_recurring_checkout_but_can_make_a_one_time_donation(): void
+    {
+        $donor = Donor::query()->create(['email' => 'existing@example.com']);
+        DonationSupport::query()->create([
+            'donor_id' => $donor->id, 'stripe_subscription_id' => 'sub_existing', 'amount_cents' => 2500,
+            'currency' => 'usd', 'interval' => 'monthly', 'interval_count' => 1, 'status' => 'active',
+            'cancel_at_period_end' => false,
+        ]);
+
+        $this->post(route('donate.checkout'), [
+            'amount' => 25, 'donor_email' => 'existing@example.com', 'donation_type' => 'quarterly',
+            'is_anonymous' => '0', 'public_recognition_consent' => '0',
+        ])->assertSessionHasErrors('donor_email');
     }
 
     #[DataProvider('recurringCadences')]

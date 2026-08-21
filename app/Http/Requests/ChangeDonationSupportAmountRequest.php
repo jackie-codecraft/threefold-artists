@@ -12,6 +12,7 @@ class ChangeDonationSupportAmountRequest extends FormRequest
     {
         return [
             'amount' => ['required', 'integer', 'min:1', 'max:100000'],
+            'cadence' => ['required', 'in:monthly,quarterly,annual'],
         ];
     }
 

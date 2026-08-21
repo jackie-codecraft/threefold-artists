@@ -50,7 +50,7 @@ class DonationSupportService
         // Stripe webhooks remain authoritative for persisted pause state.
     }
 
-    public function requestAmountChange(Donor $donor, DonationSupport $support, int $amountCents): void
+    public function requestAmountChange(Donor $donor, DonationSupport $support, int $amountCents, string $cadence): void
     {
         if ($support->donor_id !== $donor->id) {
             throw new AuthorizationException;
@@ -89,7 +89,7 @@ class DonationSupportService
             'currency' => $support->currency,
             'unit_amount' => $amountCents,
             'product' => $product->id,
-            'recurring' => match ($support->interval) {
+            'recurring' => match ($cadence) {
                 'monthly' => ['interval' => 'month'],
                 'quarterly' => ['interval' => 'month', 'interval_count' => 3],
                 'annual' => ['interval' => 'year'],
@@ -97,14 +97,46 @@ class DonationSupportService
             },
         ]);
 
-        $stripe->subscriptions->update($support->stripe_subscription_id, [
-            'items' => [['id' => $item->id, 'price' => $newPrice->id]],
-            'proration_behavior' => 'none',
-        ]);
+        if ($cadence === $support->interval) {
+            $stripe->subscriptions->update($support->stripe_subscription_id, [
+                'items' => [['id' => $item->id, 'price' => $newPrice->id]],
+                'proration_behavior' => 'none',
+            ]);
+        } else {
+            $currentPriceId = (string) $support->stripe_price_id;
+            $currentPeriodStart = $item->current_period_start ?? $support->current_period_starts_at?->getTimestamp();
+            $currentPeriodEnd = $item->current_period_end ?? $support->current_period_ends_at?->getTimestamp();
+            if (! is_int($currentPeriodStart) || ! is_int($currentPeriodEnd)) {
+                throw ValidationException::withMessages(['support' => 'This recurring support is missing its renewal schedule.']);
+            }
+
+            $schedule = $stripe->subscriptionSchedules->create(['from_subscription' => $support->stripe_subscription_id]);
+            $stripe->subscriptionSchedules->update($schedule->id, [
+                'end_behavior' => 'release',
+                'proration_behavior' => 'none',
+                'phases' => [
+                    [
+                        'start_date' => $currentPeriodStart,
+                        'end_date' => $currentPeriodEnd,
+                        'items' => [['price' => $currentPriceId, 'quantity' => 1]],
+                        'proration_behavior' => 'none',
+                    ],
+                    [
+                        'items' => [['price' => $newPrice->id, 'quantity' => 1]],
+                        'iterations' => 1,
+                        'proration_behavior' => 'none',
+                    ],
+                ],
+            ]);
+            $support->stripe_subscription_schedule_id = $schedule->id;
+        }
 
         $support->update([
             'pending_amount_cents' => $amountCents,
             'pending_amount_effective_at' => $support->current_period_ends_at,
+            'pending_interval' => $cadence,
+            'pending_interval_count' => $cadence === 'quarterly' ? 3 : 1,
+            'stripe_subscription_schedule_id' => $support->stripe_subscription_schedule_id,
         ]);
     }
 

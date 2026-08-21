@@ -62,12 +62,17 @@
                                         <form x-data="{ amount: '' }" action="{{ route('donor-portal.supports.amount', $support) }}" method="POST" class="mt-3 flex flex-wrap items-end gap-3 rounded border border-gray-200 p-4">
                                             @csrf
                                             <input type="hidden" name="amount" x-model="amount">
-                                            <label class="w-full text-sm font-medium text-theatre-black" for="amount-{{ $support->id }}">New monthly amount</label>
+                                            <label class="w-full text-sm font-medium text-theatre-black" for="cadence-{{ $support->id }}">New recurring support</label>
                                             <div class="relative">
-                                                <input x-ref="amount" id="amount-{{ $support->id }}" type="text" inputmode="numeric" autocomplete="off" placeholder="$0" class="w-40 rounded border border-gray-400 bg-white px-4 py-3 text-lg font-medium text-theatre-black placeholder-gray-400 shadow-sm focus:border-theatre-black focus:ring-0" aria-describedby="amount-help-{{ $support->id }}" @focus="$event.target.select()" @input="const digits = $event.target.value.replace(/\D/g, '').slice(0, 6); amount = digits ? String(Number(digits)) : ''; $event.target.value = digits ? '$' + Number(digits).toLocaleString('en-US') : '';">
+                                                <input x-ref="amount" id="amount-{{ $support->id }}" type="text" inputmode="numeric" autocomplete="off" placeholder="$0" class="w-40 rounded border border-gray-400 bg-white px-4 py-3 text-lg font-medium text-theatre-black placeholder-gray-400 shadow-sm focus:border-theatre-black focus:ring-0" aria-label="New recurring amount in whole dollars" @focus="$event.target.select()" @input="const digits = $event.target.value.replace(/\D/g, '').slice(0, 6); amount = digits ? String(Number(digits)) : ''; $event.target.value = digits ? '$' + Number(digits).toLocaleString('en-US') : '';">
                                             </div>
+                                            <select id="cadence-{{ $support->id }}" name="cadence" class="rounded border border-gray-400 bg-white px-3 py-3 text-sm text-theatre-black">
+                                                @foreach(['monthly' => 'Monthly', 'quarterly' => 'Quarterly', 'annual' => 'Annual'] as $value => $label)
+                                                    <option value="{{ $value }}" @selected($support->interval === $value)>{{ $label }}</option>
+                                                @endforeach
+                                            </select>
                                             <button type="submit" :disabled="! amount" class="rounded bg-theatre-black px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-300">Schedule for next renewal</button>
-                                            <p id="amount-help-{{ $support->id }}" class="w-full text-sm text-gray-500">Enter the total amount you would like to give each month. Your current billing period stays unchanged; the new amount takes effect at the next renewal.</p>
+                                            <p id="amount-help-{{ $support->id }}" class="w-full text-sm text-gray-500">Enter the total whole-dollar amount and choose a cadence. Your current billing period stays unchanged; the new support takes effect at the next renewal.</p>
                                         </form>
                                     </details>
                                 @endif
