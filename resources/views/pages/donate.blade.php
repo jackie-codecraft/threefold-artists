@@ -36,6 +36,17 @@
                 <form action="{{ route('donate.checkout') }}" method="POST" class="space-y-8">
                     @csrf
 
+                    @error('donor_email')
+                        <div class="border-l-4 border-curtain-red bg-red-50 p-5 text-left" role="alert">
+                            <p class="font-semibold text-curtain-red">You already have active recurring support.</p>
+                            <p class="mt-2 text-sm leading-6 text-gray-700">To change your amount, cadence, payment method, pause, or cancel, use your secure donation portal.</p>
+                            <div class="mt-4 flex flex-wrap gap-4">
+                                <a href="{{ route('donor-access.request') }}" class="inline-flex items-center justify-center bg-theatre-black px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-white hover:bg-gray-800">Manage My Donations</a>
+                                <button type="button" x-on:click="donationType = 'one-time'; $el.closest('form').querySelector('[name=donation_type]').value = 'one-time'; $el.closest('form').scrollIntoView({ behavior: 'smooth', block: 'start' })" class="text-sm font-semibold text-theatre-black underline">Make a one-time donation instead</button>
+                            </div>
+                        </div>
+                    @enderror
+
                     <div class="mb-10">
                         <label class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-4">Donation Type</label>
                         <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">

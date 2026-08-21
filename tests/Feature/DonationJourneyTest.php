@@ -100,6 +100,12 @@ class DonationJourneyTest extends TestCase
             'amount' => 25, 'donor_email' => 'existing@example.com', 'donation_type' => 'quarterly',
             'is_anonymous' => '0', 'public_recognition_consent' => '0',
         ])->assertSessionHasErrors('donor_email');
+
+        $this->get(route('donate'))
+            ->assertSee('You already have active recurring support.')
+            ->assertSee('Manage My Donations')
+            ->assertSee('Make a one-time donation instead')
+            ->assertSee(route('donor-access.request'), false);
     }
 
     #[DataProvider('recurringCadences')]
