@@ -11,12 +11,12 @@ class ChangeDonationSupportAmountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => ['required', 'numeric', 'min:1', 'max:100000'],
+            'amount' => ['required', 'integer', 'min:1', 'max:100000'],
         ];
     }
 
     public function amountInCents(): int
     {
-        return (int) round(((float) $this->validated('amount')) * 100);
+        return ((int) $this->validated('amount')) * 100;
     }
 }

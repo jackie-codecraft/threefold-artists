@@ -58,7 +58,7 @@ class DonationSupportPauseTest extends TestCase
         ApiRequestor::setHttpClient($client);
 
         $this->withSession(['donor_portal.donor_id' => $donor->id])
-            ->post(route('donor-portal.supports.amount', $support), ['amount' => '25.50'])
+            ->post(route('donor-portal.supports.amount', $support), ['amount' => '25'])
             ->assertRedirect(route('donor-portal'))
             ->assertSessionHas('success');
 
@@ -67,8 +67,25 @@ class DonationSupportPauseTest extends TestCase
         $this->assertSame('none', $update['params']['proration_behavior']);
         $this->assertSame('price_new', $update['params']['items'][0]['price']);
         $support->refresh();
-        $this->assertSame(2550, $support->pending_amount_cents);
+        $this->assertSame(2500, $support->pending_amount_cents);
         $this->assertTrue($support->pending_amount_effective_at->equalTo($endsAt));
+    }
+
+    #[Test]
+    public function donation_amount_changes_only_accept_whole_dollars(): void
+    {
+        $donor = Donor::query()->create(['email' => 'whole-dollars@example.com']);
+        $support = $this->support($donor);
+        $client = new PauseStripeClient;
+        ApiRequestor::setHttpClient($client);
+
+        $this->withSession(['donor_portal.donor_id' => $donor->id])
+            ->from(route('donor-portal'))
+            ->post(route('donor-portal.supports.amount', $support), ['amount' => '25.50'])
+            ->assertRedirect(route('donor-portal'))
+            ->assertSessionHasErrors('amount');
+
+        $this->assertSame([], $client->params);
     }
 
     #[Test]
@@ -82,7 +99,7 @@ class DonationSupportPauseTest extends TestCase
         ApiRequestor::setHttpClient($client);
 
         $this->withSession(['donor_portal.donor_id' => $donor->id])
-            ->post(route('donor-portal.supports.amount', $support), ['amount' => '30.00'])
+            ->post(route('donor-portal.supports.amount', $support), ['amount' => '30'])
             ->assertRedirect(route('donor-portal'));
 
         $productCreate = collect($client->requests)->first(fn (array $request): bool => str_ends_with($request['url'], '/v1/products') && $request['params'] !== []);
