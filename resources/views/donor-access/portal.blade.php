@@ -43,8 +43,17 @@
                     <div class="mt-4 divide-y divide-gray-200 border-y border-gray-200">
                         @forelse($supports as $support)
                             <div class="py-4">
-                                <p class="font-medium text-theatre-black">{{ ucfirst($support->status) }} {{ $support->interval ? '— '.$support->interval : '' }}</p>
+                                <p class="font-medium text-theatre-black">
+                                    @if($support->status === 'active' && $support->cancel_at_period_end)
+                                        Cancellation scheduled
+                                    @else
+                                        {{ ucfirst($support->status) }} {{ $support->interval ? '— '.$support->interval : '' }}
+                                    @endif
+                                </p>
                                 <p class="text-sm text-gray-500">${{ number_format($support->amount_cents / 100, 2) }} {{ strtoupper($support->currency) }}</p>
+                                @if($support->status === 'active' && $support->cancel_at_period_end && $support->current_period_ends_at)
+                                    <p class="mt-2 text-sm text-curtain-red">This recurring donation will end on {{ $support->current_period_ends_at->format('F j, Y') }}. No further renewals will be charged.</p>
+                                @endif
                                 @if($support->pending_amount_cents !== null && $support->pending_amount_effective_at)
                                     <p class="mt-2 text-sm text-stage-gold">Your recurring amount will change to ${{ number_format($support->pending_amount_cents / 100, 2) }} on {{ $support->pending_amount_effective_at->format('F j, Y') }}. Your current billing period remains unchanged.</p>
                                 @elseif($support->status === 'active' && ! $support->cancel_at_period_end && $support->current_period_ends_at)

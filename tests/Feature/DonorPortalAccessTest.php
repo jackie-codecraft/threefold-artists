@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use App\Mail\DonorAccessLinkMail;
 use App\Models\Donation;
+use App\Models\DonationSupport;
 use App\Models\Donor;
 use App\Models\DonorAccessLink;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -79,6 +80,30 @@ class DonorPortalAccessTest extends TestCase
         $this->get($url)
             ->assertRedirect(route('donor-access.request'))
             ->assertSessionHas('error');
+    }
+
+    #[Test]
+    public function portal_clearly_marks_a_subscription_that_is_canceling_at_the_end_of_its_current_period(): void
+    {
+        $donor = Donor::query()->create(['email' => 'canceling@example.com']);
+        DonationSupport::query()->create([
+            'donor_id' => $donor->id,
+            'stripe_subscription_id' => 'sub_canceling',
+            'amount_cents' => 7500,
+            'currency' => 'usd',
+            'interval' => 'monthly',
+            'interval_count' => 1,
+            'status' => 'active',
+            'cancel_at_period_end' => true,
+            'current_period_ends_at' => now()->addMonth(),
+        ]);
+
+        $this->withSession(['donor_portal.donor_id' => $donor->id])
+            ->get(route('donor-portal'))
+            ->assertOk()
+            ->assertSee('Cancellation scheduled')
+            ->assertSee('No further renewals will be charged.')
+            ->assertDontSee('Active — monthly');
     }
 
     #[Test]
