@@ -39,21 +39,6 @@
 
     <section class="py-16 sm:py-20" x-data="{ selectedAmount: 50, customAmount: '', donationType: 'one-time' }">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-                @foreach([
-                    ['$25', 'Provides art supplies for a community workshop'],
-                    ['$50', 'Brings music to 10 seniors in a care home'],
-                    ['$100', 'Funds a full theatre performance at a shelter'],
-                    ['$250', 'Sponsors a month of performances across multiple venues'],
-                ] as [$amount, $impact])
-                    <div class="text-center">
-                        <div class="font-display text-3xl font-light text-theatre-black mb-3">{{ $amount }}</div>
-                        <div class="w-8 h-px bg-stage-gold mx-auto my-3"></div>
-                        <p class="text-sm text-gray-500">{{ $impact }}</p>
-                    </div>
-                @endforeach
-            </div>
-
             <div class="max-w-xl mx-auto">
                 <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-8">Choose Your Gift</p>
 
