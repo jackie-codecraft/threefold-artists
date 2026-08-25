@@ -21,9 +21,10 @@ class PageController extends Controller
     public function home()
     {
         $metrics = ImpactMetric::orderBy('sort_order')->get();
+        $featuredTestimonial = Testimonial::query()->active()->featured()->oldest()->first();
         $upcomingEvents = Event::upcoming()->public()->take(3)->get();
 
-        return view('pages.home', compact('metrics', 'upcomingEvents'));
+        return view('pages.home', compact('metrics', 'featuredTestimonial', 'upcomingEvents'));
     }
 
     public function about()

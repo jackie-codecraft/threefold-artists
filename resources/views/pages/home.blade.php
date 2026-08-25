@@ -127,6 +127,31 @@
     </section>
     @endif
 
+    {{-- Impact Teaser --}}
+    @if($featuredTestimonial)
+    <section class="py-16 sm:py-20 bg-linen">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:items-end">
+                <blockquote class="max-w-3xl">
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-5">What People Say</p>
+                    <p class="font-display text-2xl sm:text-3xl font-light leading-relaxed text-theatre-black">“{{ $featuredTestimonial->quote }}”</p>
+                    <footer class="mt-5 text-sm text-gray-500">
+                        <cite class="not-italic font-semibold text-theatre-black">{{ $featuredTestimonial->attribution }}</cite>
+                        @if($featuredTestimonial->venue_name)
+                            <span class="block mt-1">{{ $featuredTestimonial->venue_name }}</span>
+                        @endif
+                    </footer>
+                </blockquote>
+
+                <a href="{{ route('impact') }}" class="inline-flex items-center gap-3 text-sm font-semibold tracking-wide uppercase text-theatre-black hover:text-curtain-red transition-colors">
+                    See Our Impact
+                    <span aria-hidden="true">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+    @endif
+
     {{-- Newsletter --}}
     <section class="py-24 sm:py-32">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

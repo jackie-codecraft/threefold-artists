@@ -12,10 +12,10 @@ class TestimonialVisibilityTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_home_page_does_not_render_testimonials(): void
+    public function test_home_page_shows_a_featured_testimonial_teaser(): void
     {
         Testimonial::query()->create([
-            'quote' => 'Impact page testimonial only',
+            'quote' => 'Featured impact teaser',
             'attribution' => 'Visible Person',
             'venue_name' => 'Visible Venue',
             'is_active' => true,
@@ -25,8 +25,10 @@ class TestimonialVisibilityTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertOk();
-        $response->assertDontSee('What People Say');
-        $response->assertDontSee('Impact page testimonial only');
+        $response->assertViewHas('featuredTestimonial', fn (?Testimonial $testimonial) => $testimonial?->quote === 'Featured impact teaser');
+        $response->assertSee('What People Say');
+        $response->assertSee('Featured impact teaser');
+        $response->assertSee(route('impact'), false);
     }
 
     public function test_impact_page_only_shows_active_testimonials(): void
