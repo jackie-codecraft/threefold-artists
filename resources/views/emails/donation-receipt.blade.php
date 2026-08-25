@@ -8,7 +8,10 @@
         </p>
 
         <p style="color: #666; line-height: 1.6;">
-            Thank you for your generous donation to {{ $organization['legal_name'] }}. Your support helps us bring live performing arts to communities that need them most. Thank you for helping keep theatre alive.
+            Thank you for your generous donation to {{ $organization['legal_name'] }}. Your support helps us bring live performing arts to communities that need them most.
+        </p>
+        <p style="margin: 16px 0 0; color: #C9A84C; font-family: Georgia, serif; font-size: 18px; font-style: italic;">
+            Thank you for helping keep theatre alive.
         </p>
 
         <div style="margin: 30px 0; padding: 20px; background: #F5F0E8; border-radius: 12px;">

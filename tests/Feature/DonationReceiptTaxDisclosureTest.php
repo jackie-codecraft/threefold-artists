@@ -46,6 +46,7 @@ class DonationReceiptTaxDisclosureTest extends TestCase
         $this->assertStringContainsString('August 12, 2026', $html);
         $this->assertStringContainsString('$125.00', $html);
         $this->assertStringContainsString('Thank you for helping keep theatre alive.', $html);
+        $this->assertStringContainsString('color: #C9A84C; font-family: Georgia, serif; font-size: 18px; font-style: italic;', $html);
         $this->assertStringContainsString('Tax information', $html);
         $this->assertStringContainsString('text-align: left', $html);
         $this->assertStringContainsString('Need to manage your donation?', $html);
