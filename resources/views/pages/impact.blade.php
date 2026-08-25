@@ -36,7 +36,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-12 sm:mb-16">
                 <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Voices</p>
-                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">What People Say</h2>
+                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">What People Are Saying</h2>
             </div>
 
             @if($testimonials->isEmpty())
