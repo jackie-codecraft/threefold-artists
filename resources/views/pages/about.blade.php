@@ -84,18 +84,34 @@
         </div>
     </section>
 
-    {{-- Team Placeholder --}}
-    <section class="py-24 sm:py-32">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">The People</p>
-            <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black mb-8">Our Team</h2>
-            <p class="text-gray-500 text-lg mb-12 max-w-2xl mx-auto">
-                Threefold Artists is powered by a dedicated team of arts professionals and volunteers who share a passion for making live performance accessible to everyone.
-            </p>
-            <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
-                Join Our Team
-            </a>
-        </div>
-    </section>
+    @if ($leadershipMembers->isNotEmpty())
+        <section class="py-24 sm:py-32 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mb-16">
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">The People</p>
+                    <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Leadership</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
+                    @foreach ($leadershipMembers as $member)
+                        <article>
+                            @if ($member->hasMedia('portrait'))
+                                <img
+                                    src="{{ $member->getFirstMediaUrl('portrait') }}"
+                                    alt="Portrait of {{ $member->name }}"
+                                    class="w-full aspect-square object-cover mb-6"
+                                >
+                            @endif
+                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-stage-gold mb-3">{{ $member->title }}</p>
+                            <h3 class="font-display text-3xl font-light text-theatre-black mb-4">{{ $member->name }}</h3>
+                            <div class="text-gray-500 leading-relaxed space-y-4">
+                                {!! str($member->biography)->sanitizeHtml() !!}
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
 </x-layouts.app>
