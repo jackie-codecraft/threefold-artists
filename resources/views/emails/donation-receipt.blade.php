@@ -10,6 +10,9 @@
         <p style="color: #666; line-height: 1.6;">
             Thank you for your generous donation to {{ $organization['legal_name'] }}. Your support helps us bring live performing arts to communities that need them most.
         </p>
+        <p style="margin: 16px 0 0; color: #C9A84C; font-family: Georgia, serif; font-size: 18px; font-style: italic;">
+            Thank you for helping keep theatre alive.
+        </p>
 
         <div style="margin: 30px 0; padding: 20px; background: #F5F0E8; border-radius: 12px;">
             <div style="font-family: Georgia, serif; font-size: 36px; font-weight: bold; color: #8B1A2B;">
@@ -31,15 +34,18 @@
             @endif
         </table>
 
-        <p style="color: #444; line-height: 1.6; font-size: 14px; margin-top: 28px;">
-            {{ $organization['tax_status'] }}
-        </p>
-        <p style="color: #444; line-height: 1.6; font-size: 14px;">
-            {{ $organization['tax_deductibility_statement'] }}
-        </p>
-        <p style="color: #444; line-height: 1.6; font-size: 14px;">
-            {{ $organization['receipt_disclosure'] }}
-        </p>
+        <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid #E5DED3; text-align: left;">
+            <p style="margin: 0 0 12px; color: #1A1A1A; font-size: 13px; font-weight: bold; letter-spacing: 0.04em; text-transform: uppercase;">Tax information</p>
+            <p style="color: #444; line-height: 1.6; font-size: 14px; margin: 0 0 12px;">
+                {{ $organization['tax_status'] }}
+            </p>
+            <p style="color: #444; line-height: 1.6; font-size: 14px; margin: 0 0 12px;">
+                {{ $organization['tax_deductibility_statement'] }}
+            </p>
+            <p style="color: #444; line-height: 1.6; font-size: 14px; margin: 0;">
+                {{ $organization['receipt_disclosure'] }}
+            </p>
+        </div>
 
         <div style="margin: 30px 0 24px; padding: 20px; background: #F5F0E8; border-radius: 12px; text-align: left;">
             <p style="margin: 0 0 8px; color: #1A1A1A; font-size: 16px; font-weight: bold;">Need to manage your donation?</p>
