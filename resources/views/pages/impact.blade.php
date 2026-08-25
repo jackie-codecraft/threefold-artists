@@ -34,7 +34,7 @@
     {{-- Testimonials --}}
     <section class="py-24 sm:py-32 border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-20">
+            <div class="mb-12 sm:mb-16">
                 <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Voices</p>
                 <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">What People Say</h2>
             </div>
@@ -42,23 +42,24 @@
             @if($testimonials->isEmpty())
                 <p class="text-gray-500">Impact stories coming soon.</p>
             @else
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                     @foreach($testimonials as $testimonial)
-                    <div>
-                        <blockquote>
-                            <p class="text-lg text-gray-700 leading-relaxed italic font-display mb-6">"{{ $testimonial->quote }}"</p>
-                            <footer class="text-sm">
+                    <article class="h-full bg-linen border border-stage-gold/20 px-8 py-9 sm:p-10">
+                        <blockquote class="flex h-full flex-col">
+                            <div class="w-10 h-px bg-stage-gold mb-6"></div>
+                            <p class="font-display text-xl sm:text-2xl font-light leading-relaxed text-theatre-black">“{{ $testimonial->quote }}”</p>
+                            <footer class="mt-8 pt-5 border-t border-theatre-black/10 text-sm">
                                 <cite class="not-italic font-semibold text-theatre-black">{{ $testimonial->attribution }}</cite>
                                 @if($testimonial->venue_name)
-                                    <span class="block text-gray-400 mt-1">{{ $testimonial->venue_name }}</span>
+                                    <span class="block text-gray-500 mt-1">{{ $testimonial->venue_name }}</span>
                                 @endif
                             </footer>
                         </blockquote>
-                    </div>
+                    </article>
                     @endforeach
                 </div>
 
-                <div class="mt-16">
+                <div class="mt-12 sm:mt-16">
                     {{ $testimonials->links() }}
                 </div>
             @endif
