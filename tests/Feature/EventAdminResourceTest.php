@@ -20,7 +20,8 @@ class EventAdminResourceTest extends TestCase
         $this->actingAs($user)
             ->get(EventResource::getUrl('create'))
             ->assertOk()
-            ->assertSee('Featured Image')
-            ->assertSee('Used on the public event card and event detail hero.');
+            ->assertSee('Original featured image')
+            ->assertSee('Event card thumbnail crop')
+            ->assertSee('The full image above remains untouched.');
     }
 }

@@ -32,7 +32,8 @@ class GalleryItemsRelationManager extends RelationManager
             Forms\Components\Select::make('type')
                 ->options(['photo' => 'Photo', 'video' => 'Video'])
                 ->default('photo')
-                ->required(),
+                ->required()
+                ->live(),
             Forms\Components\Select::make('art_form')
                 ->options([
                     'theatre' => 'Theatre',
@@ -41,6 +42,9 @@ class GalleryItemsRelationManager extends RelationManager
                     'fine_arts' => 'Fine Arts',
                 ]),
             GalleryMediaUpload::make()
+                ->columnSpanFull(),
+            GalleryMediaUpload::thumbnail()
+                ->visible(fn (callable $get): bool => $get('type') === 'photo')
                 ->columnSpanFull(),
             Forms\Components\Toggle::make('is_active')
                 ->label('Active')

@@ -35,7 +35,8 @@ class GalleryItemResource extends Resource
             Forms\Components\Textarea::make('caption'),
             Forms\Components\Select::make('type')
                 ->options(['photo' => 'Photo', 'video' => 'Video'])
-                ->default('photo'),
+                ->default('photo')
+                ->live(),
             Forms\Components\Select::make('art_form')
                 ->options([
                     'theatre' => 'Theatre',
@@ -65,6 +66,8 @@ class GalleryItemResource extends Resource
                 ->visible(fn (callable $get): bool => filled($get('galleryable_type'))),
             Forms\Components\TextInput::make('event_name'),
             GalleryMediaUpload::make(),
+            GalleryMediaUpload::thumbnail()
+                ->visible(fn (callable $get): bool => $get('type') === 'photo'),
             Forms\Components\Toggle::make('is_active')
                 ->label('Active')
                 ->default(false)

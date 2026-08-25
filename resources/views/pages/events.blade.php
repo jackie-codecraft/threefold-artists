@@ -68,7 +68,7 @@
                             "description": "{{ Str::limit(strip_tags($event->description), 200) }}"
                         }
                         </script>
-                        @php($featuredImageUrl = $event->featuredImageUrl())
+                        @php($featuredImageUrl = $event->featuredThumbnailUrl())
                         <article class="group h-full bg-white border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300">
                             <a href="{{ route('events.show', $event) }}" class="block relative aspect-[4/3] overflow-hidden bg-theatre-black">
                                 @if($featuredImageUrl)

@@ -10,6 +10,7 @@ use App\Models\Donation;
 use App\Models\Event;
 use App\Models\GalleryItem;
 use App\Models\ImpactMetric;
+use App\Models\LeadershipMember;
 use App\Models\SiteSettings;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
@@ -28,7 +29,9 @@ class PageController extends Controller
 
     public function about()
     {
-        return view('pages.about');
+        $leadershipMembers = LeadershipMember::query()->active()->ordered()->get();
+
+        return view('pages.about', compact('leadershipMembers'));
     }
 
     public function whatWeDo()

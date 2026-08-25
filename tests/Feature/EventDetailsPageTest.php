@@ -7,6 +7,8 @@ namespace Tests\Feature;
 use App\Models\Event;
 use App\Models\SiteSettings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class EventDetailsPageTest extends TestCase
@@ -78,6 +80,37 @@ class EventDetailsPageTest extends TestCase
             ->assertOk()
             ->assertSee('https://example.com/event-featured.jpg', false)
             ->assertSee('Featured Fundraiser Concert');
+    }
+
+    public function test_event_card_uses_the_editor_selected_thumbnail_while_event_detail_keeps_the_original(): void
+    {
+        Storage::fake('public');
+
+        $event = Event::query()->create([
+            'title' => 'Cropping Test Event',
+            'description' => 'An event with separate thumbnail and original media.',
+            'date' => now()->addWeek()->toDateString(),
+            'venue_name' => 'Theatre Hall',
+            'is_public' => true,
+        ]);
+
+        $original = $event->addMedia(UploadedFile::fake()->image('event-original.jpg', 1800, 1200))
+            ->toMediaCollection('featured_image', 'public');
+        $thumbnail = $event->addMedia(UploadedFile::fake()->image('event-card-crop.jpg', 1200, 900))
+            ->toMediaCollection('featured_thumbnail', 'public');
+
+        $this->assertSame($thumbnail->getUrl(), $event->featuredThumbnailUrl());
+        $this->assertSame($original->getUrl(), $event->featuredImageUrl());
+
+        $this->get(route('events'))
+            ->assertOk()
+            ->assertSee($thumbnail->getUrl(), false)
+            ->assertDontSee($original->getUrl(), false);
+
+        $this->get(route('events.show', $event))
+            ->assertOk()
+            ->assertSee($original->getUrl(), false)
+            ->assertDontSee($thumbnail->getUrl(), false);
     }
 
     public function test_event_list_uses_branded_placeholder_without_featured_image(): void

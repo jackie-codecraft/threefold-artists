@@ -36,11 +36,22 @@ class EventResource extends Resource
             Forms\Components\TextInput::make('venue_name')->required(),
             Forms\Components\Textarea::make('venue_address'),
             Forms\Components\SpatieMediaLibraryFileUpload::make('featured_image')
-                ->label('Featured Image')
-                ->helperText('Used on the public event card and event detail hero.')
+                ->label('Original featured image')
+                ->helperText('This is the full image used on the event detail hero. It is never cropped.')
                 ->collection('featured_image')
                 ->disk('public')
                 ->image()
+                ->columnSpanFull(),
+            Forms\Components\SpatieMediaLibraryFileUpload::make('featured_thumbnail')
+                ->label('Event card thumbnail crop')
+                ->helperText('Optional. Upload the same original image, then choose the 4:3 crop used on event cards. The full image above remains untouched.')
+                ->collection('featured_thumbnail')
+                ->disk('public')
+                ->image()
+                ->imageAspectRatio('4:3')
+                ->automaticallyOpenImageEditorForAspectRatio()
+                ->imageEditor()
+                ->imageEditorMode(2)
                 ->columnSpanFull(),
             Forms\Components\TextInput::make('latitude')->numeric()->step(0.0000001),
             Forms\Components\TextInput::make('longitude')->numeric()->step(0.0000001),

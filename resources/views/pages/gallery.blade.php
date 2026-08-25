@@ -102,7 +102,7 @@
                                         @if($item->type === 'video')
                                             <video src="{{ $item->getFirstMediaUrl('media') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" muted playsinline preload="metadata"></video>
                                         @else
-                                            <img src="{{ $item->getFirstMediaUrl('media') }}" alt="{{ $item->title ?? 'Gallery image' }}"
+                                            <img src="{{ $item->thumbnailUrl() }}" alt="{{ $item->title ?? 'Gallery image' }}"
                                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                         @endif
                                     </div>
