@@ -44,6 +44,11 @@ class DonationJourneyTest extends TestCase
         $response = $this->get(route('donate'));
 
         $response->assertOk();
+        $response->assertSee('Help Keep Theatre Alive');
+        $response->assertSee('What Your Donation Helps Support');
+        $response->assertSee('Every gift helps us create and deliver a complete live theatrical experience');
+        $response->assertSee('Lighting &amp; sound', false);
+        $response->assertSee('Seasonal &amp; themed productions', false);
         $response->assertSee('One-Time');
         $response->assertSee('Monthly');
         $response->assertSee('Quarterly');

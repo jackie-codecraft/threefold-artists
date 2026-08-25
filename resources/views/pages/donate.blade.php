@@ -8,8 +8,32 @@
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="w-16 h-px bg-stage-gold mb-6"></div>
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Give</p>
-            <h1 class="font-display text-5xl sm:text-6xl font-light text-white">Support Our Mission</h1>
-            <p class="text-lg text-gray-300 mt-4 max-w-2xl">Every donation helps bring live performing arts to those who need it most.</p>
+            <h1 class="font-display text-5xl sm:text-6xl font-light text-white">Help Keep Theatre Alive</h1>
+            <p class="text-lg text-gray-300 mt-4 max-w-2xl">Your generosity helps bring the magic of live theatre, music, and artistic connection directly to those who may not otherwise have the opportunity to experience it.</p>
+        </div>
+    </section>
+
+    <section class="py-16 sm:py-20 bg-linen">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl">
+                <div class="w-16 h-px bg-stage-gold mb-6"></div>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4">What Your Donation Helps Support</p>
+                <p class="text-lg leading-8 text-gray-700">Every gift helps us create and deliver a complete live theatrical experience, from what happens on stage to everything behind the scenes that makes each performance possible.</p>
+                <p class="mt-6 text-gray-700">Your generosity helps us create and deliver a complete live theatrical experience, including:</p>
+            </div>
+
+            <ul class="mt-8 grid gap-x-10 gap-y-5 sm:grid-cols-2 text-gray-700">
+                <li><strong class="text-theatre-black">Lighting &amp; sound</strong> – professional equipment and technical support</li>
+                <li><strong class="text-theatre-black">Costumes &amp; props</strong> – bringing each production and character to life</li>
+                <li><strong class="text-theatre-black">Playbills &amp; theatre tickets</strong> – giving our audiences the experience of attending a live show</li>
+                <li><strong class="text-theatre-black">Music &amp; production materials</strong> – arrangements, scripts, licensing, and other show needs</li>
+                <li><strong class="text-theatre-black">Insurance &amp; safety</strong> – essential coverage that allows us to perform responsibly in hospitals, rehabilitation centers, senior communities, and other facilities</li>
+                <li><strong class="text-theatre-black">Transportation &amp; equipment</strong> – getting our artists, sets, props, and production materials where they need to go</li>
+                <li><strong class="text-theatre-black">Marketing &amp; printing</strong> – helping us reach facilities and communities that can benefit from our programs</li>
+                <li><strong class="text-theatre-black">Seasonal &amp; themed productions</strong> – supporting new shows and special performances throughout the year</li>
+            </ul>
+
+            <p class="max-w-3xl mt-10 text-lg leading-8 text-gray-700">Every contribution, large or small, helps us bring the magic of live performance directly to those who may not otherwise have the opportunity to experience it.</p>
         </div>
     </section>
 
