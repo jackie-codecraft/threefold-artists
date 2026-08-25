@@ -8,7 +8,6 @@ use App\Filament\Resources\LeadershipMemberResource;
 use App\Filament\Resources\LeadershipMemberResource\Pages\ListLeadershipMembers;
 use App\Models\LeadershipMember;
 use App\Models\User;
-use Filament\Actions\CreateAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -30,7 +29,7 @@ class LeadershipTest extends TestCase
         $first = LeadershipMember::query()->create([
             'name' => 'Ada First',
             'title' => 'Artistic Director',
-            'biography' => '<p>First biography.</p>',
+            'biography' => '<p>First biography. '.str_repeat('A long leadership biography should remain available without overwhelming the About page. ', 8).'</p>',
             'sort_order' => 1,
             'is_active' => true,
         ]);
@@ -46,10 +45,12 @@ class LeadershipTest extends TestCase
         $response = $this->get(route('about'));
 
         $response->assertOk()
-            ->assertSee('Leadership')
+            ->assertSeeInOrder(['How It Started', 'Leadership', 'Our Three Promises'])
             ->assertSeeInOrder([$first->name, $second->name])
             ->assertSee($first->title)
             ->assertSee('First biography.', false)
+            ->assertSee('Read full biography')
+            ->assertSee('<details', false)
             ->assertDontSee($hidden->name);
     }
 

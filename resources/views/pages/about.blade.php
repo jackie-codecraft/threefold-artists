@@ -54,6 +54,45 @@
         </div>
     </section>
 
+    @if ($leadershipMembers->isNotEmpty())
+        <section id="leadership" class="py-24 sm:py-32 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mb-16">
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">The People</p>
+                    <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Leadership</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
+                    @foreach ($leadershipMembers as $member)
+                        <article>
+                            @if ($member->hasMedia('portrait'))
+                                <img
+                                    src="{{ $member->getFirstMediaUrl('portrait') }}"
+                                    alt="Portrait of {{ $member->name }}"
+                                    class="w-full aspect-square object-cover mb-6"
+                                >
+                            @endif
+                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-stage-gold mb-3">{{ $member->title }}</p>
+                            <h3 class="font-display text-3xl font-light text-theatre-black mb-4">{{ $member->name }}</h3>
+                            <p class="text-gray-500 leading-relaxed">
+                                {{ str(html_entity_decode(strip_tags($member->biography), ENT_QUOTES | ENT_HTML5, 'UTF-8'))->squish()->limit(320) }}
+                            </p>
+                            <details class="group mt-4">
+                                <summary class="cursor-pointer list-none text-sm font-semibold tracking-wide text-theatre-black underline decoration-stage-gold decoration-2 underline-offset-4 [&::-webkit-details-marker]:hidden">
+                                    <span class="group-open:hidden">Read full biography</span>
+                                    <span class="hidden group-open:inline">Show less</span>
+                                </summary>
+                                <div class="mt-5 text-gray-500 leading-relaxed space-y-4">
+                                    {!! str($member->biography)->sanitizeHtml() !!}
+                                </div>
+                            </details>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
     {{-- Three Promises --}}
     <section class="py-24 sm:py-32 bg-theatre-black text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,35 +122,5 @@
             </div>
         </div>
     </section>
-
-    @if ($leadershipMembers->isNotEmpty())
-        <section class="py-24 sm:py-32 border-t border-gray-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-3xl mb-16">
-                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">The People</p>
-                    <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Leadership</h2>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
-                    @foreach ($leadershipMembers as $member)
-                        <article>
-                            @if ($member->hasMedia('portrait'))
-                                <img
-                                    src="{{ $member->getFirstMediaUrl('portrait') }}"
-                                    alt="Portrait of {{ $member->name }}"
-                                    class="w-full aspect-square object-cover mb-6"
-                                >
-                            @endif
-                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-stage-gold mb-3">{{ $member->title }}</p>
-                            <h3 class="font-display text-3xl font-light text-theatre-black mb-4">{{ $member->name }}</h3>
-                            <div class="text-gray-500 leading-relaxed space-y-4">
-                                {!! str($member->biography)->sanitizeHtml() !!}
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
 
 </x-layouts.app>
