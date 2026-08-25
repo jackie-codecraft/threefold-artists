@@ -49,6 +49,8 @@ class DonationJourneyTest extends TestCase
         $response->assertSee('Every gift helps us create and deliver a complete live theatrical experience');
         $response->assertSee('Lighting &amp; sound', false);
         $response->assertSee('Seasonal &amp; themed productions', false);
+        $response->assertSee('Choose Your Gift');
+        $response->assertDontSee('Choose Your Donation');
         $response->assertSee('One-Time');
         $response->assertSee('Monthly');
         $response->assertSee('Quarterly');

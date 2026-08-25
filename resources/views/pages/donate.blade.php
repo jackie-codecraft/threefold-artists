@@ -55,7 +55,7 @@
             </div>
 
             <div class="max-w-xl mx-auto">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-8">Choose Your Donation</p>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-8">Choose Your Gift</p>
 
                 <form action="{{ route('donate.checkout') }}" method="POST" class="space-y-8">
                     @csrf
