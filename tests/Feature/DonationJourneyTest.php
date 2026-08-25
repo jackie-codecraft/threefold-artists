@@ -45,7 +45,7 @@ class DonationJourneyTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Help Keep Theatre Alive');
-        $response->assertSee('<h2 class="mb-6 border-l-4 border-stage-gold pl-5 font-display text-4xl sm:text-5xl font-medium italic leading-[1.05] text-curtain-red">What Your Donation Helps Support</h2>', false);
+        $response->assertSee('<h2 class="mb-6 text-2xl sm:text-3xl font-semibold tracking-[0.16em] uppercase text-gray-600">What Your Donation Helps Support</h2>', false);
         $response->assertSee('Every gift helps us create and deliver a complete live theatrical experience');
         $response->assertSee('Lighting &amp; sound', false);
         $response->assertSee('Seasonal &amp; themed productions', false);

@@ -17,7 +17,7 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl">
                 <div class="w-16 h-px bg-stage-gold mb-6"></div>
-                <h2 class="mb-6 border-l-4 border-stage-gold pl-5 font-display text-4xl sm:text-5xl font-medium italic leading-[1.05] text-curtain-red">What Your Donation Helps Support</h2>
+                <h2 class="mb-6 text-2xl sm:text-3xl font-semibold tracking-[0.16em] uppercase text-gray-600">What Your Donation Helps Support</h2>
                 <p class="text-lg leading-8 text-gray-700">Every gift helps us create and deliver a complete live theatrical experience, from what happens on stage to everything behind the scenes that makes each performance possible.</p>
                 <p class="mt-6 text-gray-700">Your generosity helps us create and deliver a complete live theatrical experience, including:</p>
             </div>
