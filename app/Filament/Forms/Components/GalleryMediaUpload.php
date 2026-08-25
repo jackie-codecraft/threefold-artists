@@ -34,6 +34,12 @@ class GalleryMediaUpload
             ->imageAspectRatio('4:3')
             ->automaticallyOpenImageEditorForAspectRatio()
             ->imageEditor()
-            ->imageEditorMode(2);
+            ->imageEditorMode(2)
+            // Cropper can round an editor-selected 4:3 crop by a pixel. Normalize
+            // the final upload so Filament's server-side ratio validation agrees.
+            ->automaticallyCropImagesToAspectRatio()
+            ->automaticallyResizeImagesMode('cover')
+            ->automaticallyResizeImagesToWidth('1200')
+            ->automaticallyResizeImagesToHeight('900');
     }
 }
