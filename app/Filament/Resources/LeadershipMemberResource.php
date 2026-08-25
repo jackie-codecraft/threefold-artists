@@ -40,12 +40,14 @@ class LeadershipMemberResource extends Resource
                 ->maxLength(255),
             Forms\Components\SpatieMediaLibraryFileUpload::make('portrait')
                 ->label('Portrait')
-                ->helperText('Used in the Leadership section on the About page.')
+                ->helperText('Choose the square crop that keeps the person well framed. You can reopen the editor later with the pencil icon.')
                 ->collection('portrait')
                 ->disk('public')
                 ->image()
+                ->imageAspectRatio('1:1')
+                ->automaticallyOpenImageEditorForAspectRatio()
                 ->imageEditor()
-                ->imageCropAspectRatio('1:1')
+                ->imageEditorMode(2)
                 ->required()
                 ->columnSpanFull(),
             Forms\Components\RichEditor::make('biography')

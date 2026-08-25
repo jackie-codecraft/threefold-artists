@@ -79,7 +79,8 @@ class LeadershipTest extends TestCase
         $this->actingAs($user)
             ->get(LeadershipMemberResource::getUrl('create'))
             ->assertOk()
-            ->assertSee('Leadership Member');
+            ->assertSee('Leadership Member')
+            ->assertSee('Choose the square crop that keeps the person well framed.');
 
         Livewire::actingAs($user)
             ->test(ListLeadershipMembers::class)
