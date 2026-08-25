@@ -36,8 +36,8 @@
         <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div class="max-w-4xl">
                 <div class="w-16 h-px bg-stage-gold mb-6"></div>
-                <a href="{{ route('events') }}" class="inline-flex text-xs font-semibold tracking-[0.2em] uppercase text-gray-300 hover:text-stage-gold transition-colors mb-4">
-                    Events
+                <a href="{{ $isPastEvent ? route('events.past') : route('events') }}" class="inline-flex text-xs font-semibold tracking-[0.2em] uppercase text-gray-300 hover:text-stage-gold transition-colors mb-4">
+                    {{ $isPastEvent ? 'Past Events' : 'Upcoming Events' }}
                 </a>
                 @if($event->art_form)
                     <p class="text-xs font-semibold tracking-[0.2em] uppercase text-stage-gold mb-4">{{ str_replace('_', ' ', $event->art_form) }}</p>
@@ -97,6 +97,16 @@
                         <p class="text-gray-500 leading-relaxed">Full details for this performance are coming soon.</p>
                     @endif
 
+                    @if($isPastEvent && $event->recap)
+                        <div class="mt-10 pt-10 border-t border-gray-100">
+                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">Event Recap</p>
+                            <h2 class="font-display text-3xl font-light text-theatre-black mb-6">How it went</h2>
+                            <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed">
+                                {!! nl2br(e($event->recap)) !!}
+                            </div>
+                        </div>
+                    @endif
+
                     @if($galleryItems->isNotEmpty() && $siteSettings->galleryEnabled())
                         <div class="mt-12 pt-10 border-t border-gray-100">
                             <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
@@ -127,6 +137,26 @@
                                             <p class="mt-3 text-sm font-medium text-theatre-black group-hover:text-stage-gold-dark transition-colors">{{ $galleryItem->title }}</p>
                                         @endif
                                     </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($isPastEvent && $testimonials->isNotEmpty())
+                        <div class="mt-12 pt-10 border-t border-gray-100">
+                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">In Their Words</p>
+                            <h2 class="font-display text-3xl font-light text-theatre-black mb-8">What people shared</h2>
+                            <div class="grid gap-6 sm:grid-cols-2">
+                                @foreach($testimonials as $testimonial)
+                                    <figure class="border-l-2 border-stage-gold bg-linen/50 p-6">
+                                        <blockquote class="font-display text-xl leading-relaxed text-theatre-black">“{{ $testimonial->quote }}”</blockquote>
+                                        <figcaption class="mt-5 text-sm text-gray-600">
+                                            <span class="font-semibold text-theatre-black">{{ $testimonial->attribution }}</span>
+                                            @if($testimonial->venue_name)
+                                                <span class="text-gray-400"> · {{ $testimonial->venue_name }}</span>
+                                            @endif
+                                        </figcaption>
+                                    </figure>
                                 @endforeach
                             </div>
                         </div>

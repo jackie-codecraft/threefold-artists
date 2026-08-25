@@ -11,6 +11,7 @@
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Calendar</p>
             <h1 class="font-display text-5xl sm:text-6xl font-light text-white">Upcoming Events</h1>
             <p class="text-lg text-gray-300 mt-4 max-w-2xl">Find a performance near you.</p>
+            <a href="{{ route('events.past') }}" class="inline-flex mt-6 text-xs font-semibold tracking-[0.18em] uppercase text-stage-gold hover:text-white transition-colors">Explore Past Events</a>
         </div>
     </section>
 

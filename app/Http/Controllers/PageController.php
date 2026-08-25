@@ -63,18 +63,31 @@ class PageController extends Controller
         return view('pages.events', compact('events', 'allEvents'));
     }
 
+    public function pastEvents()
+    {
+        abort_unless(SiteSettings::current()->eventsEnabled(), 404);
+
+        $events = Event::pastPublished()->public()->paginate(12);
+
+        return view('pages.past-events', compact('events'));
+    }
+
     public function eventShow(Event $event): View
     {
         abort_unless(SiteSettings::current()->eventsEnabled(), 404);
         abort_unless($event->is_public, 404);
 
+        $isPastEvent = $event->date->isBefore(now()->startOfDay());
+        abort_if($isPastEvent && ! $event->is_past_published, 404);
+
         $galleryItems = $event->galleryItems()
             ->active()
             ->latest()
-            ->take(4)
+            ->when(! $isPastEvent, fn ($query) => $query->take(4))
             ->get();
+        $testimonials = $event->testimonials()->active()->latest()->get();
 
-        return view('pages.event-show', compact('event', 'galleryItems'));
+        return view('pages.event-show', compact('event', 'galleryItems', 'isPastEvent', 'testimonials'));
     }
 
     public function gallery(Request $request)
