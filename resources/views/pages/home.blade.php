@@ -127,34 +127,6 @@
     </section>
     @endif
 
-    {{-- Testimonials --}}
-    @if($testimonials->isNotEmpty())
-    <section class="py-24 sm:py-32 bg-linen">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-20">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Voices</p>
-                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">What People Say</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                @foreach($testimonials as $testimonial)
-                <div>
-                    <blockquote>
-                        <p class="text-lg text-gray-700 leading-relaxed italic font-display mb-6">"{{ $testimonial->quote }}"</p>
-                        <footer class="text-sm">
-                            <cite class="not-italic font-semibold text-theatre-black">{{ $testimonial->attribution }}</cite>
-                            @if($testimonial->venue_name)
-                                <span class="block text-gray-400 mt-1">{{ $testimonial->venue_name }}</span>
-                            @endif
-                        </footer>
-                    </blockquote>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-    @endif
-
     {{-- Newsletter --}}
     <section class="py-24 sm:py-32">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

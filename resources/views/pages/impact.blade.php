@@ -35,8 +35,8 @@
     <section class="py-24 sm:py-32 border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Stories</p>
-                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Impact Stories</h2>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Voices</p>
+                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">What People Say</h2>
             </div>
 
             @if($testimonials->isEmpty())

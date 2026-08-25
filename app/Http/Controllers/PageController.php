@@ -21,10 +21,9 @@ class PageController extends Controller
     public function home()
     {
         $metrics = ImpactMetric::orderBy('sort_order')->get();
-        $testimonials = Testimonial::query()->active()->featured()->latest()->take(3)->get();
         $upcomingEvents = Event::upcoming()->public()->take(3)->get();
 
-        return view('pages.home', compact('metrics', 'testimonials', 'upcomingEvents'));
+        return view('pages.home', compact('metrics', 'upcomingEvents'));
     }
 
     public function about()
@@ -117,7 +116,11 @@ class PageController extends Controller
         abort_unless(SiteSettings::current()->impactEnabled(), 404);
 
         $metrics = ImpactMetric::orderBy('sort_order')->get();
-        $testimonials = Testimonial::query()->active()->latest()->paginate(6);
+        $testimonials = Testimonial::query()
+            ->active()
+            ->orderByDesc('is_featured')
+            ->latest()
+            ->paginate(6);
 
         return view('pages.impact', compact('metrics', 'testimonials'));
     }
