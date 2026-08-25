@@ -55,6 +55,15 @@ class Event extends Model implements HasMedia
         $this->addMediaCollection('featured_image')
             ->useDisk('public')
             ->singleFile();
+
+        $this->addMediaCollection('featured_thumbnail')
+            ->useDisk('public')
+            ->singleFile();
+    }
+
+    public function featuredThumbnailUrl(): ?string
+    {
+        return $this->getFirstMediaUrl('featured_thumbnail') ?: $this->featuredImageUrl();
     }
 
     public function featuredImageUrl(): ?string

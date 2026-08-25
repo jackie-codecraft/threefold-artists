@@ -38,9 +38,15 @@ class ArtistResource extends Resource
                 ->required(),
             Forms\Components\Textarea::make('bio')->columnSpanFull(),
             Forms\Components\SpatieMediaLibraryFileUpload::make('photo')
+                ->label('Artist portrait')
+                ->helperText('Choose the 3:4 crop that keeps the artist well framed. You can reopen the editor later with the pencil icon.')
                 ->collection('photo')
                 ->disk('public')
-                ->image(),
+                ->image()
+                ->imageAspectRatio('3:4')
+                ->automaticallyOpenImageEditorForAspectRatio()
+                ->imageEditor()
+                ->imageEditorMode(2),
             Forms\Components\Toggle::make('is_active')
                 ->label('Active')
                 ->default(false)
