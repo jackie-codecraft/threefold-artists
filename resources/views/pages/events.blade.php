@@ -11,25 +11,27 @@
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Calendar</p>
             <h1 class="font-display text-5xl sm:text-6xl font-light text-white">Upcoming Events</h1>
             <p class="text-lg text-gray-300 mt-4 max-w-2xl">Find a performance near you.</p>
-            <a href="{{ route('events.past') }}" class="inline-flex mt-6 text-xs font-semibold tracking-[0.18em] uppercase text-stage-gold hover:text-white transition-colors">Explore Past Events</a>
         </div>
     </section>
 
     <section class="py-24 sm:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ view: 'list' }">
 
-            {{-- View Toggle --}}
-            <div class="flex gap-3 mb-16">
+            {{-- Event views --}}
+            <div class="flex flex-wrap gap-3 mb-16" role="navigation" aria-label="Event views">
                 <button @click="view = 'list'"
                     :class="view === 'list' ? 'bg-theatre-black text-white' : 'border border-gray-300 text-gray-500 hover:border-theatre-black hover:text-theatre-black'"
                     class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors">
-                    List
+                    Upcoming
                 </button>
                 <button @click="view = 'calendar'"
                     :class="view === 'calendar' ? 'bg-theatre-black text-white' : 'border border-gray-300 text-gray-500 hover:border-theatre-black hover:text-theatre-black'"
                     class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors">
                     Calendar
                 </button>
+                <a href="{{ route('events.past') }}" class="px-5 py-2 border border-gray-300 text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 hover:border-theatre-black hover:text-theatre-black transition-colors">
+                    Past Events
+                </a>
             </div>
 
             {{-- List View --}}
