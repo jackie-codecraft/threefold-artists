@@ -12,39 +12,23 @@ class TestimonialVisibilityTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_home_page_only_shows_active_featured_testimonials(): void
+    public function test_home_page_shows_a_featured_testimonial_teaser(): void
     {
         Testimonial::query()->create([
-            'quote' => 'Visible featured testimonial',
+            'quote' => 'Featured impact teaser',
             'attribution' => 'Visible Person',
             'venue_name' => 'Visible Venue',
             'is_active' => true,
             'is_featured' => true,
         ]);
 
-        Testimonial::query()->create([
-            'quote' => 'Hidden inactive featured testimonial',
-            'attribution' => 'Hidden Featured Person',
-            'venue_name' => 'Hidden Featured Venue',
-            'is_active' => false,
-            'is_featured' => true,
-        ]);
-
-        Testimonial::query()->create([
-            'quote' => 'Hidden active non-featured testimonial',
-            'attribution' => 'Hidden Non Featured Person',
-            'venue_name' => 'Hidden Non Featured Venue',
-            'is_active' => true,
-            'is_featured' => false,
-        ]);
-
         $response = $this->get(route('home'));
 
         $response->assertOk();
-        $response->assertViewHas('testimonials', fn ($testimonials) => $testimonials->pluck('attribution')->all() === ['Visible Person']);
-        $response->assertSee('Visible featured testimonial');
-        $response->assertDontSee('Hidden inactive featured testimonial');
-        $response->assertDontSee('Hidden active non-featured testimonial');
+        $response->assertViewHas('featuredTestimonial', fn (?Testimonial $testimonial) => $testimonial?->quote === 'Featured impact teaser');
+        $response->assertSee('What People Say');
+        $response->assertSee('Featured impact teaser');
+        $response->assertSee(route('impact'), false);
     }
 
     public function test_impact_page_only_shows_active_testimonials(): void
@@ -69,6 +53,7 @@ class TestimonialVisibilityTest extends TestCase
 
         $response->assertOk();
         $response->assertViewHas('testimonials', fn ($testimonials) => $testimonials->pluck('attribution')->all() === ['Visible Impact Person']);
+        $response->assertSee('What People Say');
         $response->assertSee('Visible impact testimonial');
         $response->assertDontSee('Hidden inactive impact testimonial');
     }

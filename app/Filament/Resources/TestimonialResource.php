@@ -34,7 +34,7 @@ class TestimonialResource extends Resource
             Forms\Components\Toggle::make('is_featured')
                 ->label('Featured')
                 ->disabled(fn (callable $get): bool => ! (bool) $get('is_active'))
-                ->helperText('Featured testimonials must also be active.'),
+                ->helperText('Featured testimonials appear first on the Impact page and must also be active.'),
         ]);
     }
 

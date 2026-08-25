@@ -127,29 +127,26 @@
     </section>
     @endif
 
-    {{-- Testimonials --}}
-    @if($testimonials->isNotEmpty())
-    <section class="py-24 sm:py-32 bg-linen">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-20">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Voices</p>
-                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">What People Say</h2>
-            </div>
+    {{-- Impact Teaser --}}
+    @if($featuredTestimonial)
+    <section class="py-16 sm:py-20 bg-linen">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:items-end">
+                <blockquote class="max-w-3xl">
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-5">What People Say</p>
+                    <p class="font-display text-2xl sm:text-3xl font-light leading-relaxed text-theatre-black">“{{ $featuredTestimonial->quote }}”</p>
+                    <footer class="mt-5 text-sm text-gray-500">
+                        <cite class="not-italic font-semibold text-theatre-black">{{ $featuredTestimonial->attribution }}</cite>
+                        @if($featuredTestimonial->venue_name)
+                            <span class="block mt-1">{{ $featuredTestimonial->venue_name }}</span>
+                        @endif
+                    </footer>
+                </blockquote>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                @foreach($testimonials as $testimonial)
-                <div>
-                    <blockquote>
-                        <p class="text-lg text-gray-700 leading-relaxed italic font-display mb-6">"{{ $testimonial->quote }}"</p>
-                        <footer class="text-sm">
-                            <cite class="not-italic font-semibold text-theatre-black">{{ $testimonial->attribution }}</cite>
-                            @if($testimonial->venue_name)
-                                <span class="block text-gray-400 mt-1">{{ $testimonial->venue_name }}</span>
-                            @endif
-                        </footer>
-                    </blockquote>
-                </div>
-                @endforeach
+                <a href="{{ route('impact') }}" class="inline-flex items-center gap-3 text-sm font-semibold tracking-wide uppercase text-theatre-black hover:text-curtain-red transition-colors">
+                    See Our Impact
+                    <span aria-hidden="true">→</span>
+                </a>
             </div>
         </div>
     </section>

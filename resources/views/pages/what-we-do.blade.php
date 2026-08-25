@@ -14,8 +14,25 @@
         </div>
     </section>
 
-    {{-- Art Forms --}}
+    {{-- Bringing the Theatre to You --}}
     <section class="py-24 sm:py-32">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl">
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Our Performances</p>
+                <div class="w-16 h-px bg-stage-gold mb-8"></div>
+                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Bringing the Theatre to You</h2>
+                <div class="mt-8 space-y-6 text-lg leading-relaxed text-gray-500">
+                    <p>At Threefold Artists, we believe everyone deserves the experience of live theatre. We bring thoughtfully produced, 45–60 minute performances directly to seniors, retirement communities, rehabilitation centers, hospitals, and community facilities.</p>
+                    <p>Our productions combine live music, theatre, storytelling, light comedy, and interactive moments with the details that make going to the theatre feel special. From theatre-style tickets and playbills to staging, lighting, sound, costumes, and production elements, we strive to transform each performance into a true theatrical experience.</p>
+                    <p>Our programs feature nostalgic music, beloved standards, musical theatre, and songs from the 1940s through the 1970s, along with seasonal and themed productions throughout the year.</p>
+                    <p class="font-medium text-theatre-black">We don't simply bring a performance to our audience, we bring the theatre experience to them.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- Art Forms --}}
+    <section class="py-24 sm:py-32 border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">
                 <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Disciplines</p>
