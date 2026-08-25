@@ -51,5 +51,14 @@ class GalleryItem extends Model implements HasMedia
         $this->addMediaCollection('media')
             ->useDisk('public')
             ->singleFile();
+
+        $this->addMediaCollection('thumbnail')
+            ->useDisk('public')
+            ->singleFile();
+    }
+
+    public function thumbnailUrl(): string
+    {
+        return $this->getFirstMediaUrl('thumbnail') ?: $this->getFirstMediaUrl('media');
     }
 }

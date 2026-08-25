@@ -112,12 +112,12 @@
                             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                                 @foreach($galleryItems as $galleryItem)
                                     <a href="{{ route('gallery', ['related_type' => 'event', 'related_id' => $event->id]) }}" class="group block">
-                                        <div class="aspect-square overflow-hidden bg-linen">
+                                        <div class="aspect-[4/3] overflow-hidden bg-linen">
                                             @if($galleryItem->getFirstMediaUrl('media'))
                                                 @if($galleryItem->type === 'video')
                                                     <video src="{{ $galleryItem->getFirstMediaUrl('media') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" muted playsinline preload="metadata"></video>
                                                 @else
-                                                    <img src="{{ $galleryItem->getFirstMediaUrl('media') }}" alt="{{ $galleryItem->title ?? 'Event gallery image' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                                    <img src="{{ $galleryItem->thumbnailUrl() }}" alt="{{ $galleryItem->title ?? 'Event gallery image' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                                 @endif
                                             @else
                                                 <div class="w-full h-full flex items-center justify-center px-4 text-center text-xs font-semibold tracking-[0.15em] uppercase text-gray-400">Gallery Image</div>
