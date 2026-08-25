@@ -32,6 +32,10 @@ class GalleryMediaUploadTest extends TestCase
         $this->assertSame('4:3', $thumbnail->getImageAspectRatio());
         $this->assertTrue($thumbnail->shouldAutomaticallyOpenImageEditorForAspectRatio());
         $this->assertTrue($thumbnail->hasImageEditor());
+        $this->assertSame('4:3', $thumbnail->getAutomaticallyCropImagesAspectRatio());
+        $this->assertSame('cover', $thumbnail->getAutomaticallyResizeImagesMode());
+        $this->assertSame('1200', $thumbnail->getAutomaticallyResizeImagesWidth());
+        $this->assertSame('900', $thumbnail->getAutomaticallyResizeImagesHeight());
     }
 
     public function test_gallery_create_form_exposes_original_media_and_thumbnail_crop_uploads(): void
