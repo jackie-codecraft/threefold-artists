@@ -22,6 +22,8 @@ class EventAdminResourceTest extends TestCase
             ->assertOk()
             ->assertSee('Original featured image')
             ->assertSee('Event card thumbnail crop')
-            ->assertSee('The full image above remains untouched.');
+            ->assertSee('The full image above remains untouched.')
+            ->assertSee('Post-event recap')
+            ->assertSee('Publish in Past Events archive');
     }
 }

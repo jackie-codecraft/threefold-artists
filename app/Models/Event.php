@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\HasMedia;
@@ -17,6 +18,7 @@ class Event extends Model implements HasMedia
     protected $fillable = [
         'title',
         'description',
+        'recap',
         'date',
         'time',
         'venue_name',
@@ -26,11 +28,13 @@ class Event extends Model implements HasMedia
         'art_form',
         'featured_image',
         'is_public',
+        'is_past_published',
     ];
 
     protected $casts = [
         'date' => 'date:Y-m-d',
         'is_public' => 'boolean',
+        'is_past_published' => 'boolean',
         'latitude' => 'decimal:7',
         'longitude' => 'decimal:7',
     ];
@@ -40,9 +44,22 @@ class Event extends Model implements HasMedia
         return $query->where('date', '>=', now())->orderBy('date');
     }
 
+    public function scopePastPublished($query)
+    {
+        return $query
+            ->where('date', '<', now()->startOfDay())
+            ->where('is_past_published', true)
+            ->orderByDesc('date');
+    }
+
     public function scopePublic($query)
     {
         return $query->where('is_public', true);
+    }
+
+    public function testimonials(): HasMany
+    {
+        return $this->hasMany(Testimonial::class);
     }
 
     public function galleryItems(): MorphMany

@@ -17,18 +17,21 @@
     <section class="py-24 sm:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ view: 'list' }">
 
-            {{-- View Toggle --}}
-            <div class="flex gap-3 mb-16">
+            {{-- Event views --}}
+            <div class="flex flex-wrap gap-3 mb-16" role="navigation" aria-label="Event views">
                 <button @click="view = 'list'"
                     :class="view === 'list' ? 'bg-theatre-black text-white' : 'border border-gray-300 text-gray-500 hover:border-theatre-black hover:text-theatre-black'"
                     class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors">
-                    List
+                    Upcoming
                 </button>
                 <button @click="view = 'calendar'"
                     :class="view === 'calendar' ? 'bg-theatre-black text-white' : 'border border-gray-300 text-gray-500 hover:border-theatre-black hover:text-theatre-black'"
                     class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors">
                     Calendar
                 </button>
+                <a href="{{ route('events.past') }}" class="px-5 py-2 border border-gray-300 text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 hover:border-theatre-black hover:text-theatre-black transition-colors">
+                    Past Events
+                </a>
             </div>
 
             {{-- List View --}}

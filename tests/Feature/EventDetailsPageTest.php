@@ -31,6 +31,11 @@ class EventDetailsPageTest extends TestCase
         $response = $this->get(route('events'));
 
         $response->assertOk();
+        $response->assertSee('Upcoming');
+        $response->assertSee('Calendar');
+        $response->assertSee('Past Events');
+        $response->assertSee(route('events.past'), false);
+        $response->assertDontSee('Explore Past Events');
         $response->assertSee('View Event');
         $response->assertSee(route('events.show', $event), false);
     }

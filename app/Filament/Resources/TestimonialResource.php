@@ -25,6 +25,12 @@ class TestimonialResource extends Resource
             Forms\Components\Textarea::make('quote')->required()->rows(3)->columnSpanFull(),
             Forms\Components\TextInput::make('attribution')->required(),
             Forms\Components\TextInput::make('venue_name'),
+            Forms\Components\Select::make('event_id')
+                ->label('Related event')
+                ->relationship('event', 'title')
+                ->searchable()
+                ->preload()
+                ->helperText('Optional. Active testimonials linked here appear on that past event’s recap.'),
             Forms\Components\Toggle::make('is_active')
                 ->label('Active')
                 ->default(false)

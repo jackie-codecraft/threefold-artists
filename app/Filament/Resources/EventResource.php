@@ -31,6 +31,11 @@ class EventResource extends Resource
         return $schema->components([
             Forms\Components\TextInput::make('title')->required(),
             Forms\Components\Textarea::make('description')->columnSpanFull(),
+            Forms\Components\Textarea::make('recap')
+                ->label('Post-event recap')
+                ->rows(6)
+                ->helperText('Published only on a past event after you publish its recap.')
+                ->columnSpanFull(),
             Forms\Components\DatePicker::make('date')->required(),
             Forms\Components\TimePicker::make('time'),
             Forms\Components\TextInput::make('venue_name')->required(),
@@ -63,6 +68,9 @@ class EventResource extends Resource
                     'fine_arts' => 'Fine Arts',
                 ]),
             Forms\Components\Toggle::make('is_public')->default(true),
+            Forms\Components\Toggle::make('is_past_published')
+                ->label('Publish in Past Events archive')
+                ->helperText('Requires a past event date. Draft recaps remain private until this is enabled.'),
         ]);
     }
 
@@ -76,6 +84,7 @@ class EventResource extends Resource
                 Tables\Columns\TextColumn::make('venue_name')->searchable(),
                 Tables\Columns\TextColumn::make('art_form')->badge(),
                 Tables\Columns\IconColumn::make('is_public')->boolean(),
+                Tables\Columns\IconColumn::make('is_past_published')->label('In Archive')->boolean(),
             ])
             ->defaultSort('date', 'asc')
             ->recordActions([EditAction::make()])

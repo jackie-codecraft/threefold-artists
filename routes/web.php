@@ -45,8 +45,18 @@ Route::get('/sitemap.xml', function () {
 
     if ($settings->eventsEnabled()) {
         $sitemap->add(Url::create('/events')->setPriority(0.7)->setChangeFrequency('weekly'));
+        $sitemap->add(Url::create('/past-events')->setPriority(0.6)->setChangeFrequency('monthly'));
 
-        Event::public()->each(function (Event $event) use ($sitemap): void {
+        Event::public()
+            ->where(function ($query): void {
+                $query
+                    ->whereDate('date', '>=', now()->startOfDay())
+                    ->orWhere(function ($query): void {
+                        $query->whereDate('date', '<', now()->startOfDay())
+                            ->where('is_past_published', true);
+                    });
+            })
+            ->each(function (Event $event) use ($sitemap): void {
             $sitemap->add(
                 Url::create(route('events.show', $event, false))
                     ->setLastModificationDate($event->updated_at)
@@ -98,6 +108,7 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/what-we-do', [PageController::class, 'whatWeDo'])->name('what-we-do');
 Route::get('/events', [PageController::class, 'events'])->name('events');
+Route::get('/past-events', [PageController::class, 'pastEvents'])->name('events.past');
 Route::get('/events/{event}', [PageController::class, 'eventShow'])->name('events.show');
 Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 Route::get('/impact', [PageController::class, 'impact'])->name('impact');
