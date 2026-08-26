@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidTurnstile;
 use App\Support\DisciplineOptions;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -28,6 +29,7 @@ class ArtistApplicationRequest extends FormRequest
             'resume' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:10240'],
             'supporting_media' => ['nullable', 'array', 'max:5'],
             'supporting_media.*' => ['file', 'mimes:mp4,mov,webm,mp3,wav,m4a,jpg,jpeg,png,webp,pdf', 'max:20480'],
+            'cf-turnstile-response' => ['required', new ValidTurnstile($this->ip())],
         ];
     }
 }

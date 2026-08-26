@@ -4,25 +4,21 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewsletterSubscriptionRequest;
 use App\Models\NewsletterSubscriber;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class NewsletterController extends Controller
 {
-    public function store(Request $request): RedirectResponse
+    public function store(NewsletterSubscriptionRequest $request): RedirectResponse
     {
-        $request->validate([
-            'email' => ['required', 'email', 'max:255'],
-            'name' => ['nullable', 'string', 'max:255'],
-            'source' => ['nullable', 'string', 'max:50'],
-        ]);
+        $validated = $request->validated();
 
         NewsletterSubscriber::updateOrCreate(
-            ['email' => $request->input('email')],
+            ['email' => $validated['email']],
             [
-                'name' => $request->input('name'),
-                'source' => $request->input('source', 'website'),
+                'name' => $validated['name'] ?? null,
+                'source' => $validated['source'] ?? 'website',
                 'confirmed_at' => now(),
                 'unsubscribed_at' => null,
             ]

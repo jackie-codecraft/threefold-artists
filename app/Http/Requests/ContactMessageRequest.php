@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidTurnstile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
@@ -27,6 +28,7 @@ class ContactMessageRequest extends FormRequest
             'message' => ['required', 'string', 'max:5000'],
             'website' => ['nullable', 'prohibited'],
             'form_started_at' => ['required', 'integer'],
+            'cf-turnstile-response' => ['required', new ValidTurnstile($this->ip())],
         ];
     }
 

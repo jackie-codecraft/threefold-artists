@@ -23,7 +23,8 @@ class GetInvolvedSubmissionTest extends TestCase
         Mail::fake();
         Storage::fake('local');
 
-        $response = $this->post(route('get-involved.store'), $this->validPayload());
+        $response = $this->withSession(['_token' => 'test-token'])
+            ->post(route('get-involved.store'), array_merge($this->validPayload(), ['_token' => 'test-token']));
 
         $response->assertRedirect(route('get-involved.thanks'));
 
@@ -56,7 +57,8 @@ class GetInvolvedSubmissionTest extends TestCase
         Mail::shouldReceive('to')->once()->with(config('mail.from.address'))->andReturnSelf()->ordered();
         Mail::shouldReceive('send')->once()->withArgs(fn ($mailable) => $mailable instanceof ArtistApplicationSubmitted)->andReturnNull()->ordered();
 
-        $response = $this->post(route('get-involved.store'), $this->validPayload());
+        $response = $this->withSession(['_token' => 'test-token'])
+            ->post(route('get-involved.store'), array_merge($this->validPayload(), ['_token' => 'test-token']));
 
         $response->assertRedirect(route('get-involved.thanks'));
 
@@ -100,6 +102,7 @@ class GetInvolvedSubmissionTest extends TestCase
                 UploadedFile::fake()->create('alex-performance-reel.mp4', 1024, 'video/mp4'),
                 UploadedFile::fake()->create('alex-song.mp3', 512, 'audio/mpeg'),
             ],
+            'cf-turnstile-response' => 'test-token',
         ];
     }
 }
