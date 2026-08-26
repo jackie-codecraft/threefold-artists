@@ -61,6 +61,12 @@ class SiteSettingsPage extends Page implements HasForms
                                     ->default(true)
                                     ->inline(false)
                                     ->required(),
+                                Toggle::make('show_impact_metrics')
+                                    ->label('Show impact metrics')
+                                    ->helperText('Hide the impact-by-the-numbers section on the Home and Impact pages.')
+                                    ->default(true)
+                                    ->inline(false)
+                                    ->required(),
                                 Toggle::make('show_gallery')
                                     ->label('Show gallery')
                                     ->helperText('Hide gallery links and return 404 for the gallery page when disabled.')

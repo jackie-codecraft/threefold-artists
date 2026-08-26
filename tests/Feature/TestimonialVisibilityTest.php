@@ -53,7 +53,7 @@ class TestimonialVisibilityTest extends TestCase
 
         $response->assertOk();
         $response->assertViewHas('testimonials', fn ($testimonials) => $testimonials->pluck('attribution')->all() === ['Visible Impact Person']);
-        $response->assertSee('What People Say');
+        $response->assertSee('What People Are Saying');
         $response->assertSee('Visible impact testimonial');
         $response->assertDontSee('Hidden inactive impact testimonial');
     }

@@ -20,7 +20,9 @@ class PageController extends Controller
 {
     public function home()
     {
-        $metrics = ImpactMetric::orderBy('sort_order')->get();
+        $metrics = SiteSettings::current()->impactMetricsEnabled()
+            ? ImpactMetric::orderBy('sort_order')->get()
+            : collect();
         $featuredTestimonial = Testimonial::query()->active()->featured()->oldest()->first();
         $upcomingEvents = Event::upcoming()->public()->take(3)->get();
 
@@ -127,9 +129,13 @@ class PageController extends Controller
 
     public function impact()
     {
-        abort_unless(SiteSettings::current()->impactEnabled(), 404);
+        $siteSettings = SiteSettings::current();
 
-        $metrics = ImpactMetric::orderBy('sort_order')->get();
+        abort_unless($siteSettings->impactEnabled(), 404);
+
+        $metrics = $siteSettings->impactMetricsEnabled()
+            ? ImpactMetric::orderBy('sort_order')->get()
+            : collect();
         $testimonials = Testimonial::query()
             ->active()
             ->orderByDesc('is_featured')

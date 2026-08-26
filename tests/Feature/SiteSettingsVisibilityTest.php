@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Filament\Pages\SiteSettingsPage;
+use App\Models\ImpactMetric;
 use App\Models\SiteSettings;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class SiteSettingsVisibilityTest extends TestCase
@@ -18,6 +22,7 @@ class SiteSettingsVisibilityTest extends TestCase
 
         $this->assertTrue($settings->show_blog);
         $this->assertTrue($settings->show_impact);
+        $this->assertTrue($settings->show_impact_metrics);
         $this->assertTrue($settings->show_gallery);
         $this->assertTrue($settings->show_events);
         $this->assertTrue($settings->show_donations);
@@ -82,6 +87,49 @@ class SiteSettingsVisibilityTest extends TestCase
         $this->get(route('donate.success'))->assertNotFound();
         $this->get(route('donate.thanks'))->assertNotFound();
         $this->get(route('donor-wall'))->assertNotFound();
+    }
+
+    public function test_disabled_impact_metrics_are_hidden_from_home_and_impact_pages(): void
+    {
+        ImpactMetric::query()->create([
+            'label' => 'First Live Performance',
+            'value' => '1',
+            'sort_order' => 1,
+        ]);
+
+        SiteSettings::query()->updateOrCreate([], [
+            'show_impact_metrics' => false,
+        ]);
+
+        $homeResponse = $this->get(route('home'));
+        $impactResponse = $this->get(route('impact'));
+
+        $homeResponse->assertOk();
+        $homeResponse->assertDontSee('By the Numbers');
+        $homeResponse->assertDontSee('First Live Performance');
+
+        $impactResponse->assertOk();
+        $impactResponse->assertDontSee('First Live Performance');
+    }
+
+    public function test_admin_can_control_impact_metrics_visibility(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get(SiteSettingsPage::getUrl())
+            ->assertOk()
+            ->assertSee('Show impact metrics');
+
+        Livewire::actingAs($user)
+            ->test(SiteSettingsPage::class)
+            ->assertFormFieldExists('show_impact_metrics')
+            ->fillForm([
+                'show_impact_metrics' => false,
+            ])
+            ->call('save');
+
+        $this->assertFalse(SiteSettings::current()->show_impact_metrics);
     }
 
     public function test_sitemap_omits_disabled_gallery_events_and_donations_urls(): void
