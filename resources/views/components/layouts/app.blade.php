@@ -258,14 +258,17 @@
                         @if(session('newsletter_success'))
                             <p class="text-sm text-stage-gold">{{ session('newsletter_success') }}</p>
                         @else
-                            <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex gap-2">
+                            <form action="{{ route('newsletter.subscribe') }}" method="POST" class="space-y-3">
                                 @csrf
                                 <input type="hidden" name="source" value="footer">
-                                <input type="email" name="email" required placeholder="Your email" aria-label="Email address for newsletter"
-                                    class="flex-1 bg-transparent border-0 border-b border-gray-600 text-white text-sm py-2 placeholder-gray-500 focus:border-stage-gold focus:ring-0">
-                                <button type="submit" class="text-xs font-semibold tracking-wide uppercase text-stage-gold hover:text-white transition-colors">
-                                    Subscribe
-                                </button>
+                                <x-turnstile />
+                                <div class="flex gap-2">
+                                    <input type="email" name="email" required placeholder="Your email" aria-label="Email address for newsletter"
+                                        class="flex-1 bg-transparent border-0 border-b border-gray-600 text-white text-sm py-2 placeholder-gray-500 focus:border-stage-gold focus:ring-0">
+                                    <button type="submit" class="text-xs font-semibold tracking-wide uppercase text-stage-gold hover:text-white transition-colors">
+                                        Subscribe
+                                    </button>
+                                </div>
                             </form>
                         @endif
                     </div>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidTurnstile;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PerformanceRequestFormRequest extends FormRequest
@@ -28,6 +29,7 @@ class PerformanceRequestFormRequest extends FormRequest
             'preferred_dates' => ['nullable', 'string', 'max:500'],
             'accessibility_requirements' => ['nullable', 'string', 'max:1000'],
             'notes' => ['nullable', 'string', 'max:2000'],
+            'cf-turnstile-response' => ['required', new ValidTurnstile($this->ip())],
         ];
     }
 }

@@ -30,6 +30,18 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perHour(3)->by($request->ip());
         });
 
+        RateLimiter::for('performance-request', function (Request $request) {
+            return Limit::perHour(3)->by($request->ip());
+        });
+
+        RateLimiter::for('artist-application', function (Request $request) {
+            return Limit::perHour(3)->by($request->ip());
+        });
+
+        RateLimiter::for('newsletter-subscription', function (Request $request) {
+            return Limit::perHour(5)->by($request->ip());
+        });
+
         RateLimiter::for('pledge-form', function (Request $request) {
             return Limit::perHour(10)->by($request->ip());
         });

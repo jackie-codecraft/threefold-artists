@@ -195,6 +195,7 @@
                 </div>
 
                 <div class="mt-12 border-t border-gray-200 pt-8">
+                    <x-turnstile />
                     <button type="submit" :disabled="submitting" :aria-busy="submitting"
                         class="inline-flex min-w-56 cursor-pointer items-center justify-center gap-3 px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase transition-all hover:bg-gray-800 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-theatre-black disabled:cursor-wait disabled:translate-y-0 disabled:bg-gray-500 disabled:shadow-none">
                         <svg x-show="submitting" x-cloak class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">

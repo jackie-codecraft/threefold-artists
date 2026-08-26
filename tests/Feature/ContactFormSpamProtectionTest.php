@@ -115,6 +115,7 @@ class ContactFormSpamProtectionTest extends TestCase
             'message' => 'Hello, I would like to learn more about your performances.',
             'website' => '',
             'form_started_at' => (string) now()->subSeconds(10)->timestamp,
+            'cf-turnstile-response' => 'test-token',
         ], $overrides);
     }
 }

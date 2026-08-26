@@ -11,6 +11,7 @@ use App\Http\Controllers\DonationStatementController;
 use App\Http\Controllers\DonationSupportController;
 use App\Http\Controllers\DonorPortalController;
 use App\Http\Controllers\GetInvolvedController;
+use App\Http\Controllers\NewsletterConfirmationController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\NewsletterPreviewController;
 use App\Http\Controllers\PageController;
@@ -119,12 +120,16 @@ Route::get('/artists', [PageController::class, 'artists'])->name('artists');
 
 // Performance Request
 Route::get('/request-a-performance', [PerformanceRequestController::class, 'create'])->name('request-performance');
-Route::post('/request-a-performance', [PerformanceRequestController::class, 'store'])->name('request-performance.store');
+Route::post('/request-a-performance', [PerformanceRequestController::class, 'store'])
+    ->name('request-performance.store')
+    ->middleware('throttle:performance-request');
 Route::get('/request-a-performance/thank-you', [PerformanceRequestController::class, 'thanks'])->name('request-performance.thanks');
 
 // Get Involved
 Route::get('/get-involved', [GetInvolvedController::class, 'create'])->name('get-involved');
-Route::post('/get-involved', [GetInvolvedController::class, 'store'])->name('get-involved.store');
+Route::post('/get-involved', [GetInvolvedController::class, 'store'])
+    ->name('get-involved.store')
+    ->middleware('throttle:artist-application');
 Route::get('/get-involved/thank-you', [GetInvolvedController::class, 'thanks'])->name('get-involved.thanks');
 
 // Contact
@@ -136,7 +141,12 @@ Route::get('/contact/thank-you', [ContactController::class, 'thanks'])->name('co
 Route::get('/donor-wall', [PageController::class, 'donorWall'])->name('donor-wall');
 
 // Newsletter
-Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.subscribe');
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])
+    ->name('newsletter.subscribe')
+    ->middleware('throttle:newsletter-subscription');
+Route::get('/newsletter/confirm', [NewsletterConfirmationController::class, 'show'])->name('newsletter.confirm');
+Route::post('/newsletter/confirm', [NewsletterConfirmationController::class, 'confirm'])->name('newsletter.confirm.process');
+Route::get('/newsletter/confirmed', [NewsletterConfirmationController::class, 'confirmed'])->name('newsletter.confirmed');
 
 // Unsubscribe
 Route::get('/unsubscribe', [UnsubscribeController::class, 'confirm'])->name('unsubscribe.confirm');

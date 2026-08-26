@@ -86,6 +86,8 @@
                             @error('message') <p id="message-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
 
+                        <x-turnstile />
+
                         <button type="submit" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
                             Send Message
                         </button>

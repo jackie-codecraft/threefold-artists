@@ -144,6 +144,7 @@
                 </div>
 
                 <div>
+                    <x-turnstile />
                     <button type="submit" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
                         Submit Request
                     </button>
