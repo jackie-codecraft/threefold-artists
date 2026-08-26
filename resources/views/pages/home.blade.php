@@ -106,7 +106,7 @@
     </section>
 
     {{-- Impact Counters --}}
-    @if($metrics->isNotEmpty())
+    @if($siteSettings->impactMetricsEnabled() && $metrics->isNotEmpty())
     <section class="py-24 sm:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">

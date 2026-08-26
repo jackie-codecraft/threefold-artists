@@ -14,6 +14,7 @@ class SiteSettings extends Model
     protected $fillable = [
         'show_blog',
         'show_impact',
+        'show_impact_metrics',
         'show_gallery',
         'show_events',
         'show_donations',
@@ -29,6 +30,7 @@ class SiteSettings extends Model
     protected $casts = [
         'show_blog' => 'boolean',
         'show_impact' => 'boolean',
+        'show_impact_metrics' => 'boolean',
         'show_gallery' => 'boolean',
         'show_events' => 'boolean',
         'show_donations' => 'boolean',
@@ -60,6 +62,7 @@ class SiteSettings extends Model
         return [
             'show_blog' => true,
             'show_impact' => true,
+            'show_impact_metrics' => true,
             'show_gallery' => true,
             'show_events' => true,
             'show_donations' => true,
@@ -81,6 +84,11 @@ class SiteSettings extends Model
     public function impactEnabled(): bool
     {
         return $this->flag('show_impact');
+    }
+
+    public function impactMetricsEnabled(): bool
+    {
+        return $this->flag('show_impact_metrics');
     }
 
     public function galleryEnabled(): bool
