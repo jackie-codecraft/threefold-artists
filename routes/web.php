@@ -11,6 +11,7 @@ use App\Http\Controllers\DonationStatementController;
 use App\Http\Controllers\DonationSupportController;
 use App\Http\Controllers\DonorPortalController;
 use App\Http\Controllers\GetInvolvedController;
+use App\Http\Controllers\NewsletterConfirmationController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\NewsletterPreviewController;
 use App\Http\Controllers\PageController;
@@ -143,6 +144,9 @@ Route::get('/donor-wall', [PageController::class, 'donorWall'])->name('donor-wal
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])
     ->name('newsletter.subscribe')
     ->middleware('throttle:newsletter-subscription');
+Route::get('/newsletter/confirm', [NewsletterConfirmationController::class, 'show'])->name('newsletter.confirm');
+Route::post('/newsletter/confirm', [NewsletterConfirmationController::class, 'confirm'])->name('newsletter.confirm.process');
+Route::get('/newsletter/confirmed', [NewsletterConfirmationController::class, 'confirmed'])->name('newsletter.confirmed');
 
 // Unsubscribe
 Route::get('/unsubscribe', [UnsubscribeController::class, 'confirm'])->name('unsubscribe.confirm');
