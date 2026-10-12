@@ -126,7 +126,25 @@
                     </div>
                 </form>
 
-                <p class="text-xs text-gray-400 text-center mt-6">Payments are processed securely via Stripe.</p>
+                <div class="mt-6 border-t border-gray-200 pt-6 text-center space-y-2" data-testid="donation-tax-info">
+                    <p class="inline-flex items-center justify-center gap-1.5 text-xs text-gray-400">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+                        Payments are processed securely via Stripe.
+                    </p>
+                    <p class="text-sm font-semibold text-theatre-black" x-data="{ copied: false }">
+                        Threefold Artists, Inc. is a 501(c)(3) nonprofit
+                        <span class="text-gray-300 mx-1" aria-hidden="true">&middot;</span>
+                        <span class="whitespace-nowrap">EIN {{ config('donations.tax_id') }}</span>
+                        <button type="button"
+                                x-on:click="navigator.clipboard.writeText('{{ config('donations.tax_id') }}').then(() => { copied = true; setTimeout(() => copied = false, 2000) })"
+                                class="ml-1 align-middle text-xs font-normal text-gray-500 underline hover:text-theatre-black"
+                                aria-label="Copy EIN to clipboard">
+                            <span x-show="!copied">Copy</span>
+                            <span x-show="copied" x-cloak>Copied</span>
+                        </button>
+                    </p>
+                    <p class="text-xs text-gray-500">Donations are tax-deductible to the extent allowed by law.</p>
+                </div>
                 <p class="text-sm text-gray-500 text-center mt-4"><a href="{{ route('donor-access.request') }}" class="underline hover:text-theatre-black">Manage My Donations</a></p>
             </div>
         </div>

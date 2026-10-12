@@ -60,6 +60,15 @@ class DonationJourneyTest extends TestCase
         $response->assertSee('Email <span class="text-curtain-red">(required)</span>', false);
         $response->assertSee('Keep my donation anonymous on public recognition surfaces.');
         $response->assertSee('EIN #85-0567934', false);
+        $response->assertSee('data-testid="donation-tax-info"', false);
+        $response->assertSeeInOrder([
+            'Choose Your Gift',
+            'Payments are processed securely via Stripe.',
+            'Threefold Artists, Inc. is a 501(c)(3) nonprofit',
+            'EIN 85-0567934',
+            'Donations are tax-deductible to the extent allowed by law.',
+            'Manage My Donations',
+        ], false);
         $response->assertSee('A 501(c)(3) nonprofit organization. All donations are tax-deductible.', false);
         $response->assertDontSee('Pledge', false);
     }
