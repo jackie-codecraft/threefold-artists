@@ -79,6 +79,7 @@ class SiteSettingsVisibilityTest extends TestCase
         $homeResponse->assertDontSee(route('donate'), false);
         $homeResponse->assertDontSee(route('donor-wall'), false);
         $homeResponse->assertDontSee('All donations are tax-deductible.');
+        $homeResponse->assertSee('EIN #85-0567934');
 
         $this->get(route('donate'))->assertNotFound();
         $this->post(route('donate.checkout'), [
