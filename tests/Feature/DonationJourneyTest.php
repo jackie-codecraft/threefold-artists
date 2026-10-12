@@ -59,9 +59,8 @@ class DonationJourneyTest extends TestCase
         $response->assertSee('Annual');
         $response->assertSee('Email <span class="text-curtain-red">(required)</span>', false);
         $response->assertSee('Keep my donation anonymous on public recognition surfaces.');
-        $response->assertDontSee('501(c)(3)', false);
-        $response->assertDontSee('tax-deductible', false);
-        $response->assertDontSee('EIN', false);
+        $response->assertSee('EIN #85-0567934', false);
+        $response->assertSee('A 501(c)(3) nonprofit organization. All donations are tax-deductible.', false);
         $response->assertDontSee('Pledge', false);
     }
 
