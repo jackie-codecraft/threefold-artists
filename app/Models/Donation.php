@@ -20,6 +20,11 @@ class Donation extends Model
         'amount_cents',
         'currency',
         'status',
+        'source',
+        'payment_method',
+        'check_number',
+        'admin_note',
+        'recorded_by_user_id',
         'is_recurring',
         'recurring_interval',
         'is_anonymous',
@@ -37,6 +42,20 @@ class Donation extends Model
         'refunded_at',
         'disputed_at',
         'cancelled_at',
+        'voided_at',
+        'voided_by_user_id',
+        'void_reason',
+    ];
+
+    public const SOURCE_STRIPE = 'stripe';
+
+    public const SOURCE_MANUAL = 'manual';
+
+    /** @var array<string, string> */
+    public const PAYMENT_METHODS = [
+        'cash' => 'Cash',
+        'check' => 'Check',
+        'other' => 'Other',
     ];
 
     protected $casts = [
@@ -49,7 +68,48 @@ class Donation extends Model
         'refunded_at' => 'datetime',
         'disputed_at' => 'datetime',
         'cancelled_at' => 'datetime',
+        'voided_at' => 'datetime',
     ];
+
+    public function isManual(): bool
+    {
+        return $this->source === self::SOURCE_MANUAL;
+    }
+
+    public function isVoidable(): bool
+    {
+        return $this->isManual() && $this->status === 'paid' && $this->voided_at === null;
+    }
+
+    /** Human label for how the gift was paid, e.g. "Check #1042" or "Card (Stripe)". */
+    public function paymentMethodLabel(): string
+    {
+        if (! $this->isManual()) {
+            return 'Card (Stripe)';
+        }
+
+        $label = self::PAYMENT_METHODS[$this->payment_method] ?? 'Other';
+
+        return $this->payment_method === 'check' && filled($this->check_number)
+            ? "{$label} #{$this->check_number}"
+            : $label;
+    }
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function recordedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'recorded_by_user_id');
+    }
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function voidedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'voided_by_user_id');
+    }
 
     /**
      * @return BelongsTo<Donor, $this>
@@ -103,7 +163,7 @@ class Donation extends Model
     }
 
     /**
-     * Confirmed Stripe ledger rows, including linked reversals which reduce net paid totals.
+     * Confirmed ledger rows (Stripe and admin-recorded offline gifts), including linked reversals which reduce net paid totals.
      *
      * @param  Builder<Donation>  $query
      * @return Builder<Donation>

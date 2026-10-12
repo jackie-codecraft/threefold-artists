@@ -77,16 +77,18 @@ class DonationAdminAccuracyTest extends TestCase
         $this->assertSame('1 active recurring supports', $stats[1]->getDescription());
     }
 
-    public function test_donation_ledger_is_filterable_but_has_no_create_edit_or_delete_actions(): void
+    public function test_donation_ledger_is_filterable_and_only_offers_offline_entry_and_void_never_edit_or_delete(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);
 
         $this->get('/admin/donations/create')->assertNotFound();
         Livewire::test(ListDonations::class)
+            ->assertActionExists('recordOfflineDonation')
             ->assertTableHeaderActionsExistInOrder([])
-            ->assertTableActionsExistInOrder([])
+            ->assertTableActionsExistInOrder(['void'])
             ->assertTableBulkActionsExistInOrder([])
+            ->assertTableFilterExists('source')
             ->assertTableFilterExists('status')
             ->assertTableFilterExists('receipt_sent')
             ->assertTableFilterExists('adjustments');
