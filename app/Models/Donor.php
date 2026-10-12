@@ -25,12 +25,16 @@ class Donor extends Model
     }
 
     /**
-     * @return Attribute<string, string>
+     * @return Attribute<string|null, string|null>
      */
     protected function email(): Attribute
     {
         return Attribute::make(
-            set: static fn (string $email): string => mb_strtolower(trim($email)),
+            set: static function (?string $email): ?string {
+                $email = $email === null ? '' : mb_strtolower(trim($email));
+
+                return $email === '' ? null : $email;
+            },
         );
     }
 

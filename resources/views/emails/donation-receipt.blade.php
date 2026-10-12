@@ -29,6 +29,9 @@
             @if($organization['mailing_address'])
                 <tr><td style="padding: 7px 0; font-weight: bold; vertical-align: top;">Mailing address</td><td style="padding: 7px 0; white-space: pre-line;">{{ $organization['mailing_address'] }}</td></tr>
             @endif
+            @if($donation->isManual())
+                <tr><td style="padding: 7px 0; font-weight: bold;">Payment method</td><td style="padding: 7px 0;">{{ $donation->paymentMethodLabel() }}</td></tr>
+            @endif
             @if($transactionId)
                 <tr><td style="padding: 7px 0; font-weight: bold;">Transaction ID</td><td style="padding: 7px 0; word-break: break-all;">{{ $transactionId }}</td></tr>
             @endif

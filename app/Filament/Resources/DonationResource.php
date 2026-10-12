@@ -27,6 +27,7 @@ class DonationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->with(['donor', 'recordedBy', 'voidedBy']))
             ->columns([
                 Tables\Columns\TextColumn::make('donor.name')
                     ->label('Donor')
@@ -41,9 +42,14 @@ class DonationResource extends Resource
                     ->color(fn (string $state): string => match ($state) {
                         'paid' => 'success',
                         'refunded', 'disputed' => 'danger',
-                        'legacy' => 'gray',
+                        'legacy', 'voided' => 'gray',
                         default => 'warning',
                     }),
+                Tables\Columns\TextColumn::make('source')
+                    ->label('Source')
+                    ->badge()
+                    ->state(fn (Donation $record): string => $record->isManual() ? $record->paymentMethodLabel() : 'Stripe')
+                    ->color(fn (Donation $record): string => $record->isManual() ? 'info' : 'gray'),
                 Tables\Columns\TextColumn::make('amount_cents')
                     ->label('Ledger amount')
                     ->formatStateUsing(fn (?int $state, Donation $record): string => '$'.number_format(($state ?? (int) round((float) $record->amount * 100)) / 100, 2))
@@ -64,13 +70,33 @@ class DonationResource extends Resource
                     ->boolean(),
                 Tables\Columns\TextColumn::make('paid_at')
                     ->label('Paid date')
-                    ->dateTime()
+                    // Offline gifts only have a received date, so drop the meaningless midnight time.
+                    ->formatStateUsing(fn ($state, Donation $record): string => $record->isManual()
+                        ? $state->format('M j, Y')
+                        : $state->format('M j, Y H:i:s'))
                     ->placeholder('—')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('receipt_sent_at')
                     ->label('Receipt')
                     ->dateTime()
                     ->placeholder('Not sent'),
+                Tables\Columns\TextColumn::make('admin_note')
+                    ->label('Internal note')
+                    ->limit(40)
+                    ->tooltip(fn (Donation $record): ?string => $record->admin_note)
+                    ->placeholder('—')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('recordedBy.name')
+                    ->label('Recorded by')
+                    ->placeholder('—')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('void_reason')
+                    ->label('Void reason')
+                    ->description(fn (Donation $record): ?string => $record->voided_at
+                        ? 'Voided '.$record->voided_at->format('M j, Y').($record->voidedBy ? ' by '.$record->voidedBy->name : '')
+                        : null)
+                    ->placeholder('—')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('adjustmentFor.stripe_checkout_session_id')
                     ->label('Adjusts')
                     ->placeholder('—')
@@ -113,7 +139,14 @@ class DonationResource extends Resource
                     'refunded' => 'Refund adjustment',
                     'disputed' => 'Dispute adjustment',
                     'legacy' => 'Legacy / unverified',
+                    'voided' => 'Voided (offline)',
                 ]),
+                Tables\Filters\SelectFilter::make('source')
+                    ->label('Source')
+                    ->options([
+                        Donation::SOURCE_STRIPE => 'Stripe',
+                        Donation::SOURCE_MANUAL => 'Offline (cash, check, other)',
+                    ]),
                 Tables\Filters\TernaryFilter::make('is_recurring')->label('Recurring'),
                 Tables\Filters\TernaryFilter::make('is_anonymous')->label('Anonymous'),
                 Tables\Filters\TernaryFilter::make('public_recognition_consent')->label('Public recognition consent'),
@@ -123,7 +156,8 @@ class DonationResource extends Resource
                 Tables\Filters\Filter::make('adjustments')
                     ->label('Adjustments only')
                     ->query(fn ($query) => $query->whereNotNull('adjustment_for_donation_id')),
-            ]);
+            ])
+            ->recordActions([Pages\ListDonations::voidAction()]);
     }
 
     public static function getPages(): array

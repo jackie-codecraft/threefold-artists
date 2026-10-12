@@ -94,7 +94,7 @@ class DonorPortalController extends Controller
 
         return view('donor-access.portal', [
             'donor' => $donor,
-            'donations' => $donor->donations()->latest('paid_at')->latest('id')->get(),
+            'donations' => $donor->donations()->where('status', '!=', 'voided')->latest('paid_at')->latest('id')->get(),
             'supports' => $donor->donationSupports()->latest('id')->get(),
         ]);
     }
