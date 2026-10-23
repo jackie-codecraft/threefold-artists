@@ -21,6 +21,11 @@
             <div style="color: #666; font-size: 14px; margin-top: 5px;">
                 Donation received on {{ ($donation->paid_at ?? $donation->created_at)->format('F j, Y') }}
             </div>
+            @if(($donation->processing_fee_cents ?? 0) > 0)
+                <div style="color: #666; font-size: 14px; margin-top: 8px;">
+                    Includes ${{ number_format($donation->processing_fee_cents / 100, 2) }} you added to cover processing fees. Thank you for making sure your full gift reaches our programs.
+                </div>
+            @endif
         </div>
 
         <table role="presentation" style="width: 100%; border-collapse: collapse; text-align: left; color: #444; font-size: 14px;">

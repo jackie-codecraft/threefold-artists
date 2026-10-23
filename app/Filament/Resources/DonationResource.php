@@ -54,6 +54,11 @@ class DonationResource extends Resource
                     ->label('Ledger amount')
                     ->formatStateUsing(fn (?int $state, Donation $record): string => '$'.number_format(($state ?? (int) round((float) $record->amount * 100)) / 100, 2))
                     ->sortable(),
+                Tables\Columns\TextColumn::make('processing_fee_cents')
+                    ->label('Fees covered')
+                    ->formatStateUsing(fn (?int $state): string => '$'.number_format(($state ?? 0) / 100, 2))
+                    ->placeholder('—')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('recurring_interval')
                     ->label('Cadence')
                     ->badge()

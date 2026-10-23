@@ -59,7 +59,7 @@
                                 @elseif($support->status === 'active' && ! $support->cancel_at_period_end && $support->current_period_ends_at)
                                     <details class="mt-3">
                                         <summary class="cursor-pointer text-sm underline">Update recurring amount</summary>
-                                        <form x-data="{ amount: '' }" action="{{ route('donor-portal.supports.amount', $support) }}" method="POST" class="mt-3 flex flex-wrap items-end gap-3 rounded border border-gray-200 p-4">
+                                        <form x-data="{ amount: '', coverFees: @js($support->covers_processing_fees), feePercent: @js(\App\Support\ProcessingFee::percent()), feeFixedCents: @js(\App\Support\ProcessingFee::fixedCents()), feeCents() { const gift = Number(this.amount) * 100; return gift > 0 ? Math.ceil((gift + this.feeFixedCents) / (1 - this.feePercent / 100)) - gift : 0; } }" action="{{ route('donor-portal.supports.amount', $support) }}" method="POST" class="mt-3 flex flex-wrap items-end gap-3 rounded border border-gray-200 p-4">
                                             @csrf
                                             <input type="hidden" name="amount" x-model="amount">
                                             <label class="w-full text-sm font-medium text-theatre-black" for="cadence-{{ $support->id }}">New recurring support</label>
@@ -71,8 +71,13 @@
                                                     <option value="{{ $value }}" @selected($support->interval === $value)>{{ $label }}</option>
                                                 @endforeach
                                             </select>
+                                            <input type="hidden" name="cover_processing_fees" value="0">
+                                            <label class="flex w-full items-start gap-2 text-sm text-gray-700" for="cover-fees-{{ $support->id }}">
+                                                <input type="checkbox" id="cover-fees-{{ $support->id }}" name="cover_processing_fees" value="1" x-model="coverFees" class="mt-0.5 h-4 w-4 border-gray-300 text-theatre-black focus:ring-theatre-black">
+                                                <span>Also cover processing fees<span x-show="amount" x-text="' (+$' + (feeCents() / 100).toFixed(2) + ' per renewal)'"></span>, so your full gift goes to our programs.</span>
+                                            </label>
                                             <button type="submit" :disabled="! amount" class="rounded bg-theatre-black px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-300">Schedule for next renewal</button>
-                                            <p id="amount-help-{{ $support->id }}" class="w-full text-sm text-gray-500">Enter the total whole-dollar amount and choose a cadence. Your current billing period stays unchanged; the new support takes effect at the next renewal.</p>
+                                            <p id="amount-help-{{ $support->id }}" class="w-full text-sm text-gray-500">Enter your gift in whole dollars and choose a cadence. Your current billing period stays unchanged; the new support takes effect at the next renewal.</p>
                                         </form>
                                     </details>
                                 @endif

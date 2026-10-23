@@ -8,6 +8,7 @@ use App\Http\Requests\StartDonationCheckoutRequest;
 use App\Models\DonationSupport;
 use App\Models\Donor;
 use App\Models\SiteSettings;
+use App\Support\ProcessingFee;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -19,7 +20,10 @@ class DonateController extends Controller
     {
         $this->ensureDonationsEnabled();
 
-        return view('pages.donate');
+        return view('pages.donate', [
+            'processingFeePercent' => ProcessingFee::percent(),
+            'processingFeeFixedCents' => ProcessingFee::fixedCents(),
+        ]);
     }
 
     public function checkout(StartDonationCheckoutRequest $request): RedirectResponse
@@ -45,7 +49,9 @@ class DonateController extends Controller
             'annual' => ['interval' => 'year'],
             default => null,
         };
-        $amount = $request->amountInCents();
+        $giftCents = $request->amountInCents();
+        $feeCents = $request->boolean('cover_processing_fees') ? ProcessingFee::forGift($giftCents) : 0;
+        $amount = $giftCents + $feeCents;
         $donorName = $request->validated('donor_name');
         $isAnonymous = $request->boolean('is_anonymous');
         $publicRecognitionConsent = $request->boolean('public_recognition_consent');
@@ -56,6 +62,11 @@ class DonateController extends Controller
                 'name' => $isRecurring
                     ? ucfirst($donationType).' Donation to Threefold Artists'
                     : 'Donation to Threefold Artists',
+                ...($feeCents > 0 ? ['description' => sprintf(
+                    'Includes a $%s gift plus $%s to cover processing fees',
+                    number_format($giftCents / 100, 2),
+                    number_format($feeCents / 100, 2),
+                )] : []),
             ],
             'unit_amount' => $amount,
         ];
@@ -68,6 +79,8 @@ class DonateController extends Controller
             'donor_name' => $donorName,
             'is_anonymous' => $isAnonymous ? '1' : '0',
             'public_recognition_consent' => $publicRecognitionConsent ? '1' : '0',
+            'gift_amount_cents' => (string) $giftCents,
+            'processing_fee_cents' => (string) $feeCents,
         ], static fn (?string $value): bool => $value !== null);
 
         $session = (new StripeClient($stripeSecret))->checkout->sessions->create([
