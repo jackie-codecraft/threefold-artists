@@ -58,6 +58,7 @@ class DonorCoveredProcessingFeeTest extends TestCase
             ->assertSee('to help cover processing fees')
             ->assertSee('name="cover_processing_fees"', false)
             ->assertSee('2.9% + 30¢', false)
+            ->assertSee('Covering it means your full gift goes to our live performances.')
             ->assertSee('coverFees: false', false);
     }
 
