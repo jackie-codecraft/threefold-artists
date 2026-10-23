@@ -116,7 +116,7 @@
                         <input type="checkbox" name="cover_processing_fees" id="cover_processing_fees" value="1" x-model="coverFees" class="mt-0.5 w-4 h-4 border-gray-300 text-theatre-black focus:ring-theatre-black">
                         <label for="cover_processing_fees" class="text-sm text-gray-700">
                             <span class="font-semibold text-theatre-black">Add <span x-text="money(feeCents())"></span> to help cover processing fees</span>
-                            <span class="block text-gray-500 mt-1">Card processing costs about {{ rtrim(rtrim(number_format($processingFeePercent, 2), '0'), '.') }}% + {{ $processingFeeFixedCents }}¢ per gift. Covering it means your full gift goes to our programs.</span>
+                            <span class="block text-gray-500 mt-1">Card processing costs about {{ rtrim(rtrim(number_format($processingFeePercent, 2), '0'), '.') }}% + {{ $processingFeeFixedCents }}¢ per gift. Covering it means your full gift goes to our live performances.</span>
                         </label>
                     </div>
 
