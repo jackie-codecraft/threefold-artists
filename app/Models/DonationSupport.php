@@ -17,6 +17,7 @@ class DonationSupport extends Model
         'stripe_customer_id',
         'stripe_price_id',
         'amount_cents',
+        'covers_processing_fees',
         'pending_amount_cents',
         'pending_amount_effective_at',
         'pending_interval',
@@ -42,6 +43,7 @@ class DonationSupport extends Model
             'pause_resumes_at' => 'datetime',
             'paused_until' => 'datetime',
             'cancel_at_period_end' => 'boolean',
+            'covers_processing_fees' => 'boolean',
             'current_period_starts_at' => 'datetime',
             'current_period_ends_at' => 'datetime',
         ];

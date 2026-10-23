@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\DonationSupport;
 use App\Models\Donor;
+use App\Support\ProcessingFee;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Validation\ValidationException;
 use Stripe\StripeClient;
@@ -50,8 +51,16 @@ class DonationSupportService
         // Stripe webhooks remain authoritative for persisted pause state.
     }
 
-    public function requestAmountChange(Donor $donor, DonationSupport $support, int $amountCents, string $cadence): void
+    /**
+     * @param  int  $amountCents  The intended gift; when $coverProcessingFees is true the
+     *                            charged amount is grossed up so the gift arrives whole.
+     */
+    public function requestAmountChange(Donor $donor, DonationSupport $support, int $amountCents, string $cadence, bool $coverProcessingFees = false): void
     {
+        $giftCents = $amountCents;
+        $feeCents = $coverProcessingFees ? ProcessingFee::forGift($giftCents) : 0;
+        $amountCents = $giftCents + $feeCents;
+
         if ($support->donor_id !== $donor->id) {
             throw new AuthorizationException;
         }
@@ -97,10 +106,18 @@ class DonationSupportService
             },
         ]);
 
+        $currentMetadata = isset($subscription->metadata) ? $subscription->metadata->toArray() : [];
+        $newMetadata = [
+            ...$currentMetadata,
+            'gift_amount_cents' => (string) $giftCents,
+            'processing_fee_cents' => (string) $feeCents,
+        ];
+
         if ($cadence === $support->interval) {
             $stripe->subscriptions->update($support->stripe_subscription_id, [
                 'items' => [['id' => $item->id, 'price' => $newPrice->id]],
                 'proration_behavior' => 'none',
+                'metadata' => $newMetadata,
             ]);
         } else {
             $currentPriceId = (string) $support->stripe_price_id;
@@ -120,9 +137,11 @@ class DonationSupportService
                         'end_date' => $currentPeriodEnd,
                         'items' => [['price' => $currentPriceId, 'quantity' => 1]],
                         'proration_behavior' => 'none',
+                        'metadata' => $currentMetadata,
                     ],
                     [
                         'items' => [['price' => $newPrice->id, 'quantity' => 1]],
+                        'metadata' => $newMetadata,
                         'iterations' => 1,
                         'proration_behavior' => 'none',
                     ],

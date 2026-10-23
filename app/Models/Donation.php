@@ -18,6 +18,7 @@ class Donation extends Model
         'adjustment_for_donation_id',
         'amount',
         'amount_cents',
+        'processing_fee_cents',
         'currency',
         'status',
         'source',
@@ -60,6 +61,7 @@ class Donation extends Model
 
     protected $casts = [
         'amount' => 'decimal:2',
+        'processing_fee_cents' => 'integer',
         'is_recurring' => 'boolean',
         'is_anonymous' => 'boolean',
         'public_recognition_consent' => 'boolean',

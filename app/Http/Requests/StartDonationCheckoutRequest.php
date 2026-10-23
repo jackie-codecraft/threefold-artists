@@ -25,6 +25,7 @@ class StartDonationCheckoutRequest extends FormRequest
             'donation_type' => ['required', 'in:one-time,monthly,quarterly,annual'],
             'is_anonymous' => ['required', 'boolean'],
             'public_recognition_consent' => ['nullable', 'boolean'],
+            'cover_processing_fees' => ['nullable', 'boolean'],
         ];
     }
 

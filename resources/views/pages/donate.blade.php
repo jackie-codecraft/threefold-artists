@@ -37,7 +37,14 @@
         </div>
     </section>
 
-    <section class="py-16 sm:py-20" x-data="{ selectedAmount: 50, customAmount: '', donationType: 'one-time' }">
+    <section class="py-16 sm:py-20" x-data="{
+        selectedAmount: 50, customAmount: '', donationType: 'one-time', coverFees: @js((bool) old('cover_processing_fees')),
+        feePercent: @js($processingFeePercent), feeFixedCents: @js($processingFeeFixedCents),
+        giftCents() { const gift = Number(this.customAmount !== '' ? this.customAmount : this.selectedAmount); return Number.isFinite(gift) && gift > 0 ? Math.round(gift * 100) : 0; },
+        feeCents() { const gift = this.giftCents(); return gift > 0 ? Math.ceil((gift + this.feeFixedCents) / (1 - this.feePercent / 100)) - gift : 0; },
+        totalCents() { return this.giftCents() + (this.coverFees ? this.feeCents() : 0); },
+        money(cents) { return '$' + (cents / 100).toLocaleString('en-US', { minimumFractionDigits: cents % 100 === 0 ? 0 : 2, maximumFractionDigits: 2 }); },
+    }">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-xl mx-auto">
                 <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-8">Choose Your Gift</p>
@@ -104,6 +111,15 @@
                         </div>
                     </div>
 
+                    <input type="hidden" name="cover_processing_fees" value="0">
+                    <div class="flex items-start gap-3 border border-gray-200 bg-white p-4" data-testid="cover-processing-fees">
+                        <input type="checkbox" name="cover_processing_fees" id="cover_processing_fees" value="1" x-model="coverFees" class="mt-0.5 w-4 h-4 border-gray-300 text-theatre-black focus:ring-theatre-black">
+                        <label for="cover_processing_fees" class="text-sm text-gray-700">
+                            <span class="font-semibold text-theatre-black">Add <span x-text="money(feeCents())"></span> to help cover processing fees</span>
+                            <span class="block text-gray-500 mt-1">Card processing costs about {{ rtrim(rtrim(number_format($processingFeePercent, 2), '0'), '.') }}% + {{ $processingFeeFixedCents }}¢ per gift. Covering it means your full gift goes to our programs.</span>
+                        </label>
+                    </div>
+
                     <input type="hidden" name="is_anonymous" value="0">
                     <div class="flex items-center gap-3">
                         <input type="checkbox" name="is_anonymous" id="is_anonymous" value="1" @checked(old('is_anonymous')) class="w-4 h-4 border-gray-300 text-theatre-black focus:ring-theatre-black">
@@ -118,7 +134,7 @@
 
                     <div class="pt-4">
                         <button type="submit" class="inline-flex items-center justify-center w-full px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
-                            Donate <span x-text="customAmount !== '' ? '$' + customAmount : '$' + selectedAmount" class="ml-1"></span>
+                            Donate <span x-text="money(totalCents())" class="ml-1"></span>
                             <span x-show="donationType === 'monthly'" class="ml-1">/ month</span>
                             <span x-show="donationType === 'quarterly'" class="ml-1">/ 3 months</span>
                             <span x-show="donationType === 'annual'" class="ml-1">/ year</span>

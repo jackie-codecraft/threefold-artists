@@ -225,6 +225,7 @@ class StripeWebhookProcessor
             'customer_name' => $invoice['customer_name'] ?? null,
             'amount' => $invoice['amount_paid'] ?? 0,
             'currency' => $invoice['currency'] ?? 'usd',
+            'metadata' => $this->metadata($invoice),
         ], $subscriptionId);
     }
 
@@ -257,6 +258,7 @@ class StripeWebhookProcessor
                 'stripe_customer_id' => $customerId,
                 'stripe_price_id' => $this->id($price['id'] ?? null),
                 'amount_cents' => $preserveCurrentAmount ? $existing->amount_cents : $incomingAmountCents,
+                'covers_processing_fees' => $this->coversProcessingFees(is_array($subscription['metadata'] ?? null) ? $subscription['metadata'] : [], $existing),
                 'currency' => strtolower((string) ($price['currency'] ?? $subscription['currency'] ?? 'usd')),
                 'interval' => $this->canonicalInterval($price['recurring']['interval'] ?? null, $price['recurring']['interval_count'] ?? 1),
                 'interval_count' => max(1, (int) ($price['recurring']['interval_count'] ?? 1)),
@@ -316,9 +318,7 @@ class StripeWebhookProcessor
 
     private function donationAttributes(array $object, bool $recurring): array
     {
-        $metadata = is_array($object['metadata'] ?? null)
-            ? $object['metadata']
-            : (is_array(Arr::get($object, 'subscription_details.metadata')) ? Arr::get($object, 'subscription_details.metadata') : []);
+        $metadata = $this->metadata($object);
         $email = $object['customer_email'] ?? $object['customer_details']['email'] ?? null;
         $name = $metadata['donor_name'] ?? $object['customer_details']['name'] ?? $object['customer_name'] ?? null;
         $customerId = $this->id($object['customer'] ?? null);
@@ -331,6 +331,7 @@ class StripeWebhookProcessor
         $amount = (int) ($object['amount_total'] ?? $object['amount_paid'] ?? 0);
 
         return [
+            'processing_fee_cents' => $this->processingFeeCents($metadata, $amount),
             'donor_id' => $donor?->id,
             'donor_name' => $name,
             'donor_email' => $email,
@@ -350,6 +351,52 @@ class StripeWebhookProcessor
             'stripe_charge_id' => $this->id($object['charge'] ?? null),
             'paid_at' => now(),
         ];
+    }
+
+    /**
+     * Invoices carry the checkout metadata on their subscription details
+     * (legacy and current API shapes), not on the invoice itself.
+     *
+     * @return array<string, mixed>
+     */
+    private function metadata(array $object): array
+    {
+        $sources = [
+            Arr::get($object, 'subscription_details.metadata'),
+            Arr::get($object, 'parent.subscription_details.metadata'),
+            $object['metadata'] ?? null,
+        ];
+
+        return array_merge(...array_map(
+            static fn (mixed $source): array => is_array($source) ? $source : [],
+            $sources,
+        ));
+    }
+
+    /**
+     * Only trust the recorded fee when gift + fee exactly matches what was
+     * charged; stale metadata (e.g. after an amount change) records nothing.
+     *
+     * @param  array<string, mixed>  $metadata
+     */
+    private function processingFeeCents(array $metadata, int $amountCents): ?int
+    {
+        if (! is_numeric($metadata['processing_fee_cents'] ?? null) || ! is_numeric($metadata['gift_amount_cents'] ?? null)) {
+            return null;
+        }
+
+        $fee = (int) $metadata['processing_fee_cents'];
+        $gift = (int) $metadata['gift_amount_cents'];
+
+        return $fee > 0 && $gift + $fee === $amountCents ? $fee : null;
+    }
+
+    /** @param  array<string, mixed>  $metadata */
+    private function coversProcessingFees(array $metadata, ?DonationSupport $existing): bool
+    {
+        return is_numeric($metadata['processing_fee_cents'] ?? null)
+            ? (int) $metadata['processing_fee_cents'] > 0
+            : (bool) $existing?->covers_processing_fees;
     }
 
     private function subscriptionIdFromInvoice(array $invoice): ?string
