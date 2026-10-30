@@ -54,6 +54,6 @@ class PledgeController extends Controller
             return $donationsEmail;
         }
 
-        return (string) config('mail.from.address');
+        return $settings->adminNotificationEmail();
     }
 }

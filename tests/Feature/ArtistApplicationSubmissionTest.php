@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use RuntimeException;
 use Tests\TestCase;
 
-class GetInvolvedSubmissionTest extends TestCase
+class ArtistApplicationSubmissionTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -24,9 +24,9 @@ class GetInvolvedSubmissionTest extends TestCase
         Storage::fake('local');
 
         $response = $this->withSession(['_token' => 'test-token'])
-            ->post(route('get-involved.store'), array_merge($this->validPayload(), ['_token' => 'test-token']));
+            ->post(route('artist-application.store'), array_merge($this->validPayload(), ['_token' => 'test-token']));
 
-        $response->assertRedirect(route('get-involved.thanks'));
+        $response->assertRedirect(route('artist-application.thanks'));
 
         $this->assertDatabaseHas('artist_applications', [
             'email' => 'alex@example.com',
@@ -58,9 +58,9 @@ class GetInvolvedSubmissionTest extends TestCase
         Mail::shouldReceive('send')->once()->withArgs(fn ($mailable) => $mailable instanceof ArtistApplicationSubmitted)->andReturnNull()->ordered();
 
         $response = $this->withSession(['_token' => 'test-token'])
-            ->post(route('get-involved.store'), array_merge($this->validPayload(), ['_token' => 'test-token']));
+            ->post(route('artist-application.store'), array_merge($this->validPayload(), ['_token' => 'test-token']));
 
-        $response->assertRedirect(route('get-involved.thanks'));
+        $response->assertRedirect(route('artist-application.thanks'));
 
         $application = ArtistApplication::query()->where('email', 'alex@example.com')->first();
 
@@ -76,7 +76,7 @@ class GetInvolvedSubmissionTest extends TestCase
 
     public function test_artist_application_thank_you_page_confirms_receipt_without_implying_acceptance(): void
     {
-        $this->get(route('get-involved.thanks'))
+        $this->get(route('artist-application.thanks'))
             ->assertOk()
             ->assertSee('Application Received')
             ->assertSee('Thank you for sharing your artistry with Threefold Artists. We’ve received your application and will review it with care. We’ll be in touch soon.')

@@ -26,7 +26,7 @@ class ContactController extends Controller
     {
         $message = ContactMessage::create($request->contactData());
 
-        Mail::to(config('mail.from.address'))->send(
+        Mail::to(SiteSettings::current()->adminNotificationEmail())->send(
             new ContactMessageReceived($message)
         );
 

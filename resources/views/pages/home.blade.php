@@ -152,6 +152,30 @@
     </section>
     @endif
 
+    {{-- Volunteer With Us --}}
+    <section class="py-24 sm:py-32 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:gap-16 lg:items-end">
+                <div class="max-w-2xl">
+                    <div class="w-12 h-px bg-stage-gold mb-8"></div>
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Get Involved</p>
+                    <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black mb-6">Share Your Talents. Make a Difference.</h2>
+                    <p class="text-gray-500 leading-relaxed">
+                        Behind every performance is a wonderful team of people who help bring it all to life. From stage management and sound to costumes, photography and outreach, there’s a place for you at Threefold Artists. No experience necessary.
+                    </p>
+                </div>
+                <div class="flex flex-col sm:flex-row lg:flex-col gap-3">
+                    <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                        Volunteer With Us
+                    </a>
+                    <a href="{{ route('artist-application.create') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-theatre-black text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-theatre-black hover:text-white transition-colors">
+                        Apply as an Artist
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     {{-- Newsletter --}}
     <section class="py-24 sm:py-32">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -192,7 +216,7 @@
                 <a href="{{ route('request-performance') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-gray-100 transition-colors">
                     Request a Performance
                 </a>
-                <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-white text-white text-sm font-semibold tracking-wide uppercase hover:bg-white hover:text-theatre-black transition-colors">
+                <a href="{{ route('artist-application.create') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-white text-white text-sm font-semibold tracking-wide uppercase hover:bg-white hover:text-theatre-black transition-colors">
                     Volunteer as an Artist
                 </a>
             </div>
