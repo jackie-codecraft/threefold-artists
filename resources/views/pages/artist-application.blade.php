@@ -89,32 +89,32 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <label for="name" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Full Name *</label>
+                        <label for="name" class="form-label">Full Name *</label>
                         <input type="text" name="name" id="name" value="{{ old('name') }}" required aria-required="true"
-                            @error('name') aria-describedby="name-error" @enderror
-                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                            @error('name') aria-invalid=\"true\" aria-describedby="name-error" @enderror
+                            class="form-field">
                         @error('name') <p id="name-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
-                        <label for="email" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Email *</label>
+                        <label for="email" class="form-label">Email *</label>
                         <input type="email" name="email" id="email" value="{{ old('email') }}" required aria-required="true"
-                            @error('email') aria-describedby="email-error" @enderror
-                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                            @error('email') aria-invalid=\"true\" aria-describedby="email-error" @enderror
+                            class="form-field">
                         @error('email') <p id="email-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
-                        <label for="phone" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Phone Number</label>
+                        <label for="phone" class="form-label">Phone Number</label>
                         <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
-                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                            class="form-field">
                     </div>
 
                     <div>
-                        <label for="discipline" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Art Form *</label>
+                        <label for="discipline" class="form-label">Art Form *</label>
                         <select name="discipline" id="discipline" required aria-required="true"
-                            @error('discipline') aria-describedby="discipline-error" @enderror
-                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black focus:border-theatre-black focus:ring-0">
+                            @error('discipline') aria-invalid=\"true\" aria-describedby="discipline-error" @enderror
+                            class="form-field">
                             <option value="">Select...</option>
                             @foreach(\App\Support\DisciplineOptions::labels() as $value => $label)
                             <option value="{{ $value }}" {{ old('discipline') === $value ? 'selected' : '' }}>{{ $label }}</option>
@@ -125,44 +125,44 @@
                 </div>
 
                 <div>
-                    <label for="experience" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Experience</label>
+                    <label for="experience" class="form-label">Experience</label>
                     <textarea name="experience" id="experience" rows="3"
                         placeholder="Tell us about your performing experience..."
-                        class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">{{ old('experience') }}</textarea>
+                        class="form-field">{{ old('experience') }}</textarea>
                 </div>
 
                 <div>
-                    <label for="bio" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Short Bio</label>
+                    <label for="bio" class="form-label">Short Bio</label>
                     <textarea name="bio" id="bio" rows="3"
                         placeholder="A brief description of yourself as an artist..."
-                        class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">{{ old('bio') }}</textarea>
+                        class="form-field">{{ old('bio') }}</textarea>
                 </div>
 
                 <div>
-                    <label for="availability" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Availability</label>
+                    <label for="availability" class="form-label">Availability</label>
                     <textarea name="availability" id="availability" rows="2"
                         placeholder="e.g., Weekday afternoons, weekends..."
-                        class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">{{ old('availability') }}</textarea>
+                        class="form-field">{{ old('availability') }}</textarea>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <label for="photo" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Artist Photo</label>
+                        <label for="photo" class="form-label">Artist Photo</label>
                         <input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp"
                             @change="photoError = checkSingleFile($event.target, limits.photo); totalError = ''"
-                            @error('photo') aria-describedby="photo-error" @enderror
-                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black file:mr-4 file:border-0 file:bg-theatre-black file:px-4 file:py-2 file:text-sm file:font-semibold file:uppercase file:tracking-wide file:text-white hover:file:bg-gray-800 focus:border-theatre-black focus:ring-0">
+                            @error('photo') aria-invalid=\"true\" aria-describedby="photo-error" @enderror
+                            class="form-field">
                         <p class="mt-2 text-sm text-gray-500">JPG, PNG, or WebP up to 5 MB.</p>
                         <p x-show="photoError" x-text="photoError" x-cloak class="text-red-600 text-sm mt-1" role="alert"></p>
                         @error('photo') <p id="photo-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
-                        <label for="resume" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Resume</label>
+                        <label for="resume" class="form-label">Resume</label>
                         <input type="file" name="resume" id="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                             @change="resumeError = checkSingleFile($event.target, limits.resume); totalError = ''"
-                            @error('resume') aria-describedby="resume-error" @enderror
-                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black file:mr-4 file:border-0 file:bg-theatre-black file:px-4 file:py-2 file:text-sm file:font-semibold file:uppercase file:tracking-wide file:text-white hover:file:bg-gray-800 focus:border-theatre-black focus:ring-0">
+                            @error('resume') aria-invalid=\"true\" aria-describedby="resume-error" @enderror
+                            class="form-field">
                         <p class="mt-2 text-sm text-gray-500">PDF, DOC, or DOCX up to 10 MB.</p>
                         <p x-show="resumeError" x-text="resumeError" x-cloak class="text-red-600 text-sm mt-1" role="alert"></p>
                         @error('resume') <p id="resume-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
@@ -170,11 +170,11 @@
                 </div>
 
                 <div>
-                    <label for="demo_video_url" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Demo Video Link</label>
+                    <label for="demo_video_url" class="form-label">Demo Video Link</label>
                     <input type="url" name="demo_video_url" id="demo_video_url" value="{{ old('demo_video_url') }}" inputmode="url"
                         placeholder="https://youtube.com/watch?v=…"
                         aria-describedby="demo-video-url-help @error('demo_video_url') demo-video-url-error @enderror"
-                        class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                        class="form-field">
                     <p id="demo-video-url-help" class="mt-2 text-sm text-gray-500">Optional. <strong class="font-semibold text-gray-600">The best way to share a performance video.</strong> Paste a link from YouTube, Vimeo, Google Drive, or Dropbox. Unlisted links are fine; just make sure anyone with the link can view it. If your video is too large to upload below, share it here instead.</p>
                     @error('demo_video_url') <p id="demo-video-url-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                 </div>
@@ -213,17 +213,17 @@
                     @dragover.prevent
                     @drop.prevent="addFiles($event.dataTransfer.files)"
                 >
-                    <label for="supporting_media" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Supporting Media</label>
+                    <label for="supporting_media" class="form-label">Supporting Media</label>
                     <input x-ref="supportingMedia" type="file" name="supporting_media[]" id="supporting_media" multiple accept="video/mp4,video/quicktime,video/webm,audio/mpeg,audio/wav,audio/x-m4a,image/jpeg,image/png,image/webp,application/pdf"
                         @change="addFiles($event.target.files)"
-                        @error('supporting_media') aria-describedby="supporting-media-error" @enderror
+                        @error('supporting_media') aria-invalid=\"true\" aria-describedby="supporting-media-error" @enderror
                         class="sr-only">
-                    <div class="border border-dashed border-gray-300 bg-gray-50 px-5 py-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
+                    <div class="rounded-[10px] border border-dashed border-[#D9D1C3] bg-[#F6F3EE] px-5 py-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
                         <div>
                             <p class="text-sm font-semibold text-theatre-black">Add performance samples and supporting files</p>
                             <p class="mt-1 text-sm text-gray-500">Choose files or drag them here. Add more whenever you are ready.</p>
                         </div>
-                        <label for="supporting_media" class="mt-4 inline-flex cursor-pointer items-center justify-center px-5 py-2.5 bg-theatre-black text-white text-xs font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors sm:mt-0">
+                        <label for="supporting_media" class="mt-4 inline-flex shrink-0 whitespace-nowrap rounded-[7px] cursor-pointer items-center justify-center px-5 py-2.5 bg-theatre-black text-white text-xs font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors sm:mt-0">
                             Add Files
                         </label>
                     </div>

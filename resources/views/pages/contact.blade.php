@@ -56,33 +56,33 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div>
-                                <label for="name" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Name *</label>
+                                <label for="name" class="form-label">Name *</label>
                                 <input type="text" name="name" id="name" value="{{ old('name') }}" required aria-required="true"
-                                    @error('name') aria-describedby="name-error" @enderror
-                                    class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                    @error('name') aria-invalid=\"true\" aria-describedby="name-error" @enderror
+                                    class="form-field">
                                 @error('name') <p id="name-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
-                                <label for="email" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Email *</label>
+                                <label for="email" class="form-label">Email *</label>
                                 <input type="email" name="email" id="email" value="{{ old('email') }}" required aria-required="true"
-                                    @error('email') aria-describedby="email-error" @enderror
-                                    class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                    @error('email') aria-invalid=\"true\" aria-describedby="email-error" @enderror
+                                    class="form-field">
                                 @error('email') <p id="email-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                             </div>
                         </div>
 
                         <div>
-                            <label for="subject" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Subject</label>
+                            <label for="subject" class="form-label">Subject</label>
                             <input type="text" name="subject" id="subject" value="{{ old('subject') }}"
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                class="form-field">
                         </div>
 
                         <div>
-                            <label for="message" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Message *</label>
+                            <label for="message" class="form-label">Message *</label>
                             <textarea name="message" id="message" rows="5" required aria-required="true"
-                                @error('message') aria-describedby="message-error" @enderror
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">{{ old('message') }}</textarea>
+                                @error('message') aria-invalid=\"true\" aria-describedby="message-error" @enderror
+                                class="form-field">{{ old('message') }}</textarea>
                             @error('message') <p id="message-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
 

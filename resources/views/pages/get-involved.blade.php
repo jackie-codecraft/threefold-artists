@@ -77,9 +77,9 @@
             </div>
 
             @php
-                $inputClass = 'w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0';
-                $labelClass = 'block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2';
-                $choiceClass = 'flex items-start gap-3 border border-gray-200 px-4 py-3.5 cursor-pointer transition-colors hover:border-theatre-black has-[:checked]:border-theatre-black has-[:checked]:bg-linen';
+                $inputClass = 'form-field';
+                $labelClass = 'form-label';
+                $choiceClass = 'form-choice';
                 $selectedInterests = (array) old('interests', []);
                 $selectedAvailability = (array) old('availability', []);
             @endphp
@@ -130,7 +130,7 @@
                         @foreach($interests as $value => $label)
                             <label class="{{ $choiceClass }}">
                                 <input type="checkbox" name="interests[]" value="{{ $value }}" @checked(in_array($value, $selectedInterests, true))
-                                    class="mt-0.5 h-4 w-4 shrink-0 border-gray-300 text-theatre-black accent-theatre-black focus:ring-theatre-black">
+                                    class="h-4 w-4 shrink-0 border-gray-300 text-theatre-black accent-theatre-black focus:ring-theatre-black">
                                 <span class="text-sm text-theatre-black">{{ $label }}</span>
                             </label>
                         @endforeach
@@ -154,7 +154,7 @@
                         @foreach($availabilityOptions as $value => $label)
                             <label class="{{ $choiceClass }}">
                                 <input type="checkbox" name="availability[]" value="{{ $value }}" @checked(in_array($value, $selectedAvailability, true))
-                                    class="mt-0.5 h-4 w-4 shrink-0 border-gray-300 text-theatre-black accent-theatre-black focus:ring-theatre-black">
+                                    class="h-4 w-4 shrink-0 border-gray-300 text-theatre-black accent-theatre-black focus:ring-theatre-black">
                                 <span class="text-sm text-theatre-black">{{ $label }}</span>
                             </label>
                         @endforeach

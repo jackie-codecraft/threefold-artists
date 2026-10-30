@@ -91,23 +91,23 @@
                         </div>
                         <label for="custom_amount" class="block text-xs text-gray-400 mb-2">Or enter a custom amount:</label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center text-gray-500 font-semibold">$</span>
+                            <span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-gray-500 font-semibold">$</span>
                             <input type="number" id="custom_amount" min="1" step="0.01" x-model="customAmount" x-on:input="selectedAmount = 0" placeholder="Other amount"
-                                class="w-full border-0 border-b border-gray-300 bg-transparent pl-4 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                class="form-field pl-8">
                         </div>
                         <input type="hidden" name="amount" :value="customAmount !== '' ? customAmount : selectedAmount">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <label for="donor_name" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Name (optional)</label>
+                            <label for="donor_name" class="form-label">Name (optional)</label>
                             <input type="text" name="donor_name" id="donor_name" value="{{ old('donor_name') }}"
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                class="form-field">
                         </div>
                         <div>
-                            <label for="donor_email" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Email <span class="text-curtain-red">(required)</span></label>
+                            <label for="donor_email" class="form-label">Email <span class="text-curtain-red">(required)</span></label>
                             <input type="email" name="donor_email" id="donor_email" value="{{ old('donor_email') }}" required autocomplete="email"
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                class="form-field">
                         </div>
                     </div>
 

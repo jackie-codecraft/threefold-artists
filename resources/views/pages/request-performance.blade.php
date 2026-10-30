@@ -30,18 +30,18 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <label for="organization_name" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Organization Name *</label>
+                            <label for="organization_name" class="form-label">Organization Name *</label>
                             <input type="text" name="organization_name" id="organization_name" value="{{ old('organization_name') }}" required aria-required="true"
-                                @error('organization_name') aria-describedby="organization_name-error" @enderror
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                @error('organization_name') aria-invalid="true" aria-describedby="organization_name-error" @enderror
+                                class="form-field">
                             @error('organization_name') <p id="organization_name-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
-                            <label for="venue_type" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Venue Type *</label>
+                            <label for="venue_type" class="form-label">Venue Type *</label>
                             <select name="venue_type" id="venue_type" required aria-required="true"
-                                @error('venue_type') aria-describedby="venue_type-error" @enderror
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black focus:border-theatre-black focus:ring-0">
+                                @error('venue_type') aria-invalid="true" aria-describedby="venue_type-error" @enderror
+                                class="form-field">
                                 <option value="">Select venue type...</option>
                                 <option value="care_home" {{ old('venue_type') === 'care_home' ? 'selected' : '' }}>Care Home / Nursing Home</option>
                                 <option value="hospital" {{ old('venue_type') === 'hospital' ? 'selected' : '' }}>Hospital</option>
@@ -56,9 +56,9 @@
                     </div>
 
                     <div class="mt-8">
-                        <label for="address" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Venue Address</label>
+                        <label for="address" class="form-label">Venue Address</label>
                         <textarea name="address" id="address" rows="2"
-                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">{{ old('address') }}</textarea>
+                            class="form-field">{{ old('address') }}</textarea>
                     </div>
                 </div>
 
@@ -68,25 +68,25 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <label for="contact_name" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Contact Name *</label>
+                            <label for="contact_name" class="form-label">Contact Name *</label>
                             <input type="text" name="contact_name" id="contact_name" value="{{ old('contact_name') }}" required aria-required="true"
-                                @error('contact_name') aria-describedby="contact_name-error" @enderror
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                @error('contact_name') aria-invalid="true" aria-describedby="contact_name-error" @enderror
+                                class="form-field">
                             @error('contact_name') <p id="contact_name-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
-                            <label for="contact_email" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Email Address *</label>
+                            <label for="contact_email" class="form-label">Email Address *</label>
                             <input type="email" name="contact_email" id="contact_email" value="{{ old('contact_email') }}" required aria-required="true"
-                                @error('contact_email') aria-describedby="contact_email-error" @enderror
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                @error('contact_email') aria-invalid="true" aria-describedby="contact_email-error" @enderror
+                                class="form-field">
                             @error('contact_email') <p id="contact_email-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
-                            <label for="contact_phone" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Phone Number</label>
+                            <label for="contact_phone" class="form-label">Phone Number</label>
                             <input type="tel" name="contact_phone" id="contact_phone" value="{{ old('contact_phone') }}"
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                class="form-field">
                         </div>
                     </div>
                 </div>
@@ -97,22 +97,22 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <label for="audience_size" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Expected Audience Size</label>
+                            <label for="audience_size" class="form-label">Expected Audience Size</label>
                             <input type="number" name="audience_size" id="audience_size" value="{{ old('audience_size') }}" min="1"
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                class="form-field">
                         </div>
 
                         <div>
-                            <label for="audience_demographics" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Audience Demographics</label>
+                            <label for="audience_demographics" class="form-label">Audience Demographics</label>
                             <input type="text" name="audience_demographics" id="audience_demographics" value="{{ old('audience_demographics') }}"
                                 placeholder="e.g., Elderly residents, ages 70-90"
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                                class="form-field">
                         </div>
 
                         <div>
-                            <label for="preferred_art_form" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Preferred Art Form</label>
+                            <label for="preferred_art_form" class="form-label">Preferred Art Form</label>
                             <select name="preferred_art_form" id="preferred_art_form"
-                                class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black focus:border-theatre-black focus:ring-0">
+                                class="form-field">
                                 <option value="">No preference</option>
                                 <option value="theatre" {{ old('preferred_art_form') === 'theatre' ? 'selected' : '' }}>Theatre</option>
                                 <option value="music" {{ old('preferred_art_form') === 'music' ? 'selected' : '' }}>Music</option>
@@ -123,23 +123,23 @@
                     </div>
 
                     <div class="mt-8">
-                        <label for="preferred_dates" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Preferred Dates / Availability</label>
+                        <label for="preferred_dates" class="form-label">Preferred Dates / Availability</label>
                         <textarea name="preferred_dates" id="preferred_dates" rows="2"
                             placeholder="e.g., Any Friday afternoon in April, or specific dates..."
-                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">{{ old('preferred_dates') }}</textarea>
+                            class="form-field">{{ old('preferred_dates') }}</textarea>
                     </div>
 
                     <div class="mt-8">
-                        <label for="accessibility_requirements" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Accessibility Requirements</label>
+                        <label for="accessibility_requirements" class="form-label">Accessibility Requirements</label>
                         <textarea name="accessibility_requirements" id="accessibility_requirements" rows="2"
                             placeholder="Any special requirements we should know about..."
-                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">{{ old('accessibility_requirements') }}</textarea>
+                            class="form-field">{{ old('accessibility_requirements') }}</textarea>
                     </div>
 
                     <div class="mt-8">
-                        <label for="notes" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Additional Notes</label>
+                        <label for="notes" class="form-label">Additional Notes</label>
                         <textarea name="notes" id="notes" rows="3"
-                            class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">{{ old('notes') }}</textarea>
+                            class="form-field">{{ old('notes') }}</textarea>
                     </div>
                 </div>
 
