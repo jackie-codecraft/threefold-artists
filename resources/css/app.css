@@ -95,6 +95,71 @@
     to { transform: rotate(360deg); }
 }
 
+/* Soft-fill form fields: warm fill on a white page, gold edge while typing */
+@layer components {
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #4B4B4B;
+    }
+
+    .form-field {
+        display: block;
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        background-color: #F6F3EE;
+        color: var(--color-theatre-black);
+        font-size: 1rem;
+        line-height: 1.5;
+        transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+    }
+
+    .form-field::placeholder {
+        color: #9A948A;
+    }
+
+    .form-field:hover {
+        background-color: #F1EDE5;
+    }
+
+    .form-field:focus,
+    .form-field:focus-visible {
+        outline: none;
+        background-color: #FFFFFF;
+        border-color: var(--color-stage-gold);
+        box-shadow: 0 0 0 3px rgb(201 168 76 / 0.18);
+    }
+
+    .form-field[aria-invalid='true'] {
+        border-color: #DC2626;
+        background-color: #FEF6F6;
+    }
+
+    .form-field[aria-invalid='true']:focus {
+        box-shadow: 0 0 0 3px rgb(220 38 38 / 0.15);
+    }
+
+    select.form-field {
+        appearance: none;
+        padding-right: 2.75rem;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234B4B4B'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.9rem center;
+        background-size: 1.1rem;
+    }
+
+    textarea.form-field {
+        resize: vertical;
+    }
+}
+
 /* Custom utilities */
 @utility text-shadow-theatrical {
     text-shadow: 0 2px 4px rgba(26, 26, 26, 0.3);
