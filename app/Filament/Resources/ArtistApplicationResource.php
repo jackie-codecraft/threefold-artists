@@ -48,6 +48,16 @@ class ArtistApplicationResource extends Resource
                     Forms\Components\Textarea::make('experience')->columnSpanFull(),
                     Forms\Components\Textarea::make('bio')->columnSpanFull(),
                     Forms\Components\Textarea::make('availability'),
+                    Forms\Components\TextInput::make('demo_video_url')
+                        ->label('Demo video link')
+                        ->url()
+                        ->maxLength(2048)
+                        ->suffixAction(
+                            Action::make('openDemoVideo')
+                                ->icon('heroicon-o-arrow-top-right-on-square')
+                                ->url(fn (?string $state): ?string => filled($state) ? $state : null, shouldOpenInNewTab: true)
+                                ->visible(fn (?string $state): bool => filled($state))
+                        ),
                     Forms\Components\SpatieMediaLibraryFileUpload::make('photo')
                         ->collection('photo')
                         ->disk('local')
@@ -266,6 +276,7 @@ class ArtistApplicationResource extends Resource
                                 .'<strong>Discipline:</strong> '.e($record->disciplineLabel()).'<br>'
                                 .($record->experience ? '<strong>Experience:</strong> '.e($record->experience).'<br>' : '')
                                 .($record->availability ? '<strong>Availability:</strong> '.e($record->availability).'<br>' : '')
+                                .($record->demo_video_url ? '<strong>Demo video:</strong> <a href="'.e($record->demo_video_url).'" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">'.e($record->demo_video_url).'</a><br>' : '')
                                 .'<strong>Submitted:</strong> '.$record->created_at->format('M j, Y g:i A')
                                 .'</div>'
                             )),

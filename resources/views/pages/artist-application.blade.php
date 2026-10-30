@@ -52,8 +52,39 @@
             </div>
 
             <form action="{{ route('artist-application.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8"
-                x-data="{ submitting: false }"
-                @submit="if (submitting) { $event.preventDefault(); return; } submitting = true">
+                x-data="{
+                    submitting: false,
+                    limits: @js($uploadLimits),
+                    photoError: '',
+                    resumeError: '',
+                    totalError: '',
+                    mb(bytes) {
+                        return `${(bytes / (1024 * 1024)).toFixed(bytes < 10 * 1024 * 1024 ? 1 : 0)} MB`;
+                    },
+                    checkSingleFile(input, maxBytes) {
+                        const file = input.files[0];
+                        if (! file || file.size <= maxBytes) return '';
+                        input.value = '';
+                        return `“${file.name}” is ${this.mb(file.size)}. The limit is ${this.mb(maxBytes)}. Please choose a smaller file.`;
+                    },
+                    totalBytes() {
+                        return Array.from(this.$root.querySelectorAll('input[type=file]'))
+                            .reduce((total, input) => total + Array.from(input.files).reduce((sum, file) => sum + file.size, 0), 0);
+                    },
+                    handleSubmit(event) {
+                        if (this.submitting) { event.preventDefault(); return; }
+                        const total = this.totalBytes();
+                        if (this.limits.request && total > this.limits.request) {
+                            event.preventDefault();
+                            this.totalError = `Your files add up to ${this.mb(total)}, which is over the ${this.mb(this.limits.request)} limit for one application. Remove a file, or share large videos with the Demo Video Link instead.`;
+                            this.$nextTick(() => this.$refs.totalError.scrollIntoView({ block: 'center' }));
+                            return;
+                        }
+                        this.totalError = '';
+                        this.submitting = true;
+                    },
+                }"
+                @submit="handleSubmit($event)">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -118,28 +149,49 @@
                     <div>
                         <label for="photo" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Artist Photo</label>
                         <input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp"
+                            @change="photoError = checkSingleFile($event.target, limits.photo); totalError = ''"
                             @error('photo') aria-describedby="photo-error" @enderror
                             class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black file:mr-4 file:border-0 file:bg-theatre-black file:px-4 file:py-2 file:text-sm file:font-semibold file:uppercase file:tracking-wide file:text-white hover:file:bg-gray-800 focus:border-theatre-black focus:ring-0">
                         <p class="mt-2 text-sm text-gray-500">JPG, PNG, or WebP up to 5 MB.</p>
+                        <p x-show="photoError" x-text="photoError" x-cloak class="text-red-600 text-sm mt-1" role="alert"></p>
                         @error('photo') <p id="photo-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
                         <label for="resume" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Resume</label>
                         <input type="file" name="resume" id="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                            @change="resumeError = checkSingleFile($event.target, limits.resume); totalError = ''"
                             @error('resume') aria-describedby="resume-error" @enderror
                             class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black file:mr-4 file:border-0 file:bg-theatre-black file:px-4 file:py-2 file:text-sm file:font-semibold file:uppercase file:tracking-wide file:text-white hover:file:bg-gray-800 focus:border-theatre-black focus:ring-0">
                         <p class="mt-2 text-sm text-gray-500">PDF, DOC, or DOCX up to 10 MB.</p>
+                        <p x-show="resumeError" x-text="resumeError" x-cloak class="text-red-600 text-sm mt-1" role="alert"></p>
                         @error('resume') <p id="resume-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
+                </div>
+
+                <div>
+                    <label for="demo_video_url" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Demo Video Link</label>
+                    <input type="url" name="demo_video_url" id="demo_video_url" value="{{ old('demo_video_url') }}" inputmode="url"
+                        placeholder="https://youtube.com/watch?v=…"
+                        aria-describedby="demo-video-url-help @error('demo_video_url') demo-video-url-error @enderror"
+                        class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0">
+                    <p id="demo-video-url-help" class="mt-2 text-sm text-gray-500">Optional. <strong class="font-semibold text-gray-600">The best way to share a performance video.</strong> Paste a link from YouTube, Vimeo, Google Drive, or Dropbox. Unlisted links are fine; just make sure anyone with the link can view it. If your video is too large to upload below, share it here instead.</p>
+                    @error('demo_video_url') <p id="demo-video-url-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div
                     x-data="{
                         files: [],
-                        maxFiles: 5,
+                        maxFiles: @js($uploadLimits['mediaMaxFiles']),
+                        mediaError: '',
                         addFiles(selectedFiles) {
-                            const incoming = Array.from(selectedFiles);
+                            const selected = Array.from(selectedFiles);
+                            const tooLarge = selected.filter((file) => file.size > this.limits.media);
+                            const incoming = selected.filter((file) => file.size <= this.limits.media);
+                            this.totalError = '';
+                            this.mediaError = tooLarge.length
+                                ? `${tooLarge.map((file) => `“${file.name}” (${this.mb(file.size)})`).join(', ')} ${tooLarge.length > 1 ? 'are' : 'is'} over the ${this.mb(this.limits.media)} limit and ${tooLarge.length > 1 ? 'were' : 'was'} not added. Share large videos with the Demo Video Link above instead.`
+                                : '';
                             const remaining = this.maxFiles - this.files.length;
                             this.files = this.files.concat(incoming.slice(0, Math.max(remaining, 0)));
                             this.syncFiles();
@@ -188,13 +240,15 @@
                             </template>
                         </ul>
                     </template>
-                    <p class="mt-3 text-sm text-gray-500">Optional. Share up to 5 files that showcase your work, such as a performance reel, song, scene, monologue, dance, audio sample, portfolio, or other supporting materials. Videos and files are private and reviewed only by Threefold Artists. MP4, MOV, WebM, MP3, WAV, M4A, JPG, PNG, WebP, or PDF, up to 20 MB each.</p>
+                    <p class="mt-3 text-sm text-gray-500">Optional. Share up to 5 files that showcase your work, such as a performance reel, song, scene, monologue, dance, audio sample, portfolio, or other supporting materials. Videos and files are private and reviewed only by Threefold Artists. MP4, MOV, WebM, MP3, WAV, M4A, JPG, PNG, WebP, or PDF, up to 20 MB each. <strong class="font-semibold text-gray-600">Video too large?</strong> Use the Demo Video Link above instead.</p>
+                    <p x-show="mediaError" x-text="mediaError" x-cloak class="text-red-600 text-sm mt-2" role="alert"></p>
                     <p x-show="files.length >= maxFiles" x-cloak class="mt-2 text-sm text-gray-500">You have selected the maximum of 5 files. Remove one to add another.</p>
                     @error('supporting_media') <p id="supporting-media-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                     @error('supporting_media.*') <p id="supporting-media-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="mt-12 border-t border-gray-200 pt-8">
+                    <p x-ref="totalError" x-show="totalError" x-text="totalError" x-cloak class="mb-6 border-l-4 border-red-500 bg-red-50 p-4 text-sm text-red-700" role="alert"></p>
                     <x-turnstile />
                     <button type="submit" :disabled="submitting" :aria-busy="submitting"
                         class="inline-flex min-w-56 cursor-pointer items-center justify-center gap-3 px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase transition-all hover:bg-gray-800 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-theatre-black disabled:cursor-wait disabled:translate-y-0 disabled:bg-gray-500 disabled:shadow-none">

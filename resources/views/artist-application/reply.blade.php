@@ -56,6 +56,11 @@
                         <p class="text-gray-600 leading-relaxed mb-3">{{ $application->experience }}</p>
                     @endif
 
+                    @if($application->demo_video_url)
+                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Demo Video</p>
+                        <p class="mb-3 break-all"><a href="{{ $application->demo_video_url }}" target="_blank" rel="noopener noreferrer" class="text-curtain-red underline">{{ $application->demo_video_url }}</a></p>
+                    @endif
+
                     @if($application->availability)
                         <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Availability</p>
                         <p class="text-gray-600 leading-relaxed">{{ $application->availability }}</p>

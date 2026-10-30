@@ -24,6 +24,7 @@ class ArtistApplication extends Model implements HasMedia
         'experience',
         'bio',
         'availability',
+        'demo_video_url',
         'status',
         'converted_artist_id',
         'approved_at',

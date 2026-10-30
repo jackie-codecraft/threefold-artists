@@ -8,6 +8,7 @@ use App\Http\Requests\ArtistApplicationRequest;
 use App\Mail\ArtistApplicationSubmitted;
 use App\Models\ArtistApplication;
 use App\Models\SiteSettings;
+use App\Support\UploadLimits;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Throwable;
@@ -16,7 +17,9 @@ class ArtistApplicationController extends Controller
 {
     public function create()
     {
-        return view('pages.artist-application');
+        return view('pages.artist-application', [
+            'uploadLimits' => UploadLimits::forBrowser(),
+        ]);
     }
 
     public function store(ArtistApplicationRequest $request)

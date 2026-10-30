@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use App\Mail\ArtistApplicationSubmitted;
 use App\Models\ArtistApplication;
+use App\Support\UploadLimits;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
@@ -83,12 +84,91 @@ class ArtistApplicationSubmissionTest extends TestCase
             ->assertDontSee('Welcome Aboard');
     }
 
+    public function test_artist_can_share_a_demo_video_link_instead_of_uploading(): void
+    {
+        Mail::fake();
+        Storage::fake('local');
+
+        $payload = $this->validPayload(['demo_video_url' => 'https://youtu.be/dQw4w9WgXcQ']);
+        unset($payload['supporting_media']);
+
+        $this->withSession(['_token' => 'test-token'])
+            ->post(route('artist-application.store'), array_merge($payload, ['_token' => 'test-token']))
+            ->assertRedirect(route('artist-application.thanks'));
+
+        $application = ArtistApplication::query()->where('email', 'alex@example.com')->firstOrFail();
+        $this->assertSame('https://youtu.be/dQw4w9WgXcQ', $application->demo_video_url);
+
+        $html = (new ArtistApplicationSubmitted($application))->render();
+        $this->assertStringContainsString('href="https://youtu.be/dQw4w9WgXcQ"', $html);
+    }
+
+    public function test_demo_video_link_must_be_a_web_url(): void
+    {
+        Storage::fake('local');
+
+        foreach (['javascript:alert(1)', 'not a link', 'ftp://example.com/video.mp4'] as $badUrl) {
+            $this->withSession(['_token' => 'test-token'])
+                ->from(route('artist-application.create'))
+                ->post(route('artist-application.store'), array_merge($this->validPayload(['demo_video_url' => $badUrl]), ['_token' => 'test-token']))
+                ->assertSessionHasErrors('demo_video_url');
+        }
+
+        $this->assertDatabaseCount('artist_applications', 0);
+    }
+
+    public function test_oversized_supporting_media_is_rejected_by_the_app(): void
+    {
+        Storage::fake('local');
+
+        $payload = $this->validPayload([
+            'supporting_media' => [UploadedFile::fake()->create('huge-reel.mov', UploadLimits::SUPPORTING_MEDIA_KB + 1, 'video/quicktime')],
+        ]);
+
+        $this->withSession(['_token' => 'test-token'])
+            ->from(route('artist-application.create'))
+            ->post(route('artist-application.store'), array_merge($payload, ['_token' => 'test-token']))
+            ->assertSessionHasErrors('supporting_media.0');
+
+        $this->assertDatabaseCount('artist_applications', 0);
+    }
+
+    public function test_form_explains_video_link_and_ships_upload_limits_to_the_browser(): void
+    {
+        $response = $this->get(route('artist-application.create'))
+            ->assertOk()
+            ->assertSee('name="demo_video_url"', false)
+            ->assertSee('The best way to share a performance video.')
+            ->assertSee('If your video is too large to upload below, share it here instead.')
+            ->assertSee('Video too large?');
+
+        $limits = UploadLimits::forBrowser();
+        $this->assertSame(20 * 1024 * 1024, $limits['media']);
+        $this->assertSame(5 * 1024 * 1024, $limits['photo']);
+        $this->assertSame(10 * 1024 * 1024, $limits['resume']);
+        $response->assertSee('handleSubmit($event)', false);
+    }
+
+    public function test_request_limit_tracks_post_max_size_with_headroom(): void
+    {
+        $this->assertSame(127 * 1024 * 1024, UploadLimits::requestBytes('128M'));
+        $this->assertSame(99 * 1024 * 1024, UploadLimits::requestBytes('100M'));
+        $this->assertSame(1023 * 1024 * 1024, UploadLimits::requestBytes('1G'));
+        $this->assertNull(UploadLimits::requestBytes('0'));
+
+        $largestValidApplicationKb = UploadLimits::PHOTO_KB + UploadLimits::RESUME_KB
+            + UploadLimits::SUPPORTING_MEDIA_KB * UploadLimits::SUPPORTING_MEDIA_MAX_FILES;
+        $this->assertLessThanOrEqual(UploadLimits::requestBytes('128M'), $largestValidApplicationKb * 1024,
+            'A fully loaded, valid application must fit under a 128 MB server limit.');
+    }
+
     /**
+     * @param  array<string, mixed>  $overrides
      * @return array<string, mixed>
      */
-    private function validPayload(): array
+    private function validPayload(array $overrides = []): array
     {
-        return [
+        return array_merge([
             'name' => 'Alex Artist',
             'email' => 'alex@example.com',
             'phone' => '555-0101',
@@ -103,6 +183,6 @@ class ArtistApplicationSubmissionTest extends TestCase
                 UploadedFile::fake()->create('alex-song.mp3', 512, 'audio/mpeg'),
             ],
             'cf-turnstile-response' => 'test-token',
-        ];
+        ], $overrides);
     }
 }
