@@ -90,9 +90,8 @@
                          :class="scrolled ? 'h-16' : 'h-24'">
                 </a>
 
-                {{-- Desktop Navigation --}}
+                {{-- Desktop Navigation (no Home link: the logo goes home) --}}
                 <div class="hidden xl:flex items-center gap-3.5 whitespace-nowrap">
-                    <a href="{{ route('home') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Home</a>
                     <a href="{{ route('about') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">About</a>
                     <a href="{{ route('what-we-do') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('what-we-do') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">What We Do</a>
                     <a href="{{ route('artists') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('artists') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Artists</a>
@@ -111,7 +110,6 @@
                     <a href="{{ route('get-involved') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('get-involved*', 'artist-application*') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Get Involved</a>
                     <a href="{{ route('contact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('contact*') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Contact</a>
                     <div class="flex items-center gap-2 ml-2">
-                        <x-theme-toggle />
                         <a href="{{ route('request-performance') }}" class="px-4 py-2 text-sm font-medium border border-ink text-ink hover:bg-ink hover:text-page transition-colors">
                             Request Performance
                         </a>
@@ -120,12 +118,15 @@
                                 Donate
                             </a>
                         @endif
+                        <x-theme-toggle class="ml-2" />
                     </div>
                 </div>
 
-                {{-- Mobile: theme toggle + menu button --}}
+                {{-- Mobile: theme toggle + menu button. Under 360px the toggle meets the logo, so it moves into the menu --}}
                 <div class="flex items-center gap-2 xl:hidden">
-                    <x-theme-toggle />
+                    <div class="hidden min-[360px]:block">
+                        <x-theme-toggle />
+                    </div>
                     <button @click="open = !open" :aria-expanded="open" class="p-2 text-ink-muted hover:text-ink focus:outline-none" aria-label="Toggle menu">
                         <svg x-show="!open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -167,6 +168,16 @@
                         @if($siteSettings->donationsEnabled())
                             <a href="{{ route('donate') }}" class="text-center px-5 py-3 text-sm font-medium bg-cta text-on-cta">Donate</a>
                         @endif
+                    </div>
+                    {{-- Theme switch for phones narrower than 360px, where the header has no room for it --}}
+                    <div class="min-[360px]:hidden mt-4 mx-3 pt-3 border-t border-line">
+                        <button type="button" role="switch" @click="$store.theme.toggle()" :aria-checked="$store.theme.dark.toString()"
+                                class="flex w-full items-center justify-between py-2 text-base font-medium text-ink-muted">
+                            <span>Dark mode</span>
+                            <span class="relative h-6 w-11 rounded-full bg-line-strong transition-colors dark:bg-stage-gold" aria-hidden="true">
+                                <span class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-page shadow-sm transition-transform dark:translate-x-5"></span>
+                            </span>
+                        </button>
                     </div>
                 </div>
             </div>
