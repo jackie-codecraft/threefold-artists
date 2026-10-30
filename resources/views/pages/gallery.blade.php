@@ -1,7 +1,7 @@
 <x-layouts.app title="Gallery" metaDescription="Photos and videos from Threefold Artists performances.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    <section class="pt-16 pb-20 bg-band relative overflow-hidden">
     <div class="absolute inset-0">
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
         <div class="absolute inset-0 bg-black/30"></div>
@@ -19,10 +19,10 @@
             @if($items->isEmpty())
                 <div class="max-w-lg mx-auto text-center">
                     <div class="w-12 h-px bg-stage-gold mx-auto mb-8"></div>
-                    <h2 class="font-display text-3xl font-light text-theatre-black mb-4">Gallery Coming Soon</h2>
-                    <p class="text-gray-500 leading-relaxed mb-10">We are documenting our performances. Beautiful moments from the stage are on their way.</p>
+                    <h2 class="font-display text-3xl font-light text-ink mb-4">Gallery Coming Soon</h2>
+                    <p class="text-ink-muted leading-relaxed mb-10">We are documenting our performances. Beautiful moments from the stage are on their way.</p>
                     @if($siteSettings->eventsEnabled())
-                        <a href="{{ route('events') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-theatre-black text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-theatre-black hover:text-white transition-colors">
+                        <a href="{{ route('events') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-ink text-ink text-sm font-semibold tracking-wide uppercase hover:bg-ink hover:text-page transition-colors">
                             View Upcoming Events
                         </a>
                     @endif
@@ -42,7 +42,7 @@
                         <div class="flex flex-wrap gap-3">
                             @foreach($artForms as $value => $label)
                                 <a href="{{ route('gallery', array_filter(['art_form' => $value, 'related_type' => $selectedRelatedType, 'related_id' => $selectedRelatedId])) }}"
-                                   class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors {{ $selectedArtForm === $value ? 'bg-theatre-black text-white' : 'border border-gray-300 text-gray-500 hover:border-theatre-black hover:text-theatre-black' }}">
+                                   class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors {{ $selectedArtForm === $value ? 'bg-cta text-on-cta' : 'border border-line-strong text-gray-500 hover:border-ink hover:text-ink' }}">
                                     {{ $label }}
                                 </a>
                             @endforeach
@@ -55,16 +55,16 @@
                                         <input type="hidden" name="art_form" value="{{ $selectedArtForm }}">
                                     @endif
                                     <div>
-                                        <label for="related_type" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Content Type</label>
-                                        <select id="related_type" name="related_type" class="w-full border border-gray-300 bg-white px-3 py-2 text-sm text-theatre-black">
+                                        <label for="related_type" class="block text-xs font-semibold tracking-[0.15em] uppercase text-ink-muted mb-2">Content Type</label>
+                                        <select id="related_type" name="related_type" class="w-full border border-line-strong bg-card px-3 py-2 text-sm text-ink">
                                             <option value="">Any</option>
                                             <option value="event" @selected($selectedRelatedType === 'event')>Events</option>
                                             <option value="blog_post" @selected($selectedRelatedType === 'blog_post')>Blog Posts</option>
                                         </select>
                                     </div>
                                     <div class="sm:col-span-2">
-                                        <label for="related_id" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Related Content</label>
-                                        <select id="related_id" name="related_id" class="w-full border border-gray-300 bg-white px-3 py-2 text-sm text-theatre-black">
+                                        <label for="related_id" class="block text-xs font-semibold tracking-[0.15em] uppercase text-ink-muted mb-2">Related Content</label>
+                                        <select id="related_id" name="related_id" class="w-full border border-line-strong bg-card px-3 py-2 text-sm text-ink">
                                             <option value="">Any event or post</option>
                                             @if($events->isNotEmpty())
                                                 <optgroup label="Events">
@@ -82,10 +82,10 @@
                                             @endif
                                         </select>
                                     </div>
-                                    <button type="submit" class="sm:col-span-3 inline-flex items-center justify-center px-6 py-3 bg-theatre-black text-white text-xs font-semibold tracking-[0.15em] uppercase hover:bg-gray-800 transition-colors">Filter Gallery</button>
+                                    <button type="submit" class="sm:col-span-3 inline-flex items-center justify-center px-6 py-3 bg-cta text-on-cta text-xs font-semibold tracking-[0.15em] uppercase hover:bg-cta-hover transition-colors">Filter Gallery</button>
                                 </form>
                                 @if($selectedArtForm !== '' || $selectedRelatedType !== '')
-                                    <a href="{{ route('gallery') }}" class="inline-flex items-center justify-center px-6 py-3 border border-theatre-black text-theatre-black text-xs font-semibold tracking-[0.15em] uppercase hover:bg-theatre-black hover:text-white transition-colors">Clear Filters</a>
+                                    <a href="{{ route('gallery') }}" class="inline-flex items-center justify-center px-6 py-3 border border-ink text-ink text-xs font-semibold tracking-[0.15em] uppercase hover:bg-ink hover:text-page transition-colors">Clear Filters</a>
                                 @endif
                             </div>
                         @endif
@@ -111,10 +111,10 @@
                             @if($item->title || $item->caption)
                             <div class="pt-4">
                                 @if($item->title)
-                                    <h3 class="font-display text-lg font-normal text-theatre-black">{{ $item->title }}</h3>
+                                    <h3 class="font-display text-lg font-normal text-ink">{{ $item->title }}</h3>
                                 @endif
                                 @if($item->caption)
-                                    <p class="text-sm text-gray-500 mt-1">{{ $item->caption }}</p>
+                                    <p class="text-sm text-ink-muted mt-1">{{ $item->caption }}</p>
                                 @endif
                             </div>
                             @endif

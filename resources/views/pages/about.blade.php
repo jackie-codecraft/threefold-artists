@@ -1,7 +1,7 @@
 <x-layouts.app title="About Us" metaDescription="Learn about Threefold Artists, a nonprofit bringing live performing arts to communities that cannot easily access them.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    <section class="pt-16 pb-20 bg-band relative overflow-hidden">
     <div class="absolute inset-0">
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
         <div class="absolute inset-0 bg-black/30"></div>
@@ -19,16 +19,16 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
                 <div>
-                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Our Mission</p>
-                    <h2 class="font-display text-3xl sm:text-4xl font-light text-theatre-black mb-6">Why We Exist</h2>
-                    <p class="text-gray-500 leading-relaxed text-lg">
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">Our Mission</p>
+                    <h2 class="font-display text-3xl sm:text-4xl font-light text-ink mb-6">Why We Exist</h2>
+                    <p class="text-ink-muted leading-relaxed text-lg">
                         Threefold Artists exists to bring the transformative power of live performing arts to people and communities that cannot easily access them. We believe that everyone, regardless of age, ability, or circumstance, deserves to experience the joy, healing, and connection that live performance creates.
                     </p>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Our Vision</p>
-                    <h2 class="font-display text-3xl sm:text-4xl font-light text-theatre-black mb-6">What We See</h2>
-                    <p class="text-gray-500 leading-relaxed text-lg">
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">Our Vision</p>
+                    <h2 class="font-display text-3xl sm:text-4xl font-light text-ink mb-6">What We See</h2>
+                    <p class="text-ink-muted leading-relaxed text-lg">
                         A world where live performing arts are accessible to every person, in every community. Where the curtain rises in care homes as often as concert halls. Where music fills hospital corridors and dance brings light to shelters.
                     </p>
                 </div>
@@ -37,13 +37,13 @@
     </section>
 
     {{-- Origin Story --}}
-    <section class="py-24 sm:py-32 border-t border-gray-200">
+    <section class="py-24 sm:py-32 border-t border-line">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-16">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Our Story</p>
-                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">How It Started</h2>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">Our Story</p>
+                <h2 class="font-display text-4xl sm:text-5xl font-light text-ink">How It Started</h2>
             </div>
-            <div class="space-y-6 text-lg text-gray-500 leading-relaxed">
+            <div class="space-y-6 text-lg text-ink-muted leading-relaxed">
                 <p>
                     Threefold Artists was born from a simple observation: the people who could benefit most from live performing arts are often the ones least able to access them. Residents of care homes, patients in hospitals, people in shelters, and communities in underserved areas rarely have the opportunity to experience the magic of live theatre, music, or dance.
                 </p>
@@ -55,11 +55,11 @@
     </section>
 
     @if ($leadershipMembers->isNotEmpty())
-        <section id="leadership" class="py-24 sm:py-32 border-t border-gray-200">
+        <section id="leadership" class="py-24 sm:py-32 border-t border-line">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-3xl mb-16">
-                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">The People</p>
-                    <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Leadership</h2>
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">The People</p>
+                    <h2 class="font-display text-4xl sm:text-5xl font-light text-ink">Leadership</h2>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
@@ -73,16 +73,16 @@
                                 >
                             @endif
                             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-stage-gold mb-3">{{ $member->title }}</p>
-                            <h3 class="font-display text-3xl font-light text-theatre-black mb-4">{{ $member->name }}</h3>
-                            <p class="text-gray-500 leading-relaxed">
+                            <h3 class="font-display text-3xl font-light text-ink mb-4">{{ $member->name }}</h3>
+                            <p class="text-ink-muted leading-relaxed">
                                 {{ str(html_entity_decode(strip_tags($member->biography), ENT_QUOTES | ENT_HTML5, 'UTF-8'))->squish()->limit(320) }}
                             </p>
                             <details class="group mt-4">
-                                <summary class="cursor-pointer list-none text-sm font-semibold tracking-wide text-theatre-black underline decoration-stage-gold decoration-2 underline-offset-4 [&::-webkit-details-marker]:hidden">
+                                <summary class="cursor-pointer list-none text-sm font-semibold tracking-wide text-ink underline decoration-stage-gold decoration-2 underline-offset-4 [&::-webkit-details-marker]:hidden">
                                     <span class="group-open:hidden">Read full biography</span>
                                     <span class="hidden group-open:inline">Show less</span>
                                 </summary>
-                                <div class="mt-5 text-gray-500 leading-relaxed space-y-4">
+                                <div class="mt-5 text-ink-muted leading-relaxed space-y-4">
                                     {!! str($member->biography)->sanitizeHtml() !!}
                                 </div>
                             </details>
@@ -94,7 +94,7 @@
     @endif
 
     {{-- Three Promises --}}
-    <section class="py-24 sm:py-32 bg-theatre-black text-white">
+    <section class="py-24 sm:py-32 bg-band band-edge text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">
                 <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4">What We Stand For</p>

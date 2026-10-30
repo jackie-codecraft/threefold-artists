@@ -1,5 +1,5 @@
 <x-layouts.app title="Past Events" metaDescription="Explore past Threefold Artists performances, event recaps, photographs, and community reflections.">
-    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    <section class="pt-16 pb-20 bg-band relative overflow-hidden">
         <div class="absolute inset-0">
             <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
             <div class="absolute inset-0 bg-black/45"></div>
@@ -15,7 +15,7 @@
     <section class="py-20 sm:py-28">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-end mb-10">
-                <a href="{{ route('events') }}" class="inline-flex items-center text-xs font-semibold tracking-[0.15em] uppercase text-theatre-black hover:text-stage-gold-dark transition-colors">
+                <a href="{{ route('events') }}" class="inline-flex items-center text-xs font-semibold tracking-[0.15em] uppercase text-ink hover:text-gold-text transition-colors">
                     Upcoming Events
                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
@@ -24,15 +24,15 @@
             @if($events->isEmpty())
                 <div class="max-w-xl mx-auto text-center py-12">
                     <div class="w-12 h-px bg-stage-gold mx-auto mb-8"></div>
-                    <h2 class="font-display text-3xl font-light text-theatre-black mb-4">Our archive is growing</h2>
-                    <p class="text-gray-500 leading-relaxed">Check back soon for recaps, photographs, and reflections from our performances.</p>
+                    <h2 class="font-display text-3xl font-light text-ink mb-4">Our archive is growing</h2>
+                    <p class="text-ink-muted leading-relaxed">Check back soon for recaps, photographs, and reflections from our performances.</p>
                 </div>
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     @foreach($events as $event)
                         @php($featuredImageUrl = $event->featuredThumbnailUrl())
-                        <article class="group h-full bg-white border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300">
-                            <a href="{{ route('events.show', $event) }}" class="block relative aspect-[4/3] overflow-hidden bg-theatre-black">
+                        <article class="group h-full bg-card border border-line-soft shadow-sm hover:shadow-xl transition-shadow duration-300">
+                            <a href="{{ route('events.show', $event) }}" class="block relative aspect-[4/3] overflow-hidden bg-band">
                                 @if($featuredImageUrl)
                                     <img src="{{ $featuredImageUrl }}" alt="{{ $event->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                                 @else
@@ -47,11 +47,11 @@
                             <div class="p-6">
                                 <div class="w-12 h-px bg-stage-gold mb-4"></div>
                                 @if($event->art_form)
-                                    <p class="text-xs font-semibold tracking-[0.15em] uppercase text-stage-gold-dark mb-3">{{ str_replace('_', ' ', $event->art_form) }}</p>
+                                    <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gold-text mb-3">{{ str_replace('_', ' ', $event->art_form) }}</p>
                                 @endif
-                                <h2 class="font-display text-2xl font-normal text-theatre-black leading-tight"><a href="{{ route('events.show', $event) }}" class="hover:text-stage-gold-dark transition-colors">{{ $event->title }}</a></h2>
-                                <p class="mt-3 text-sm leading-relaxed text-gray-500">{{ Str::limit($event->recap ?: $event->description, 150) }}</p>
-                                <a href="{{ route('events.show', $event) }}" class="inline-flex mt-5 text-xs font-semibold tracking-[0.15em] uppercase text-stage-gold-dark hover:text-theatre-black transition-colors">Read the recap</a>
+                                <h2 class="font-display text-2xl font-normal text-ink leading-tight"><a href="{{ route('events.show', $event) }}" class="hover:text-gold-text transition-colors">{{ $event->title }}</a></h2>
+                                <p class="mt-3 text-sm leading-relaxed text-ink-muted">{{ Str::limit($event->recap ?: $event->description, 150) }}</p>
+                                <a href="{{ route('events.show', $event) }}" class="inline-flex mt-5 text-xs font-semibold tracking-[0.15em] uppercase text-gold-text hover:text-ink transition-colors">Read the recap</a>
                             </div>
                         </article>
                     @endforeach

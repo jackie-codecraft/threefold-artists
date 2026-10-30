@@ -1,12 +1,12 @@
 <x-layouts.app title="Manage My Donations" metaDescription="Securely access your Threefold Artists donation history.">
     <section class="py-16 sm:py-20">
         <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Supporter access</p>
-            <h1 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Manage My Donations</h1>
-            <p class="text-gray-600 mt-5">Enter the email address used for your donation. If it matches an eligible record, we’ll send a secure one-time link.</p>
+            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">Supporter access</p>
+            <h1 class="font-display text-4xl sm:text-5xl font-light text-ink">Manage My Donations</h1>
+            <p class="text-ink-soft mt-5">Enter the email address used for your donation. If it matches an eligible record, we’ll send a secure one-time link.</p>
 
             @if(session('error'))
-                <div class="mt-6 border-l-4 border-curtain-red bg-red-50 p-4 text-sm text-curtain-red">{{ session('error') }}</div>
+                <div class="mt-6 border-l-4 border-curtain-red bg-red-50 p-4 text-sm text-red-text dark:bg-red-950/40">{{ session('error') }}</div>
             @endif
 
             <form action="{{ route('donor-access.send') }}" method="POST" class="mt-8 space-y-6">
@@ -14,9 +14,9 @@
                 <div>
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" name="email" id="email" value="{{ old('email') }}" required autocomplete="email" class="form-field">
-                    @error('email')<p class="text-sm text-curtain-red mt-2">{{ $message }}</p>@enderror
+                    @error('email')<p class="text-sm text-red-text mt-2">{{ $message }}</p>@enderror
                 </div>
-                <button type="submit" class="w-full px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">Email me a secure link</button>
+                <button type="submit" class="w-full px-8 py-3.5 bg-cta text-on-cta text-sm font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">Email me a secure link</button>
             </form>
         </div>
     </section>

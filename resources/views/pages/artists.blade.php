@@ -1,6 +1,6 @@
 <x-layouts.app title="Our Artists" metaDescription="Meet the volunteer performing artists of Threefold Artists.">
 
-    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    <section class="pt-16 pb-20 bg-band relative overflow-hidden">
     <div class="absolute inset-0">
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
         <div class="absolute inset-0 bg-black/30"></div>
@@ -18,9 +18,9 @@
             @if($artists->isEmpty())
                 <div class="max-w-lg mx-auto text-center">
                     <div class="w-12 h-px bg-stage-gold mx-auto mb-8"></div>
-                    <h2 class="font-display text-3xl font-light text-theatre-black mb-4">Artist Profiles Coming Soon</h2>
-                    <p class="text-gray-500 leading-relaxed mb-10">We are building our directory of talented volunteer performing artists. Want to be among the first?</p>
-                    <a href="{{ route('artist-application.create') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                    <h2 class="font-display text-3xl font-light text-ink mb-4">Artist Profiles Coming Soon</h2>
+                    <p class="text-ink-muted leading-relaxed mb-10">We are building our directory of talented volunteer performing artists. Want to be among the first?</p>
+                    <a href="{{ route('artist-application.create') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-cta text-on-cta text-sm font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">
                         Become an Artist
                     </a>
                 </div>
@@ -34,14 +34,14 @@
                                      class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105">
                             @else
                                 <div class="w-full h-full flex items-center justify-center">
-                                    <svg class="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                    <svg class="w-16 h-16 text-ink-ghost" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                                 </div>
                             @endif
                             <div class="absolute inset-y-0 left-0 w-1 bg-stage-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
 
-                        <h3 class="font-display text-lg font-normal text-theatre-black group-hover:text-stage-gold-dark transition-colors leading-tight">{{ $artist->name }}</h3>
-                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mt-1">{{ $artist->discipline_names->join(' • ') }}</p>
+                        <h3 class="font-display text-lg font-normal text-ink group-hover:text-gold-text transition-colors leading-tight">{{ $artist->name }}</h3>
+                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mt-1">{{ $artist->discipline_names->join(' • ') }}</p>
                     </a>
                     @endforeach
                 </div>
@@ -49,7 +49,7 @@
         </div>
     </section>
 
-    <section class="py-24 sm:py-32 bg-theatre-black text-white">
+    <section class="py-24 sm:py-32 bg-band band-edge text-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="w-16 h-px bg-stage-gold mx-auto mb-8"></div>
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Volunteer</p>

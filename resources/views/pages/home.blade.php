@@ -1,7 +1,7 @@
 <x-layouts.app title="Home" metaDescription="Threefold Artists brings live performing arts to communities that cannot easily access them. Theatre, music, dance — keeping theatre alive.">
 
     {{-- Hero Section — Full-viewport, background image with overlay --}}
-    <section class="relative min-h-screen flex items-end bg-theatre-black overflow-hidden">
+    <section class="relative min-h-screen flex items-end bg-band overflow-hidden">
         {{-- Background Image --}}
         <div class="absolute inset-0">
             <img
@@ -60,40 +60,40 @@
     <section class="py-24 sm:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Our Art Forms</p>
-                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Three Art Forms, One Mission</h2>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">Our Art Forms</p>
+                <h2 class="font-display text-4xl sm:text-5xl font-light text-ink">Three Art Forms, One Mission</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
                 {{-- Theatre --}}
                 <div>
-                    <img src="{{ asset('images/icon-theatre.jpg') }}" alt="Theatre" class="w-16 h-16 object-contain mb-6">
+                    <img src="{{ asset('images/icon-theatre.png') }}" alt="Theatre" class="w-16 h-16 object-contain mb-6 icon-spotlight">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
-                    <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Theatre</h3>
-                    <p class="text-gray-500 leading-relaxed">From Shakespeare to contemporary plays, we bring the magic of live theatre to care homes, hospitals, shelters, and community centers.</p>
+                    <h3 class="font-display text-2xl font-normal text-ink mb-4">Theatre</h3>
+                    <p class="text-ink-muted leading-relaxed">From Shakespeare to contemporary plays, we bring the magic of live theatre to care homes, hospitals, shelters, and community centers.</p>
                 </div>
 
                 {{-- Music --}}
                 <div>
-                    <img src="{{ asset('images/icon-music.jpg') }}" alt="Music" class="w-16 h-16 object-contain mb-6">
+                    <img src="{{ asset('images/icon-music.png') }}" alt="Music" class="w-16 h-16 object-contain mb-6 icon-spotlight">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
-                    <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Music</h3>
-                    <p class="text-gray-500 leading-relaxed">Classical ensembles, solo performers, and musical groups that bring the healing power of live music to those who need it most.</p>
+                    <h3 class="font-display text-2xl font-normal text-ink mb-4">Music</h3>
+                    <p class="text-ink-muted leading-relaxed">Classical ensembles, solo performers, and musical groups that bring the healing power of live music to those who need it most.</p>
                 </div>
 
                 {{-- Dance --}}
                 <div>
-                    <img src="{{ asset('images/icon-dance.png') }}" alt="Dance" class="w-20 h-20 object-contain mb-6">
+                    <img src="{{ asset('images/icon-dance.png') }}" alt="Dance" class="w-20 h-20 object-contain mb-6 icon-spotlight">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
-                    <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Dance</h3>
-                    <p class="text-gray-500 leading-relaxed">Movement and dance performances that inspire, uplift, and connect audiences of all ages and abilities through the language of the body.</p>
+                    <h3 class="font-display text-2xl font-normal text-ink mb-4">Dance</h3>
+                    <p class="text-ink-muted leading-relaxed">Movement and dance performances that inspire, uplift, and connect audiences of all ages and abilities through the language of the body.</p>
                 </div>
             </div>
         </div>
     </section>
 
     {{-- Mission Statement — Full width dark band --}}
-    <section class="py-24 sm:py-32 bg-theatre-black text-white">
+    <section class="py-24 sm:py-32 bg-band band-edge text-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-8">Our Mission</p>
             <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-light leading-snug mb-8">
@@ -110,16 +110,16 @@
     <section class="py-24 sm:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">By the Numbers</p>
-                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Our Impact</h2>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">By the Numbers</p>
+                <h2 class="font-display text-4xl sm:text-5xl font-light text-ink">Our Impact</h2>
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-12">
                 @foreach($metrics as $metric)
                 <div>
-                    <div class="font-display text-5xl sm:text-6xl font-light text-theatre-black mb-2">{{ $metric->value }}</div>
+                    <div class="font-display text-5xl sm:text-6xl font-light text-ink mb-2">{{ $metric->value }}</div>
                     <div class="w-8 h-px bg-stage-gold my-3"></div>
-                    <div class="text-sm text-gray-500 font-medium">{{ $metric->label }}</div>
+                    <div class="text-sm text-ink-muted font-medium">{{ $metric->label }}</div>
                 </div>
                 @endforeach
             </div>
@@ -133,17 +133,17 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:items-end">
                 <blockquote class="max-w-3xl">
-                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-5">What People Say</p>
-                    <p class="font-display text-2xl sm:text-3xl font-light leading-relaxed text-theatre-black">“{{ $featuredTestimonial->quote }}”</p>
-                    <footer class="mt-5 text-sm text-gray-500">
-                        <cite class="not-italic font-semibold text-theatre-black">{{ $featuredTestimonial->attribution }}</cite>
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-5">What People Say</p>
+                    <p class="font-display text-2xl sm:text-3xl font-light leading-relaxed text-ink">“{{ $featuredTestimonial->quote }}”</p>
+                    <footer class="mt-5 text-sm text-ink-muted">
+                        <cite class="not-italic font-semibold text-ink">{{ $featuredTestimonial->attribution }}</cite>
                         @if($featuredTestimonial->venue_name)
                             <span class="block mt-1">{{ $featuredTestimonial->venue_name }}</span>
                         @endif
                     </footer>
                 </blockquote>
 
-                <a href="{{ route('impact') }}" class="inline-flex items-center gap-3 text-sm font-semibold tracking-wide uppercase text-theatre-black hover:text-curtain-red transition-colors">
+                <a href="{{ route('impact') }}" class="inline-flex items-center gap-3 text-sm font-semibold tracking-wide uppercase text-ink hover:text-red-text transition-colors">
                     See Our Impact
                     <span aria-hidden="true">→</span>
                 </a>
@@ -153,22 +153,22 @@
     @endif
 
     {{-- Volunteer With Us --}}
-    <section class="py-24 sm:py-32 border-b border-gray-200">
+    <section class="py-24 sm:py-32 border-b border-line">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:gap-16 lg:items-end">
                 <div class="max-w-2xl">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
-                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Get Involved</p>
-                    <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black mb-6">Share Your Talents. Make a Difference.</h2>
-                    <p class="text-gray-500 leading-relaxed">
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">Get Involved</p>
+                    <h2 class="font-display text-4xl sm:text-5xl font-light text-ink mb-6">Share Your Talents. Make a Difference.</h2>
+                    <p class="text-ink-muted leading-relaxed">
                         Behind every performance is a wonderful team of people who help bring it all to life. From stage management and sound to costumes, photography and outreach, there’s a place for you at Threefold Artists. No experience necessary.
                     </p>
                 </div>
                 <div class="flex flex-col sm:flex-row lg:flex-col gap-3">
-                    <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                    <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-cta text-on-cta text-sm font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">
                         Volunteer With Us
                     </a>
-                    <a href="{{ route('artist-application.create') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-theatre-black text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-theatre-black hover:text-white transition-colors">
+                    <a href="{{ route('artist-application.create') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-ink text-ink text-sm font-semibold tracking-wide uppercase hover:bg-ink hover:text-page transition-colors">
                         Apply as an Artist
                     </a>
                 </div>
@@ -179,9 +179,9 @@
     {{-- Newsletter --}}
     <section class="py-24 sm:py-32">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Stay Connected</p>
-            <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black mb-6">Newsletter</h2>
-            <p class="text-gray-500 leading-relaxed mb-12">Performance schedules, artist stories, and impact updates. No spam, ever.</p>
+            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">Stay Connected</p>
+            <h2 class="font-display text-4xl sm:text-5xl font-light text-ink mb-6">Newsletter</h2>
+            <p class="text-ink-muted leading-relaxed mb-12">Performance schedules, artist stories, and impact updates. No spam, ever.</p>
 
             @if(session('newsletter_success'))
                 <p class="text-stage-gold font-display text-xl">{{ session('newsletter_success') }}</p>
@@ -193,12 +193,12 @@
                     <div class="flex gap-3">
                         <input type="email" name="email" required placeholder="Your email address" aria-label="Email address for newsletter" aria-required="true"
                             class="form-field min-w-0 flex-1 text-center">
-                        <button type="submit" class="px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                        <button type="submit" class="px-8 py-3.5 bg-cta text-on-cta text-sm font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">
                             Subscribe
                         </button>
                     </div>
                     @error('email')
-                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                        <p class="text-red-500 text-sm mt-2 dark:text-red-400">{{ $message }}</p>
                     @enderror
                 </form>
             @endif
@@ -206,7 +206,7 @@
     </section>
 
     {{-- CTA Section --}}
-    <section class="py-24 sm:py-32 bg-theatre-black text-white">
+    <section class="py-24 sm:py-32 bg-band band-edge text-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="font-display text-4xl sm:text-5xl font-light mb-6">Bring the Arts to Your Community</h2>
             <p class="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">

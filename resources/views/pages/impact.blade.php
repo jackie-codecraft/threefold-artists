@@ -1,7 +1,7 @@
 <x-layouts.app title="Our Impact" metaDescription="See the impact of Threefold Artists - bringing live performing arts to communities across the country.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    <section class="pt-16 pb-20 bg-band relative overflow-hidden">
     <div class="absolute inset-0">
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
         <div class="absolute inset-0 bg-black/30"></div>
@@ -21,9 +21,9 @@
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-12">
                 @foreach($metrics as $metric)
                 <div>
-                    <div class="font-display text-5xl sm:text-6xl font-light text-theatre-black mb-2">{{ $metric->value }}</div>
+                    <div class="font-display text-5xl sm:text-6xl font-light text-ink mb-2">{{ $metric->value }}</div>
                     <div class="w-8 h-px bg-stage-gold my-3"></div>
-                    <div class="text-sm text-gray-500 font-medium">{{ $metric->label }}</div>
+                    <div class="text-sm text-ink-muted font-medium">{{ $metric->label }}</div>
                 </div>
                 @endforeach
             </div>
@@ -32,26 +32,26 @@
     @endif
 
     {{-- Testimonials --}}
-    <section class="py-24 sm:py-32 border-t border-gray-200">
+    <section class="py-24 sm:py-32 border-t border-line">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-12 sm:mb-16">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Voices</p>
-                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">What People Are Saying</h2>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">Voices</p>
+                <h2 class="font-display text-4xl sm:text-5xl font-light text-ink">What People Are Saying</h2>
             </div>
 
             @if($testimonials->isEmpty())
-                <p class="text-gray-500">Impact stories coming soon.</p>
+                <p class="text-ink-muted">Impact stories coming soon.</p>
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                     @foreach($testimonials as $testimonial)
                     <article class="h-full bg-linen border border-stage-gold/20 px-8 py-9 sm:p-10">
                         <blockquote class="flex h-full flex-col">
                             <div class="w-10 h-px bg-stage-gold mb-6"></div>
-                            <p class="font-display text-xl sm:text-2xl font-light leading-relaxed text-theatre-black">“{{ $testimonial->quote }}”</p>
+                            <p class="font-display text-xl sm:text-2xl font-light leading-relaxed text-ink">“{{ $testimonial->quote }}”</p>
                             <footer class="mt-8 pt-5 border-t border-theatre-black/10 text-sm">
-                                <cite class="not-italic font-semibold text-theatre-black">{{ $testimonial->attribution }}</cite>
+                                <cite class="not-italic font-semibold text-ink">{{ $testimonial->attribution }}</cite>
                                 @if($testimonial->venue_name)
-                                    <span class="block text-gray-500 mt-1">{{ $testimonial->venue_name }}</span>
+                                    <span class="block text-ink-muted mt-1">{{ $testimonial->venue_name }}</span>
                                 @endif
                             </footer>
                         </blockquote>
@@ -68,7 +68,7 @@
 
     @if($siteSettings->donationsEnabled())
         {{-- CTA --}}
-        <section class="py-24 sm:py-32 bg-theatre-black text-white">
+        <section class="py-24 sm:py-32 bg-band band-edge text-white">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="font-display text-4xl sm:text-5xl font-light mb-6">Be Part of the Impact</h2>
                 <p class="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">Your support helps us reach more communities with the power of live performance.</p>

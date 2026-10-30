@@ -7,6 +7,9 @@
         @endpush
     @endonce
 @endif
-@error('cf-turnstile-response')
-    <p class="text-red-600 text-sm mt-3" role="alert">{{ $message }}</p>
-@enderror
+{{-- Error pages render without the shared $errors bag --}}
+@isset($errors)
+    @error('cf-turnstile-response')
+        <p class="text-red-600 text-sm mt-3 dark:text-red-400" role="alert">{{ $message }}</p>
+    @enderror
+@endisset
