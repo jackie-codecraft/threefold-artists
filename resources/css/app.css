@@ -207,12 +207,12 @@
         box-shadow: 0 0 0 3px rgb(201 168 76 / 0.18);
     }
 
-    /* Optional treatment: the form sits on a soft cream panel with white, outlined fields */
+    /* Optional treatment: the form sits on a barely-there cream panel with white, outlined fields */
     .form-panel {
         padding: 1.5rem;
-        border: 1px solid rgb(26 26 26 / 0.06);
+        border: 1px solid #EFEAE1;
         border-radius: 18px;
-        background-color: var(--color-linen);
+        background-color: #FCFAF6;
     }
 
     @media (min-width: 640px) {
