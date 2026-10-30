@@ -8,13 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- Set the theme before first paint so dark-mode visitors never see a white flash --}}
+    {{-- Set the theme before first paint so dark-mode visitors never see a white flash.
+         data-theme-mode (system/light/dark) drives the switcher icon; data-theme is what's shown. --}}
     <script>
         (() => {
-            let stored = null;
-            try { stored = localStorage.getItem('theme'); } catch (e) {}
-            const dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            let mode = 'system';
+            try { const stored = localStorage.getItem('theme'); if (stored === 'light' || stored === 'dark') mode = stored; } catch (e) {}
+            const dark = mode === 'system' ? window.matchMedia('(prefers-color-scheme: dark)').matches : mode === 'dark';
             document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+            document.documentElement.dataset.themeMode = mode;
         })();
     </script>
 
@@ -143,7 +145,7 @@
                  x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
                  x-transition:leave="transition ease-in duration-150"
                  x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
-                 class="xl:hidden pb-6 border-t border-line mt-2 pt-4">
+                 class="xl:hidden pb-6 border-t border-line mt-2 pt-4 max-h-[calc(100dvh-7.5rem)] overflow-y-auto overscroll-contain">
                 <div class="flex flex-col gap-1">
                     <a href="{{ route('home') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('home') ? 'text-ink font-semibold' : 'text-ink-muted' }}">Home</a>
                     <a href="{{ route('about') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('about') ? 'text-ink font-semibold' : 'text-ink-muted' }}">About</a>
@@ -169,15 +171,17 @@
                             <a href="{{ route('donate') }}" class="text-center px-5 py-3 text-sm font-medium bg-cta text-on-cta">Donate</a>
                         @endif
                     </div>
-                    {{-- Theme switch for phones narrower than 360px, where the header has no room for it --}}
-                    <div class="min-[360px]:hidden mt-4 mx-3 pt-3 border-t border-line">
-                        <button type="button" role="switch" @click="$store.theme.toggle()" :aria-checked="$store.theme.dark.toString()"
-                                class="flex w-full items-center justify-between py-2 text-base font-medium text-ink-muted">
-                            <span>Dark mode</span>
-                            <span class="relative h-6 w-11 rounded-full bg-line-strong transition-colors dark:bg-stage-gold" aria-hidden="true">
-                                <span class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-page shadow-sm transition-transform dark:translate-x-5"></span>
-                            </span>
-                        </button>
+                    {{-- Theme control for phones narrower than 360px, where the header has no room for the switcher --}}
+                    <div class="min-[360px]:hidden mt-4 mx-3 pt-4 border-t border-line">
+                        <p id="mobile-theme-label" class="mb-2 text-xs font-semibold uppercase tracking-[0.15em] text-ink-faint">Theme</p>
+                        <div role="group" aria-labelledby="mobile-theme-label" class="grid grid-cols-3 gap-1 rounded-[10px] bg-surface p-1">
+                            @foreach (['system' => 'System', 'light' => 'Light', 'dark' => 'Dark'] as $mode => $name)
+                                <button type="button" @click="$store.theme.set('{{ $mode }}')" :aria-pressed="($store.theme.mode === '{{ $mode }}').toString()"
+                                        class="rounded-[7px] py-2 text-sm font-medium text-ink-muted aria-pressed:bg-page aria-pressed:text-ink aria-pressed:shadow-sm">
+                                    {{ $name }}
+                                </button>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

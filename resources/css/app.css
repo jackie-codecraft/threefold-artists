@@ -271,6 +271,17 @@
 
 /* Dark-mode niceties */
 @layer components {
+    /* Theme switcher shows one icon for the current mode (set on <html> before paint) */
+    .theme-icon {
+        display: none;
+    }
+
+    [data-theme-mode='system'] .theme-icon-system,
+    [data-theme-mode='light'] .theme-icon-light,
+    [data-theme-mode='dark'] .theme-icon-dark {
+        display: block;
+    }
+
     /* Black-ink art-form icons get a soft spotlight so they read on dark */
     [data-theme='dark'] .icon-spotlight {
         filter: drop-shadow(0 0 1px rgb(242 235 223 / 0.55)) drop-shadow(0 0 14px rgb(201 168 76 / 0.28));
