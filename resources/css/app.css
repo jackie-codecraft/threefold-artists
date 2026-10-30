@@ -158,6 +158,108 @@
     textarea.form-field {
         resize: vertical;
     }
+
+    input[type='file'].form-field {
+        padding: 0.55rem 0.6rem;
+        color: #4B4B4B;
+        font-size: 0.875rem;
+        cursor: pointer;
+    }
+
+    input[type='file'].form-field::file-selector-button {
+        margin-right: 1rem;
+        padding: 0.5rem 1rem;
+        border: 0;
+        border-radius: 7px;
+        background-color: var(--color-theatre-black);
+        color: #FFFFFF;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+
+    /* Tick-box / radio option tiles */
+    .form-choice {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.85rem 1rem;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        background-color: #F6F3EE;
+        cursor: pointer;
+        transition: background-color 150ms ease, border-color 150ms ease;
+    }
+
+    .form-choice:hover {
+        background-color: #F1EDE5;
+    }
+
+    .form-choice:has(:checked) {
+        background-color: #EFE6CF;
+        border-color: rgb(201 168 76 / 0.55);
+    }
+
+    .form-choice:has(:focus-visible) {
+        border-color: var(--color-stage-gold);
+        box-shadow: 0 0 0 3px rgb(201 168 76 / 0.18);
+    }
+
+    /* Optional treatment: the form sits on a soft cream panel with white, outlined fields */
+    .form-panel {
+        padding: 1.5rem;
+        border: 1px solid rgb(26 26 26 / 0.06);
+        border-radius: 18px;
+        background-color: var(--color-linen);
+    }
+
+    @media (min-width: 640px) {
+        .form-panel {
+            padding: 2.5rem;
+        }
+    }
+
+    .form-panel .form-field,
+    .form-panel .form-choice {
+        background-color: #FFFFFF;
+        border-color: #DDD5C7;
+    }
+
+    .form-panel .form-field:hover,
+    .form-panel .form-choice:hover {
+        border-color: #C9C0B0;
+    }
+
+    .form-panel .form-field:focus,
+    .form-panel .form-field:focus-visible {
+        border-color: var(--color-stage-gold);
+    }
+
+    .form-panel .form-choice:has(:checked) {
+        background-color: #FBF6EA;
+        border-color: var(--color-stage-gold);
+    }
+
+    .form-panel .form-field[aria-invalid='true'] {
+        border-color: #DC2626;
+        background-color: #FFFFFF;
+    }
+
+    /* Optional treatment: lift the whole form off the white page as a soft card */
+    .form-card {
+        padding: 1.5rem;
+        border-radius: 18px;
+        background-color: #FFFFFF;
+        box-shadow: 0 0 0 1px rgb(26 26 26 / 0.05), 0 18px 40px -18px rgb(26 26 26 / 0.18);
+    }
+
+    @media (min-width: 640px) {
+        .form-card {
+            padding: 2.5rem;
+        }
+    }
 }
 
 /* Custom utilities */
