@@ -192,7 +192,7 @@
                     <x-turnstile />
                     <div class="flex gap-3">
                         <input type="email" name="email" required placeholder="Your email address" aria-label="Email address for newsletter" aria-required="true"
-                            class="flex-1 border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0 text-center">
+                            class="form-field min-w-0 flex-1 text-center">
                         <button type="submit" class="px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
                             Subscribe
                         </button>

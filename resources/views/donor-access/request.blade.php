@@ -12,8 +12,8 @@
             <form action="{{ route('donor-access.send') }}" method="POST" class="mt-8 space-y-6">
                 @csrf
                 <div>
-                    <label for="email" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-2">Email address</label>
-                    <input type="email" name="email" id="email" value="{{ old('email') }}" required autocomplete="email" class="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-theatre-black focus:border-theatre-black focus:ring-0">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" name="email" id="email" value="{{ old('email') }}" required autocomplete="email" class="form-field">
                     @error('email')<p class="text-sm text-curtain-red mt-2">{{ $message }}</p>@enderror
                 </div>
                 <button type="submit" class="w-full px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">Email me a secure link</button>

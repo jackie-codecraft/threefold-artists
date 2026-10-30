@@ -84,7 +84,7 @@
                 $selectedAvailability = (array) old('availability', []);
             @endphp
 
-            <form action="{{ route('get-involved.store') }}" method="POST" class="form-panel space-y-10"
+            <form action="{{ route('get-involved.store') }}" method="POST" class="space-y-10"
                 x-data="{ submitting: false }"
                 @submit="if (submitting) { $event.preventDefault(); return; } submitting = true">
                 @csrf

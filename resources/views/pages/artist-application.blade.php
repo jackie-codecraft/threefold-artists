@@ -51,7 +51,7 @@
                 <p class="text-gray-500">Fill in the form below and we will be in touch about volunteer opportunities.</p>
             </div>
 
-            <form action="{{ route('artist-application.store') }}" method="POST" enctype="multipart/form-data" class="form-card space-y-8"
+            <form action="{{ route('artist-application.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8"
                 x-data="{
                     submitting: false,
                     limits: @js($uploadLimits),

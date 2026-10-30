@@ -55,7 +55,7 @@
                     <div class="mb-6">
                         <label for="reply_message" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-3">Your Reply</label>
                         <textarea name="reply_message" id="reply_message" rows="8" required
-                            class="w-full border-0 border-b-2 border-gray-300 bg-transparent px-0 py-3 text-theatre-black placeholder-gray-400 focus:border-theatre-black focus:ring-0 resize-none"
+                            class="form-field"
                             placeholder="Type your reply here...">{{ old('reply_message') }}</textarea>
                         @error('reply_message')
                             <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
