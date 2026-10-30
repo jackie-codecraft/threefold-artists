@@ -95,7 +95,7 @@
     {{-- Mission Statement — Full width dark band --}}
     <section class="py-24 sm:py-32 bg-band band-edge text-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-8">Our Mission</p>
+            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-8">Our Mission</p>
             <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-light leading-snug mb-8">
                 Everyone deserves access to the <span class="text-stage-gold">transformative power</span> of live performance.
             </h2>
@@ -184,7 +184,7 @@
             <p class="text-ink-muted leading-relaxed mb-12">Performance schedules, artist stories, and impact updates. No spam, ever.</p>
 
             @if(session('newsletter_success'))
-                <p class="text-stage-gold font-display text-xl">{{ session('newsletter_success') }}</p>
+                <p class="text-gold-text font-display text-xl">{{ session('newsletter_success') }}</p>
             @else
                 <form action="{{ route('newsletter.subscribe') }}" method="POST" class="max-w-md mx-auto">
                     @csrf

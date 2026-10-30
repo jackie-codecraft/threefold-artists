@@ -91,7 +91,7 @@
                     <div>
                         <label for="name" class="form-label">Full Name *</label>
                         <input type="text" name="name" id="name" value="{{ old('name') }}" required aria-required="true"
-                            @error('name') aria-invalid=\"true\" aria-describedby="name-error" @enderror
+                            @error('name') aria-invalid="true" aria-describedby="name-error" @enderror
                             class="form-field">
                         @error('name') <p id="name-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
@@ -99,7 +99,7 @@
                     <div>
                         <label for="email" class="form-label">Email *</label>
                         <input type="email" name="email" id="email" value="{{ old('email') }}" required aria-required="true"
-                            @error('email') aria-invalid=\"true\" aria-describedby="email-error" @enderror
+                            @error('email') aria-invalid="true" aria-describedby="email-error" @enderror
                             class="form-field">
                         @error('email') <p id="email-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
@@ -113,7 +113,7 @@
                     <div>
                         <label for="discipline" class="form-label">Art Form *</label>
                         <select name="discipline" id="discipline" required aria-required="true"
-                            @error('discipline') aria-invalid=\"true\" aria-describedby="discipline-error" @enderror
+                            @error('discipline') aria-invalid="true" aria-describedby="discipline-error" @enderror
                             class="form-field">
                             <option value="">Select...</option>
                             @foreach(\App\Support\DisciplineOptions::labels() as $value => $label)
@@ -150,7 +150,7 @@
                         <label for="photo" class="form-label">Artist Photo</label>
                         <input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp"
                             @change="photoError = checkSingleFile($event.target, limits.photo); totalError = ''"
-                            @error('photo') aria-invalid=\"true\" aria-describedby="photo-error" @enderror
+                            @error('photo') aria-invalid="true" aria-describedby="photo-error" @enderror
                             class="form-field">
                         <p class="mt-2 text-sm text-ink-muted">JPG, PNG, or WebP up to 5 MB.</p>
                         <p x-show="photoError" x-text="photoError" x-cloak class="text-red-600 text-sm mt-1 dark:text-red-400" role="alert"></p>
@@ -161,7 +161,7 @@
                         <label for="resume" class="form-label">Resume</label>
                         <input type="file" name="resume" id="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                             @change="resumeError = checkSingleFile($event.target, limits.resume); totalError = ''"
-                            @error('resume') aria-invalid=\"true\" aria-describedby="resume-error" @enderror
+                            @error('resume') aria-invalid="true" aria-describedby="resume-error" @enderror
                             class="form-field">
                         <p class="mt-2 text-sm text-ink-muted">PDF, DOC, or DOCX up to 10 MB.</p>
                         <p x-show="resumeError" x-text="resumeError" x-cloak class="text-red-600 text-sm mt-1 dark:text-red-400" role="alert"></p>
@@ -216,7 +216,7 @@
                     <label for="supporting_media" class="form-label">Supporting Media</label>
                     <input x-ref="supportingMedia" type="file" name="supporting_media[]" id="supporting_media" multiple accept="video/mp4,video/quicktime,video/webm,audio/mpeg,audio/wav,audio/x-m4a,image/jpeg,image/png,image/webp,application/pdf"
                         @change="addFiles($event.target.files)"
-                        @error('supporting_media') aria-invalid=\"true\" aria-describedby="supporting-media-error" @enderror
+                        @error('supporting_media') aria-invalid="true" aria-describedby="supporting-media-error" @enderror
                         class="sr-only">
                     <div class="rounded-[10px] border border-dashed border-[#D9D1C3] bg-surface dark:border-line-strong px-5 py-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
                         <div>

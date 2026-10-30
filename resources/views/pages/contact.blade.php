@@ -58,7 +58,7 @@
                             <div>
                                 <label for="name" class="form-label">Name *</label>
                                 <input type="text" name="name" id="name" value="{{ old('name') }}" required aria-required="true"
-                                    @error('name') aria-invalid=\"true\" aria-describedby="name-error" @enderror
+                                    @error('name') aria-invalid="true" aria-describedby="name-error" @enderror
                                     class="form-field">
                                 @error('name') <p id="name-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                             </div>
@@ -66,7 +66,7 @@
                             <div>
                                 <label for="email" class="form-label">Email *</label>
                                 <input type="email" name="email" id="email" value="{{ old('email') }}" required aria-required="true"
-                                    @error('email') aria-invalid=\"true\" aria-describedby="email-error" @enderror
+                                    @error('email') aria-invalid="true" aria-describedby="email-error" @enderror
                                     class="form-field">
                                 @error('email') <p id="email-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                             </div>
@@ -81,7 +81,7 @@
                         <div>
                             <label for="message" class="form-label">Message *</label>
                             <textarea name="message" id="message" rows="5" required aria-required="true"
-                                @error('message') aria-invalid=\"true\" aria-describedby="message-error" @enderror
+                                @error('message') aria-invalid="true" aria-describedby="message-error" @enderror
                                 class="form-field">{{ old('message') }}</textarea>
                             @error('message') <p id="message-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                         </div>

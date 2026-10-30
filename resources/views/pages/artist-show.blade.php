@@ -43,7 +43,7 @@
 
                     @if($artist->is_featured)
                         <div class="mt-12 pt-8 border-t border-line-soft">
-                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-stage-gold">Featured Artist</p>
+                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gold-text">Featured Artist</p>
                         </div>
                     @endif
                 </div>

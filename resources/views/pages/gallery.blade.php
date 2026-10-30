@@ -33,8 +33,25 @@
                     currentImage: '',
                     currentType: 'photo',
                     currentTitle: '',
-                    currentCaption: ''
-                }" @keydown.escape.window="lightbox = false">
+                    currentCaption: '',
+                    opener: null,
+                    open(item, opener) {
+                        Object.assign(this, item, { lightbox: true, opener });
+                        this.$nextTick(() => this.$refs.closeViewer.focus());
+                    },
+                    close() {
+                        if (! this.lightbox) return;
+                        this.lightbox = false;
+                        this.opener?.focus();
+                    },
+                    {{-- Keep Tab inside the viewer while it is open --}}
+                    trapFocus(event) {
+                        const focusable = [...this.$refs.viewer.querySelectorAll('button, video[controls]')];
+                        const first = focusable[0], last = focusable[focusable.length - 1];
+                        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+                        else if (! event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+                    }
+                }" @keydown.escape.window="close()">
 
                     {{-- Filters --}}
                     <div class="mb-16 space-y-6">
@@ -42,7 +59,7 @@
                         <div class="flex flex-wrap gap-3">
                             @foreach($artForms as $value => $label)
                                 <a href="{{ route('gallery', array_filter(['art_form' => $value, 'related_type' => $selectedRelatedType, 'related_id' => $selectedRelatedId])) }}"
-                                   class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors {{ $selectedArtForm === $value ? 'bg-cta text-on-cta' : 'border border-line-strong text-gray-500 hover:border-ink hover:text-ink' }}">
+                                   class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors {{ $selectedArtForm === $value ? 'bg-cta text-on-cta' : 'border border-line-strong text-ink-muted hover:border-ink hover:text-ink' }}">
                                     {{ $label }}
                                 </a>
                             @endforeach
@@ -56,7 +73,7 @@
                                     @endif
                                     <div>
                                         <label for="related_type" class="block text-xs font-semibold tracking-[0.15em] uppercase text-ink-muted mb-2">Content Type</label>
-                                        <select id="related_type" name="related_type" class="w-full border border-line-strong bg-card px-3 py-2 text-sm text-ink">
+                                        <select id="related_type" name="related_type" class="w-full border border-field-border bg-card px-3 py-2 text-sm text-ink">
                                             <option value="">Any</option>
                                             <option value="event" @selected($selectedRelatedType === 'event')>Events</option>
                                             <option value="blog_post" @selected($selectedRelatedType === 'blog_post')>Blog Posts</option>
@@ -64,7 +81,7 @@
                                     </div>
                                     <div class="sm:col-span-2">
                                         <label for="related_id" class="block text-xs font-semibold tracking-[0.15em] uppercase text-ink-muted mb-2">Related Content</label>
-                                        <select id="related_id" name="related_id" class="w-full border border-line-strong bg-card px-3 py-2 text-sm text-ink">
+                                        <select id="related_id" name="related_id" class="w-full border border-field-border bg-card px-3 py-2 text-sm text-ink">
                                             <option value="">Any event or post</option>
                                             @if($events->isNotEmpty())
                                                 <optgroup label="Events">
@@ -96,17 +113,19 @@
                         @foreach($items as $item)
                         <div class="group">
                             @if($item->getFirstMediaUrl('media'))
-                                <div @click="lightbox = true; currentImage = '{{ $item->getFirstMediaUrl('media') }}'; currentType = '{{ $item->type }}'; currentTitle = '{{ addslashes($item->title ?? '') }}'; currentCaption = '{{ addslashes($item->caption ?? '') }}'"
-                                     class="cursor-pointer">
+                                <button type="button" aria-haspopup="dialog"
+                                        aria-label="View {{ $item->type === 'video' ? 'video' : 'image' }}{{ $item->title ? ': '.$item->title : '' }}"
+                                        @click="open({{ Js::from(['currentImage' => $item->getFirstMediaUrl('media'), 'currentType' => $item->type, 'currentTitle' => $item->title ?? '', 'currentCaption' => $item->caption ?? ''], JSON_UNESCAPED_SLASHES) }}, $el)"
+                                        class="block w-full cursor-pointer text-left">
                                     <div class="aspect-[4/3] overflow-hidden">
                                         @if($item->type === 'video')
-                                            <video src="{{ $item->getFirstMediaUrl('media') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" muted playsinline preload="metadata"></video>
+                                            <video src="{{ $item->getFirstMediaUrl('media') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" muted playsinline preload="metadata" aria-hidden="true"></video>
                                         @else
-                                            <img src="{{ $item->thumbnailUrl() }}" alt="{{ $item->title ?? 'Gallery image' }}"
+                                            <img src="{{ $item->thumbnailUrl() }}" alt=""
                                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                         @endif
                                     </div>
-                                </div>
+                                </button>
                             @endif
                             @if($item->title || $item->caption)
                             <div class="pt-4">
@@ -123,8 +142,9 @@
                     </div>
 
                     {{-- Lightbox overlay --}}
-                    <div x-show="lightbox" x-cloak
+                    <div x-show="lightbox" x-cloak x-ref="viewer"
                          role="dialog" aria-modal="true" aria-label="Image viewer"
+                         @keydown.tab="trapFocus($event)"
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0"
                          x-transition:enter-end="opacity-100"
@@ -132,8 +152,8 @@
                          x-transition:leave-start="opacity-100"
                          x-transition:leave-end="opacity-0"
                          class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-                         @click.self="lightbox = false">
-                        <button @click="lightbox = false" class="absolute top-6 right-6 text-white/70 hover:text-white" aria-label="Close image viewer">
+                         @click.self="close()">
+                        <button type="button" x-ref="closeViewer" @click="close()" class="absolute top-6 right-6 text-white/70 hover:text-white" aria-label="Close image viewer">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
                         </button>
                         <div class="max-w-5xl w-full">

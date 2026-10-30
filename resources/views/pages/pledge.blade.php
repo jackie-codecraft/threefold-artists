@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="rounded-3xl border border-curtain-red/15 bg-card p-8 shadow-2xl shadow-curtain-red/10 sm:p-10">
-                <p class="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-stage-gold">What You Make Possible</p>
+                <p class="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-gold-text">What You Make Possible</p>
                 <h3 class="font-display text-3xl font-light text-red-text">Your support creates real access.</h3>
                 <p class="mt-5 text-ink-soft leading-7">Your support allows us to create and deliver meaningful, high-quality performances directly to communities who would otherwise go without.</p>
                 <ul class="mt-8 space-y-4 text-ink-soft">
@@ -55,7 +55,7 @@
         <div class="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <div class="rounded-3xl bg-linen p-6 shadow-2xl shadow-black/35 ring-1 ring-stage-gold/20 sm:p-10 lg:p-14">
                 <div class="text-center">
-                    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-stage-gold">Pledge your future support</p>
+                    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-gold-text">Pledge your future support</p>
                     <h2 class="font-display text-4xl font-light text-red-text sm:text-5xl">
                         <span class="block">Founding Supporter</span>
                         <span class="block">Pledge Form</span>
@@ -89,17 +89,17 @@
                         <div class="grid gap-5 sm:grid-cols-2">
                             <div>
                                 <label for="name" class="sr-only">Full name</label>
-                                <input type="text" name="name" id="name" value="{{ old('name') }}" required placeholder="Full Name" class="w-full rounded-xl border border-linen-dark bg-card px-4 py-3 text-ink placeholder-ink-subtle focus:border-stage-gold focus:ring-stage-gold">
+                                <input type="text" name="name" id="name" value="{{ old('name') }}" required placeholder="Full Name" class="w-full rounded-xl border border-field-border bg-card px-4 py-3 text-ink placeholder-ink-subtle focus:border-stage-gold focus:ring-stage-gold">
                                 @error('name')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
                             </div>
                             <div>
                                 <label for="email" class="sr-only">Email address</label>
-                                <input type="email" name="email" id="email" value="{{ old('email') }}" required placeholder="Email Address" class="w-full rounded-xl border border-linen-dark bg-card px-4 py-3 text-ink placeholder-ink-subtle focus:border-stage-gold focus:ring-stage-gold">
+                                <input type="email" name="email" id="email" value="{{ old('email') }}" required placeholder="Email Address" class="w-full rounded-xl border border-field-border bg-card px-4 py-3 text-ink placeholder-ink-subtle focus:border-stage-gold focus:ring-stage-gold">
                                 @error('email')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
                             </div>
                             <div class="sm:col-span-2">
                                 <label for="phone" class="sr-only">Phone number</label>
-                                <input type="tel" name="phone" id="phone" value="{{ old('phone') }}" placeholder="Phone Number (Optional)" class="w-full rounded-xl border border-linen-dark bg-card px-4 py-3 text-ink placeholder-ink-subtle focus:border-stage-gold focus:ring-stage-gold">
+                                <input type="tel" name="phone" id="phone" value="{{ old('phone') }}" placeholder="Phone Number (Optional)" class="w-full rounded-xl border border-field-border bg-card px-4 py-3 text-ink placeholder-ink-subtle focus:border-stage-gold focus:ring-stage-gold">
                                 @error('phone')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
                             </div>
                         </div>
@@ -107,7 +107,7 @@
 
                     <section>
                         <div class="rounded-2xl border border-stage-gold/30 bg-card p-5 shadow-sm shadow-curtain-red/5">
-                            <p class="mb-1 text-xs font-semibold uppercase tracking-[0.2em] text-stage-gold">Public recognition</p>
+                            <p class="mb-1 text-xs font-semibold uppercase tracking-[0.2em] text-gold-text">Public recognition</p>
                             <h3 class="text-xl font-semibold text-ink">May we publicly thank you for your pledge?</h3>
                             <p class="mt-2 text-sm leading-6 text-ink-soft">Choose whether Threefold Artists may recognize you by name in future supporter acknowledgments.</p>
 
@@ -133,15 +133,15 @@
                     </section>
 
                     <section>
-                        <h3 class="mb-5 text-xl font-semibold text-ink">Pledge Amount</h3>
-                        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                        <h3 id="pledge-amount-label" class="mb-5 text-xl font-semibold text-ink">Pledge Amount</h3>
+                        <div role="radiogroup" aria-labelledby="pledge-amount-label" class="grid grid-cols-2 gap-4 sm:grid-cols-3">
                             @foreach([25, 50, 100, 250, 500] as $amount)
-                                <label class="cursor-pointer rounded-xl border border-linen-dark bg-card px-4 py-4 text-center transition hover:border-stage-gold hover:bg-stage-gold/10" :class="selectedAmount == '{{ $amount }}' && ! useCustom ? 'border-stage-gold bg-stage-gold/10 ring-2 ring-stage-gold/30' : ''">
+                                <label class="cursor-pointer rounded-xl border border-linen-dark bg-card px-4 py-4 text-center transition hover:border-stage-gold hover:bg-stage-gold/10 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus" :class="selectedAmount == '{{ $amount }}' && ! useCustom ? 'border-stage-gold bg-stage-gold/10 ring-2 ring-stage-gold/30' : ''">
                                     <input type="radio" name="amount_choice" value="{{ $amount }}" class="sr-only" x-on:change="selectedAmount = '{{ $amount }}'; useCustom = false; customAmount = ''" @checked((string) old('amount', '100') === (string) $amount)>
                                     <span class="text-ink">${{ $amount }}</span>
                                 </label>
                             @endforeach
-                            <label class="cursor-pointer rounded-xl border border-linen-dark bg-card px-4 py-4 text-center transition hover:border-stage-gold hover:bg-stage-gold/10" :class="useCustom ? 'border-stage-gold bg-stage-gold/10 ring-2 ring-stage-gold/30' : ''">
+                            <label class="cursor-pointer rounded-xl border border-linen-dark bg-card px-4 py-4 text-center transition hover:border-stage-gold hover:bg-stage-gold/10 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus" :class="useCustom ? 'border-stage-gold bg-stage-gold/10 ring-2 ring-stage-gold/30' : ''">
                                 <input type="radio" name="amount_choice" value="other" class="sr-only" x-on:change="useCustom = true; selectedAmount = customAmount">
                                 <span class="text-ink">Other</span>
                             </label>
@@ -150,7 +150,7 @@
                             <label for="custom_amount" class="sr-only">Custom pledge amount</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-4 flex items-center text-ink-muted">$</span>
-                                <input type="number" id="custom_amount" min="1" step="1" x-model="customAmount" x-on:input="selectedAmount = customAmount" placeholder="Custom amount" class="w-full rounded-xl border border-linen-dark bg-card py-3 pl-8 pr-4 text-ink placeholder-ink-subtle focus:border-stage-gold focus:ring-stage-gold">
+                                <input type="number" id="custom_amount" min="1" step="1" x-model="customAmount" x-on:input="selectedAmount = customAmount" placeholder="Custom amount" class="w-full rounded-xl border border-field-border bg-card py-3 pl-8 pr-4 text-ink placeholder-ink-subtle focus:border-stage-gold focus:ring-stage-gold">
                             </div>
                         </div>
                         <input type="hidden" name="amount" :value="useCustom ? customAmount : selectedAmount">
@@ -160,7 +160,7 @@
                     <section>
                         <h3 class="mb-5 text-xl font-semibold text-ink">Additional Message</h3>
                         <label for="message" class="sr-only">Additional message</label>
-                        <textarea name="message" id="message" rows="6" placeholder="Share why the arts matter to you or how you heard about Threefold Artists." class="w-full rounded-xl border border-linen-dark bg-card px-4 py-3 text-ink placeholder-ink-subtle focus:border-stage-gold focus:ring-stage-gold">{{ old('message') }}</textarea>
+                        <textarea name="message" id="message" rows="6" placeholder="Share why the arts matter to you or how you heard about Threefold Artists." class="w-full rounded-xl border border-field-border bg-card px-4 py-3 text-ink placeholder-ink-subtle focus:border-stage-gold focus:ring-stage-gold">{{ old('message') }}</textarea>
                         @error('message')<p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>@enderror
                     </section>
 

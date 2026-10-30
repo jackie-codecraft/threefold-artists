@@ -125,7 +125,7 @@
                                         <div class="aspect-[4/3] overflow-hidden bg-linen">
                                             @if($galleryItem->getFirstMediaUrl('media'))
                                                 @if($galleryItem->type === 'video')
-                                                    <video src="{{ $galleryItem->getFirstMediaUrl('media') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" muted playsinline preload="metadata"></video>
+                                                    <video src="{{ $galleryItem->getFirstMediaUrl('media') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" muted playsinline preload="metadata" aria-label="{{ $galleryItem->title ?? 'Gallery video' }}"></video>
                                                 @else
                                                     <img src="{{ $galleryItem->thumbnailUrl() }}" alt="{{ $galleryItem->title ?? 'Event gallery image' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                                 @endif
