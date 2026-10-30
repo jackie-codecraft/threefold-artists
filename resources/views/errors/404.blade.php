@@ -2,7 +2,7 @@
     title="Page Not Found"
     metaDescription="The page you were looking for has stepped offstage. Return home or explore what Threefold Artists brings to the community."
 >
-    <section class="relative overflow-hidden bg-theatre-black text-white">
+    <section class="relative overflow-hidden bg-band text-white">
         <div class="absolute inset-0">
             <img
                 src="{{ asset('images/hero-bg.jpg') }}"
@@ -52,21 +52,21 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start lg:gap-12">
                 <div>
-                    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">Helpful Next Steps</p>
-                    <h2 class="font-display text-4xl font-light text-theatre-black sm:text-5xl">Find your way back to the performance</h2>
+                    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-ink-faint">Helpful Next Steps</p>
+                    <h2 class="font-display text-4xl font-light text-ink sm:text-5xl">Find your way back to the performance</h2>
                 </div>
 
                 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-                    <a href="{{ route('artists') }}" class="group border border-gray-200 bg-white p-6 transition-colors hover:border-stage-gold">
+                    <a href="{{ route('artists') }}" class="group border border-line bg-card p-6 transition-colors hover:border-stage-gold">
                         <div class="mb-4 w-10 h-px bg-stage-gold"></div>
-                        <h3 class="font-display text-2xl font-normal text-theatre-black transition-colors group-hover:text-stage-gold-dark">Meet Our Artists</h3>
-                        <p class="mt-2 text-gray-500 leading-relaxed">Explore the performers bringing theatre, music, and dance into the community.</p>
+                        <h3 class="font-display text-2xl font-normal text-ink transition-colors group-hover:text-gold-text">Meet Our Artists</h3>
+                        <p class="mt-2 text-ink-muted leading-relaxed">Explore the performers bringing theatre, music, and dance into the community.</p>
                     </a>
 
-                    <a href="{{ route('contact') }}" class="group border border-gray-200 bg-white p-6 transition-colors hover:border-stage-gold">
+                    <a href="{{ route('contact') }}" class="group border border-line bg-card p-6 transition-colors hover:border-stage-gold">
                         <div class="mb-4 w-10 h-px bg-stage-gold"></div>
-                        <h3 class="font-display text-2xl font-normal text-theatre-black transition-colors group-hover:text-stage-gold-dark">Contact Us</h3>
-                        <p class="mt-2 text-gray-500 leading-relaxed">Need help finding something specific? We’re happy to point you in the right direction.</p>
+                        <h3 class="font-display text-2xl font-normal text-ink transition-colors group-hover:text-gold-text">Contact Us</h3>
+                        <p class="mt-2 text-ink-muted leading-relaxed">Need help finding something specific? We’re happy to point you in the right direction.</p>
                     </a>
                 </div>
             </div>

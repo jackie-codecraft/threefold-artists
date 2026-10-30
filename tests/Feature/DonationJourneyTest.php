@@ -45,7 +45,7 @@ class DonationJourneyTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Help Keep Theatre Alive');
-        $response->assertSee('<h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black mb-6">What Your Donation Helps Support</h2>', false);
+        $response->assertSee('<h2 class="font-display text-4xl sm:text-5xl font-light text-ink mb-6">What Your Donation Helps Support</h2>', false);
         $response->assertSee('Every gift helps us create and deliver a complete live theatrical experience');
         $response->assertSee('Lighting &amp; sound', false);
         $response->assertSee('Seasonal &amp; themed productions', false);
@@ -57,7 +57,7 @@ class DonationJourneyTest extends TestCase
         $response->assertSee('Monthly');
         $response->assertSee('Quarterly');
         $response->assertSee('Annual');
-        $response->assertSee('Email <span class="text-curtain-red">(required)</span>', false);
+        $response->assertSee('Email <span class="text-red-text">(required)</span>', false);
         $response->assertSee('Keep my donation anonymous on public recognition surfaces.');
         $response->assertSee('EIN #85-0567934', false);
         $response->assertSee('data-testid="donation-tax-info"', false);

@@ -1,7 +1,7 @@
 <x-layouts.app title="Contact Us" metaDescription="Get in touch with Threefold Artists. We would love to hear from you.">
 
     {{-- Page Hero --}}
-    <section class="pt-12 pb-12 bg-theatre-black relative overflow-hidden">
+    <section class="pt-12 pb-12 bg-band relative overflow-hidden">
     <div class="absolute inset-0">
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
         <div class="absolute inset-0 bg-black/30"></div>
@@ -19,25 +19,25 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-20">
                 {{-- Contact Info --}}
                 <div class="lg:col-span-1">
-                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-6">Get in Touch</p>
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-6">Get in Touch</p>
 
                     <div class="space-y-8">
                         <div>
-                            <h3 class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Email</h3>
-                            <a href="mailto:{{ $settings->contact_email }}" class="text-theatre-black hover:underline">{{ $settings->contact_email }}</a>
+                            <h3 class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Email</h3>
+                            <a href="mailto:{{ $settings->contact_email }}" class="text-ink hover:underline">{{ $settings->contact_email }}</a>
                         </div>
 
                         <div>
-                            <h3 class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Location</h3>
-                            <p class="text-gray-700">Greater Los Angeles, California</p>
+                            <h3 class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Location</h3>
+                            <p class="text-ink-soft">Greater Los Angeles, California</p>
                         </div>
 
                         @if($socialLinks !== [])
                             <div>
-                                <h3 class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Social</h3>
+                                <h3 class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Social</h3>
                                 <div class="flex flex-wrap gap-4 mt-2">
                                     @foreach($socialLinks as $link)
-                                        <a href="{{ $link['url'] }}" target="_blank" rel="noopener" class="text-gray-500 hover:text-theatre-black transition-colors">{{ $link['label'] }}</a>
+                                        <a href="{{ $link['url'] }}" target="_blank" rel="noopener" class="text-ink-muted hover:text-ink transition-colors">{{ $link['label'] }}</a>
                                     @endforeach
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
 
                 {{-- Contact Form --}}
                 <div class="lg:col-span-2">
-                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-6">Send a Message</p>
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-6">Send a Message</p>
 
                     <form action="{{ route('contact.store') }}" method="POST" class="space-y-8">
                         @csrf
@@ -60,7 +60,7 @@
                                 <input type="text" name="name" id="name" value="{{ old('name') }}" required aria-required="true"
                                     @error('name') aria-invalid=\"true\" aria-describedby="name-error" @enderror
                                     class="form-field">
-                                @error('name') <p id="name-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                @error('name') <p id="name-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
@@ -68,7 +68,7 @@
                                 <input type="email" name="email" id="email" value="{{ old('email') }}" required aria-required="true"
                                     @error('email') aria-invalid=\"true\" aria-describedby="email-error" @enderror
                                     class="form-field">
-                                @error('email') <p id="email-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                @error('email') <p id="email-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                             </div>
                         </div>
 
@@ -83,12 +83,12 @@
                             <textarea name="message" id="message" rows="5" required aria-required="true"
                                 @error('message') aria-invalid=\"true\" aria-describedby="message-error" @enderror
                                 class="form-field">{{ old('message') }}</textarea>
-                            @error('message') <p id="message-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                            @error('message') <p id="message-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                         </div>
 
                         <x-turnstile />
 
-                        <button type="submit" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                        <button type="submit" class="inline-flex items-center justify-center px-8 py-3.5 bg-cta text-on-cta text-sm font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">
                             Send Message
                         </button>
                     </form>

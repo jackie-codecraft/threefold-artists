@@ -1,7 +1,7 @@
 <x-layouts.app title="Blog" metaDescription="News, stories, and updates from Threefold Artists.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    <section class="pt-16 pb-20 bg-band relative overflow-hidden">
     <div class="absolute inset-0">
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
         <div class="absolute inset-0 bg-black/30"></div>
@@ -19,8 +19,8 @@
             @if($posts->isEmpty())
                 <div class="max-w-lg mx-auto text-center">
                     <div class="w-12 h-px bg-stage-gold mx-auto mb-8"></div>
-                    <h2 class="font-display text-3xl font-light text-theatre-black mb-4">Stories Coming Soon</h2>
-                    <p class="text-gray-500 leading-relaxed mb-10">Performance recaps, artist spotlights, and community stories. Subscribe to be the first to read them.</p>
+                    <h2 class="font-display text-3xl font-light text-ink mb-4">Stories Coming Soon</h2>
+                    <p class="text-ink-muted leading-relaxed mb-10">Performance recaps, artist spotlights, and community stories. Subscribe to be the first to read them.</p>
                     <form action="{{ route('newsletter.subscribe') }}" method="POST" class="max-w-sm mx-auto">
                         @csrf
                         <input type="hidden" name="source" value="blog-empty">
@@ -28,7 +28,7 @@
                         <div class="flex gap-3">
                             <input type="email" name="email" required placeholder="Your email" aria-label="Email for newsletter"
                                 class="form-field min-w-0 flex-1 text-center">
-                            <button type="submit" class="px-6 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                            <button type="submit" class="px-6 py-3.5 bg-cta text-on-cta text-sm font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">
                                 Notify Me
                             </button>
                         </div>
@@ -46,19 +46,19 @@
                         @endif
                         <div>
                             @if($post->category)
-                                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-2">{{ ucfirst(str_replace('-', ' ', $post->category)) }}</p>
+                                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-2">{{ ucfirst(str_replace('-', ' ', $post->category)) }}</p>
                             @endif
-                            <div class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-3">
+                            <div class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-3">
                                 {{ $post->published_at->format('F j, Y') }}
                                 @if($post->author) &middot; {{ $post->author }} @endif
                             </div>
-                            <h3 class="font-display text-xl font-normal text-theatre-black mb-3 group-hover:text-stage-gold-dark transition-colors">
+                            <h3 class="font-display text-xl font-normal text-ink mb-3 group-hover:text-gold-text transition-colors">
                                 <a href="{{ route('blog.post', $post->slug) }}">{{ $post->title }}</a>
                             </h3>
                             @if($post->excerpt)
-                                <p class="text-gray-500 text-sm leading-relaxed">{{ Str::limit($post->excerpt, 150) }}</p>
+                                <p class="text-ink-muted text-sm leading-relaxed">{{ Str::limit($post->excerpt, 150) }}</p>
                             @endif
-                            <a href="{{ route('blog.post', $post->slug) }}" class="inline-block mt-4 text-sm font-semibold text-theatre-black hover:underline">
+                            <a href="{{ route('blog.post', $post->slug) }}" class="inline-block mt-4 text-sm font-semibold text-ink hover:underline">
                                 Read More &rarr;
                             </a>
                         </div>

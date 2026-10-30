@@ -1,7 +1,7 @@
 <x-layouts.app title="Events" metaDescription="Upcoming live performances by Threefold Artists. Theatre, music, and dance events in your community.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    <section class="pt-16 pb-20 bg-band relative overflow-hidden">
     <div class="absolute inset-0">
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
         <div class="absolute inset-0 bg-black/30"></div>
@@ -20,16 +20,16 @@
             {{-- Event views --}}
             <div class="flex flex-wrap gap-3 mb-16" role="navigation" aria-label="Event views">
                 <button @click="view = 'list'"
-                    :class="view === 'list' ? 'bg-theatre-black text-white' : 'border border-gray-300 text-gray-500 hover:border-theatre-black hover:text-theatre-black'"
+                    :class="view === 'list' ? 'bg-cta text-on-cta' : 'border border-line-strong text-ink-muted hover:border-ink hover:text-ink'"
                     class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors">
                     Upcoming
                 </button>
                 <button @click="view = 'calendar'"
-                    :class="view === 'calendar' ? 'bg-theatre-black text-white' : 'border border-gray-300 text-gray-500 hover:border-theatre-black hover:text-theatre-black'"
+                    :class="view === 'calendar' ? 'bg-cta text-on-cta' : 'border border-line-strong text-ink-muted hover:border-ink hover:text-ink'"
                     class="px-5 py-2 text-xs font-semibold tracking-[0.15em] uppercase transition-colors">
                     Calendar
                 </button>
-                <a href="{{ route('events.past') }}" class="px-5 py-2 border border-gray-300 text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 hover:border-theatre-black hover:text-theatre-black transition-colors">
+                <a href="{{ route('events.past') }}" class="px-5 py-2 border border-line-strong text-xs font-semibold tracking-[0.15em] uppercase text-ink-muted hover:border-ink hover:text-ink transition-colors">
                     Past Events
                 </a>
             </div>
@@ -39,13 +39,13 @@
                 @if($events->isEmpty())
                     <div class="max-w-lg mx-auto text-center">
                         <div class="w-12 h-px bg-stage-gold mx-auto mb-8"></div>
-                        <h2 class="font-display text-3xl font-light text-theatre-black mb-4">No Upcoming Events</h2>
-                        <p class="text-gray-500 leading-relaxed mb-10">Our next performances are being planned. Request a performance for your community, or subscribe to stay updated.</p>
+                        <h2 class="font-display text-3xl font-light text-ink mb-4">No Upcoming Events</h2>
+                        <p class="text-ink-muted leading-relaxed mb-10">Our next performances are being planned. Request a performance for your community, or subscribe to stay updated.</p>
                         <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                            <a href="{{ route('request-performance') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                            <a href="{{ route('request-performance') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-cta text-on-cta text-sm font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">
                                 Request a Performance
                             </a>
-                            <a href="{{ route('contact') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-theatre-black text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-theatre-black hover:text-white transition-colors">
+                            <a href="{{ route('contact') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-ink text-ink text-sm font-semibold tracking-wide uppercase hover:bg-ink hover:text-page transition-colors">
                                 Contact Us
                             </a>
                         </div>
@@ -72,8 +72,8 @@
                         }
                         </script>
                         @php($featuredImageUrl = $event->featuredThumbnailUrl())
-                        <article class="group h-full bg-white border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300">
-                            <a href="{{ route('events.show', $event) }}" class="block relative aspect-[4/3] overflow-hidden bg-theatre-black">
+                        <article class="group h-full bg-card border border-line-soft shadow-sm hover:shadow-xl transition-shadow duration-300">
+                            <a href="{{ route('events.show', $event) }}" class="block relative aspect-[4/3] overflow-hidden bg-band">
                                 @if($featuredImageUrl)
                                     <img src="{{ $featuredImageUrl }}" alt="{{ $event->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                                 @else
@@ -91,17 +91,17 @@
 
                             <div class="p-6">
                                 <div class="w-12 h-px bg-stage-gold mb-4"></div>
-                                <h3 class="font-display text-2xl font-normal text-theatre-black mb-2 leading-tight">
-                                    <a href="{{ route('events.show', $event) }}" class="hover:text-stage-gold-dark transition-colors">{{ $event->title }}</a>
+                                <h3 class="font-display text-2xl font-normal text-ink mb-2 leading-tight">
+                                    <a href="{{ route('events.show', $event) }}" class="hover:text-gold-text transition-colors">{{ $event->title }}</a>
                                 </h3>
                                 @if($event->art_form)
-                                    <span class="text-xs font-semibold tracking-[0.15em] uppercase text-stage-gold-dark">{{ ucfirst(str_replace('_', ' ', $event->art_form)) }}</span>
+                                    <span class="text-xs font-semibold tracking-[0.15em] uppercase text-gold-text">{{ ucfirst(str_replace('_', ' ', $event->art_form)) }}</span>
                                 @endif
-                                <p class="text-gray-500 text-sm leading-relaxed mt-3 mb-4">{{ Str::limit($event->description, 120) }}</p>
-                                <a href="{{ route('events.show', $event) }}" class="inline-flex items-center text-xs font-semibold tracking-[0.15em] uppercase text-stage-gold-dark hover:text-theatre-black transition-colors mb-5">
+                                <p class="text-ink-muted text-sm leading-relaxed mt-3 mb-4">{{ Str::limit($event->description, 120) }}</p>
+                                <a href="{{ route('events.show', $event) }}" class="inline-flex items-center text-xs font-semibold tracking-[0.15em] uppercase text-gold-text hover:text-ink transition-colors mb-5">
                                     View Event
                                 </a>
-                                <div class="text-sm text-gray-400 space-y-1.5 pt-5 border-t border-gray-100">
+                                <div class="text-sm text-ink-faint space-y-1.5 pt-5 border-t border-line-soft">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                                         {{ $event->venue_name }}
@@ -128,11 +128,11 @@
             <div x-data="calendarView({{ $allEvents->toJson() }})" x-show="view === 'calendar'" x-cloak @keydown.escape.window="closeModal()">
                 {{-- Month Nav --}}
                 <div class="flex items-center justify-between mb-8">
-                    <button @click="prevMonth()" class="text-gray-400 hover:text-theatre-black transition-colors p-2">
+                    <button @click="prevMonth()" class="text-ink-faint hover:text-ink transition-colors p-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
-                    <h3 class="font-display text-2xl font-light text-theatre-black" x-text="monthLabel"></h3>
-                    <button @click="nextMonth()" class="text-gray-400 hover:text-theatre-black transition-colors p-2">
+                    <h3 class="font-display text-2xl font-light text-ink" x-text="monthLabel"></h3>
+                    <button @click="nextMonth()" class="text-ink-faint hover:text-ink transition-colors p-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
@@ -140,7 +140,7 @@
                 {{-- Day Headers --}}
                 <div class="grid grid-cols-7 gap-px mb-2">
                     <template x-for="day in ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
-                        <div class="text-center text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 py-2" x-text="day"></div>
+                        <div class="text-center text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint py-2" x-text="day"></div>
                     </template>
                 </div>
 
@@ -150,10 +150,10 @@
                         <div @click="cell.events.length ? openModal(cell) : null"
                              :class="{
                                  'bg-linen': cell.isToday,
-                                 'cursor-pointer hover:bg-gray-50': cell.events.length > 0,
+                                 'cursor-pointer hover:bg-gray-50 dark:hover:bg-surface': cell.events.length > 0,
                              }"
-                             class="min-h-[70px] sm:min-h-[80px] p-1 sm:p-2 border border-gray-100">
-                            <span class="text-xs sm:text-sm" :class="cell.isCurrentMonth ? 'text-theatre-black' : 'text-gray-300'" x-text="cell.day"></span>
+                             class="min-h-[70px] sm:min-h-[80px] p-1 sm:p-2 border border-line-soft">
+                            <span class="text-xs sm:text-sm" :class="cell.isCurrentMonth ? 'text-ink' : 'text-ink-ghost'" x-text="cell.day"></span>
                             <template x-if="cell.events.length > 0">
                                 <div class="mt-0.5 sm:mt-1">
                                     {{-- On mobile: show dot indicator. On desktop: show title --}}
@@ -164,10 +164,10 @@
                                     </div>
                                     <div class="hidden sm:block">
                                         <template x-for="ev in cell.events.slice(0, 2)">
-                                            <div class="text-xs text-stage-gold-dark truncate leading-tight" x-text="ev.title"></div>
+                                            <div class="text-xs text-gold-text truncate leading-tight" x-text="ev.title"></div>
                                         </template>
                                         <template x-if="cell.events.length > 2">
-                                            <div class="text-xs text-gray-400" x-text="'+' + (cell.events.length - 2) + ' more'"></div>
+                                            <div class="text-xs text-ink-faint" x-text="'+' + (cell.events.length - 2) + ' more'"></div>
                                         </template>
                                     </div>
                                 </div>
@@ -191,7 +191,7 @@
                     <div class="absolute inset-0 bg-theatre-black/70"></div>
 
                     {{-- Modal panel — bottom sheet on mobile, centered on desktop --}}
-                    <div class="relative w-full sm:max-w-lg bg-white z-10 sm:mx-auto"
+                    <div class="relative w-full sm:max-w-lg bg-card z-10 sm:mx-auto"
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="translate-y-full sm:translate-y-4 sm:opacity-0"
                          x-transition:enter-end="translate-y-0 sm:opacity-100"
@@ -200,9 +200,9 @@
                          x-transition:leave-end="translate-y-full sm:translate-y-4 sm:opacity-0">
 
                         {{-- Modal header --}}
-                        <div class="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">
-                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400" x-text="selectedDayLabel"></p>
-                            <button @click="closeModal()" class="text-gray-400 hover:text-theatre-black transition-colors" aria-label="Close">
+                        <div class="flex items-center justify-between px-6 pt-6 pb-4 border-b border-line-soft">
+                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint" x-text="selectedDayLabel"></p>
+                            <button @click="closeModal()" class="text-ink-faint hover:text-ink transition-colors" aria-label="Close">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                             </button>
                         </div>
@@ -210,26 +210,26 @@
                         {{-- Event list --}}
                         <div class="px-6 py-6 max-h-[70vh] overflow-y-auto">
                             <template x-for="(ev, index) in selectedDayEvents" :key="index">
-                                <div :class="index > 0 ? 'mt-6 pt-6 border-t border-gray-100' : ''">
-                                    <h4 class="font-display text-xl font-normal text-theatre-black mb-3" x-text="ev.title"></h4>
-                                    <div class="space-y-1.5 text-sm text-gray-500">
+                                <div :class="index > 0 ? 'mt-6 pt-6 border-t border-line-soft' : ''">
+                                    <h4 class="font-display text-xl font-normal text-ink mb-3" x-text="ev.title"></h4>
+                                    <div class="space-y-1.5 text-sm text-ink-muted">
                                         <div x-show="ev.time" class="flex items-center gap-2">
-                                            <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                            <svg class="w-4 h-4 text-ink-faint shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                             <span x-text="formatTime(ev.time)"></span>
                                         </div>
                                         <div class="flex items-start gap-2">
-                                            <svg class="w-4 h-4 text-gray-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                            <svg class="w-4 h-4 text-ink-faint shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                                             <span>
-                                                <span class="block font-medium text-theatre-black" x-text="ev.venue_name"></span>
-                                                <span x-show="ev.venue_address" class="text-gray-400 text-xs" x-text="ev.venue_address"></span>
+                                                <span class="block font-medium text-ink" x-text="ev.venue_name"></span>
+                                                <span x-show="ev.venue_address" class="text-ink-faint text-xs" x-text="ev.venue_address"></span>
                                             </span>
                                         </div>
                                         <div x-show="ev.art_form" class="flex items-center gap-2 pt-1">
                                             <span class="text-xs font-semibold tracking-[0.15em] uppercase text-stage-gold" x-text="ev.art_form ? ev.art_form.replace('_', ' ') : ''"></span>
                                         </div>
                                     </div>
-                                    <p x-show="ev.description" class="text-gray-500 text-sm leading-relaxed mt-3" x-text="ev.description"></p>
-                                    <a :href="ev.detail_url" class="inline-flex mt-4 text-xs font-semibold tracking-[0.15em] uppercase text-stage-gold-dark hover:text-theatre-black transition-colors">
+                                    <p x-show="ev.description" class="text-ink-muted text-sm leading-relaxed mt-3" x-text="ev.description"></p>
+                                    <a :href="ev.detail_url" class="inline-flex mt-4 text-xs font-semibold tracking-[0.15em] uppercase text-gold-text hover:text-ink transition-colors">
                                         More...
                                     </a>
                                 </div>
@@ -238,7 +238,7 @@
 
                         {{-- Mobile drag handle hint --}}
                         <div class="sm:hidden h-5 flex items-center justify-center">
-                            <div class="w-10 h-1 bg-gray-200 rounded-full"></div>
+                            <div class="w-10 h-1 bg-gray-200 rounded-full dark:bg-line"></div>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 <x-layouts.app title="Request a Performance" metaDescription="Request a free live performance of theatre, music, or dance for your care home, hospital, school, or community center.">
 
     {{-- Page Hero --}}
-    <section class="pt-12 pb-12 bg-theatre-black relative overflow-hidden">
+    <section class="pt-12 pb-12 bg-band relative overflow-hidden">
     <div class="absolute inset-0">
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
         <div class="absolute inset-0 bg-black/30"></div>
@@ -17,7 +17,7 @@
     {{-- Form --}}
     <section class="py-16 sm:py-20">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p class="text-gray-500 mb-12 leading-relaxed">
+            <p class="text-ink-muted mb-12 leading-relaxed">
                 Tell us about your organization and what kind of performance you are looking for. We will get back to you within 5 business days to discuss options and availability.
             </p>
 
@@ -25,8 +25,8 @@
                 @csrf
 
                 {{-- Organization Details --}}
-                <div class="border-b border-gray-200 pb-12">
-                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-8">Organization Details</p>
+                <div class="border-b border-line pb-12">
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-8">Organization Details</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
@@ -34,7 +34,7 @@
                             <input type="text" name="organization_name" id="organization_name" value="{{ old('organization_name') }}" required aria-required="true"
                                 @error('organization_name') aria-invalid="true" aria-describedby="organization_name-error" @enderror
                                 class="form-field">
-                            @error('organization_name') <p id="organization_name-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                            @error('organization_name') <p id="organization_name-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
@@ -51,7 +51,7 @@
                                 <option value="community" {{ old('venue_type') === 'community' ? 'selected' : '' }}>Community Center</option>
                                 <option value="other" {{ old('venue_type') === 'other' ? 'selected' : '' }}>Other</option>
                             </select>
-                            @error('venue_type') <p id="venue_type-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                            @error('venue_type') <p id="venue_type-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
@@ -63,8 +63,8 @@
                 </div>
 
                 {{-- Contact Information --}}
-                <div class="border-b border-gray-200 pb-12">
-                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-8">Contact Information</p>
+                <div class="border-b border-line pb-12">
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-8">Contact Information</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
@@ -72,7 +72,7 @@
                             <input type="text" name="contact_name" id="contact_name" value="{{ old('contact_name') }}" required aria-required="true"
                                 @error('contact_name') aria-invalid="true" aria-describedby="contact_name-error" @enderror
                                 class="form-field">
-                            @error('contact_name') <p id="contact_name-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                            @error('contact_name') <p id="contact_name-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
@@ -80,7 +80,7 @@
                             <input type="email" name="contact_email" id="contact_email" value="{{ old('contact_email') }}" required aria-required="true"
                                 @error('contact_email') aria-invalid="true" aria-describedby="contact_email-error" @enderror
                                 class="form-field">
-                            @error('contact_email') <p id="contact_email-error" class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                            @error('contact_email') <p id="contact_email-error" class="text-red-600 text-sm mt-1 dark:text-red-400">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
@@ -92,8 +92,8 @@
                 </div>
 
                 {{-- Performance Details --}}
-                <div class="border-b border-gray-200 pb-12">
-                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-8">Performance Details</p>
+                <div class="border-b border-line pb-12">
+                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-8">Performance Details</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
@@ -145,7 +145,7 @@
 
                 <div>
                     <x-turnstile />
-                    <button type="submit" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                    <button type="submit" class="inline-flex items-center justify-center px-8 py-3.5 bg-cta text-on-cta text-sm font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">
                         Submit Request
                     </button>
                 </div>

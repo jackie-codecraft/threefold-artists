@@ -4,41 +4,41 @@
             <div class="w-12 h-px bg-stage-gold mb-8"></div>
 
             @if(session('success'))
-                <h1 class="font-display text-3xl font-light text-theatre-black mb-4">Reply Sent</h1>
-                <p class="text-gray-500 leading-relaxed mb-8">Your reply has been sent to {{ $application->name }} at {{ $application->email }}.</p>
-                <a href="{{ url('/admin') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                <h1 class="font-display text-3xl font-light text-ink mb-4">Reply Sent</h1>
+                <p class="text-ink-muted leading-relaxed mb-8">Your reply has been sent to {{ $application->name }} at {{ $application->email }}.</p>
+                <a href="{{ url('/admin') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-cta text-on-cta text-sm font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">
                     Go to Admin Panel
                 </a>
             @else
-                <h1 class="font-display text-3xl font-light text-theatre-black mb-2">Reply to {{ $application->name }}</h1>
-                <p class="text-gray-400 text-sm mb-8">{{ $application->email }} &middot; {{ $application->created_at->format('M j, Y g:i A') }}</p>
+                <h1 class="font-display text-3xl font-light text-ink mb-2">Reply to {{ $application->name }}</h1>
+                <p class="text-ink-faint text-sm mb-8">{{ $application->email }} &middot; {{ $application->created_at->format('M j, Y g:i A') }}</p>
 
                 {{-- Application details --}}
-                <div class="mb-8 p-5 bg-gray-50 border-l-4 border-gray-200">
+                <div class="mb-8 p-5 bg-gray-50 border-l-4 border-line dark:bg-surface">
                     @if($application->mediaPreviewUrl('photo') || $application->mediaDownloadUrl('resume') || $application->getMedia('supporting_media')->isNotEmpty())
                         <div class="mb-6 grid grid-cols-1 sm:grid-cols-[120px,1fr] gap-5 items-start">
                             @if($application->mediaPreviewUrl('photo'))
                                 <div>
-                                    <img src="{{ $application->mediaPreviewUrl('photo') }}" alt="{{ $application->name }}" class="w-28 h-28 object-cover rounded-full border border-gray-200">
-                                    <a href="{{ $application->mediaDownloadUrl('photo') }}" class="mt-3 inline-block text-sm text-theatre-black underline">Download photo</a>
+                                    <img src="{{ $application->mediaPreviewUrl('photo') }}" alt="{{ $application->name }}" class="w-28 h-28 object-cover rounded-full border border-line">
+                                    <a href="{{ $application->mediaDownloadUrl('photo') }}" class="mt-3 inline-block text-sm text-ink underline">Download photo</a>
                                 </div>
                             @endif
 
                             <div class="space-y-2">
                                 @if($application->mediaDownloadUrl('resume'))
-                                    <a href="{{ $application->mediaDownloadUrl('resume') }}" class="inline-flex items-center justify-center px-4 py-2 bg-theatre-black text-white text-xs font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                                    <a href="{{ $application->mediaDownloadUrl('resume') }}" class="inline-flex items-center justify-center px-4 py-2 bg-cta text-on-cta text-xs font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">
                                         Download Resume
                                     </a>
                                 @endif
 
                                 @if($application->getMedia('supporting_media')->isNotEmpty())
                                     <div class="pt-2">
-                                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Supporting Media</p>
+                                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Supporting Media</p>
                                         <ul class="space-y-2">
                                             @foreach($application->getMedia('supporting_media') as $media)
                                                 <li class="text-sm">
-                                                    <a href="{{ $application->supportingMediaPreviewUrl($media) }}" class="text-theatre-black underline" target="_blank" rel="noopener">{{ $media->file_name }}</a>
-                                                    <a href="{{ $application->supportingMediaDownloadUrl($media) }}" class="ml-2 text-gray-500 underline" target="_blank" rel="noopener">Download</a>
+                                                    <a href="{{ $application->supportingMediaPreviewUrl($media) }}" class="text-ink underline" target="_blank" rel="noopener">{{ $media->file_name }}</a>
+                                                    <a href="{{ $application->supportingMediaDownloadUrl($media) }}" class="ml-2 text-ink-muted underline" target="_blank" rel="noopener">Download</a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -48,29 +48,29 @@
                         </div>
                     @endif
 
-                    <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Discipline</p>
-                    <p class="text-theatre-black font-medium mb-3">{{ $application->disciplineLabel() }}</p>
+                    <p class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Discipline</p>
+                    <p class="text-ink font-medium mb-3">{{ $application->disciplineLabel() }}</p>
 
                     @if($application->experience)
-                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Experience</p>
-                        <p class="text-gray-600 leading-relaxed mb-3">{{ $application->experience }}</p>
+                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Experience</p>
+                        <p class="text-ink-soft leading-relaxed mb-3">{{ $application->experience }}</p>
                     @endif
 
                     @if($application->demo_video_url)
-                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Demo Video</p>
-                        <p class="mb-3 break-all"><a href="{{ $application->demo_video_url }}" target="_blank" rel="noopener noreferrer" class="text-curtain-red underline">{{ $application->demo_video_url }}</a></p>
+                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Demo Video</p>
+                        <p class="mb-3 break-all"><a href="{{ $application->demo_video_url }}" target="_blank" rel="noopener noreferrer" class="text-red-text underline">{{ $application->demo_video_url }}</a></p>
                     @endif
 
                     @if($application->availability)
-                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Availability</p>
-                        <p class="text-gray-600 leading-relaxed">{{ $application->availability }}</p>
+                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Availability</p>
+                        <p class="text-ink-soft leading-relaxed">{{ $application->availability }}</p>
                     @endif
                 </div>
 
                 @if($application->isReplied())
-                    <div class="mb-8 p-5 bg-green-50 border-l-4 border-stage-gold">
-                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Previous Reply ({{ $application->replied_at->format('M j, Y g:i A') }})</p>
-                        <p class="text-gray-600 leading-relaxed">{{ $application->reply }}</p>
+                    <div class="mb-8 p-5 bg-green-50 border-l-4 border-stage-gold dark:bg-green-950/40">
+                        <p class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Previous Reply ({{ $application->replied_at->format('M j, Y g:i A') }})</p>
+                        <p class="text-ink-soft leading-relaxed">{{ $application->reply }}</p>
                     </div>
                 @endif
 
@@ -78,15 +78,15 @@
                 <form action="{{ $postUrl }}" method="POST">
                     @csrf
                     <div class="mb-6">
-                        <label for="reply_message" class="block text-xs font-semibold tracking-[0.15em] uppercase text-gray-500 mb-3">Your Reply</label>
+                        <label for="reply_message" class="block text-xs font-semibold tracking-[0.15em] uppercase text-ink-muted mb-3">Your Reply</label>
                         <textarea name="reply_message" id="reply_message" rows="8" required
                             class="form-field"
                             placeholder="Type your reply here...">{{ old('reply_message') }}</textarea>
                         @error('reply_message')
-                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-2 dark:text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
-                    <button type="submit" class="px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                    <button type="submit" class="px-8 py-3.5 bg-cta text-on-cta text-sm font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">
                         Send Reply
                     </button>
                 </form>

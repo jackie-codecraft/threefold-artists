@@ -23,17 +23,74 @@
     --color-spotlight-amber: #D4943A;
     --color-spotlight-amber-light: #E0A94F;
 
+    /* Theme tokens: light values here, dark overrides under [data-theme='dark'] */
+    --color-page: #FFFFFF;
+    --color-surface: #F6F3EE;
+    --color-surface-hover: #F1EDE5;
+    --color-surface-selected: #EFE6CF;
+    --color-band: #1A1A1A;
+    --color-card: #FFFFFF;
+    --color-line-soft: #F3F4F6;
+    --color-line: #E5E7EB;
+    --color-line-strong: #D1D5DB;
+    --color-ink: #1A1A1A;
+    --color-ink-soft: #4B4B4B;
+    --color-ink-muted: #6B7280;
+    --color-ink-faint: #9CA3AF;
+    --color-ink-ghost: #D1D5DB;
+    --color-ink-subtle: #9A948A;
+    --color-gold-text: #B0923A;
+    --color-red-text: #8B1A2B;
+    --color-cta: #1A1A1A;
+    --color-cta-hover: #1F2937;
+    --color-on-cta: #FFFFFF;
+    --color-field-invalid: #FEF6F6;
+
     /* Fonts */
     --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
     --font-sans: 'Source Sans 3', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* Dark mode is driven by data-theme on <html>, set before paint in the layout head */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* "House lights down": warm blacks, linen text, Stage Gold unchanged */
+:root[data-theme='dark'] {
+    color-scheme: dark;
+
+    --color-page: #15120F;
+    --color-surface: #211D19;
+    --color-surface-hover: #2A251F;
+    --color-surface-selected: #3A3020;
+    --color-band: #0C0A09;
+    --color-card: #1D1915;
+    --color-line-soft: #26221D;
+    --color-line: #332D26;
+    --color-line-strong: #4A433A;
+    --color-ink: #F2EBDF;
+    --color-ink-soft: #CFC6B8;
+    --color-ink-muted: #B5AB9C;
+    --color-ink-faint: #918879;
+    --color-ink-ghost: #4A433A;
+    --color-ink-subtle: #8A8174;
+
+    /* Linen panels become a warm raised surface after dark */
+    --color-linen: #1A1713;
+    --color-linen-dark: #3A332B;
+    --color-gold-text: #D4B96A;
+    --color-red-text: #E0707F;
+    --color-cta: #C9A84C;
+    --color-cta-hover: #D4B96A;
+    --color-on-cta: #1A1A1A;
+    --color-field-invalid: #2A1416;
 }
 
 /* Base styles */
 @layer base {
     body {
         font-family: var(--font-sans);
-        color: var(--color-theatre-black);
-        background-color: #FFFFFF;
+        color: var(--color-ink);
+        background-color: var(--color-page);
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -95,7 +152,7 @@
     to { transform: rotate(360deg); }
 }
 
-/* Soft-fill form fields: warm fill on a white page, gold edge while typing */
+/* Soft-fill form fields: warm fill on the page, gold edge while typing */
 @layer components {
     .form-label {
         display: block;
@@ -105,7 +162,7 @@
         font-weight: 600;
         letter-spacing: 0.15em;
         text-transform: uppercase;
-        color: #4B4B4B;
+        color: var(--color-ink-soft);
     }
 
     .form-field {
@@ -114,32 +171,32 @@
         padding: 0.8rem 1rem;
         border: 1px solid transparent;
         border-radius: 10px;
-        background-color: #F6F3EE;
-        color: var(--color-theatre-black);
+        background-color: var(--color-surface);
+        color: var(--color-ink);
         font-size: 1rem;
         line-height: 1.5;
         transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
     }
 
     .form-field::placeholder {
-        color: #9A948A;
+        color: var(--color-ink-subtle);
     }
 
     .form-field:hover {
-        background-color: #F1EDE5;
+        background-color: var(--color-surface-hover);
     }
 
     .form-field:focus,
     .form-field:focus-visible {
         outline: none;
-        background-color: #FFFFFF;
+        background-color: var(--color-page);
         border-color: var(--color-stage-gold);
         box-shadow: 0 0 0 3px rgb(201 168 76 / 0.18);
     }
 
     .form-field[aria-invalid='true'] {
         border-color: #DC2626;
-        background-color: #FEF6F6;
+        background-color: var(--color-field-invalid);
     }
 
     .form-field[aria-invalid='true']:focus {
@@ -155,13 +212,17 @@
         background-size: 1.1rem;
     }
 
+    [data-theme='dark'] select.form-field {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23B5AB9C'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    }
+
     textarea.form-field {
         resize: vertical;
     }
 
     input[type='file'].form-field {
         padding: 0.55rem 0.6rem;
-        color: #4B4B4B;
+        color: var(--color-ink-soft);
         font-size: 0.875rem;
         cursor: pointer;
     }
@@ -171,8 +232,8 @@
         padding: 0.5rem 1rem;
         border: 0;
         border-radius: 7px;
-        background-color: var(--color-theatre-black);
-        color: #FFFFFF;
+        background-color: var(--color-ink);
+        color: var(--color-page);
         font-size: 0.75rem;
         font-weight: 600;
         letter-spacing: 0.05em;
@@ -188,23 +249,36 @@
         padding: 0.85rem 1rem;
         border: 1px solid transparent;
         border-radius: 10px;
-        background-color: #F6F3EE;
+        background-color: var(--color-surface);
         cursor: pointer;
         transition: background-color 150ms ease, border-color 150ms ease;
     }
 
     .form-choice:hover {
-        background-color: #F1EDE5;
+        background-color: var(--color-surface-hover);
     }
 
     .form-choice:has(:checked) {
-        background-color: #EFE6CF;
+        background-color: var(--color-surface-selected);
         border-color: rgb(201 168 76 / 0.55);
     }
 
     .form-choice:has(:focus-visible) {
         border-color: var(--color-stage-gold);
         box-shadow: 0 0 0 3px rgb(201 168 76 / 0.18);
+    }
+}
+
+/* Dark-mode niceties */
+@layer components {
+    /* Black-ink art-form icons get a soft spotlight so they read on dark */
+    [data-theme='dark'] .icon-spotlight {
+        filter: drop-shadow(0 0 1px rgb(242 235 223 / 0.55)) drop-shadow(0 0 14px rgb(201 168 76 / 0.28));
+    }
+
+    /* Feature bands get gold hairlines so they separate from the dark page */
+    [data-theme='dark'] .band-edge {
+        border-block: 1px solid rgb(201 168 76 / 0.28);
     }
 }
 

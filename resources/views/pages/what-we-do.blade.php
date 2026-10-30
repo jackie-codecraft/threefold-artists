@@ -1,7 +1,7 @@
 <x-layouts.app title="What We Do" metaDescription="Threefold Artists brings theatre, music, dance, and fine arts to care homes, hospitals, shelters, schools, and community centers.">
 
     {{-- Page Hero --}}
-    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    <section class="pt-16 pb-20 bg-band relative overflow-hidden">
     <div class="absolute inset-0">
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
         <div class="absolute inset-0 bg-black/30"></div>
@@ -18,70 +18,70 @@
     <section class="py-24 sm:py-32">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Our Performances</p>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">Our Performances</p>
                 <div class="w-16 h-px bg-stage-gold mb-8"></div>
-                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Bringing the Theatre to You</h2>
-                <div class="mt-8 space-y-6 text-lg leading-relaxed text-gray-500">
+                <h2 class="font-display text-4xl sm:text-5xl font-light text-ink">Bringing the Theatre to You</h2>
+                <div class="mt-8 space-y-6 text-lg leading-relaxed text-ink-muted">
                     <p>At Threefold Artists, we believe everyone deserves the experience of live theatre. We bring thoughtfully produced, 45–60 minute performances directly to seniors, retirement communities, rehabilitation centers, hospitals, and community facilities.</p>
                     <p>Our productions combine live music, theatre, storytelling, light comedy, and interactive moments with the details that make going to the theatre feel special. From theatre-style tickets and playbills to staging, lighting, sound, costumes, and production elements, we strive to transform each performance into a true theatrical experience.</p>
                     <p>Our programs feature nostalgic music, beloved standards, musical theatre, and songs from the 1940s through the 1970s, along with seasonal and themed productions throughout the year.</p>
-                    <p class="font-medium text-theatre-black">We don't simply bring a performance to our audience, we bring the theatre experience to them.</p>
+                    <p class="font-medium text-ink">We don't simply bring a performance to our audience, we bring the theatre experience to them.</p>
                 </div>
             </div>
         </div>
     </section>
 
     {{-- Art Forms --}}
-    <section class="py-24 sm:py-32 border-t border-gray-200">
+    <section class="py-24 sm:py-32 border-t border-line">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Disciplines</p>
-                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Our Art Forms</h2>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">Disciplines</p>
+                <h2 class="font-display text-4xl sm:text-5xl font-light text-ink">Our Art Forms</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
                 {{-- Theatre --}}
                 <div>
-                    <img src="{{ asset('images/icon-theatre.jpg') }}" alt="Theatre" class="w-16 h-16 object-contain mb-6">
+                    <img src="{{ asset('images/icon-theatre.png') }}" alt="Theatre" class="w-16 h-16 object-contain mb-6 icon-spotlight">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
-                    <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Theatre</h3>
-                    <p class="text-gray-500 leading-relaxed">From dramatic readings and monologues to full ensemble productions, our theatre performances are adapted to suit any space and any audience. We bring stories to life in intimate settings that create powerful connections between performers and audiences.</p>
+                    <h3 class="font-display text-2xl font-normal text-ink mb-4">Theatre</h3>
+                    <p class="text-ink-muted leading-relaxed">From dramatic readings and monologues to full ensemble productions, our theatre performances are adapted to suit any space and any audience. We bring stories to life in intimate settings that create powerful connections between performers and audiences.</p>
                 </div>
 
                 {{-- Music --}}
                 <div>
-                    <img src="{{ asset('images/icon-music.jpg') }}" alt="Music" class="w-16 h-16 object-contain mb-6">
+                    <img src="{{ asset('images/icon-music.png') }}" alt="Music" class="w-16 h-16 object-contain mb-6 icon-spotlight">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
-                    <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Music</h3>
-                    <p class="text-gray-500 leading-relaxed">Solo vocalists, chamber groups, pianists, guitarists, and ensembles performing classical, jazz, folk, and popular music. Our musical performances are designed to engage, soothe, and inspire audiences of all ages and abilities.</p>
+                    <h3 class="font-display text-2xl font-normal text-ink mb-4">Music</h3>
+                    <p class="text-ink-muted leading-relaxed">Solo vocalists, chamber groups, pianists, guitarists, and ensembles performing classical, jazz, folk, and popular music. Our musical performances are designed to engage, soothe, and inspire audiences of all ages and abilities.</p>
                 </div>
 
                 {{-- Dance --}}
                 <div>
-                    <img src="{{ asset('images/icon-dance.png') }}" alt="Dance" class="w-16 h-16 object-contain mb-6">
+                    <img src="{{ asset('images/icon-dance.png') }}" alt="Dance" class="w-16 h-16 object-contain mb-6 icon-spotlight">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
-                    <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Dance</h3>
-                    <p class="text-gray-500 leading-relaxed">Contemporary, classical, and cultural dance performances that bring movement and expression into spaces where they are rarely seen. Our dancers adapt their performances to engage audiences, sometimes inviting gentle participation.</p>
+                    <h3 class="font-display text-2xl font-normal text-ink mb-4">Dance</h3>
+                    <p class="text-ink-muted leading-relaxed">Contemporary, classical, and cultural dance performances that bring movement and expression into spaces where they are rarely seen. Our dancers adapt their performances to engage audiences, sometimes inviting gentle participation.</p>
                 </div>
 
                 {{-- Fine Arts --}}
                 <div>
-                    <img src="{{ asset('images/icon-fine-arts.jpg') }}" alt="Fine Arts" class="w-16 h-16 object-contain mb-6">
+                    <img src="{{ asset('images/icon-fine-arts.png') }}" alt="Fine Arts" class="w-16 h-16 object-contain mb-6 icon-spotlight">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
-                    <h3 class="font-display text-2xl font-normal text-theatre-black mb-4">Fine Arts</h3>
-                    <p class="text-gray-500 leading-relaxed">Live painting demonstrations, collaborative art sessions, and visual art experiences that bring creativity and color into community spaces. Fine arts performances can be interactive, inviting audiences to participate in the creative process.</p>
+                    <h3 class="font-display text-2xl font-normal text-ink mb-4">Fine Arts</h3>
+                    <p class="text-ink-muted leading-relaxed">Live painting demonstrations, collaborative art sessions, and visual art experiences that bring creativity and color into community spaces. Fine arts performances can be interactive, inviting audiences to participate in the creative process.</p>
                 </div>
             </div>
         </div>
     </section>
 
     {{-- Venues We Serve --}}
-    <section class="py-24 sm:py-32 border-t border-gray-200">
+    <section class="py-24 sm:py-32 border-t border-line">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Communities</p>
-                <h2 class="font-display text-4xl sm:text-5xl font-light text-theatre-black">Who We Serve</h2>
-                <p class="text-lg text-gray-500 mt-4 max-w-2xl">We bring performances to any community that would benefit from live arts but cannot easily access them.</p>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-4">Communities</p>
+                <h2 class="font-display text-4xl sm:text-5xl font-light text-ink">Who We Serve</h2>
+                <p class="text-lg text-ink-muted mt-4 max-w-2xl">We bring performances to any community that would benefit from live arts but cannot easily access them.</p>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
@@ -95,7 +95,7 @@
                 ] as [$label, $path])
                 <div class="text-center">
                     <svg class="w-6 h-6 text-stage-gold mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="{{ $path }}"/></svg>
-                    <span class="text-sm font-medium text-gray-700">{{ $label }}</span>
+                    <span class="text-sm font-medium text-ink-soft">{{ $label }}</span>
                 </div>
                 @endforeach
             </div>
@@ -103,7 +103,7 @@
     </section>
 
     {{-- How It Works --}}
-    <section class="py-24 sm:py-32 bg-theatre-black text-white">
+    <section class="py-24 sm:py-32 bg-band band-edge text-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">
                 <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4">The Process</p>

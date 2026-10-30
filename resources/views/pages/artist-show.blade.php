@@ -1,6 +1,6 @@
 <x-layouts.app :title="$artist->name" :metaDescription="Str::limit($artist->bio, 160)">
 
-    <section class="pt-16 pb-20 bg-theatre-black relative overflow-hidden">
+    <section class="pt-16 pb-20 bg-band relative overflow-hidden">
     <div class="absolute inset-0">
         <img src="{{ asset('images/hero-bg.jpg') }}" alt="" role="presentation" class="w-full h-full object-cover object-center">
         <div class="absolute inset-0 bg-black/30"></div>
@@ -24,25 +24,25 @@
                         <img src="{{ $artist->getFirstMediaUrl('photo') }}" alt="{{ $artist->name }}" class="w-full aspect-[3/4] object-cover">
                     @else
                         <div class="w-full aspect-[3/4] bg-linen flex items-center justify-center">
-                            <svg class="w-24 h-24 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            <svg class="w-24 h-24 text-ink-ghost" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                         </div>
                     @endif
                 </div>
 
                 <div class="lg:col-span-2">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
-                    <h2 class="font-display text-3xl font-light text-theatre-black mb-3">About</h2>
-                    <p class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-6">{{ $artist->discipline_names->join(' • ') }}</p>
+                    <h2 class="font-display text-3xl font-light text-ink mb-3">About</h2>
+                    <p class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-6">{{ $artist->discipline_names->join(' • ') }}</p>
                     @if($artist->bio)
-                        <div class="prose prose-lg max-w-none text-gray-500 leading-relaxed prose-headings:font-display prose-headings:text-theatre-black">
+                        <div class="prose dark:prose-invert prose-lg max-w-none text-ink-muted leading-relaxed prose-headings:font-display prose-headings:text-ink">
                             {!! nl2br(e($artist->bio)) !!}
                         </div>
                     @else
-                        <p class="text-gray-400 italic">Bio coming soon.</p>
+                        <p class="text-ink-faint italic">Bio coming soon.</p>
                     @endif
 
                     @if($artist->is_featured)
-                        <div class="mt-12 pt-8 border-t border-gray-100">
+                        <div class="mt-12 pt-8 border-t border-line-soft">
                             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-stage-gold">Featured Artist</p>
                         </div>
                     @endif

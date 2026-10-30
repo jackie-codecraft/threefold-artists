@@ -22,7 +22,7 @@
 
     @php($featuredImageUrl = $event->featuredImageUrl())
 
-    <section class="pt-20 pb-24 bg-theatre-black relative overflow-hidden min-h-[520px] flex items-end">
+    <section class="pt-20 pb-24 bg-band relative overflow-hidden min-h-[520px] flex items-end">
         <div class="absolute inset-0">
             @if($featuredImageUrl)
                 <img src="{{ $featuredImageUrl }}" alt="{{ $event->title }}" class="w-full h-full object-cover object-center">
@@ -59,29 +59,29 @@
                 <aside class="lg:col-span-1">
                     <div class="space-y-8">
                         <div>
-                            <h2 class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Date</h2>
-                            <p class="font-display text-2xl font-light text-theatre-black">{{ $event->date->format('F j, Y') }}</p>
+                            <h2 class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Date</h2>
+                            <p class="font-display text-2xl font-light text-ink">{{ $event->date->format('F j, Y') }}</p>
                         </div>
 
                         @if($event->time)
                             <div>
-                                <h2 class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Time</h2>
-                                <p class="text-gray-700">{{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}</p>
+                                <h2 class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Time</h2>
+                                <p class="text-ink-soft">{{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}</p>
                             </div>
                         @endif
 
                         <div>
-                            <h2 class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Location</h2>
-                            <p class="font-medium text-theatre-black">{{ $event->venue_name }}</p>
+                            <h2 class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Location</h2>
+                            <p class="font-medium text-ink">{{ $event->venue_name }}</p>
                             @if($event->venue_address)
-                                <p class="text-gray-500 mt-1">{{ $event->venue_address }}</p>
+                                <p class="text-ink-muted mt-1">{{ $event->venue_address }}</p>
                             @endif
                         </div>
 
                         @if($event->art_form)
                             <div>
-                                <h2 class="text-xs font-semibold tracking-[0.15em] uppercase text-gray-400 mb-2">Art Form</h2>
-                                <p class="text-stage-gold-dark font-semibold uppercase tracking-[0.15em] text-xs">{{ str_replace('_', ' ', $event->art_form) }}</p>
+                                <h2 class="text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint mb-2">Art Form</h2>
+                                <p class="text-gold-text font-semibold uppercase tracking-[0.15em] text-xs">{{ str_replace('_', ' ', $event->art_form) }}</p>
                             </div>
                         @endif
                     </div>
@@ -90,31 +90,31 @@
                 <article class="lg:col-span-2">
                     <div class="w-12 h-px bg-stage-gold mb-8"></div>
                     @if($event->description)
-                        <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed">
+                        <div class="prose dark:prose-invert prose-lg max-w-none text-ink-soft leading-relaxed">
                             {!! nl2br(e($event->description)) !!}
                         </div>
                     @else
-                        <p class="text-gray-500 leading-relaxed">Full details for this performance are coming soon.</p>
+                        <p class="text-ink-muted leading-relaxed">Full details for this performance are coming soon.</p>
                     @endif
 
                     @if($isPastEvent && $event->recap)
-                        <div class="mt-10 pt-10 border-t border-gray-100">
-                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">Event Recap</p>
-                            <h2 class="font-display text-3xl font-light text-theatre-black mb-6">How it went</h2>
-                            <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed">
+                        <div class="mt-10 pt-10 border-t border-line-soft">
+                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-3">Event Recap</p>
+                            <h2 class="font-display text-3xl font-light text-ink mb-6">How it went</h2>
+                            <div class="prose dark:prose-invert prose-lg max-w-none text-ink-soft leading-relaxed">
                                 {!! nl2br(e($event->recap)) !!}
                             </div>
                         </div>
                     @endif
 
                     @if($galleryItems->isNotEmpty() && $siteSettings->galleryEnabled())
-                        <div class="mt-12 pt-10 border-t border-gray-100">
+                        <div class="mt-12 pt-10 border-t border-line-soft">
                             <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
                                 <div>
-                                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">Event Gallery</p>
-                                    <h2 class="font-display text-3xl font-light text-theatre-black">Moments from {{ $event->title }}</h2>
+                                    <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-3">Event Gallery</p>
+                                    <h2 class="font-display text-3xl font-light text-ink">Moments from {{ $event->title }}</h2>
                                 </div>
-                                <a href="{{ route('gallery', ['related_type' => 'event', 'related_id' => $event->id]) }}" class="inline-flex items-center text-sm font-semibold text-theatre-black hover:text-stage-gold-dark transition-colors">
+                                <a href="{{ route('gallery', ['related_type' => 'event', 'related_id' => $event->id]) }}" class="inline-flex items-center text-sm font-semibold text-ink hover:text-gold-text transition-colors">
                                     View Gallery
                                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                                 </a>
@@ -130,11 +130,11 @@
                                                     <img src="{{ $galleryItem->thumbnailUrl() }}" alt="{{ $galleryItem->title ?? 'Event gallery image' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                                 @endif
                                             @else
-                                                <div class="w-full h-full flex items-center justify-center px-4 text-center text-xs font-semibold tracking-[0.15em] uppercase text-gray-400">Gallery Image</div>
+                                                <div class="w-full h-full flex items-center justify-center px-4 text-center text-xs font-semibold tracking-[0.15em] uppercase text-ink-faint">Gallery Image</div>
                                             @endif
                                         </div>
                                         @if($galleryItem->title)
-                                            <p class="mt-3 text-sm font-medium text-theatre-black group-hover:text-stage-gold-dark transition-colors">{{ $galleryItem->title }}</p>
+                                            <p class="mt-3 text-sm font-medium text-ink group-hover:text-gold-text transition-colors">{{ $galleryItem->title }}</p>
                                         @endif
                                     </a>
                                 @endforeach
@@ -143,17 +143,17 @@
                     @endif
 
                     @if($isPastEvent && $testimonials->isNotEmpty())
-                        <div class="mt-12 pt-10 border-t border-gray-100">
-                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">In Their Words</p>
-                            <h2 class="font-display text-3xl font-light text-theatre-black mb-8">What people shared</h2>
+                        <div class="mt-12 pt-10 border-t border-line-soft">
+                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-ink-faint mb-3">In Their Words</p>
+                            <h2 class="font-display text-3xl font-light text-ink mb-8">What people shared</h2>
                             <div class="grid gap-6 sm:grid-cols-2">
                                 @foreach($testimonials as $testimonial)
                                     <figure class="border-l-2 border-stage-gold bg-linen/50 p-6">
-                                        <blockquote class="font-display text-xl leading-relaxed text-theatre-black">“{{ $testimonial->quote }}”</blockquote>
-                                        <figcaption class="mt-5 text-sm text-gray-600">
-                                            <span class="font-semibold text-theatre-black">{{ $testimonial->attribution }}</span>
+                                        <blockquote class="font-display text-xl leading-relaxed text-ink">“{{ $testimonial->quote }}”</blockquote>
+                                        <figcaption class="mt-5 text-sm text-ink-soft">
+                                            <span class="font-semibold text-ink">{{ $testimonial->attribution }}</span>
                                             @if($testimonial->venue_name)
-                                                <span class="text-gray-400"> · {{ $testimonial->venue_name }}</span>
+                                                <span class="text-ink-faint"> · {{ $testimonial->venue_name }}</span>
                                             @endif
                                         </figcaption>
                                     </figure>
@@ -162,11 +162,11 @@
                         </div>
                     @endif
 
-                    <div class="mt-12 pt-8 border-t border-gray-100 flex flex-col sm:flex-row gap-3">
-                        <a href="{{ route('events') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-theatre-black text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-theatre-black hover:text-white transition-colors">
+                    <div class="mt-12 pt-8 border-t border-line-soft flex flex-col sm:flex-row gap-3">
+                        <a href="{{ route('events') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-ink text-ink text-sm font-semibold tracking-wide uppercase hover:bg-ink hover:text-page transition-colors">
                             Back to Events
                         </a>
-                        <a href="{{ route('request-performance') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                        <a href="{{ route('request-performance') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-cta text-on-cta text-sm font-semibold tracking-wide uppercase hover:bg-cta-hover transition-colors">
                             Request a Performance
                         </a>
                     </div>

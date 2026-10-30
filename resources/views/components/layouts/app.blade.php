@@ -8,6 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- Set the theme before first paint so dark-mode visitors never see a white flash --}}
+    <script>
+        (() => {
+            let stored = null;
+            try { stored = localStorage.getItem('theme'); } catch (e) {}
+            const dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        })();
+    </script>
+
     <title>{{ $title ?? 'Threefold Artists' }} — Keeping Theatre Alive</title>
     <meta name="description" content="{{ $metaDescription ?? 'Threefold Artists brings live performing arts to communities that cannot easily access them. Theatre, music, dance — when people cannot come to the arts, we will come to them.' }}">
 
@@ -65,7 +75,7 @@
     {{-- Navigation --}}
     <header x-data="{ open: false, scrolled: false }"
             x-init="scrolled = window.scrollY > 60; window.addEventListener('scroll', () => { scrolled = window.scrollY > 60 })"
-            :class="scrolled ? 'bg-white border-b border-gray-200 shadow-sm' : 'bg-white border-b border-gray-200'"
+            :class="scrolled ? 'bg-page border-b border-line shadow-sm' : 'bg-page border-b border-line'"
             class="sticky top-0 z-50 transition-all duration-300">
         <nav aria-label="Main navigation" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between transition-all duration-300"
@@ -73,51 +83,58 @@
                 {{-- Logo — large on load, shrinks on scroll --}}
                 <a href="{{ route('home') }}" class="shrink-0 relative">
                     <img src="{{ asset('images/logo.png') }}" alt="Threefold Artists Inc."
-                         class="w-auto transition-all duration-300"
+                         class="w-auto transition-all duration-300 dark:hidden"
+                         :class="scrolled ? 'h-16' : 'h-24'">
+                    <img src="{{ asset('images/logo-dark.png') }}" alt="Threefold Artists Inc."
+                         class="hidden w-auto transition-all duration-300 dark:block"
                          :class="scrolled ? 'h-16' : 'h-24'">
                 </a>
 
                 {{-- Desktop Navigation --}}
                 <div class="hidden xl:flex items-center gap-3.5 whitespace-nowrap">
-                    <a href="{{ route('home') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Home</a>
-                    <a href="{{ route('about') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">About</a>
-                    <a href="{{ route('what-we-do') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('what-we-do') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">What We Do</a>
-                    <a href="{{ route('artists') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('artists') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Artists</a>
+                    <a href="{{ route('home') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Home</a>
+                    <a href="{{ route('about') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">About</a>
+                    <a href="{{ route('what-we-do') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('what-we-do') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">What We Do</a>
+                    <a href="{{ route('artists') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('artists') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Artists</a>
                     @if($siteSettings->eventsEnabled())
-                        <a href="{{ route('events') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('events*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Events</a>
+                        <a href="{{ route('events') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('events*') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Events</a>
                     @endif
                     @if($siteSettings->galleryEnabled())
-                        <a href="{{ route('gallery') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('gallery') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Gallery</a>
+                        <a href="{{ route('gallery') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('gallery') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Gallery</a>
                     @endif
                     @if($siteSettings->impactEnabled())
-                        <a href="{{ route('impact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('impact') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Impact</a>
+                        <a href="{{ route('impact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('impact') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Impact</a>
                     @endif
                     @if($siteSettings->blogEnabled())
-                        <a href="{{ route('blog') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('blog*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Blog</a>
+                        <a href="{{ route('blog') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('blog*') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Blog</a>
                     @endif
-                    <a href="{{ route('get-involved') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('get-involved*', 'artist-application*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Get Involved</a>
-                    <a href="{{ route('contact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('contact*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Contact</a>
+                    <a href="{{ route('get-involved') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('get-involved*', 'artist-application*') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Get Involved</a>
+                    <a href="{{ route('contact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('contact*') ? 'text-ink border-b-2 border-stage-gold pb-0.5' : 'text-ink-muted hover:text-ink' }}">Contact</a>
                     <div class="flex items-center gap-2 ml-2">
-                        <a href="{{ route('request-performance') }}" class="px-4 py-2 text-sm font-medium border border-theatre-black text-theatre-black hover:bg-theatre-black hover:text-white transition-colors">
+                        <x-theme-toggle />
+                        <a href="{{ route('request-performance') }}" class="px-4 py-2 text-sm font-medium border border-ink text-ink hover:bg-ink hover:text-page transition-colors">
                             Request Performance
                         </a>
                         @if($siteSettings->donationsEnabled())
-                            <a href="{{ route('donate') }}" class="px-4 py-2 text-sm font-medium bg-theatre-black text-white hover:bg-gray-800 transition-colors">
+                            <a href="{{ route('donate') }}" class="px-4 py-2 text-sm font-medium bg-cta text-on-cta hover:bg-cta-hover transition-colors">
                                 Donate
                             </a>
                         @endif
                     </div>
                 </div>
 
-                {{-- Mobile menu button --}}
-                <button @click="open = !open" :aria-expanded="open" class="xl:hidden p-2 text-gray-600 hover:text-theatre-black focus:outline-none" aria-label="Toggle menu">
-                    <svg x-show="!open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
-                    <svg x-show="open" x-cloak class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
+                {{-- Mobile: theme toggle + menu button --}}
+                <div class="flex items-center gap-2 xl:hidden">
+                    <x-theme-toggle />
+                    <button @click="open = !open" :aria-expanded="open" class="p-2 text-ink-muted hover:text-ink focus:outline-none" aria-label="Toggle menu">
+                        <svg x-show="!open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                        <svg x-show="open" x-cloak class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             {{-- Mobile Navigation --}}
@@ -125,30 +142,30 @@
                  x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
                  x-transition:leave="transition ease-in duration-150"
                  x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
-                 class="xl:hidden pb-6 border-t border-gray-100 mt-2 pt-4">
+                 class="xl:hidden pb-6 border-t border-line mt-2 pt-4">
                 <div class="flex flex-col gap-1">
-                    <a href="{{ route('home') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('home') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Home</a>
-                    <a href="{{ route('about') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('about') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">About</a>
-                    <a href="{{ route('what-we-do') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('what-we-do') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">What We Do</a>
-                    <a href="{{ route('artists') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('artists') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Artists</a>
+                    <a href="{{ route('home') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('home') ? 'text-ink font-semibold' : 'text-ink-muted' }}">Home</a>
+                    <a href="{{ route('about') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('about') ? 'text-ink font-semibold' : 'text-ink-muted' }}">About</a>
+                    <a href="{{ route('what-we-do') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('what-we-do') ? 'text-ink font-semibold' : 'text-ink-muted' }}">What We Do</a>
+                    <a href="{{ route('artists') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('artists') ? 'text-ink font-semibold' : 'text-ink-muted' }}">Artists</a>
                     @if($siteSettings->eventsEnabled())
-                        <a href="{{ route('events') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('events*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Events</a>
+                        <a href="{{ route('events') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('events*') ? 'text-ink font-semibold' : 'text-ink-muted' }}">Events</a>
                     @endif
                     @if($siteSettings->galleryEnabled())
-                        <a href="{{ route('gallery') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('gallery') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Gallery</a>
+                        <a href="{{ route('gallery') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('gallery') ? 'text-ink font-semibold' : 'text-ink-muted' }}">Gallery</a>
                     @endif
                     @if($siteSettings->impactEnabled())
-                        <a href="{{ route('impact') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('impact') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Impact</a>
+                        <a href="{{ route('impact') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('impact') ? 'text-ink font-semibold' : 'text-ink-muted' }}">Impact</a>
                     @endif
                     @if($siteSettings->blogEnabled())
-                        <a href="{{ route('blog') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('blog*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Blog</a>
+                        <a href="{{ route('blog') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('blog*') ? 'text-ink font-semibold' : 'text-ink-muted' }}">Blog</a>
                     @endif
-                    <a href="{{ route('get-involved') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('get-involved*', 'artist-application*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Get Involved</a>
-                    <a href="{{ route('contact') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('contact*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Contact</a>
+                    <a href="{{ route('get-involved') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('get-involved*', 'artist-application*') ? 'text-ink font-semibold' : 'text-ink-muted' }}">Get Involved</a>
+                    <a href="{{ route('contact') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('contact*') ? 'text-ink font-semibold' : 'text-ink-muted' }}">Contact</a>
                     <div class="flex flex-col gap-2 mt-4 px-3">
-                        <a href="{{ route('request-performance') }}" class="text-center px-5 py-3 text-sm font-medium border border-theatre-black text-theatre-black">Request Performance</a>
+                        <a href="{{ route('request-performance') }}" class="text-center px-5 py-3 text-sm font-medium border border-ink text-ink">Request Performance</a>
                         @if($siteSettings->donationsEnabled())
-                            <a href="{{ route('donate') }}" class="text-center px-5 py-3 text-sm font-medium bg-theatre-black text-white">Donate</a>
+                            <a href="{{ route('donate') }}" class="text-center px-5 py-3 text-sm font-medium bg-cta text-on-cta">Donate</a>
                         @endif
                     </div>
                 </div>
@@ -158,8 +175,8 @@
 
     {{-- Flash Messages --}}
     @if (session('success'))
-        <div class="bg-green-50 border-l-4 border-green-500 p-4 max-w-7xl mx-auto mt-4">
-            <p class="text-green-700">{{ session('success') }}</p>
+        <div class="bg-green-50 border-l-4 border-green-500 p-4 max-w-7xl mx-auto mt-4 dark:bg-green-950/40">
+            <p class="text-green-700 dark:text-green-300">{{ session('success') }}</p>
         </div>
     @endif
 
@@ -169,15 +186,15 @@
     </main>
 
     {{-- Footer --}}
-    <footer class="bg-theatre-black text-gray-300" role="contentinfo">
-        <div class="border-t border-gray-800"></div>
+    <footer class="bg-band text-gray-300" role="contentinfo">
+        <div class="border-t border-gray-800 dark:border-stage-gold/30"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
                 {{-- Brand --}}
                 <div class="lg:col-span-1">
                     <div class="mb-6">
-                        <img src="{{ asset('images/logo.png') }}" alt="Threefold Artists Inc." class="h-14 w-auto brightness-0 invert">
+                        <img src="{{ asset('images/logo-dark.png') }}" alt="Threefold Artists Inc." class="h-14 w-auto">
                     </div>
                     <p class="text-sm text-gray-400 leading-relaxed mb-6">
                         When people cannot come to the arts, we will come to them.
