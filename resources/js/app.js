@@ -6,7 +6,7 @@ Alpine.start();
 document.addEventListener('submit', (event) => {
     const form = event.target;
 
-    if (!(form instanceof HTMLFormElement) || form.dataset.submitting === 'true' || !form.checkValidity()) {
+    if (event.defaultPrevented || !(form instanceof HTMLFormElement) || form.dataset.submitting === 'true' || !form.checkValidity()) {
         return;
     }
 

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\ArtistApplicationController;
 use App\Http\Controllers\ArtistApplicationMediaController;
 use App\Http\Controllers\ArtistApplicationReplyController;
 use App\Http\Controllers\ContactController;
@@ -41,6 +42,7 @@ Route::get('/sitemap.xml', function () {
         ->add(Url::create('/artists')->setPriority(0.7))
         ->add(Url::create('/request-a-performance')->setPriority(0.9))
         ->add(Url::create('/get-involved')->setPriority(0.8))
+        ->add(Url::create('/get-involved/artists')->setPriority(0.7))
         ->add(Url::create('/contact')->setPriority(0.7))
         ->add(Url::create('/press-kit')->setPriority(0.5));
 
@@ -125,12 +127,19 @@ Route::post('/request-a-performance', [PerformanceRequestController::class, 'sto
     ->middleware('throttle:performance-request');
 Route::get('/request-a-performance/thank-you', [PerformanceRequestController::class, 'thanks'])->name('request-performance.thanks');
 
-// Get Involved
+// Get Involved (volunteers)
 Route::get('/get-involved', [GetInvolvedController::class, 'create'])->name('get-involved');
 Route::post('/get-involved', [GetInvolvedController::class, 'store'])
     ->name('get-involved.store')
-    ->middleware('throttle:artist-application');
+    ->middleware('throttle:volunteer-application');
 Route::get('/get-involved/thank-you', [GetInvolvedController::class, 'thanks'])->name('get-involved.thanks');
+
+// Artist Application (performers)
+Route::get('/get-involved/artists', [ArtistApplicationController::class, 'create'])->name('artist-application.create');
+Route::post('/get-involved/artists', [ArtistApplicationController::class, 'store'])
+    ->name('artist-application.store')
+    ->middleware('throttle:artist-application');
+Route::get('/get-involved/artists/thank-you', [ArtistApplicationController::class, 'thanks'])->name('artist-application.thanks');
 
 // Contact
 Route::get('/contact', [ContactController::class, 'create'])->name('contact');

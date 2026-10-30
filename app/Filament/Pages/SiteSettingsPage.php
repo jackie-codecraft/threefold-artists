@@ -93,19 +93,33 @@ class SiteSettingsPage extends Page implements HasForms
                                     ->required(),
                             ]),
                     ]),
-                Section::make('Future-ready contact details')
-                    ->description('Optional global values that can be reused across the site as more settings are added.')
+                Section::make('Email notifications')
+                    ->description('Where the website sends alerts when someone submits a form.')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('admin_notification_email')
+                                    ->label('Admin notifications email')
+                                    ->email()
+                                    ->maxLength(255)
+                                    ->placeholder(SiteSettings::fallbackAdminNotificationEmail())
+                                    ->helperText('Receives new volunteer applications, artist applications, performance requests and contact messages. Leave blank to use '.SiteSettings::fallbackAdminNotificationEmail().'.'),
+                                TextInput::make('donations_email')
+                                    ->label('Pledge notifications email')
+                                    ->email()
+                                    ->maxLength(255)
+                                    ->helperText('Receives new founding-supporter pledges. Leave blank to use the admin notifications email.'),
+                            ]),
+                    ]),
+                Section::make('Public contact details')
                     ->schema([
                         Grid::make(2)
                             ->schema([
                                 TextInput::make('contact_email')
                                     ->label('Contact email')
                                     ->email()
-                                    ->maxLength(255),
-                                TextInput::make('donations_email')
-                                    ->label('Donations email')
-                                    ->email()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->helperText('Shown publicly on the Contact page, in the site footer and in the volunteer form privacy notice.'),
                             ]),
                     ]),
                 Section::make('Contact page social links')

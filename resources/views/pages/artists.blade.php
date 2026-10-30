@@ -20,7 +20,7 @@
                     <div class="w-12 h-px bg-stage-gold mx-auto mb-8"></div>
                     <h2 class="font-display text-3xl font-light text-theatre-black mb-4">Artist Profiles Coming Soon</h2>
                     <p class="text-gray-500 leading-relaxed mb-10">We are building our directory of talented volunteer performing artists. Want to be among the first?</p>
-                    <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
+                    <a href="{{ route('artist-application.create') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-theatre-black text-white text-sm font-semibold tracking-wide uppercase hover:bg-gray-800 transition-colors">
                         Become an Artist
                     </a>
                 </div>
@@ -70,7 +70,7 @@
                 We look forward to hearing from you!
             </p>
             <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                <a href="{{ route('get-involved') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-gray-100 transition-colors">
+                <a href="{{ route('artist-application.create') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-theatre-black text-sm font-semibold tracking-wide uppercase hover:bg-gray-100 transition-colors">
                     Apply as a Volunteer Artist
                 </a>
                 <a href="{{ route('contact') }}" class="inline-flex items-center justify-center px-8 py-3.5 border border-white text-white text-sm font-semibold tracking-wide uppercase hover:bg-white hover:text-theatre-black transition-colors">

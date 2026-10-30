@@ -6,6 +6,7 @@ namespace App\Http\Requests;
 
 use App\Rules\ValidTurnstile;
 use App\Support\DisciplineOptions;
+use App\Support\UploadLimits;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ArtistApplicationRequest extends FormRequest
@@ -25,10 +26,11 @@ class ArtistApplicationRequest extends FormRequest
             'experience' => ['nullable', 'string', 'max:2000'],
             'bio' => ['nullable', 'string', 'max:2000'],
             'availability' => ['nullable', 'string', 'max:1000'],
-            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-            'resume' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:10240'],
-            'supporting_media' => ['nullable', 'array', 'max:5'],
-            'supporting_media.*' => ['file', 'mimes:mp4,mov,webm,mp3,wav,m4a,jpg,jpeg,png,webp,pdf', 'max:20480'],
+            'demo_video_url' => ['nullable', 'url:http,https', 'max:2048'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:'.UploadLimits::PHOTO_KB],
+            'resume' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:'.UploadLimits::RESUME_KB],
+            'supporting_media' => ['nullable', 'array', 'max:'.UploadLimits::SUPPORTING_MEDIA_MAX_FILES],
+            'supporting_media.*' => ['file', 'mimes:mp4,mov,webm,mp3,wav,m4a,jpg,jpeg,png,webp,pdf', 'max:'.UploadLimits::SUPPORTING_MEDIA_KB],
             'cf-turnstile-response' => ['required', new ValidTurnstile($this->ip())],
         ];
     }

@@ -21,6 +21,7 @@ class SiteSettings extends Model
         'show_pledges',
         'contact_email',
         'donations_email',
+        'admin_notification_email',
         'facebook_url',
         'instagram_url',
         'youtube_url',
@@ -69,11 +70,28 @@ class SiteSettings extends Model
             'show_pledges' => true,
             'contact_email' => 'hello@threefoldartists.org',
             'donations_email' => null,
+            'admin_notification_email' => null,
             'facebook_url' => null,
             'instagram_url' => null,
             'youtube_url' => null,
             'tiktok_url' => null,
         ];
+    }
+
+    /**
+     * Inbox for admin alerts about new website submissions. Falls back to the
+     * site's sending address so notifications never go nowhere.
+     */
+    public function adminNotificationEmail(): string
+    {
+        $email = trim((string) $this->admin_notification_email);
+
+        return $email !== '' ? $email : static::fallbackAdminNotificationEmail();
+    }
+
+    public static function fallbackAdminNotificationEmail(): string
+    {
+        return (string) config('mail.from.address');
     }
 
     public function blogEnabled(): bool

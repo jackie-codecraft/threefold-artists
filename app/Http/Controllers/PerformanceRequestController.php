@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PerformanceRequestFormRequest;
 use App\Mail\PerformanceRequestSubmitted;
 use App\Models\PerformanceRequest;
+use App\Models\SiteSettings;
 use Illuminate\Support\Facades\Mail;
 
 class PerformanceRequestController extends Controller
@@ -20,7 +21,7 @@ class PerformanceRequestController extends Controller
     {
         $performanceRequest = PerformanceRequest::create($request->validated());
 
-        Mail::to(config('mail.from.address'))->send(
+        Mail::to(SiteSettings::current()->adminNotificationEmail())->send(
             new PerformanceRequestSubmitted($performanceRequest)
         );
 

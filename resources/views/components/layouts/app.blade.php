@@ -78,7 +78,7 @@
                 </a>
 
                 {{-- Desktop Navigation --}}
-                <div class="hidden lg:flex items-center gap-6">
+                <div class="hidden xl:flex items-center gap-3.5 whitespace-nowrap">
                     <a href="{{ route('home') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Home</a>
                     <a href="{{ route('about') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">About</a>
                     <a href="{{ route('what-we-do') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('what-we-do') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">What We Do</a>
@@ -95,13 +95,14 @@
                     @if($siteSettings->blogEnabled())
                         <a href="{{ route('blog') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('blog*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Blog</a>
                     @endif
+                    <a href="{{ route('get-involved') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('get-involved*', 'artist-application*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Get Involved</a>
                     <a href="{{ route('contact') }}" class="text-sm font-medium transition-colors {{ request()->routeIs('contact*') ? 'text-theatre-black border-b-2 border-stage-gold pb-0.5' : 'text-gray-500 hover:text-theatre-black' }}">Contact</a>
-                    <div class="flex items-center gap-2 ml-4">
-                        <a href="{{ route('request-performance') }}" class="px-5 py-2 text-sm font-medium border border-theatre-black text-theatre-black hover:bg-theatre-black hover:text-white transition-colors">
+                    <div class="flex items-center gap-2 ml-2">
+                        <a href="{{ route('request-performance') }}" class="px-4 py-2 text-sm font-medium border border-theatre-black text-theatre-black hover:bg-theatre-black hover:text-white transition-colors">
                             Request Performance
                         </a>
                         @if($siteSettings->donationsEnabled())
-                            <a href="{{ route('donate') }}" class="px-5 py-2 text-sm font-medium bg-theatre-black text-white hover:bg-gray-800 transition-colors">
+                            <a href="{{ route('donate') }}" class="px-4 py-2 text-sm font-medium bg-theatre-black text-white hover:bg-gray-800 transition-colors">
                                 Donate
                             </a>
                         @endif
@@ -109,7 +110,7 @@
                 </div>
 
                 {{-- Mobile menu button --}}
-                <button @click="open = !open" :aria-expanded="open" class="lg:hidden p-2 text-gray-600 hover:text-theatre-black focus:outline-none" aria-label="Toggle menu">
+                <button @click="open = !open" :aria-expanded="open" class="xl:hidden p-2 text-gray-600 hover:text-theatre-black focus:outline-none" aria-label="Toggle menu">
                     <svg x-show="!open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -124,7 +125,7 @@
                  x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
                  x-transition:leave="transition ease-in duration-150"
                  x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
-                 class="lg:hidden pb-6 border-t border-gray-100 mt-2 pt-4">
+                 class="xl:hidden pb-6 border-t border-gray-100 mt-2 pt-4">
                 <div class="flex flex-col gap-1">
                     <a href="{{ route('home') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('home') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Home</a>
                     <a href="{{ route('about') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('about') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">About</a>
@@ -142,6 +143,7 @@
                     @if($siteSettings->blogEnabled())
                         <a href="{{ route('blog') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('blog*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Blog</a>
                     @endif
+                    <a href="{{ route('get-involved') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('get-involved*', 'artist-application*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Get Involved</a>
                     <a href="{{ route('contact') }}" class="px-3 py-2 text-base font-medium {{ request()->routeIs('contact*') ? 'text-theatre-black font-semibold' : 'text-gray-500' }}">Contact</a>
                     <div class="flex flex-col gap-2 mt-4 px-3">
                         <a href="{{ route('request-performance') }}" class="text-center px-5 py-3 text-sm font-medium border border-theatre-black text-theatre-black">Request Performance</a>
@@ -210,7 +212,8 @@
                     <h3 class="text-xs font-semibold text-gray-400 tracking-[0.15em] uppercase mb-6">Get Involved</h3>
                     <ul class="space-y-3 text-sm">
                         <li><a href="{{ route('request-performance') }}" class="text-gray-300 hover:text-white transition-colors">Request a Performance</a></li>
-                        <li><a href="{{ route('get-involved') }}" class="text-gray-300 hover:text-white transition-colors">Volunteer</a></li>
+                        <li><a href="{{ route('get-involved') }}" class="text-gray-300 hover:text-white transition-colors">Volunteer With Us</a></li>
+                        <li><a href="{{ route('artist-application.create') }}" class="text-gray-300 hover:text-white transition-colors">Apply as an Artist</a></li>
                         @if($siteSettings->donationsEnabled())
                             <li><a href="{{ route('donate') }}" class="text-gray-300 hover:text-white transition-colors">Donate</a></li>
                             <li><a href="{{ route('donor-wall') }}" class="text-gray-300 hover:text-white transition-colors">Donor Wall</a></li>
@@ -264,7 +267,7 @@
                                 <x-turnstile />
                                 <div class="flex gap-2">
                                     <input type="email" name="email" required placeholder="Your email" aria-label="Email address for newsletter"
-                                        class="flex-1 bg-transparent border-0 border-b border-gray-600 text-white text-sm py-2 placeholder-gray-500 focus:border-stage-gold focus:ring-0">
+                                        class="min-w-0 flex-1 bg-transparent border-0 border-b border-gray-600 text-white text-sm py-2 placeholder-gray-500 focus:border-stage-gold focus:ring-0">
                                     <button type="submit" class="text-xs font-semibold tracking-wide uppercase text-stage-gold hover:text-white transition-colors">
                                         Subscribe
                                     </button>
