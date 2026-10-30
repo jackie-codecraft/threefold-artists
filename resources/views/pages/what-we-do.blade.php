@@ -106,7 +106,7 @@
     <section class="py-24 sm:py-32 bg-band band-edge text-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4">The Process</p>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">The Process</p>
                 <h2 class="font-display text-4xl sm:text-5xl font-light">How It Works</h2>
                 <p class="text-lg text-gray-400 mt-4">Three simple steps to bring live performance to your community.</p>
             </div>

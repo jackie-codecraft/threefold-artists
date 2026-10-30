@@ -63,26 +63,26 @@
                         </div>
                     @enderror
 
-                    <div class="mb-10">
-                        <label class="block text-xs font-semibold tracking-[0.15em] uppercase text-ink-muted mb-4">Donation Type</label>
+                    <fieldset class="mb-10">
+                        <legend class="block text-xs font-semibold tracking-[0.15em] uppercase text-ink-muted mb-4">Donation Type</legend>
                         <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
                             @foreach(['one-time' => 'One-Time', 'monthly' => 'Monthly', 'quarterly' => 'Quarterly', 'annual' => 'Annual'] as $value => $label)
-                                <button type="button" x-on:click="donationType = '{{ $value }}'"
+                                <button type="button" x-on:click="donationType = '{{ $value }}'" :aria-pressed="(donationType === '{{ $value }}').toString()"
                                     :class="donationType === '{{ $value }}' ? 'bg-cta text-on-cta border-cta' : 'bg-card text-ink border-line-strong hover:border-ink'"
                                     class="py-3 px-3 border-2 font-semibold text-sm tracking-wide uppercase transition-colors cursor-pointer">
                                     {{ $label }}
                                 </button>
                             @endforeach
                         </div>
-                    </div>
+                    </fieldset>
 
                     <input type="hidden" name="donation_type" :value="donationType">
 
-                    <div>
-                        <label class="block text-xs font-semibold tracking-[0.15em] uppercase text-ink-muted mb-4">Select an Amount</label>
+                    <fieldset>
+                        <legend class="block text-xs font-semibold tracking-[0.15em] uppercase text-ink-muted mb-4">Select an Amount</legend>
                         <div class="grid grid-cols-4 gap-3 mb-4">
                             @foreach([25, 50, 100, 250] as $amount)
-                                <button type="button" x-on:click="selectedAmount = {{ $amount }}; customAmount = ''"
+                                <button type="button" x-on:click="selectedAmount = {{ $amount }}; customAmount = ''" :aria-pressed="(selectedAmount === {{ $amount }} && customAmount === '').toString()"
                                     :class="selectedAmount === {{ $amount }} && customAmount === '' ? 'bg-cta text-on-cta border-cta' : 'bg-card text-ink border-line-strong hover:border-ink'"
                                     class="py-3 px-4 border-2 font-semibold text-lg transition-colors cursor-pointer">
                                     ${{ $amount }}
@@ -96,7 +96,7 @@
                                 class="form-field pl-8">
                         </div>
                         <input type="hidden" name="amount" :value="customAmount !== '' ? customAmount : selectedAmount">
-                    </div>
+                    </fieldset>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>

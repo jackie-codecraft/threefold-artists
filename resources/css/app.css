@@ -35,16 +35,18 @@
     --color-line-strong: #D1D5DB;
     --color-ink: #1A1A1A;
     --color-ink-soft: #4B4B4B;
-    --color-ink-muted: #6B7280;
-    --color-ink-faint: #9CA3AF;
+    --color-ink-muted: #5F6570;
+    --color-ink-faint: #706A61;
     --color-ink-ghost: #D1D5DB;
-    --color-ink-subtle: #9A948A;
-    --color-gold-text: #B0923A;
+    --color-ink-subtle: #726B60;
+    --color-gold-text: #806519;
     --color-red-text: #8B1A2B;
     --color-cta: #1A1A1A;
     --color-cta-hover: #1F2937;
     --color-on-cta: #FFFFFF;
     --color-field-invalid: #FEF6F6;
+    --color-field-border: #857E73;
+    --color-focus: #1A1A1A;
 
     /* Fonts */
     --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
@@ -72,7 +74,7 @@
     --color-ink-muted: #B5AB9C;
     --color-ink-faint: #918879;
     --color-ink-ghost: #4A433A;
-    --color-ink-subtle: #8A8174;
+    --color-ink-subtle: #9A9184;
 
     /* Linen panels become a warm raised surface after dark */
     --color-linen: #1A1713;
@@ -83,6 +85,8 @@
     --color-cta-hover: #D4B96A;
     --color-on-cta: #1A1A1A;
     --color-field-invalid: #2A1416;
+    --color-field-border: #7A7266;
+    --color-focus: #C9A84C;
 }
 
 /* Base styles */
@@ -97,14 +101,30 @@
         font-family: var(--font-display);
     }
 
-    /* Focus styles for accessibility */
+    /* Keep focused elements clear of the sticky header (h-20 once scrolled) when tabbing back up */
+    html {
+        scroll-padding-top: 6rem;
+    }
+
+    /* Focus styles for accessibility: ink on light pages, gold on dark ones (3:1 or better either way) */
     a:focus-visible,
     button:focus-visible,
     input:focus-visible,
     textarea:focus-visible,
-    select:focus-visible {
-        outline: 2px solid var(--color-stage-gold);
+    select:focus-visible,
+    summary:focus-visible,
+    [tabindex]:focus-visible {
+        outline: 2px solid var(--color-focus);
         outline-offset: 2px;
+    }
+
+    /* Always-dark bands and overlays keep a gold focus ring in light mode too */
+    .bg-band,
+    .bg-theatre-black,
+    .bg-black,
+    .bg-curtain-red,
+    [role='dialog'] {
+        --color-focus: var(--color-stage-gold);
     }
 
     button:not(:disabled),
@@ -169,7 +189,7 @@
         display: block;
         width: 100%;
         padding: 0.8rem 1rem;
-        border: 1px solid transparent;
+        border: 1px solid var(--color-field-border);
         border-radius: 10px;
         background-color: var(--color-surface);
         color: var(--color-ink);
@@ -190,8 +210,8 @@
     .form-field:focus-visible {
         outline: none;
         background-color: var(--color-page);
-        border-color: var(--color-stage-gold);
-        box-shadow: 0 0 0 3px rgb(201 168 76 / 0.18);
+        border-color: var(--color-focus);
+        box-shadow: 0 0 0 1px var(--color-focus);
     }
 
     .form-field[aria-invalid='true'] {
@@ -200,7 +220,7 @@
     }
 
     .form-field[aria-invalid='true']:focus {
-        box-shadow: 0 0 0 3px rgb(220 38 38 / 0.15);
+        box-shadow: 0 0 0 1px #DC2626;
     }
 
     select.form-field {
@@ -264,8 +284,8 @@
     }
 
     .form-choice:has(:focus-visible) {
-        border-color: var(--color-stage-gold);
-        box-shadow: 0 0 0 3px rgb(201 168 76 / 0.18);
+        border-color: var(--color-focus);
+        box-shadow: 0 0 0 1px var(--color-focus);
     }
 }
 

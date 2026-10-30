@@ -1,7 +1,7 @@
 <x-layouts.app title="Thank You" metaDescription="Thank you for pledging your future support for Threefold Artists.">
     <section class="bg-linen py-24 sm:py-32">
         <div class="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-            <p class="mb-5 text-xs font-semibold uppercase tracking-[0.25em] text-stage-gold">Pledge received</p>
+            <p class="mb-5 text-xs font-semibold uppercase tracking-[0.25em] text-gold-text">Pledge received</p>
             <h1 class="font-display text-5xl font-light text-red-text sm:text-6xl">Thank you for becoming a founding supporter.</h1>
             <p class="mx-auto mt-8 max-w-2xl text-lg leading-8 text-ink-soft">
                 We’ve received your pledge. When Threefold Artists is ready to accept donations, our team will reach out with next steps and clear information about how pledge commitments will work.

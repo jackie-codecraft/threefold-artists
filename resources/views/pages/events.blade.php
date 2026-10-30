@@ -225,7 +225,7 @@
                                             </span>
                                         </div>
                                         <div x-show="ev.art_form" class="flex items-center gap-2 pt-1">
-                                            <span class="text-xs font-semibold tracking-[0.15em] uppercase text-stage-gold" x-text="ev.art_form ? ev.art_form.replace('_', ' ') : ''"></span>
+                                            <span class="text-xs font-semibold tracking-[0.15em] uppercase text-gold-text" x-text="ev.art_form ? ev.art_form.replace('_', ' ') : ''"></span>
                                         </div>
                                     </div>
                                     <p x-show="ev.description" class="text-ink-muted text-sm leading-relaxed mt-3" x-text="ev.description"></p>

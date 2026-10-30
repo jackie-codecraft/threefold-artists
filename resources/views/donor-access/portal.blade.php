@@ -55,7 +55,7 @@
                                     <p class="mt-2 text-sm text-red-text">This recurring donation will end on {{ $support->current_period_ends_at->format('F j, Y') }}. No further renewals will be charged.</p>
                                 @endif
                                 @if($support->pending_amount_cents !== null && $support->pending_amount_effective_at)
-                                    <p class="mt-2 text-sm text-stage-gold">Your recurring amount will change to ${{ number_format($support->pending_amount_cents / 100, 2) }} on {{ $support->pending_amount_effective_at->format('F j, Y') }}. Your current billing period remains unchanged.</p>
+                                    <p class="mt-2 text-sm text-gold-text">Your recurring amount will change to ${{ number_format($support->pending_amount_cents / 100, 2) }} on {{ $support->pending_amount_effective_at->format('F j, Y') }}. Your current billing period remains unchanged.</p>
                                 @elseif($support->status === 'active' && ! $support->cancel_at_period_end && $support->current_period_ends_at)
                                     <details class="mt-3">
                                         <summary class="cursor-pointer text-sm underline">Update recurring amount</summary>
@@ -64,9 +64,9 @@
                                             <input type="hidden" name="amount" x-model="amount">
                                             <label class="w-full text-sm font-medium text-ink" for="cadence-{{ $support->id }}">New recurring support</label>
                                             <div class="relative">
-                                                <input x-ref="amount" id="amount-{{ $support->id }}" type="text" inputmode="numeric" autocomplete="off" placeholder="$0" class="w-40 rounded border border-line-strong bg-card px-4 py-3 text-lg font-medium text-ink placeholder-ink-subtle shadow-sm focus:border-ink focus:ring-0" aria-label="New recurring amount in whole dollars" @focus="$event.target.select()" @input="const digits = $event.target.value.replace(/\D/g, '').slice(0, 6); amount = digits ? String(Number(digits)) : ''; $event.target.value = digits ? '$' + Number(digits).toLocaleString('en-US') : '';">
+                                                <input x-ref="amount" id="amount-{{ $support->id }}" type="text" inputmode="numeric" autocomplete="off" placeholder="$0" class="w-40 rounded border border-field-border bg-card px-4 py-3 text-lg font-medium text-ink placeholder-ink-subtle shadow-sm focus:border-ink focus:ring-0" aria-label="New recurring amount in whole dollars" @focus="$event.target.select()" @input="const digits = $event.target.value.replace(/\D/g, '').slice(0, 6); amount = digits ? String(Number(digits)) : ''; $event.target.value = digits ? '$' + Number(digits).toLocaleString('en-US') : '';">
                                             </div>
-                                            <select id="cadence-{{ $support->id }}" name="cadence" class="rounded border border-line-strong bg-card px-3 py-3 text-sm text-ink">
+                                            <select id="cadence-{{ $support->id }}" name="cadence" class="rounded border border-field-border bg-card px-3 py-3 text-sm text-ink">
                                                 @foreach(['monthly' => 'Monthly', 'quarterly' => 'Quarterly', 'annual' => 'Annual'] as $value => $label)
                                                     <option value="{{ $value }}" @selected($support->interval === $value)>{{ $label }}</option>
                                                 @endforeach
@@ -85,7 +85,7 @@
                                     <form action="{{ route('donor-portal.supports.pause', $support) }}" method="POST" class="mt-3 flex items-center gap-2">
                                         @csrf
                                         <label class="text-sm" for="pause-periods-{{ $support->id }}">Pause for</label>
-                                        <select id="pause-periods-{{ $support->id }}" name="periods" class="border-line-strong text-sm">
+                                        <select id="pause-periods-{{ $support->id }}" name="periods" class="border-field-border text-sm">
                                             @foreach(['monthly' => [1, 2, 3], 'quarterly' => [1, 2], 'annual' => [1]][$support->interval] as $period)
                                                 <option value="{{ $period }}">{{ $period }} {{ $period === 1 ? 'cycle' : 'cycles' }}</option>
                                             @endforeach

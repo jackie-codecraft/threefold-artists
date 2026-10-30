@@ -4,7 +4,7 @@
             <svg class="w-12 h-12 text-stage-gold mx-auto mb-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
             <h1 class="font-display text-4xl sm:text-5xl font-light text-ink mb-6">Thank You</h1>
             <p class="text-lg text-ink-muted mb-4">Your generous donation helps us bring live performing arts to communities that need them most.</p>
-            <p class="text-stage-gold italic font-display mb-8">"As you give, it returns threefold."</p>
+            <p class="text-gold-text italic font-display mb-8">"As you give, it returns threefold."</p>
             <p class="text-ink-faint text-sm mb-8">If you provided an email address, a receipt will be sent to you shortly.</p>
             <p class="text-ink-soft text-sm mb-8">Need to review your donation history or manage recurring support? Request a secure access link using the email connected to your donation.</p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">

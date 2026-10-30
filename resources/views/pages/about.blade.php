@@ -72,7 +72,7 @@
                                     class="w-full aspect-square object-cover mb-6"
                                 >
                             @endif
-                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-stage-gold mb-3">{{ $member->title }}</p>
+                            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gold-text mb-3">{{ $member->title }}</p>
                             <h3 class="font-display text-3xl font-light text-ink mb-4">{{ $member->name }}</h3>
                             <p class="text-ink-muted leading-relaxed">
                                 {{ str(html_entity_decode(strip_tags($member->biography), ENT_QUOTES | ENT_HTML5, 'UTF-8'))->squish()->limit(320) }}
@@ -97,7 +97,7 @@
     <section class="py-24 sm:py-32 bg-band band-edge text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-20">
-                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4">What We Stand For</p>
+                <p class="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">What We Stand For</p>
                 <h2 class="font-display text-4xl sm:text-5xl font-light">Our Three Promises</h2>
             </div>
 
