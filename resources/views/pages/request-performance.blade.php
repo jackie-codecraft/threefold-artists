@@ -21,7 +21,7 @@
                 Tell us about your organization and what kind of performance you are looking for. We will get back to you within 5 business days to discuss options and availability.
             </p>
 
-            <form action="{{ route('request-performance.store') }}" method="POST" class="form-frame space-y-12">
+            <form action="{{ route('request-performance.store') }}" method="POST" class="form-panel space-y-12">
                 @csrf
 
                 {{-- Organization Details --}}

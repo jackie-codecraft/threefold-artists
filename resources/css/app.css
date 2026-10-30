@@ -221,6 +221,14 @@
         }
     }
 
+    /* On wide screens the panel bleeds past the text column by its own padding,
+       so fields keep the full column width instead of shrinking. */
+    @media (min-width: 1024px) {
+        .form-panel {
+            margin-inline: -2.5rem;
+        }
+    }
+
     .form-panel .form-field,
     .form-panel .form-choice {
         background-color: #FFFFFF;
